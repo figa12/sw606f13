@@ -1,0 +1,71 @@
+\input{preamble}
+
+\begin{document}
+
+\input{tex/frontpage}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\input{tex/titelblad}% Titelblad
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\input{tex/signatures}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\input{tex/preface}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{1}
+
+\tableofcontents
+
+\chapter{Introduction}\label{chap:intro}
+
+
+
+\bookmarksetup{startatroot}% dette skulle stoppe part, så conclusion får indryk. Problemet i skrivende øjeblik er at chapters har samme indryk uafhængigt af parts
+\addtocontents{toc}{\bigskip}%laver ekstra mellemrum
+
+\input{tex/conclusion}\label{chap:conclusion}
+
+\begin{appendices}
+\label{appendixStart}
+
+\label{appendixEnd}
+\end{appendices}
+
+
+% Change headings for bibliography/lists/listings. 
+% Page design from fancyhdr package.
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[RO,LE]{\leftmark}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{23pt}
+
+\listoffigures
+\listoftables
+\lstlistoflistings
+
+% Afslut med bibliografien. Bibliografien har mærkelige sidetal og side reference. Fixed med cleardoublepage og phantomsection
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliography}
+\label{chap:bib}% brugt i preface
+\bibliography{bib/bibliografi}
+
+\label{lastpage}% brugt i titelblad til total sidetal
+
+\end{document}

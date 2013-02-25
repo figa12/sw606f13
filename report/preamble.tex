@@ -1,0 +1,206 @@
+% Define document class. Important.
+\documentclass[a4paper,twoside,openright]{report}% MANGLER 'openright' HER
+
+% Margener
+%\setlength{\evensidemargin}{1cm}
+%\setlength{\oddsidemargin}{1cm}
+
+% Set up encoding
+\usepackage[utf8]{inputenc}
+
+
+% Load up bibliography.
+\usepackage[authoryear]{natbib}
+\setcitestyle{numbers,square}
+% Bibliography style.
+\bibliographystyle{plainnat}
+
+% Algorithm support.
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{subfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+% Make algorithms appear as procedures instead.
+\floatname{algorithm}{Procedure}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+% Image frames.
+\setlength{\fboxsep}{0pt}
+\setlength{\fboxrule}{0.5pt}
+
+% Also, images.
+\usepackage{graphicx}
+
+% tabeller der strækker sig over flere sider
+\usepackage{longtable}
+
+% flere tabel-muligheder
+\usepackage{multirow}
+
+% bedre enumerate
+\usepackage{enumitem}
+
+% Todo notes here and there.
+% write instead for disable: \usepackage[disable]{todonotes}
+\usepackage{todonotes}
+
+% Forbedrede floats.
+\usepackage{float}
+\usepackage{rotating}
+
+% Special symbols availability.
+\usepackage{amssymb}
+
+%Degree symbol
+\usepackage{gensymb}
+
+% Wrap figure
+\usepackage{wrapfig}
+
+% Operationel semantik
+\newcommand{\lag}{\langle}
+\newcommand{\rag}{\rangle}
+\newcommand{\setof}[2]{\ensuremath{\{ #1 \mid #2 \}}}
+\newcommand{\set}[1]{\ensuremath{\{ #1 \}}}
+\newcommand{\besk}[1]{\ensuremath{\lag #1 \rag}}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\Ra}{\Rightarrow}
+
+% CODE %
+\usepackage{listings}
+\usepackage{color}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  showstringspaces=false,
+  commentstyle=\color{gray}\upshape,
+  basicstyle=\small,
+  numberstyle=\footnotesize,
+  numbers=left,
+  captionpos=b,
+  stepnumber=1,
+  numbersep=10pt,
+  tabsize=2,
+  breaklines=true,
+}
+% Define markup of XML
+\lstdefinelanguage{XML}
+{
+  morestring=[b]",
+  morestring=[s]{>}{<},
+  morecomment=[s]{<?}{?>},
+  identifierstyle=\color{darkblue},
+  keywordstyle=\color{cyan},
+  morekeywords={id, target, type, category, value, point, correct, rows, width, time}% list your attributes here
+}
+% Define markup of C#
+\lstdefinelanguage{CSharp}[Visual]{C++}
+{
+	identifierstyle=\color{darkblue},
+	commentstyle=\color{green!70!black}\itshape ,
+	stringstyle=\color{gray},
+	sensitive=true,
+	morestring=[b]",
+	morestring=[b]',
+	morecomment=[l]//,
+	morecomment=[n]{/*}{*/}
+}
+
+% Define markup of Javascript
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstdefinelanguage{KAPAOOW}{
+ sensitive=false,
+ keywords={character, characters, action, end, if, then, else, from, to, downto, next, while, loop, use, turn, begins, ends, select, wins, draw, random, of, case, cases, enemy, player, start, skip, attack, types, damage, defend, by, using, message, and, or, is, value, mod},
+ identifierstyle=\itshape,
+ keywordstyle=\bfseries,
+ stringstyle=\normalfont,
+ morestring=[b]",
+ comment=[l]{//},
+ commentstyle=\color{gray}
+}
+
+% Neat-o referencer...o.
+\usepackage{bookmark,hyperref}
+\usepackage{nameref}
+
+% hack fra nettet.
+% http://tex.stackexchange.com/questions/1230/reference-name-of-description-list-item-in-latex
+\makeatletter
+\let\orgdescriptionlabel\descriptionlabel
+\renewcommand*{\descriptionlabel}[1]{
+  \let\orglabel\label
+  \let\label\@gobble
+  \phantomsection
+  \edef\@currentlabel{#1}
+  %\edef\@currentlabelname{#1}
+%  \let\label\orglabel
+  \orgdescriptionlabel{#1}
+}
+\makeatother
+% Rettehak. Meget lettere end \checkmark
+\newcommand{\yes}{\checkmark}
+
+% Let's put in a lot of niceness in the display, yeh?
+\usepackage{fancyhdr} % Get some niceness into our headers.
+\pagenumbering{arabic} % Ensure page numbering in our desired form.
+\pagestyle{fancy}
+% Page design from fancyhdr.
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[RO,LE]{\leftmark\\\rightmark}% afsnit information i toppen af sider, over stregen. 
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{23pt}
+
+% Rewrite header and footer commands.
+\renewcommand{\headrulewidth}{1.0pt}
+\renewcommand{\footrulewidth}{1.0pt}
+
+% Create a new command, HRule, to insert some nice horisontal rules on the title page.
+\newcommand{\HRule}{\rule{\linewidth}{0.3mm}}
+
+% New command for two figures, side by side.
+\newcommand{\twofigs}[6]
+{
+	\begin{figure}[H]
+		\begin{minipage}[b]{0.5\columnwidth}
+		\centering
+		\includegraphics[width=0.8\columnwidth]{img/#1}
+		\caption{#2\label{#3}}
+		\end{minipage}
+		\hspace{0.5cm}
+		\begin{minipage}[b]{0.5\columnwidth}
+		\centering
+		\includegraphics[width=0.8\columnwidth]{img/#4}
+		\caption{#5\label{#6}}
+		\end{minipage}
+	\end{figure}
+}
+
+% Sørg for at paragrafplads ikke spildes.
+\raggedbottom
+\usepackage[titletoc]{appendix}
+
+% Package til at regne forskellen ud mellem 2 labels
+\usepackage{refcount}
+\newcommand{\pagedifference}[2]{\number\numexpr\getpagerefnumber{#2}+1-\getpagerefnumber{#1}\relax}
+
