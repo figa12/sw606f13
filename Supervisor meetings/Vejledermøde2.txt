@@ -1,0 +1,14 @@
+Vejledermøde: 26-02-13
+Præsenter proto type
+Fortæl og forklar hvordan det gik med mødet med Tove.
+Fortæl planer omkring costumize and other stuff
+
+Hvad skal vi nu?
+skelet?
+design layout
+kode?
+
+lav et skelet for et spil
+med drag and drop.
+
+12/3 13:30
