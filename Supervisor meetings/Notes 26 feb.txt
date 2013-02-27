@@ -1,0 +1,15 @@
+Notes:
+
+Der er 2 måder at vælge profiler på:
+	Valg af barn-profil før appen starter
+	Valg af barn-profil når appen er startet
+Lyder som om valg af profil i appen er den rigtige løsninge, baseret på at Tove måske vil lege med forskellige børn kort tid efter hinanden
+
+Kontroller Android versionen af Tove's tablet, og opdater uden at Tove mister vigtig data, evt. byt tablet
+
+Antal af pictogrammer på skærmen kan evt. vælges før starten af spillet, for eksempel valg mellem 4, 6, eller 8.
+Så er der 3 forskellige skærm formater.
+
+Videre fremgangsmåde: Eksperimenter med kode.
+
+Næste møde 12. marts klokken 13:30
