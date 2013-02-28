@@ -1,0 +1,7 @@
+Uge 1:
+Fast lagt idé - Tog spil
+Fik designet prototype og opstillet nogle spørgsmål til kontakt person
+Fik taget kontakt til kontakt person
+Fremviste prototype og idé blev godkendt af Tove (kontakt person)
+Opsætning af Eclipse (de gamle projekter)
+Vi begyndte at experimentere med Android kode
