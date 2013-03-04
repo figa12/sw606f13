@@ -13,7 +13,9 @@ import android.view.View.DragShadowBuilder;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class MainActivity extends Activity {
   
@@ -32,16 +34,16 @@ public class MainActivity extends Activity {
     findViewById(R.id.myimage7).setOnTouchListener(new MyTouchListener());
     findViewById(R.id.myimage8).setOnTouchListener(new MyTouchListener());
     findViewById(R.id.myimage9).setOnTouchListener(new MyTouchListener());
-    findViewById(R.id.topleft).setOnDragListener(new MyDragListener());
-    findViewById(R.id.topright).setOnDragListener(new MyDragListener());
-    findViewById(R.id.bottomleft).setOnDragListener(new MyDragListener());
-    findViewById(R.id.bottomright).setOnDragListener(new MyDragListener());
-    findViewById(R.id.LinearLayout01).setOnDragListener(new MyDragListener());
-    findViewById(R.id.LinearLayout02).setOnDragListener(new MyDragListener());
-    findViewById(R.id.LinearLayout04).setOnDragListener(new MyDragListener());
-    findViewById(R.id.LinearLayout05).setOnDragListener(new MyDragListener());
-    findViewById(R.id.LinearLayout06).setOnDragListener(new MyDragListener());
-    findViewById(R.id.LinearLayout07).setOnDragListener(new MyDragListener());
+    findViewById(R.id.StationLayout).setOnDragListener(new MyDragListener());
+    findViewById(R.id.Cart1LayoutLeft).setOnDragListener(new MyDragListener());
+    findViewById(R.id.Cart1LayoutRight).setOnDragListener(new MyDragListener());
+    findViewById(R.id.Cart2LayoutLeft).setOnDragListener(new MyDragListener());
+    findViewById(R.id.Cart2LayoutRight).setOnDragListener(new MyDragListener());
+    findViewById(R.id.Platform1Layout).setOnDragListener(new MyDragListener());
+    findViewById(R.id.Platform2Layout).setOnDragListener(new MyDragListener());
+    findViewById(R.id.Platform3Layout).setOnDragListener(new MyDragListener());
+    findViewById(R.id.Platform4Layout).setOnDragListener(new MyDragListener());
+    findViewById(R.id.TrainLayout).setOnDragListener(new MyDragListener());
  
     Resources res = getResources();
     Drawable drawable = res.getDrawable(R.drawable.rhino);
@@ -73,7 +75,10 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onDrag(View v, DragEvent event) {
-      int action = event.getAction();
+      boolean validDrop = false;
+//      int action = event.getAction();
+      View view = (View) event.getLocalState();
+      ViewGroup ownerContainer = (ViewGroup) view.getParent();
       switch (event.getAction()) 
       {
       
@@ -84,18 +89,22 @@ public class MainActivity extends Activity {
       case DragEvent.ACTION_DRAG_ENTERED:
         v.setBackgroundDrawable(enterShape);
         break;
-        
+      
       case DragEvent.ACTION_DRAG_EXITED:
         v.setBackgroundDrawable(normalShape);
         break;
         
       case DragEvent.ACTION_DROP:
-        // Dropped, reassign View to ViewGroup 
-    	View view = (View) event.getLocalState();
-        ViewGroup ownerContainer = (ViewGroup) view.getParent();
+        // Dropped, reassign View to ViewGroup  
+    	validDrop = true;
         LinearLayout dropContainer = (LinearLayout) v;
         
         Object tag = dropContainer.getTag();
+       /* if (!v.getClass().equals(LinearLayout.class))
+  	  	{
+    		findViewById(view.getId()).setVisibility(View.VISIBLE);
+	        ownerContainer.setTag(view.getId());
+  	  	}*/
     		if (tag == null) {
     			
     			ownerContainer.removeView(view);
@@ -113,9 +122,13 @@ public class MainActivity extends Activity {
     		}
     		
         break;
-        
       case DragEvent.ACTION_DRAG_ENDED:
         v.setBackgroundDrawable(normalShape);
+        if (validDrop == false)
+        {
+        	findViewById(view.getId()).setVisibility(View.VISIBLE);
+	        ownerContainer.setTag(view.getId());
+        }
       default:
         break;
       }

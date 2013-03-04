@@ -26,27 +26,27 @@ public final class R {
         public static final int shape_droptarget=0x7f020008;
     }
     public static final class id {
-        public static final int LinearLayout01=0x7f08000e;
-        public static final int LinearLayout02=0x7f080002;
-        public static final int LinearLayout04=0x7f080004;
-        public static final int LinearLayout05=0x7f080006;
-        public static final int LinearLayout06=0x7f080008;
-        public static final int LinearLayout07=0x7f08000c;
-        public static final int bottomleft=0x7f080010;
-        public static final int bottomright=0x7f080012;
+        public static final int Cart1LayoutLeft=0x7f080000;
+        public static final int Cart1LayoutRight=0x7f080002;
+        public static final int Cart2LayoutLeft=0x7f080004;
+        public static final int Cart2LayoutRight=0x7f080006;
+        public static final int Platform1Layout=0x7f08000a;
+        public static final int Platform2Layout=0x7f08000c;
+        public static final int Platform3Layout=0x7f08000e;
+        public static final int Platform4Layout=0x7f080010;
+        public static final int StationLayout=0x7f080012;
+        public static final int TrainLayout=0x7f080008;
         public static final int menu_settings=0x7f080014;
-        public static final int myimage1=0x7f080001;
-        public static final int myimage10=0x7f080013;
-        public static final int myimage2=0x7f080003;
-        public static final int myimage3=0x7f080005;
-        public static final int myimage4=0x7f080007;
-        public static final int myimage5=0x7f080009;
-        public static final int myimage6=0x7f08000b;
-        public static final int myimage7=0x7f08000d;
-        public static final int myimage8=0x7f08000f;
-        public static final int myimage9=0x7f080011;
-        public static final int topleft=0x7f080000;
-        public static final int topright=0x7f08000a;
+        public static final int myimage1=0x7f080007;
+        public static final int myimage10=0x7f080009;
+        public static final int myimage2=0x7f080001;
+        public static final int myimage3=0x7f080003;
+        public static final int myimage4=0x7f080005;
+        public static final int myimage5=0x7f080013;
+        public static final int myimage6=0x7f080011;
+        public static final int myimage7=0x7f08000f;
+        public static final int myimage8=0x7f08000d;
+        public static final int myimage9=0x7f08000b;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

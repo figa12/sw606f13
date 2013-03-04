@@ -1,34 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/pic"
-    android:orientation="vertical"  >
- 
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/topleft"
+        android:id="@+id/Cart1LayoutLeft"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_x="25dp"
-        android:layout_y="250dp"
-        android:background="@drawable/shape" 
-        android:tag="1"> 
-        
-        <ImageView
-            android:id="@+id/myimage1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/se" />
-        
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/LinearLayout02"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_x="215dp"
-        android:layout_y="250dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="480dp"
         android:background="@drawable/shape"
         android:tag="2" >
         
@@ -42,11 +24,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/LinearLayout04"
+        android:id="@+id/Cart1LayoutRight"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_x="405dp"
-        android:layout_y="250dp"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="480dp"
         android:background="@drawable/shape"
         android:tag="3" >
            
@@ -58,11 +40,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/LinearLayout05"
+        android:id="@+id/Cart2LayoutLeft"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_x="595dp"
-        android:layout_y="250dp"
+        android:layout_marginLeft="460dp"
+        android:layout_marginTop="480dp"
         android:background="@drawable/shape"
         android:tag="4" >       
         
@@ -74,93 +56,103 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/LinearLayout06"
+        android:id="@+id/Cart2LayoutRight"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_x="400dp"
-        android:layout_y="30dp"
-        android:background="@drawable/shape" >
-        
-    <ImageView
-            android:id="@+id/myimage5"
+        android:layout_marginLeft="630dp"
+        android:layout_marginTop="480dp"
+        android:background="@drawable/shape"
+        android:tag="1" >
+
+        <ImageView
+            android:id="@+id/myimage1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    
+            android:layout_height="wrap_content"
+            android:src="@drawable/se" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/topright"
+        android:id="@+id/TrainLayout"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_x="250dp"
-        android:layout_y="480dp"
-        android:background="@drawable/shape">
-                
-    <ImageView
-            android:id="@+id/myimage6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/LinearLayout07"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_x="830dp"
-        android:layout_y="400dp"
-        android:background="@drawable/shape" >
-    
-                <ImageView
-            android:id="@+id/myimage7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/LinearLayout01"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_x="460dp"
-        android:layout_y="480dp"
-        android:background="@drawable/shape" >
-                
-                <ImageView
-            android:id="@+id/myimage8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"  />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/bottomleft"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_x="630dp"
-        android:layout_y="480dp"
-        android:background="@drawable/shape" >
-                
-     <ImageView
-            android:id="@+id/myimage9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/bottomright"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_x="70dp"
-        android:layout_y="480dp"
+        android:layout_marginLeft="830dp"
+        android:layout_marginTop="400dp"
         android:background="@drawable/shape" >
 
         <ImageView
             android:id="@+id/myimage10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
     </LinearLayout>
 
-</AbsoluteLayout> 
+    <LinearLayout
+        android:id="@+id/Platform1Layout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/shape" >
+
+        <ImageView
+            android:id="@+id/myimage9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Platform2Layout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="215dp"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/shape" >
+
+        <ImageView
+            android:id="@+id/myimage8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Platform3Layout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="405dp"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/shape" >
+
+        <ImageView
+            android:id="@+id/myimage7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Platform4Layout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="592dp"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/shape" >
+
+        <ImageView
+            android:id="@+id/myimage6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/StationLayout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="400dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape" >
+
+        <ImageView
+            android:id="@+id/myimage5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</RelativeLayout> 
