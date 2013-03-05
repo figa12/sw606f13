@@ -5,9 +5,9 @@ Group: SW606F13
 Office: 5.1.38
 
 Authors:
-Nicklas Andersen
-Simon Reedtz
-Jesper Andersen
+Nicklas Andersen, 
+Simon Reedtz, 
+Jesper Andersen, 
 Jacob Wortmann
 
 License
