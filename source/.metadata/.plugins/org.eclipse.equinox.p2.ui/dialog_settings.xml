@@ -2,9 +2,9 @@
 <section name="Workbench">
 	<section name="org.eclipse.equinox.internal.p2.ui.dialogs.InstallWizard.WizardSettings">
 		<item value="833" key="DIALOG_WIDTH"/>
-		<item value="-17" key="DIALOG_Y_ORIGIN"/>
-		<item value="750" key="DIALOG_HEIGHT"/>
+		<item value="0" key="DIALOG_Y_ORIGIN"/>
 		<item value="223" key="DIALOG_X_ORIGIN"/>
+		<item value="750" key="DIALOG_HEIGHT"/>
 		<item value="1|Sans|10.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 	</section>
 </section>

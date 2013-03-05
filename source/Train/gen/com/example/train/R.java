@@ -42,8 +42,9 @@ public final class R {
         public static final int Platform4Layout=0x7f080010;
         public static final int StationLayout=0x7f080012;
         public static final int TrainLayout=0x7f080008;
-        public static final int action_settings=0x7f080015;
+        public static final int action_settings=0x7f080016;
         public static final int button1=0x7f080014;
+        public static final int button2=0x7f080015;
         public static final int myimage1=0x7f080007;
         public static final int myimage10=0x7f080009;
         public static final int myimage2=0x7f080001;
