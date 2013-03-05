@@ -48,9 +48,6 @@ public class MainActivity extends Activity {
     Resources res = getResources();
     Drawable drawable = res.getDrawable(R.drawable.rhino);
     
-    
-    
-    
   }
 
   private final class MyTouchListener implements OnTouchListener {

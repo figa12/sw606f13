@@ -24,10 +24,8 @@
         </activity>
         <activity
             android:name="com.example.train.GameActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_game"
-            android:parentActivityName="com.example.train.MainActivity"
-            android:theme="@style/FullscreenTheme" >
+            android:parentActivityName="com.example.train.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.train.MainActivity" />

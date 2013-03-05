@@ -1,55 +1,158 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
-    tools:context=".GameActivity" >
+    android:background="@drawable/pic"
+    android:orientation="vertical">
 
-    <!--
-         The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc.
-    -->
-
-    <TextView
-        android:id="@+id/fullscreen_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="@string/dummy_content"
-        android:textColor="#33b5e5"
-        android:textSize="50sp"
-        android:textStyle="bold" />
-
-    <!--
-         This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows.
-    -->
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true" >
-
-        <LinearLayout
-            android:id="@+id/fullscreen_content_controls"
-            style="?buttonBarStyle"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/Cart1LayoutLeft"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="480dp"
+        android:background="@drawable/shape"
+        android:tag="2" >
+        
+        
+        <ImageView
+            android:id="@+id/myimage2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:background="@color/black_overlay"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent" >
+            android:src="@drawable/nej" />
 
-            <Button
-                android:id="@+id/dummy_button"
-                style="?buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/dummy_button" />
-        </LinearLayout>
-    </FrameLayout>
+    </LinearLayout>
 
-</FrameLayout>
+    <LinearLayout
+        android:id="@+id/Cart1LayoutRight"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="480dp"
+        android:background="@drawable/shape"
+        android:tag="3" >
+           
+        <ImageView
+            android:id="@+id/myimage3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/mig" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Cart2LayoutLeft"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="460dp"
+        android:layout_marginTop="480dp"
+        android:background="@drawable/shape"
+        android:tag="4" >       
+        
+        <ImageView
+            android:id="@+id/myimage4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bade" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Cart2LayoutRight"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="630dp"
+        android:layout_marginTop="480dp"
+        android:background="@drawable/shape"
+        android:tag="1" >
+
+        <ImageView
+            android:id="@+id/myimage1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/se" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/TrainLayout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="830dp"
+        android:layout_marginTop="400dp"
+        android:background="@drawable/shape" >
+
+        <ImageView
+            android:id="@+id/myimage10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Platform1Layout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/shape" >
+
+        <ImageView
+            android:id="@+id/myimage9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Platform2Layout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="215dp"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/shape" >
+
+        <ImageView
+            android:id="@+id/myimage8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Platform3Layout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="405dp"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/shape" >
+
+        <ImageView
+            android:id="@+id/myimage7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Platform4Layout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="592dp"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/shape" >
+
+        <ImageView
+            android:id="@+id/myimage6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/StationLayout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="400dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape" >
+
+        <ImageView
+            android:id="@+id/myimage5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</RelativeLayout> 
