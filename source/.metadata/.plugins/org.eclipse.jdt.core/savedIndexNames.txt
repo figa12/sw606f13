@@ -1,5 +1,0 @@
-INDEX VERSION 1.126+/home/figa/sw606f13/source/.metadata/.plugins/org.eclipse.jdt.core
-2631874338.index
-548993072.index
-2106383773.index
-3300987255.index
