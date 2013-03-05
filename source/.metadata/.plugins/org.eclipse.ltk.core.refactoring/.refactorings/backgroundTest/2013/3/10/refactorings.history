@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 8 elements to &apos;drawable&apos;&#x0A;- Original project: &apos;backgroundTest&apos;&#x0A;- Destination element: &apos;drawable&apos;&#x0A;- Original elements:&#x0A;     rhino.png&#x0A;     nej.png&#x0A;     mig.png&#x0A;     bade.png&#x0A;     shape.xml&#x0A;     pic.png&#x0A;     shape_droptarget.xml&#x0A;     se.png" description="Copy files" element1="res/drawable/rhino.png" element2="res/drawable/nej.png" element3="res/drawable/mig.png" element4="res/drawable/bade.png" element5="res/drawable/shape.xml" element6="res/drawable/pic.png" element7="res/drawable/shape_droptarget.xml" element8="res/drawable/se.png" files="8" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1362491233535" target="/Train/res/drawable" units="0" version="1.0"/>
+</session>
