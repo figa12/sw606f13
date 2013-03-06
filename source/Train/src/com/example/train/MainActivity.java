@@ -21,10 +21,14 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
-	public void startGame(View view)
-	{
+	public void startGame(View view) {
 		Intent intentToGame = new Intent(this, GameActivity.class);
 		startActivity(intentToGame);
+	}
+	
+	public void startMenu(View view) {
+		Intent intentToMenu = new Intent(this, GameActivity.class);
+		startActivity(intentToMenu);
 	}
 
 }
