@@ -27,8 +27,8 @@ public class MainActivity extends Activity {
 	}
 	
 	public void startMenu(View view) {
-		Intent intentToMenu = new Intent(this, GameActivity.class);
-		startActivity(intentToMenu);
+		Intent intentToProfile = new Intent(this, ProfileActivity.class);
+		startActivity(intentToProfile);
 	}
 
 }
