@@ -1,5 +1,5 @@
 TrainGame
-Game for chilren with autisme for GIRAF@AAU
+Game for children with autism for GIRAF@AAU
 
 Group: SW606F13
 Office: 5.1.38
