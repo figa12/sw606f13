@@ -5,11 +5,17 @@
     android:background="@drawable/pic"
     android:orientation="vertical">
     
-    <com.example.train.BackgroundPanel 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        
+        <com.example.train.BackgroundPanel 
         android:id="@+id/backgroundPanel"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         />
+    </FrameLayout>
+    
 
     <LinearLayout
         android:id="@+id/Cart1LayoutLeft"

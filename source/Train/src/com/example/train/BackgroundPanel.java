@@ -32,7 +32,7 @@ public class BackgroundPanel extends SurfaceView implements SurfaceHolder.Callba
 	private void init(){
 		getHolder().addCallback(this);
 		backGroundArray = new Background[2];
-		backGroundArray[0] = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.backgroundpink), 1 , 1);
+		backGroundArray[0] = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.backgroundpink), 0 , 0);
 		backGroundArray[1] = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.backgroundmaroon), backGroundArray[0].getBitmap().getWidth() , 0);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(false);
