@@ -6,6 +6,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.util.AttributeSet;
 
 
 
@@ -27,10 +28,10 @@ public class OpenGLView extends GLSurfaceView {
 	    }
 	}
 	
-	public OpenGLView(Context context) {
+	public OpenGLView(Context context, AttributeSet attrs) {
 		super(context);
 		
-		// Set the Renderer for drawing on the GLSurfaceView
+		// Set the Renderer for drawing on the GLSurfaceView. Should always be the first thing to do
 		setRenderer(new GL20Renderer());
 		
 		// Create an OpenGL ES 2.0 context

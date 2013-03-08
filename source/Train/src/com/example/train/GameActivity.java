@@ -20,7 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 public class GameActivity extends Activity {
-
+	
+	private OpenGLView openGLView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,8 +54,22 @@ public class GameActivity extends Activity {
 		
 	    Resources res = getResources();
 	    
+	    openGLView = (OpenGLView)findViewById(R.id.openglview);
+	    
 	    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 	}
+	
+	@Override
+    protected void onPause() {
+        super.onPause();
+        openGLView.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        openGLView.onResume();
+    }
 	
 	private final class MyTouchListener implements OnTouchListener {
 	    public boolean onTouch(View view, MotionEvent motionEvent) {
