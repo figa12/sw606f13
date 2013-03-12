@@ -1,4 +1,4 @@
-package com.example.train;
+package dk.aau.cs.giraf.train.opengl;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;

@@ -1,4 +1,4 @@
-package com.example.train;
+package dk.aau.cs.giraf.train.opengl;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

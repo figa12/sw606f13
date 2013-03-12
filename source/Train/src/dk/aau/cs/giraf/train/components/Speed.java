@@ -1,4 +1,4 @@
-package com.example.train.models.components;
+package dk.aau.cs.giraf.train.components;
 
 public class Speed {
 	
