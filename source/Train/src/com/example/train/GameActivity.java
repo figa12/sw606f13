@@ -21,7 +21,7 @@ import android.widget.RelativeLayout;
 
 public class GameActivity extends Activity {
 	
-	private OpenGLView openGLView;
+	private MyGlView openGLView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class GameActivity extends Activity {
 		// Show the Up button in the action bar.
 		setupActionBar();
 		
-		/*
+		
 	    findViewById(R.id.myimage1).setOnTouchListener(new MyTouchListener());
 	    findViewById(R.id.myimage2).setOnTouchListener(new MyTouchListener());
 	    findViewById(R.id.myimage3).setOnTouchListener(new MyTouchListener());
@@ -50,11 +50,11 @@ public class GameActivity extends Activity {
 	    findViewById(R.id.Platform3Layout).setOnDragListener(new MyDragListener());
 	    findViewById(R.id.Platform4Layout).setOnDragListener(new MyDragListener());
 	    findViewById(R.id.TrainLayout).setOnDragListener(new MyDragListener());
-	    */
+	    
 		
 	    Resources res = getResources();
 	    
-	    openGLView = (OpenGLView)findViewById(R.id.openglview);
+	    openGLView = (MyGlView)findViewById(R.id.openglview);
 	    
 	    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 	}

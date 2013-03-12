@@ -8,13 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
         
-        <com.example.train.OpenGLView
+        <com.example.train.MyGlView
             android:id="@+id/openglview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </FrameLayout>
     
-    <!--
     <LinearLayout
         android:id="@+id/Cart1LayoutLeft"
         android:layout_width="150dp"
@@ -165,6 +164,5 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
     
-    -->
     
 </RelativeLayout> 
