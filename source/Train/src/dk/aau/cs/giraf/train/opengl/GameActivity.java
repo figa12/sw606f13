@@ -24,7 +24,7 @@ import android.widget.RelativeLayout;
 
 public class GameActivity extends Activity {
 	
-	private MyGlView openGLView;
+	private GlView openGLView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class GameActivity extends Activity {
 		
 	    Resources res = getResources();
 	    
-	    openGLView = (MyGlView)findViewById(R.id.openglview);
+	    openGLView = (GlView)findViewById(R.id.openglview);
 	    
 	    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 	}

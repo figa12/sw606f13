@@ -42,7 +42,7 @@ public class Triangle {
 	 */
 	public Triangle() {
 		//
-		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
+		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4); // sizeof(float) is 4 bytes
 		byteBuf.order(ByteOrder.nativeOrder());
 		vertexBuffer = byteBuf.asFloatBuffer();
 		vertexBuffer.put(vertices);
