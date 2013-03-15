@@ -6,5 +6,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_game">GameActivity</string>
     <string name="title_activity_profile">ProfileActivity</string>
+    <string name="profile_list_header">Profile</string>
+    <string name="game_list_header">Gemte Spil</string>
+    <string name="customisation_header">Tilpas Spil</string>
 
 </resources>
