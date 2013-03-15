@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
         
-        <dk.aau.cs.giraf.train.opengl.MyGlView
+        <dk.aau.cs.giraf.train.opengl.GlView
             android:id="@+id/openglview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
