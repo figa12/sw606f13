@@ -18,127 +18,137 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 public class GameActivity extends Activity {
-	
-	private GlView openGLView;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_game);
-		
-	    findViewById(R.id.myimage1).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage2).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage3).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage4).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage5).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage6).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage7).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage8).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage9).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.StationLayout).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Cart1LayoutLeft).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Cart1LayoutRight).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Cart2LayoutLeft).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Cart2LayoutRight).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Platform1Layout).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Platform2Layout).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Platform3Layout).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Platform4Layout).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.TrainLayout).setOnDragListener(new MyDragListener());
-	    
-		
-	    Resources res = getResources();
-	    
-	    openGLView = (GlView)findViewById(R.id.openglview);
-	    
-	    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-	}
-	
-	@Override
+    
+    private GlView openGLView;
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    	super.onCreate(savedInstanceState);
+    	this.setContentView(R.layout.activity_game);
+    	
+    	this.setListeners();
+    	
+        this.openGLView = (GlView)findViewById(R.id.openglview);
+        
+        this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE); // TODO investigate API level problems and write results in comment
+    }
+    
+    /* Sets touch and drag listeners. This is temporary and only for proof of concept */
+    private void setListeners() {
+        findViewById(R.id.myimage1).setOnTouchListener(new TouchListener());
+        findViewById(R.id.myimage2).setOnTouchListener(new TouchListener());
+        findViewById(R.id.myimage3).setOnTouchListener(new TouchListener());
+        findViewById(R.id.myimage4).setOnTouchListener(new TouchListener());
+        findViewById(R.id.myimage5).setOnTouchListener(new TouchListener());
+        findViewById(R.id.myimage6).setOnTouchListener(new TouchListener());
+        findViewById(R.id.myimage7).setOnTouchListener(new TouchListener());
+        findViewById(R.id.myimage8).setOnTouchListener(new TouchListener());
+        findViewById(R.id.myimage9).setOnTouchListener(new TouchListener());
+        findViewById(R.id.StationLayout).setOnDragListener(new DragListener());
+        findViewById(R.id.Cart1LayoutLeft).setOnDragListener(new DragListener());
+        findViewById(R.id.Cart1LayoutRight).setOnDragListener(new DragListener());
+        findViewById(R.id.Cart2LayoutLeft).setOnDragListener(new DragListener());
+        findViewById(R.id.Cart2LayoutRight).setOnDragListener(new DragListener());
+        findViewById(R.id.Platform1Layout).setOnDragListener(new DragListener());
+        findViewById(R.id.Platform2Layout).setOnDragListener(new DragListener());
+        findViewById(R.id.Platform3Layout).setOnDragListener(new DragListener());
+        findViewById(R.id.Platform4Layout).setOnDragListener(new DragListener());
+        findViewById(R.id.TrainLayout).setOnDragListener(new DragListener());
+    }
+    
+    @Override
     protected void onPause() {
         super.onPause();
-        openGLView.onPause();
+        this.openGLView.onPause();
     }
-
+    
     @Override
     protected void onResume() {
         super.onResume();
-        openGLView.onResume();
+        this.openGLView.onResume();
     }
-	
-	private final class MyTouchListener implements OnTouchListener {
-	    public boolean onTouch(View view, MotionEvent motionEvent) {
+    
+    /** 
+     * A touch listener that starts a drag event.
+     * There should also be a receiver implementing {@link OnDragListener}.
+     * 
+     *  @see DragListener
+     */
+    private final class TouchListener implements OnTouchListener {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 ClipData data = ClipData.newPlainText("", "");
                 DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
                 view.startDrag(data, shadowBuilder, view, 0);
                 view.setVisibility(View.INVISIBLE);
                 return true;
-            } 
-            else {
+            } else {
                 return false;
             }
-	    }
-	}
-	
-	class MyDragListener implements OnDragListener {
-	    Drawable enterShape = getResources().getDrawable(R.drawable.shape_droptarget);
-	    Drawable normalShape = getResources().getDrawable(R.drawable.shape);
-
-	    @Override
-	    public boolean onDrag(View v, DragEvent event) {
-	        boolean validDrop = false;
-            //int action = event.getAction();
+        }
+    }
+    
+    /** A drag listner implementing an onDrag() method that runs when something is dragged to it. */
+    private final class DragListener implements OnDragListener {
+        private Drawable enterShape;
+        private Drawable normalShape;
+        
+        public DragListener() {
+            Resources resources = getResources();
+            
+            this.enterShape = resources.getDrawable(R.drawable.shape_droptarget);
+            this.normalShape = resources.getDrawable(R.drawable.shape);
+        }
+        
+        @Override
+        public boolean onDrag(View v, DragEvent event) {
+            boolean validDrop = false;
             View view = (View) event.getLocalState();
             ViewGroup ownerContainer = (ViewGroup) view.getParent();
             
             switch (event.getAction()) {
-            
-            case DragEvent.ACTION_DRAG_STARTED:
-                // Do nothing
-                break;
+                case DragEvent.ACTION_DRAG_STARTED:
+                    // Do nothing
+                    break;
+                    
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    v.setBackgroundDrawable(enterShape); //FIXME code is deprecated, use new
+                    break;
                 
-            case DragEvent.ACTION_DRAG_ENTERED:
-                v.setBackgroundDrawable(enterShape);
-                break;
-	        
-            case DragEvent.ACTION_DRAG_EXITED:
-                v.setBackgroundDrawable(normalShape);
-                break;
-                
-            case DragEvent.ACTION_DROP:
-                // Dropped, reassign View to ViewGroup  
-                validDrop = true;
-                LinearLayout dropContainer = (LinearLayout) v;
-                
-                Object tag = dropContainer.getTag();
-                
-                if (tag == null) {
-                    ownerContainer.removeView(view);
-                    ownerContainer.setTag(null);
-                    dropContainer.addView(view);
-                    dropContainer.setTag(view.getId());
-                    view.setVisibility(View.VISIBLE); 
-                } else {
-                    findViewById(view.getId()).setVisibility(View.VISIBLE);
-                    ownerContainer.setTag(view.getId());
-                }
-                
-                break;
-                
-            case DragEvent.ACTION_DRAG_ENDED:
-                v.setBackgroundDrawable(normalShape);
-                if (validDrop == false) {
-                    findViewById(view.getId()).setVisibility(View.VISIBLE);
-                    ownerContainer.setTag(view.getId());
-                }
-                break;
-                
-            default:
-                
-                break;
+                case DragEvent.ACTION_DRAG_EXITED:
+                    v.setBackgroundDrawable(normalShape); // FIXME code is deprecated, use new
+                    break;
+                    
+                case DragEvent.ACTION_DROP:
+                    // Dropped, reassign View to ViewGroup  
+                    validDrop = true;
+                    LinearLayout dropContainer = (LinearLayout) v;
+                    
+                    Object tag = dropContainer.getTag();
+                    
+                    if (tag == null) {
+                        ownerContainer.removeView(view);
+                        ownerContainer.setTag(null);
+                        dropContainer.addView(view);
+                        dropContainer.setTag(view.getId());
+                        view.setVisibility(View.VISIBLE); 
+                    } else {
+                        findViewById(view.getId()).setVisibility(View.VISIBLE);
+                        ownerContainer.setTag(view.getId());
+                    }
+                    
+                    break;
+                    
+                case DragEvent.ACTION_DRAG_ENDED:
+                    v.setBackgroundDrawable(normalShape); // FIXME code is deprecated, use new
+                    if (validDrop == false) {
+                        findViewById(view.getId()).setVisibility(View.VISIBLE);
+                        ownerContainer.setTag(view.getId());
+                    }
+                    break;
             }
             return true;
         }
-	}
+    }
 }
