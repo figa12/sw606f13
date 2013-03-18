@@ -103,7 +103,7 @@ public class GameActivity extends Activity {
         
         @Override
         public boolean onDrag(View v, DragEvent event) {
-            boolean validDrop = false;
+            //boolean validDrop = false;
             View view = (View) event.getLocalState();
             ViewGroup ownerContainer = (ViewGroup) view.getParent();
             
@@ -122,7 +122,7 @@ public class GameActivity extends Activity {
                     
                 case DragEvent.ACTION_DROP:
                     // Dropped, reassign View to ViewGroup  
-                    validDrop = true;
+                    //validDrop = true;
                     LinearLayout dropContainer = (LinearLayout) v;
                     
                     Object tag = dropContainer.getTag();
@@ -142,10 +142,10 @@ public class GameActivity extends Activity {
                     
                 case DragEvent.ACTION_DRAG_ENDED:
                     v.setBackgroundDrawable(normalShape); // FIXME code is deprecated, use new
-                    if (validDrop == false) {
+                    //if (validDrop == false) {
                         findViewById(view.getId()).setVisibility(View.VISIBLE);
                         ownerContainer.setTag(view.getId());
-                    }
+                    //}
                     break;
             }
             return true;

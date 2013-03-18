@@ -3,6 +3,7 @@ package dk.aau.cs.giraf.train.opengl;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import android.content.Context;
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
@@ -26,12 +27,19 @@ public class GlRenderer implements Renderer {
     private Triangle triangle;
     /** Square instance */
     private Square square;
+    /** Wheel instance */
+    private Wheel wheel;
     
+    private Context context;
     
-    public GlRenderer() {
+    public GlRenderer(Context context) {
         triangle = new Triangle();
         square = new Square();
+        wheel = new Wheel();
+        this.context = context;
     }
+    
+    private float zrot = 0.0f;
     
     /** Here we do our drawing */
     public void onDrawFrame(GL10 gl) {
@@ -40,11 +48,18 @@ public class GlRenderer implements Renderer {
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);	
         gl.glLoadIdentity(); //Reset The Current Modelview Matrix
         
-        gl.glTranslatef(0.345f, 0.0f, -1.2f);	//Move 
+        gl.glRotatef(zrot, 0.0f, 0.0f, 1.0f);
+        
+        gl.glTranslatef(0.0f, 0.0f, -4.0f);
+        wheel.draw(gl);
+        
+        gl.glRotatef(-zrot, 0.0f, 0.0f, 1.0f);
+        
+        gl.glTranslatef(0.0f, 0.0f, -1.0f);	//Move 
         square.draw(gl);
         
-        //gl.glTranslatef(0.0f, 2.5f, 0.0f); //Move
-        //triangle.draw(gl);
+        zrot -= 2.0f;
+        
         measureFps();
     }
     
@@ -113,6 +128,11 @@ public class GlRenderer implements Renderer {
     
     /** The Surface is created/init() */
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        //Load the texture for the cube once during Surface creation
+        wheel.loadGLTexture(gl, this.context);
+        
+        gl.glEnable(GL10.GL_TEXTURE_2D);            //Enable Texture Mapping ( NEW )
+        
         gl.glShadeModel(GL10.GL_SMOOTH);            //Enable Smooth Shading
         
         /* (Red, green, blue, alpha) Min 0.0f max 1.0f */
