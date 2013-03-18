@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.train;
 
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
+import dk.aau.cs.giraf.train.profile.ProfileActivity;
 
 import android.os.Bundle;
 import android.app.Activity;

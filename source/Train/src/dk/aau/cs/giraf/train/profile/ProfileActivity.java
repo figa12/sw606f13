@@ -1,6 +1,7 @@
-package dk.aau.cs.giraf.train;
+package dk.aau.cs.giraf.train.profile;
 
 import dk.aau.cs.giraf.train.R;
+import dk.aau.cs.giraf.train.R.layout;
 
 import android.os.Bundle;
 import android.app.Activity;

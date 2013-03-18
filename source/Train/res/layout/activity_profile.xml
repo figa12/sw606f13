@@ -21,6 +21,11 @@
             android:textColor="@android:color/white"
             android:textSize="30sp" />
         
+        <dk.aau.cs.giraf.train.opengl.GlView
+            android:id="@+id/profilelist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        
     </LinearLayout>
     
     <LinearLayout
