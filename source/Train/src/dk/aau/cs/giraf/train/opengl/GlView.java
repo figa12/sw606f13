@@ -9,6 +9,6 @@ public class GlView extends GLSurfaceView {
     public GlView(Context context, AttributeSet attrs) {
         super(context, attrs);
         
-        setRenderer(new GlRenderer());
+        setRenderer(new GlRenderer(context));
     }
 }
