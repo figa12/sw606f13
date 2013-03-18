@@ -33,7 +33,7 @@
                 android:value="dk.aau.cs.giraf.train.MainActivity" />
         </activity>
         <activity
-            android:name="dk.aau.cs.giraf.train.ProfileActivity"
+            android:name="dk.aau.cs.giraf.train.profile.ProfileActivity"
             android:label="@string/title_activity_profile"
             android:parentActivityName="dk.aau.cs.giraf.train.MainActivity" >
             <meta-data
