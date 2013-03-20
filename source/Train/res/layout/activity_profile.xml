@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:baselineAligned="false" >
 
     <LinearLayout
         android:layout_width="0dp"
@@ -21,7 +22,7 @@
             android:textColor="@android:color/white"
             android:textSize="30sp" />
         
-        <dk.aau.cs.giraf.train.opengl.GlView
+        <dk.aau.cs.giraf.train.profile.CustomListView
             android:id="@+id/profilelist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
