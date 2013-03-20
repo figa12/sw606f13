@@ -114,17 +114,17 @@ public class GameActivity extends Activity {
 	                    break;
 	                    
 	                case DragEvent.ACTION_DRAG_ENTERED:
-	                	//Change the background of targetLayout
+	                	//Change the background of droplayout(purely style)
 	                    v.setBackgroundDrawable(enterShape); //FIXME code is deprecated, use new
 	                    break;
 	                
 	                case DragEvent.ACTION_DRAG_EXITED:
-	                	//Change the background back when exiting
+	                	//Change the background back when exiting droplayout(purely style)
 	                    v.setBackgroundDrawable(normalShape); // FIXME code is deprecated, use new
 	                    break;
 	                    
 	                case DragEvent.ACTION_DROP:
-	                    // Dropped, reassign the imageview to the dropcontainer  
+	                    // Dropped, assigns the draggedview to the dropcontainer if the container does not already contain a view.  
 	                	FrameLayout dropContainer = (FrameLayout) v;
 	                    Object tag = dropContainer.getTag();
 	                    
@@ -137,7 +137,7 @@ public class GameActivity extends Activity {
 	                    break;
 	                    
 	                case DragEvent.ACTION_DRAG_ENDED:
-	                	//Makes the draggedview visible
+	                	//Makes the draggedview visible again after the view has been moved or the drop wasn't valid.
 	                	 v.setBackgroundDrawable(normalShape); // FIXME code is deprecated, use new
 		                 draggedView.setVisibility(View.VISIBLE);
 	                    break;
