@@ -82,7 +82,6 @@ public class GameActivity extends Activity {
                 ClipData data = ClipData.newPlainText("", "");
                 DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
                 view.startDrag(data, shadowBuilder, view, 0);
-                
                 return true;
             } else {
                 return false;
