@@ -15,6 +15,7 @@ import android.view.View.DragShadowBuilder;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 public class GameActivity extends Activity {
@@ -81,7 +82,7 @@ public class GameActivity extends Activity {
                 ClipData data = ClipData.newPlainText("", "");
                 DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
                 view.startDrag(data, shadowBuilder, view, 0);
-                view.setVisibility(View.INVISIBLE);
+                
                 return true;
             } else {
                 return false;
@@ -103,51 +104,45 @@ public class GameActivity extends Activity {
         
         @Override
         public boolean onDrag(View v, DragEvent event) {
-            boolean validDrop = false;
-            View view = (View) event.getLocalState();
-            ViewGroup ownerContainer = (ViewGroup) view.getParent();
-            
-            switch (event.getAction()) {
-                case DragEvent.ACTION_DRAG_STARTED:
-                    // Do nothing
-                    break;
-                    
-                case DragEvent.ACTION_DRAG_ENTERED:
-                    v.setBackgroundDrawable(enterShape); //FIXME code is deprecated, use new
-                    break;
-                
-                case DragEvent.ACTION_DRAG_EXITED:
-                    v.setBackgroundDrawable(normalShape); // FIXME code is deprecated, use new
-                    break;
-                    
-                case DragEvent.ACTION_DROP:
-                    // Dropped, reassign View to ViewGroup  
-                    validDrop = true;
-                    LinearLayout dropContainer = (LinearLayout) v;
-                    
-                    Object tag = dropContainer.getTag();
-                    
-                    if (tag == null) {
-                        ownerContainer.removeView(view);
-                        ownerContainer.setTag(null);
-                        dropContainer.addView(view);
-                        dropContainer.setTag(view.getId());
-                        view.setVisibility(View.VISIBLE); 
-                    } else {
-                        findViewById(view.getId()).setVisibility(View.VISIBLE);
-                        ownerContainer.setTag(view.getId());
-                    }
-                    
-                    break;
-                    
-                case DragEvent.ACTION_DRAG_ENDED:
-                    v.setBackgroundDrawable(normalShape); // FIXME code is deprecated, use new
-                    if (validDrop == false) {
-                        findViewById(view.getId()).setVisibility(View.VISIBLE);
-                        ownerContainer.setTag(view.getId());
-                    }
-                    break;
-            }
+        	if(event.getLocalState() != null){
+        	View draggedView = (View) event.getLocalState();
+        	ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
+	            switch (event.getAction()) {
+	                case DragEvent.ACTION_DRAG_STARTED:
+	                	//makes the draggedview invisible in ownerContainer
+	                	draggedView.setVisibility(View.INVISIBLE);
+	                    break;
+	                    
+	                case DragEvent.ACTION_DRAG_ENTERED:
+	                	//Change the background of targetLayout
+	                    v.setBackgroundDrawable(enterShape); //FIXME code is deprecated, use new
+	                    break;
+	                
+	                case DragEvent.ACTION_DRAG_EXITED:
+	                	//Change the background back when exiting
+	                    v.setBackgroundDrawable(normalShape); // FIXME code is deprecated, use new
+	                    break;
+	                    
+	                case DragEvent.ACTION_DROP:
+	                    // Dropped, reassign the imageview to the dropcontainer  
+	                	FrameLayout dropContainer = (FrameLayout) v;
+	                    Object tag = dropContainer.getTag();
+	                    
+	                    if (tag == null) {
+	                        ownerContainer.removeView(draggedView);
+	                        ownerContainer.setTag(null);
+	                        dropContainer.addView(draggedView);
+	                        dropContainer.setTag("filled");
+	                    }
+	                    break;
+	                    
+	                case DragEvent.ACTION_DRAG_ENDED:
+	                	//Makes the draggedview visible
+	                	 v.setBackgroundDrawable(normalShape); // FIXME code is deprecated, use new
+		                 draggedView.setVisibility(View.VISIBLE);
+	                    break;
+	            }
+        	}
             return true;
         }
     }

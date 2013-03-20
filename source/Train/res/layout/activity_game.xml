@@ -14,73 +14,71 @@
             android:layout_height="match_parent"/>
     </FrameLayout>
     
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/Cart1LayoutLeft"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="480dp"
         android:background="@drawable/shape"
-        android:tag="2" >
-        
-        
+        android:tag="filled" >
         <ImageView
             android:id="@+id/myimage2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/nej" />
 
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/Cart1LayoutRight"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginLeft="250dp"
         android:layout_marginTop="480dp"
         android:background="@drawable/shape"
-        android:tag="3" >
+        android:tag="filled" >
            
         <ImageView
             android:id="@+id/myimage3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/mig" />
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/Cart2LayoutLeft"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginLeft="460dp"
         android:layout_marginTop="480dp"
         android:background="@drawable/shape"
-        android:tag="4" >       
+        android:tag="filled" >       
         
         <ImageView
             android:id="@+id/myimage4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/bade" />
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/Cart2LayoutRight"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginLeft="630dp"
         android:layout_marginTop="480dp"
         android:background="@drawable/shape"
-        android:tag="1" >
+        android:tag="filled" >
 
         <ImageView
             android:id="@+id/myimage1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/se" />
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/TrainLayout"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -92,9 +90,9 @@
             android:id="@+id/myimage10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/Platform1Layout"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -106,9 +104,9 @@
             android:id="@+id/myimage9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/Platform2Layout"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -120,9 +118,9 @@
             android:id="@+id/myimage8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/Platform3Layout"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -134,9 +132,9 @@
             android:id="@+id/myimage7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/Platform4Layout"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -148,9 +146,9 @@
             android:id="@+id/myimage6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/StationLayout"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -162,7 +160,7 @@
             android:id="@+id/myimage5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
+    </FrameLayout>
     
     
 </RelativeLayout> 
