@@ -15,5 +15,8 @@ public class ProfileActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
+		
+		CustomListView listview = (CustomListView) findViewById(R.id.profilelist);
+		listview.loadChildren();
 	}
 }
