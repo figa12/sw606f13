@@ -9,6 +9,12 @@ public class GlView extends GLSurfaceView {
     public GlView(Context context, AttributeSet attrs) {
         super(context, attrs);
         
-        setRenderer(new GlRenderer(context));
+        //setEGLContextClientVersion(2); // Pick an OpenGL ES 2.0 context.
+        
+        this.setEGLConfigChooser(false);
+        
+        //this.setPreserveEGLContextOnPause(true); // TODO investigate
+        
+        this.setRenderer(new GlRenderer(context));
     }
 }
