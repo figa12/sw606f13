@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import dk.aau.cs.giraf.TimerLib.Art;
 import dk.aau.cs.giraf.TimerLib.Guardian;
+import dk.aau.cs.giraf.train.Data;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.R.layout;
 
@@ -21,27 +22,11 @@ public class ProfileActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
 		
-		long guardianId;
-		long childId;
-		int color;
-		
-		/* Get data from launcher */
-		Bundle extras = getIntent().getExtras();
-		if (extras != null) {        	
-        	guardianId = extras.getLong("currentGuardianID");
-        	childId = extras.getLong("currentChildID");
-        	color = extras.getInt("appBackgroundColor");
-        } else {
-        	guardianId = -1;
-        	childId = -3;
-        	color = 0xFFFFBB55;
-        }
-		
 		ArrayList<Art> artList = new ArrayList<Art>();//FIXME Is never used.
 		
 		/* Initialize the guardian object */
-    	guardian = Guardian.getInstance(childId, guardianId, getApplicationContext(), artList);    	
-    	guardian.backgroundColor = color;
+    	guardian = Guardian.getInstance(Data.currentChildID, Data.currentGuardianID, getApplicationContext(), artList);    	
+    	guardian.backgroundColor = Data.appBackgroundColor;
 
 		CustomListView listview = (CustomListView) findViewById(R.id.profilelist);
 		listview.guardian = guardian;
