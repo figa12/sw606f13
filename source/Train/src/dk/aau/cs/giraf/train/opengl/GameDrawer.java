@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.train.opengl;
 
 import java.util.ArrayList;
 import javax.microedition.khronos.opengles.GL10;
+import dk.aau.cs.giraf.train.R;
 import android.content.Context;
 
 
@@ -54,19 +55,19 @@ public final class GameDrawer {
     
     private final class Train implements GameDrawableTexture {
         
-        private Texture texture = new Texture(50, 35);
+        private Texture texture = new Texture(11.0f, 9.5f);
         
         @Override
         public void draw() {
             GameDrawer.this.gl.glLoadIdentity();
-            GameDrawer.this.gl.glTranslatef(0.0f, 0.0f, -20.0f);
+            GameDrawer.this.gl.glTranslatef(5.5f, -2.5f, -20.0f);
             
             this.texture.draw(GameDrawer.this.gl);
         }
 
         @Override
         public void loadTexture() {
-            //this.texture.loadGLTexture(GameDrawer.this.gl, GameDrawer.this.context, resourcePointer);
+            this.texture.loadGLTexture(GameDrawer.this.gl, GameDrawer.this.context, R.drawable.train);
         }
     }
 }
