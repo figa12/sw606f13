@@ -9,5 +9,8 @@
     <string name="profile_list_header">Profile</string>
     <string name="game_list_header">Gemte Spil</string>
     <string name="customisation_header">Tilpas Spil</string>
+    <string name="profile_pic_description">Profil Billede</string>
+    <string name="last_used">Sidst Brugt</string>
+    <string name="predefined">Predefineret</string>
 
 </resources>
