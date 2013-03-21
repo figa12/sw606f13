@@ -27,18 +27,13 @@ public class GlRenderer implements Renderer {
     /** The height of the GLSurfaceView */
     private int height;
     
-    /** Square instance */
-    private Square square;
+    private GameDrawer gameDrawer;
     
     private Context context;
     
     public GlRenderer(Context context) {
-        square = new Square(2.0f, 2.0f);
-        
         this.context = context;
     }
-    
-    private float zrot = 0.0f;
     
     /** 
      * Here we do our drawing
@@ -50,13 +45,9 @@ public class GlRenderer implements Renderer {
         /* Clears the screen to the color we previously decided on @onSurfaceCreated,
          * and clear the depth buffer and reset the scene */
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);	
-        gl.glLoadIdentity(); //Reset The Current Modelview Matrix
+        //gl.glLoadIdentity(); //Reset The Current Modelview Matrix
         
-        gl.glTranslatef(-1.0f, 1.0f, -4.0f);	//Move 
-        square.draw(gl);
-        
-        
-        zrot -= 2.0f;
+        this.gameDrawer.drawGame();
         
         measureFps();
     }
@@ -134,7 +125,8 @@ public class GlRenderer implements Renderer {
      * @see Renderer#onSurfaceCreated(GL10, EGLConfig)
      */
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        loadTexture(gl);                            // Load all texture
+        this.gameDrawer = new GameDrawer(gl, this.context);
+        this.gameDrawer.loadGraphics();
         
         /* Enables Texture Mapping. When drawing texture with alpha channels
          * then it 'destroys' other regular shapes. Enable when needed.
@@ -159,10 +151,5 @@ public class GlRenderer implements Renderer {
         gl.glCullFace(GL10.GL_BACK);    // specify which faces to not draw
         
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST); // Really Nice Perspective Calculations
-    }
-    
-    /** Load all the texture for shapes */
-    private void loadTexture(GL10 gl) {
-        // load all the texture
     }
 }
