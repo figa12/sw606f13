@@ -16,6 +16,18 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		/* Get data from launcher */
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {        	
+        	Data.currentGuardianID = extras.getLong("currentGuardianID");
+        	Data.currentChildID = extras.getLong("currentChildID");
+        	Data.appBackgroundColor = extras.getInt("appBackgroundColor");
+        } else {
+        	Data.currentGuardianID = -1;
+        	Data.currentChildID = -3;
+        	Data.appBackgroundColor = 0xFFFFBB55;
+        }
 	}
 
 	public void startGame(View view) {
