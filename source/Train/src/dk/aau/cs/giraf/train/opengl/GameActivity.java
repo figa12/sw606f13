@@ -103,45 +103,51 @@ public class GameActivity extends Activity {
         
         @Override
         public boolean onDrag(View v, DragEvent event) {
-        	if(event.getLocalState() != null){
-        	View draggedView = (View) event.getLocalState();
-        	ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
-	            switch (event.getAction()) {
-	                case DragEvent.ACTION_DRAG_STARTED:
-	                	//makes the draggedview invisible in ownerContainer
-	                	draggedView.setVisibility(View.INVISIBLE);
-	                    break;
-	                    
-	                case DragEvent.ACTION_DRAG_ENTERED:
-	                	//Change the background of droplayout(purely style)
-	                    v.setBackgroundDrawable(enterShape); //FIXME code is deprecated, use new
-	                    break;
-	                
-	                case DragEvent.ACTION_DRAG_EXITED:
-	                	//Change the background back when exiting droplayout(purely style)
-	                    v.setBackgroundDrawable(normalShape); // FIXME code is deprecated, use new
-	                    break;
-	                    
-	                case DragEvent.ACTION_DROP:
-	                    // Dropped, assigns the draggedview to the dropcontainer if the container does not already contain a view.  
-	                	FrameLayout dropContainer = (FrameLayout) v;
-	                    Object tag = dropContainer.getTag();
-	                    
-	                    if (tag == null) {
-	                        ownerContainer.removeView(draggedView);
-	                        ownerContainer.setTag(null);
-	                        dropContainer.addView(draggedView);
-	                        dropContainer.setTag("filled");
-	                    }
-	                    break;
-	                    
-	                case DragEvent.ACTION_DRAG_ENDED:
-	                	//Makes the draggedview visible again after the view has been moved or the drop wasn't valid.
-	                	 v.setBackgroundDrawable(normalShape); // FIXME code is deprecated, use new
-		                 draggedView.setVisibility(View.VISIBLE);
-	                    break;
-	            }
-        	}
+            if (event.getLocalState() != null) {
+                View draggedView = (View) event.getLocalState();
+                ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
+                switch (event.getAction()) {
+                case DragEvent.ACTION_DRAG_STARTED:
+                    // makes the draggedview invisible in ownerContainer
+                    draggedView.setVisibility(View.INVISIBLE);
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    // Change the background of droplayout(purely style)
+                    v.setBackgroundDrawable(enterShape); // FIXME code is
+                                                         // deprecated, use new
+                    break;
+
+                case DragEvent.ACTION_DRAG_EXITED:
+                    // Change the background back when exiting droplayout(purely
+                    // style)
+                    v.setBackgroundDrawable(normalShape); // FIXME code is
+                                                          // deprecated, use new
+                    break;
+
+                case DragEvent.ACTION_DROP:
+                    // Dropped, assigns the draggedview to the dropcontainer if
+                    // the container does not already contain a view.
+                    FrameLayout dropContainer = (FrameLayout) v;
+                    Object tag = dropContainer.getTag();
+
+                    if (tag == null) {
+                        ownerContainer.removeView(draggedView);
+                        ownerContainer.setTag(null);
+                        dropContainer.addView(draggedView);
+                        dropContainer.setTag("filled");
+                    }
+                    break;
+
+                case DragEvent.ACTION_DRAG_ENDED:
+                    // Makes the draggedview visible again after the view has
+                    // been moved or the drop wasn't valid.
+                    v.setBackgroundDrawable(normalShape); // FIXME code is
+                                                          // deprecated, use new
+                    draggedView.setVisibility(View.VISIBLE);
+                    break;
+                }
+            }
             return true;
         }
     }
