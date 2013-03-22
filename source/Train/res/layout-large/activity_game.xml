@@ -37,8 +37,8 @@
 
             <ImageView
                 android:id="@+id/Cart1LeftImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:src="@drawable/nej" >
             </ImageView>
         </FrameLayout>
@@ -55,8 +55,8 @@
 
             <ImageView
                 android:id="@+id/Cart1RightImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:src="@drawable/bade" >
             </ImageView>
         </FrameLayout>
