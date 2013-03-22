@@ -31,7 +31,7 @@ public class GameActivity extends Activity {
     	super.onCreate(savedInstanceState);
     	this.setContentView(R.layout.activity_game);
     	
-    	//this.setListeners();
+    	this.setListeners();
     	
         this.openGLView = (GlView)findViewById(R.id.openglview);
         
@@ -51,6 +51,16 @@ public class GameActivity extends Activity {
         findViewById(R.id.myimage8).setOnTouchListener(new TouchListener());
         findViewById(R.id.myimage9).setOnTouchListener(new TouchListener());
         */
+        //findViewById(R.id.StationLayout).setOnDragListener(new DragListener());
+        findViewById(R.id.Cart1LeftLayout).setOnDragListener(new DragListener());
+        findViewById(R.id.Cart1RightLayout).setOnDragListener(new DragListener());
+        findViewById(R.id.Cart2LeftLayout).setOnDragListener(new DragListener());
+        findViewById(R.id.Cart2RightLayout).setOnDragListener(new DragListener());
+        /*findViewById(R.id.Platform1Layout).setOnDragListener(new DragListener());
+        findViewById(R.id.Platform2Layout).setOnDragListener(new DragListener());
+        findViewById(R.id.Platform3Layout).setOnDragListener(new DragListener());
+        findViewById(R.id.Platform4Layout).setOnDragListener(new DragListener());
+        findViewById(R.id.TrainLayout).setOnDragListener(new DragListener());*/
     }
     
     @Override

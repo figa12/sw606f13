@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <dk.aau.cs.giraf.train.opengl.GlView
+            android:id="@+id/openglview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+    <!-- Cart1 -->
+
+    <LinearLayout
+        android:id="@+id/Cart1LinearLayout"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp"
+        android:layout_marginLeft="70dp"
+        android:orientation="horizontal" >
+
+        <!-- Cart1Left -->
+
+        <FrameLayout
+            android:id="@+id/Cart1LeftLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:tag="filled" >
+
+            <ImageView
+                android:id="@+id/Cart1LeftImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/nej" >
+            </ImageView>
+        </FrameLayout>
+
+        <!-- Cart1Right -->
+
+        <FrameLayout
+            android:id="@+id/Cart1RightLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:tag="filled" >
+
+            <ImageView
+                android:id="@+id/Cart1RightImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/bade" >
+            </ImageView>
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- Cart2 -->
+
+    <LinearLayout
+        android:id="@+id/Cart2LinearLayout"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_alignBottom="@id/Cart1LinearLayout"
+        android:layout_marginLeft="70dp"
+        android:layout_toRightOf="@id/Cart1LinearLayout"
+        android:orientation="horizontal" >
+
+        <!-- Cart2Left -->
+
+        <FrameLayout
+            android:id="@+id/Cart2LeftLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:tag="filled" >
+
+            <ImageView
+                android:id="@+id/Cart2LeftImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/se" >
+            </ImageView>
+        </FrameLayout>
+
+        <!-- Cart2Right -->
+
+        <FrameLayout
+            android:id="@+id/Cart2RightLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:tag="filled" >
+
+            <ImageView
+                android:id="@+id/Cart2RightImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" 
+                android:src="@drawable/mig">
+            </ImageView>
+        </FrameLayout>
+    </LinearLayout>
+
+</RelativeLayout>
