@@ -12,7 +12,7 @@
     
     <application
         android:allowBackup="true"
-        android:icon="@drawable/train_icon"
+        android:icon="@drawable/ic_train_icon"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.NoActionBar" >
         <activity
