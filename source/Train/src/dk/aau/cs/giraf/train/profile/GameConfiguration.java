@@ -11,23 +11,47 @@ public class GameConfiguration {
 	public int		childID;
 	public int		gameID;
 	private Context context;
-	
 	ArrayList<Station> stations = new ArrayList<Station>();
+	
+	public GameConfiguration(Context context, String gameName, int gameID, int childID) {
+		this.gameName = gameName;
+		this.childID = childID;
+		this.gameID = gameID;
+		this.context = context;
+	}
+    
+	public void addStation(Station station) {
+		this.stations.add(station);
+	}
+	
+	public void setStations(ArrayList<Station> stations) {
+		this.stations = stations;
+	}
 
-	private class Station {
+	public class Station {
 		
-		private class Category {
-			
-			Pictogram category;
-			ArrayList<Pictogram> pictograms = new ArrayList<Pictogram>(); 
-			
-			public void saveCategory() {
-				category = PictoFactory.INSTANCE.getPictogram(context, 0);
-			}
-			
-			public Pictogram getCategory() {
-				return category;
-			}
+		Category category;
+		
+		public Station(Category category) {
+			this.category = category;
+		}
+		
+	}
+	
+	public class Category {
+		Pictogram pictogramCategory;
+		ArrayList<Pictogram> pictograms = new ArrayList<Pictogram>(); 
+		
+		public Category(Pictogram pictogramCategory) {
+			this.pictogramCategory = pictogramCategory;
+		}
+		
+		public void addPictogram() {
+			pictograms.add(PictoFactory.INSTANCE.getPictogram(context, 0));
+		}
+		
+		public Pictogram getCategory() {
+			return pictogramCategory;
 		}
 	}
 	
