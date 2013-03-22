@@ -43,8 +43,7 @@ public class GlRenderer implements Renderer {
     public void onDrawFrame(GL10 gl) {
         /* Clears the screen to the color we previously decided on @onSurfaceCreated,
          * and clear the depth buffer and reset the scene */
-        gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);	
-        //gl.glLoadIdentity(); //Reset The Current Modelview Matrix
+        gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         
         this.gameDrawer.drawGame();
         
@@ -124,30 +123,33 @@ public class GlRenderer implements Renderer {
      * @see Renderer#onSurfaceCreated(GL10, EGLConfig)
      */
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        this.gameDrawer = new GameDrawer(gl, this.context);
-        this.gameDrawer.loadGraphics();
         
-        /* Enables Texture Mapping. When drawing texture with alpha channels
-         * then it 'destroys' other regular shapes. Enable when needed.
-         * gl.glEnable(GL10.GL_TEXTURE_2D); */
+        this.gameDrawer = new GameDrawer(gl, this.context); //Create the game drawer instance
         
-        gl.glShadeModel(GL10.GL_SMOOTH);         //Enable Smooth Shading
+        this.gameDrawer.loadAllTexture();                   //Load all texture
         
-        gl.glClearColor(0.9f, 0.9f, 0.9f, 1.0f); //Set Background color
+        gl.glShadeModel(GL10.GL_SMOOTH);                    //Enable Smooth Shading
         
+        gl.glClearColor(0.9f, 0.9f, 0.9f, 1.0f);            //Set Background color
         
         /* Set up the depth buffer */
-        gl.glClearDepthf(1.0f);                         //Depth Buffer Setup
-        gl.glEnable(GL10.GL_DEPTH_TEST);                //Enables Depth Testing
-        gl.glDepthFunc(GL10.GL_LEQUAL);                 //The Type Of Depth Testing To Do
+        gl.glClearDepthf(1.0f);          //Depth Buffer Setup
+        gl.glEnable(GL10.GL_DEPTH_TEST); //Enables Depth Testing
+        gl.glDepthFunc(GL10.GL_LEQUAL);  //The Type Of Depth Testing To Do
         
         /* Set up blending */
         gl.glEnable(GL10.GL_BLEND);                                     //Enable blending
         gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA); //Set The Blending Function
         
         /* Set up face culling */
-        gl.glEnable(GL10.GL_CULL_FACE);
+        gl.glEnable(GL10.GL_CULL_FACE); //Enable face culling
         gl.glCullFace(GL10.GL_BACK);    // specify which faces to not draw
+        
+        /* Specify parameters for texture */
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR); // use LINEAR when upscaling
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR); // use LINEAR when downscaling
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
         
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST); // Really Nice Perspective Calculations
     }

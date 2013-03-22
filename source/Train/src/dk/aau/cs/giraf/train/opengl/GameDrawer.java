@@ -52,7 +52,7 @@ public final class GameDrawer {
         }
     }
     
-    public final void loadGraphics() {
+    public final void loadAllTexture() {
         for (GameDrawableTexture gameDrawableTexture : this.gameDrawablesWithTexture) {
             gameDrawableTexture.loadTexture();
         }
@@ -61,12 +61,12 @@ public final class GameDrawer {
     
     private final class Train implements GameDrawableTexture {
         
-        private Texture texture = new Texture(11.0f, 9.5f);
+        private Texture texture = new Texture(10.0f, 10.0f);
         
         @Override
         public void draw() {
             GameDrawer.this.gl.glLoadIdentity();
-            GameDrawer.this.gl.glTranslatef(0.0f, 0.0f, -15.0f);
+            GameDrawer.this.gl.glTranslatef(-4.0f, 6.0f, -20.0f);
             
             this.texture.draw(GameDrawer.this.gl);
         }
