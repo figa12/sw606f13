@@ -45,22 +45,21 @@ public class GameActivity extends Activity {
         findViewById(R.id.Cart1RightImageView).setOnTouchListener(new TouchListener());
         findViewById(R.id.Cart2LeftImageView).setOnTouchListener(new TouchListener());
         findViewById(R.id.Cart2RightImageView).setOnTouchListener(new TouchListener());
-        /*findViewById(R.id.myimage5).setOnTouchListener(new TouchListener());
-        findViewById(R.id.myimage6).setOnTouchListener(new TouchListener());
-        findViewById(R.id.myimage7).setOnTouchListener(new TouchListener());
-        findViewById(R.id.myimage8).setOnTouchListener(new TouchListener());
-        findViewById(R.id.myimage9).setOnTouchListener(new TouchListener());
-        */
+        findViewById(R.id.Spot1LeftImageView).setOnTouchListener(new TouchListener());
+        findViewById(R.id.Spot2RightImageView).setOnTouchListener(new TouchListener());
+        findViewById(R.id.Spot3LeftImageView).setOnTouchListener(new TouchListener());
+        findViewById(R.id.Spot4RightImageView).setOnTouchListener(new TouchListener());
+        //findViewById(R.id.myimage9).setOnTouchListener(new TouchListener());
         //findViewById(R.id.StationLayout).setOnDragListener(new DragListener());
         findViewById(R.id.Cart1LeftLayout).setOnDragListener(new DragListener());
         findViewById(R.id.Cart1RightLayout).setOnDragListener(new DragListener());
         findViewById(R.id.Cart2LeftLayout).setOnDragListener(new DragListener());
         findViewById(R.id.Cart2RightLayout).setOnDragListener(new DragListener());
-        /*findViewById(R.id.Platform1Layout).setOnDragListener(new DragListener());
-        findViewById(R.id.Platform2Layout).setOnDragListener(new DragListener());
-        findViewById(R.id.Platform3Layout).setOnDragListener(new DragListener());
-        findViewById(R.id.Platform4Layout).setOnDragListener(new DragListener());
-        findViewById(R.id.TrainLayout).setOnDragListener(new DragListener());*/
+        findViewById(R.id.Spot1LeftLayout).setOnDragListener(new DragListener());
+        findViewById(R.id.Spot2RightLayout).setOnDragListener(new DragListener());
+        findViewById(R.id.Spot3LeftLayout).setOnDragListener(new DragListener());
+        findViewById(R.id.Spot4RightLayout).setOnDragListener(new DragListener());
+        //findViewById(R.id.TrainLayout).setOnDragListener(new DragListener());
     }
     
     @Override
@@ -120,12 +119,12 @@ public class GameActivity extends Activity {
 	                    
 	                case DragEvent.ACTION_DRAG_ENTERED:
 	                	//Change the background of droplayout(purely style)
-	                    v.setBackgroundDrawable(enterShape); //FIXME code is deprecated, use new
+	                    //v.setBackgroundDrawable(enterShape); //FIXME code is deprecated, use new
 	                    break;
 	                
 	                case DragEvent.ACTION_DRAG_EXITED:
 	                	//Change the background back when exiting droplayout(purely style)
-	                    v.setBackgroundDrawable(normalShape); // FIXME code is deprecated, use new
+	                    //v.setBackgroundDrawable(normalShape); // FIXME code is deprecated, use new
 	                    break;
 	                    
 	                case DragEvent.ACTION_DROP:
@@ -136,15 +135,16 @@ public class GameActivity extends Activity {
 	                    if (tag == null) {
 	                        ownerContainer.removeView(draggedView);
 	                        ownerContainer.setTag(null);
-	                        dropContainer.addView(draggedView);
+	                        dropContainer.addView(draggedView, v.getLayoutParams());
 	                        dropContainer.setTag("filled");
 	                    }
 	                    break;
 	                    
 	                case DragEvent.ACTION_DRAG_ENDED:
 	                	//Makes the draggedview visible again after the view has been moved or the drop wasn't valid.
-	                	 v.setBackgroundDrawable(normalShape); // FIXME code is deprecated, use new
+	                	 //v.setBackgroundDrawable(normalShape); // FIXME code is deprecated, use new
 		                 draggedView.setVisibility(View.VISIBLE);
+		                 
 	                    break;
 	            }
         	}

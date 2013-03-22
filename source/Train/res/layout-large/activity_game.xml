@@ -29,7 +29,7 @@
 
         <FrameLayout
             android:id="@+id/Cart1LeftLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/shape"
@@ -37,8 +37,8 @@
 
             <ImageView
                 android:id="@+id/Cart1LeftImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/nej" >
             </ImageView>
         </FrameLayout>
@@ -47,7 +47,7 @@
 
         <FrameLayout
             android:id="@+id/Cart1RightLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/shape"
@@ -55,8 +55,8 @@
 
             <ImageView
                 android:id="@+id/Cart1RightImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/bade" >
             </ImageView>
         </FrameLayout>
@@ -77,7 +77,7 @@
 
         <FrameLayout
             android:id="@+id/Cart2LeftLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/shape"
@@ -95,7 +95,7 @@
 
         <FrameLayout
             android:id="@+id/Cart2RightLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/shape"
@@ -104,8 +104,93 @@
             <ImageView
                 android:id="@+id/Cart2RightImageView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" 
-                android:src="@drawable/mig">
+                android:layout_height="match_parent"
+                android:src="@drawable/mig" >
+            </ImageView>
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- TrainStation -->
+
+    <LinearLayout
+        android:id="@+id/StationLeftLinearLayout"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="25dp"
+        android:orientation="horizontal" >
+
+        <!-- Spot1 -->
+
+        <FrameLayout
+            android:id="@+id/Spot1LeftLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape" >
+
+            <ImageView
+                android:id="@+id/Spot1LeftImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </ImageView>
+        </FrameLayout>
+        <!-- Spot2 -->
+
+        <FrameLayout
+            android:id="@+id/Spot2RightLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape" >
+
+            <ImageView
+                android:id="@+id/Spot2RightImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </ImageView>
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- StationRight -->
+
+    <LinearLayout
+        android:id="@+id/StationRightLinearLayout"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_alignBottom="@id/StationLeftLinearLayout"
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@id/StationLeftLinearLayout"
+        android:orientation="horizontal" >
+
+        <!-- Spot3 -->
+
+        <FrameLayout
+            android:id="@+id/Spot3LeftLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape" >
+
+            <ImageView
+                android:id="@+id/Spot3LeftImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </ImageView>
+        </FrameLayout>
+        <!-- Spot4 -->
+
+        <FrameLayout
+            android:id="@+id/Spot4RightLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape" >
+
+            <ImageView
+                android:id="@+id/Spot4RightImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
             </ImageView>
         </FrameLayout>
     </LinearLayout>
