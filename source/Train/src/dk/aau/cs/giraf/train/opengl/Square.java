@@ -1,70 +1,47 @@
 package dk.aau.cs.giraf.train.opengl;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-
-import javax.microedition.khronos.opengles.GL10;
+//import javax.microedition.khronos.opengles.GL10;
 
 /**
- * This class is an object representation of 
- * a Square containing the vertex information
- * and drawing functionality, which is called 
- * by the renderer.
+ * The Square class extends {@link Shape}.
+ * Initialise the Square with a size {@link #Square(float width, float height)}
+ * The Square is drawn with the standard method {@link Shape#draw(GL10)}
  * 
- * @author Savas Ziplies (nea/INsanityDesign)
+ * @author Jesper
+ * @see Shape
+ * @see Shape#draw(GL10, float, float, float, float)
  */
-public class Square {
-		
-	/** The buffer holding the vertices */
-	private FloatBuffer vertexBuffer;
-
-	/** The initial vertex definition */
-	private float vertices[] = { 
-								-1.0f, -1.0f, 0.0f, 	//Bottom Left
-								1.0f, -1.0f, 0.0f, 		//Bottom Right
-								-1.0f, 1.0f, 0.0f,	 	//Top Left
-								1.0f, 1.0f, 0.0f 		//Top Right
-												};
+public class Square extends dk.aau.cs.giraf.train.opengl.Shape {
+    
+    /**
+     * Creates a square with the specified size.
+     * 
+     * @param width 
+     * @param height
+     * @see Shape#Shape(float, float)
+     */
+	public Square(float width, float height) {
+		super(width, height);
+	}
 	
 	/**
-	 * The Square constructor.
+	 * Creates vertices that generates a square.
+	 * This method is called by the super class {@link Shape} in the constructor {@link Shape#Shape(float, float)}
 	 * 
-	 * Initiate the buffers.
+	 * @see Shape#createVertices(float, float)
+	 * @see Shape#Shape(float, float)
+	 * @return An array float[] of vertices that specify a square
 	 */
-	public Square() {
-		//
-		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
-		byteBuf.order(ByteOrder.nativeOrder());
-		vertexBuffer = byteBuf.asFloatBuffer();
-		vertexBuffer.put(vertices);
-		vertexBuffer.position(0);
-	}
-
-	/**
-	 * The object own drawing function.
-	 * Called from the renderer to redraw this instance
-	 * with possible changes in values.
-	 * 
-	 * @param gl - The GL Context
-	 */
-	public void draw(GL10 gl) {		
-		//Set the face rotation
-		gl.glFrontFace(GL10.GL_CW);
-		
-		//Point to our vertex buffer
-		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
-		
-		//Enable vertex buffer
-		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-		
-		//Set The Color To Blue
-		gl.glColor4f(0.5f, 0.5f, 1.0f, 1.0f);	
-		
-		//Draw the vertices as triangle strip
-		gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length / 3);
-		
-		//Disable the client state before leaving
-		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-	}
+	@Override
+	protected float[] createVertices(float width, float height) {
+        /* The order of the vertices also specifies whether the square
+         * is facing towards or away from the perspective */
+	    float vertices[] = {
+                0.0f, 0.0f, 0.0f,       //Top Left
+                width, 0.0f, 0.0f,      //Top Right
+                0.0f, -height, 0.0f,    //Bottom Left
+                width, -height, 0.0f    //Bottom Right
+        };
+        return vertices;
+    }
 }

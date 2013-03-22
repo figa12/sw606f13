@@ -19,3 +19,6 @@ local.properties
 
 *.tmp
 TimerLib/
+GIRAF_Components/
+Pictogram/
+PictoTester/
