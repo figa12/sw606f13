@@ -17,7 +17,8 @@ public final class GameDrawer {
     }
     
     private interface MoveableGameDrawable {
-        // How is this done?
+        public void Move();
+        // more?
     }
     
     private GL10 gl;
