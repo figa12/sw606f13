@@ -119,7 +119,7 @@ public class Texture extends Square {
     public void loadGLTexture(GL10 gl, Context context, int resourcePointer) {
         //Get the texture from the Android resource directory
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourcePointer);
-
+        
         //Generate one texture pointer...
         gl.glGenTextures(1, textures, 0);
         //...and bind it to our array

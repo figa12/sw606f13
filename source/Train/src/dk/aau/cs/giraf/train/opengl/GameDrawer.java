@@ -16,6 +16,10 @@ public final class GameDrawer {
         public void loadTexture();
     }
     
+    private interface MoveableGameDrawable {
+        // How is this done?
+    }
+    
     private GL10 gl;
     private Context context;
     
@@ -51,6 +55,7 @@ public final class GameDrawer {
         for (GameDrawableTexture gameDrawableTexture : this.gameDrawablesWithTexture) {
             gameDrawableTexture.loadTexture();
         }
+        this.gameDrawablesWithTexture = null;
     }
     
     private final class Train implements GameDrawableTexture {
@@ -60,7 +65,7 @@ public final class GameDrawer {
         @Override
         public void draw() {
             GameDrawer.this.gl.glLoadIdentity();
-            GameDrawer.this.gl.glTranslatef(5.5f, -2.5f, -20.0f);
+            GameDrawer.this.gl.glTranslatef(0.0f, 0.0f, -15.0f);
             
             this.texture.draw(GameDrawer.this.gl);
         }
