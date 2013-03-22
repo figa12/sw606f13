@@ -16,18 +16,22 @@ import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 
 public class GameActivity extends Activity {
     
-    private GlView openGLView;
+    private GlView openGLView;	
+    private Integer[] cart1 = {};
+    private Integer[] cart2 = {};
+    private Integer[] station = {R.drawable.nej,R.drawable.mig,R.drawable.se,R.drawable.bade};
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
     	this.setContentView(R.layout.activity_game);
     	
-    	this.setListeners();
+    	//this.setListeners();
     	
         this.openGLView = (GlView)findViewById(R.id.openglview);
         
@@ -36,25 +40,17 @@ public class GameActivity extends Activity {
     
     /* Sets touch and drag listeners. This is temporary and only for proof of concept */
     private void setListeners() {
-        findViewById(R.id.myimage1).setOnTouchListener(new TouchListener());
-        findViewById(R.id.myimage2).setOnTouchListener(new TouchListener());
-        findViewById(R.id.myimage3).setOnTouchListener(new TouchListener());
-        findViewById(R.id.myimage4).setOnTouchListener(new TouchListener());
-        findViewById(R.id.myimage5).setOnTouchListener(new TouchListener());
+    	
+        findViewById(R.id.Cart1LeftImageView).setOnTouchListener(new TouchListener());
+        findViewById(R.id.Cart1RightImageView).setOnTouchListener(new TouchListener());
+        findViewById(R.id.Cart2LeftImageView).setOnTouchListener(new TouchListener());
+        findViewById(R.id.Cart2RightImageView).setOnTouchListener(new TouchListener());
+        /*findViewById(R.id.myimage5).setOnTouchListener(new TouchListener());
         findViewById(R.id.myimage6).setOnTouchListener(new TouchListener());
         findViewById(R.id.myimage7).setOnTouchListener(new TouchListener());
         findViewById(R.id.myimage8).setOnTouchListener(new TouchListener());
         findViewById(R.id.myimage9).setOnTouchListener(new TouchListener());
-        findViewById(R.id.StationLayout).setOnDragListener(new DragListener());
-        findViewById(R.id.Cart1LayoutLeft).setOnDragListener(new DragListener());
-        findViewById(R.id.Cart1LayoutRight).setOnDragListener(new DragListener());
-        findViewById(R.id.Cart2LayoutLeft).setOnDragListener(new DragListener());
-        findViewById(R.id.Cart2LayoutRight).setOnDragListener(new DragListener());
-        findViewById(R.id.Platform1Layout).setOnDragListener(new DragListener());
-        findViewById(R.id.Platform2Layout).setOnDragListener(new DragListener());
-        findViewById(R.id.Platform3Layout).setOnDragListener(new DragListener());
-        findViewById(R.id.Platform4Layout).setOnDragListener(new DragListener());
-        findViewById(R.id.TrainLayout).setOnDragListener(new DragListener());
+        */
     }
     
     @Override
