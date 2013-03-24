@@ -26,6 +26,7 @@ public final class GameDrawer {
     private Context context;
     private float visibleWidth = 1.0f;
     private float visibleHeight = 1.0f;
+    private final float DRAWING_DEPTH = -907.744f;
     
     private ArrayList<GameDrawable> gameDrawables = new ArrayList<GameDrawable>();
     private ArrayList<GameDrawableTexture> gameDrawablesWithTexture = new ArrayList<GameDrawableTexture>();
@@ -72,22 +73,18 @@ public final class GameDrawer {
     private final class Train implements GameDrawableTexture {
         
         private Texture train = new Texture(395.0f, 283.0f);
-        private Texture rails = new Texture(1.0f, 1.0f);
         
         @Override
         public void draw() {
             GameDrawer.this.gl.glLoadIdentity(); // reset the position
             
-            GameDrawer.this.gl.glTranslatef(-3.0f, 0.0f, -907.744f);
-            //this.rails.draw(GameDrawer.this.gl);
-            
-            GameDrawer.this.gl.glTranslatef(6.0f, 2.0f, 0.0f);
+            GameDrawer.this.gl.glTranslatef(-GameDrawer.this.visibleWidth/2, GameDrawer.this.visibleHeight/2, GameDrawer.this.DRAWING_DEPTH);
             this.train.draw(GameDrawer.this.gl);
         }
 
         @Override
         public void loadTexture() {
-            this.train.loadGLTexture(GameDrawer.this.gl, GameDrawer.this.context, R.drawable.train, Texture.AspectRatio.KeepBoth);
+            this.train.loadGLTexture(GameDrawer.this.gl, GameDrawer.this.context, R.drawable.train);
             
         }
     }

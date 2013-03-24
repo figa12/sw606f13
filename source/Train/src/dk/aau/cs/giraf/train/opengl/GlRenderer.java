@@ -19,15 +19,15 @@ import android.util.TimingLogger;
 public class GlRenderer implements Renderer {
     
     /* Constants */
-    private static final float NEAR_CLIPPING_PLANE_DEPTH = 907.0f;
-    private static final float FAR_CLIPPING_PLANE_DEPTH = 1000.0f;
-    private static final float FIELD_OF_VIEW_ANGLE = 45.0f;
-    private static final float DRAWING_DEPTH = 5.0f;
+    private final float NEAR_CLIPPING_PLANE_DEPTH = 907.0f;
+    private final float FAR_CLIPPING_PLANE_DEPTH = 1000.0f;
+    private final float FIELD_OF_VIEW_ANGLE = 45.0f;
+    private final float DRAWING_DEPTH = 907.744f;
     
     /** The width of the GLSurfaceView */
-    private int width;
+    private int surfaceWidth;
     /** The height of the GLSurfaceView */
-    private int height;
+    private int surfaceHeight;
     
     /** The class that does all the drawing */
     private GameDrawer gameDrawer;
@@ -84,8 +84,8 @@ public class GlRenderer implements Renderer {
         
         Log.d(GlRenderer.class.getSimpleName(), "Screen size: " + Integer.toString(width) + "x" + Integer.toString(height)); // write to log
         
-        this.width = width;
-        this.height = height;
+        this.surfaceWidth = width;
+        this.surfaceHeight = height;
         
         //Calculate the visible height/width and send it to the gameDrawer
         float visibleHeight = this.getActualHeight(this.DRAWING_DEPTH);
@@ -110,9 +110,9 @@ public class GlRenderer implements Renderer {
      * @param depth to calculate the visible height
      */
     public float getActualHeight(float depth) {
-        double otherAngles = (180 - this.FIELD_OF_VIEW_ANGLE) / 2; // TODO make better variable name
-        double hypotenuse = depth / Math.sin(otherAngles);
-        return (float) Math.sqrt(Math.pow(hypotenuse, 2.0) + Math.pow(depth, 2.0));
+        double otherAngles = (180.0 - this.FIELD_OF_VIEW_ANGLE) / 2.0; // TODO make better variable name
+        double hypotenuse = depth / Math.sin(Math.toRadians(otherAngles));
+        return (float) Math.sqrt(Math.pow(hypotenuse, 2.0) - Math.pow(depth, 2.0)) * 2;
     }
     
     /** 
@@ -123,7 +123,7 @@ public class GlRenderer implements Renderer {
      * @see #getActualHeight(float depth)
      */
     public float getActualWidth(float actualHeight) {
-        float aspectRatio = this.width / this.height;
+        float aspectRatio = (float) this.surfaceWidth / this.surfaceHeight;
         return actualHeight * aspectRatio;
     }
     
