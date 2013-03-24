@@ -3,9 +3,11 @@ package dk.aau.cs.giraf.train.opengl;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
+import android.opengl.GLES20;
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
+import android.util.TimingLogger;
 
 /** 
  * The renderer which draws on GLSurfaceView.
@@ -123,10 +125,14 @@ public class GlRenderer implements Renderer {
      * @see Renderer#onSurfaceCreated(GL10, EGLConfig)
      */
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        TimingLogger timingLogger = new TimingLogger(GlRenderer.class.getSimpleName(), "onSurfaceCreated");
         
         this.gameDrawer = new GameDrawer(gl, this.context); //Create the game drawer instance
+        timingLogger.addSplit("initiated new GameDrawer");
         
         this.gameDrawer.loadAllTexture();                   //Load all texture
+        
+        timingLogger.addSplit("loaded all textures");
         
         gl.glShadeModel(GL10.GL_SMOOTH);                    //Enable Smooth Shading
         
@@ -145,12 +151,11 @@ public class GlRenderer implements Renderer {
         gl.glEnable(GL10.GL_CULL_FACE); //Enable face culling
         gl.glCullFace(GL10.GL_BACK);    // specify which faces to not draw
         
-        /* Specify parameters for texture */
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR); // use LINEAR when upscaling
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR); // use LINEAR when downscaling
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
+        
         
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST); // Really Nice Perspective Calculations
+        
+        timingLogger.addSplit("created the OpenGL surface");
+        timingLogger.dumpToLog();
     }
 }

@@ -16,11 +16,6 @@ public final class GameDrawer {
         public void loadTexture();
     }
     
-    private interface MoveableGameDrawable {
-        public void Move();
-        // more?
-    }
-    
     private GL10 gl;
     private Context context;
     
@@ -56,24 +51,29 @@ public final class GameDrawer {
         for (GameDrawableTexture gameDrawableTexture : this.gameDrawablesWithTexture) {
             gameDrawableTexture.loadTexture();
         }
-        this.gameDrawablesWithTexture = null;
+        this.gameDrawablesWithTexture.clear();
     }
     
     private final class Train implements GameDrawableTexture {
         
-        private Texture texture = new Texture(10.0f, 10.0f);
+        private Texture trainTexture = new Texture(6.0f, 6.0f);
+        private Texture rails = new Texture(1.0f, 1.0f);
         
         @Override
         public void draw() {
-            GameDrawer.this.gl.glLoadIdentity();
-            GameDrawer.this.gl.glTranslatef(-4.0f, 6.0f, -20.0f);
+            GameDrawer.this.gl.glLoadIdentity(); // reset the position
             
-            this.texture.draw(GameDrawer.this.gl);
+            GameDrawer.this.gl.glTranslatef(-3.0f, 0.0f, -20.0f);
+            //this.rails.draw(GameDrawer.this.gl);
+            
+            GameDrawer.this.gl.glTranslatef(6.0f, 2.0f, 0.0f);
+            this.trainTexture.draw(GameDrawer.this.gl);
         }
 
         @Override
         public void loadTexture() {
-            this.texture.loadGLTexture(GameDrawer.this.gl, GameDrawer.this.context, R.drawable.train);
+            this.trainTexture.loadGLTexture(GameDrawer.this.gl, GameDrawer.this.context, R.drawable.trainudenpoweroftwo, Texture.AspectRatio.KeepHeight);
+            
         }
     }
 }

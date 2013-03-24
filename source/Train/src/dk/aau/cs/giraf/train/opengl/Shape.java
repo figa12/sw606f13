@@ -14,15 +14,15 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public abstract class Shape {
     
-    /** The width of the shape */
+    /** The width of the shape. */
     private float width = 0.0f;
-    /** The height of the shape */
+    /** The height of the shape. */
     private float height = 0.0f;
     
-    /** The buffer holding the vertices */
+    /** The buffer holding the vertices. */
     private FloatBuffer vertexBuffer;
     
-    /** The initial vertex definition */
+    /** The initial vertex definition. */
     private float vertices[];
     
     /**
@@ -38,8 +38,16 @@ public abstract class Shape {
         this.width = width;
         this.height = height;
         
-        // Create the vertices based on the size of the square
-        this.vertices = this.createVertices(width, height);
+        this.initialiseVertexBuffer();
+    }
+    
+    /**
+     * Creates the vertices based on the saved {@link #width} and {@link #height}.
+     * Then initiates a {@link FloatBuffer} for the {@link #vertexBuffer} based on the {@link #vertices}.
+     */
+    private void initialiseVertexBuffer() {
+        // Create the vertices based on the size of the shape
+        this.vertices = this.createVertices(this.width, this.height);
         
         // Initiate the vertex buffer
         ByteBuffer byteBuf = ByteBuffer.allocateDirect(this.vertices.length * 4);
@@ -62,7 +70,7 @@ public abstract class Shape {
      * Get this shape's vertex buffer.
      * @return {@link FloatBuffer} vertexBuffer
      */
-    public final FloatBuffer getVertexBuffer() {
+    public FloatBuffer getVertexBuffer() {
         return this.vertexBuffer;
     }
     
@@ -70,7 +78,7 @@ public abstract class Shape {
      * Get the vertices forming this shape.
      * @return float[] vertices
      */
-    public final float[] getVertices() {
+    public float[] getVertices() {
         return this.vertices;
     }
     
@@ -78,7 +86,7 @@ public abstract class Shape {
      * Get the width.
      * @return float width
      */
-    public final float getWidth() {
+    public float getWidth() {
         return this.width;
     }
     
@@ -86,8 +94,26 @@ public abstract class Shape {
      * Get the height.
      * @return float height
      */
-    public final float getHeight() {
+    public float getHeight() {
         return this.height;
+    }
+    
+    /**
+     * Set the width of the shape.
+     * @param width new value
+     */
+    protected void setWidth(float width) {
+        this.width = width;
+        this.initialiseVertexBuffer(); // recreate vertices
+    }
+    
+    /**
+     * Set the height of the shape.
+     * @param height new value
+     */
+    protected void setHeight(float height) {
+        this.height = height;
+        this.initialiseVertexBuffer(); // recreate vertices
     }
     
     /**
