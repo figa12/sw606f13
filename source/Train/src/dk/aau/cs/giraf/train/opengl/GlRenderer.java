@@ -4,14 +4,14 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.opengl.GLES20;
+import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
 import android.util.TimingLogger;
 
 /** 
- * The renderer which draws on GLSurfaceView.
- * The code comes from {@link http://insanitydesign.com/wp/projects/nehe-android-ports/}
+ * The renderer which draws on {@link GLSurfaceView}.
  * 
  * @author Jesper
  * @see Renderer
@@ -19,17 +19,20 @@ import android.util.TimingLogger;
 public class GlRenderer implements Renderer {
     
     /* Constants */
-    private static final float NEAR_CLIPPING_PLANE_DEPTH = 0.1f;
-    private static final float FAR_CLIPPING_PLANE_DEPTH = 100.0f;
+    private static final float NEAR_CLIPPING_PLANE_DEPTH = 907.0f;
+    private static final float FAR_CLIPPING_PLANE_DEPTH = 1000.0f;
     private static final float FIELD_OF_VIEW_ANGLE = 45.0f;
+    private static final float DRAWING_DEPTH = 5.0f;
     
     /** The width of the GLSurfaceView */
     private int width;
     /** The height of the GLSurfaceView */
     private int height;
     
+    /** The class that does all the drawing */
     private GameDrawer gameDrawer;
     
+    /** Apllication context, used to get resources */
     private Context context;
     
     public GlRenderer(Context context) {
@@ -83,6 +86,11 @@ public class GlRenderer implements Renderer {
         
         this.width = width;
         this.height = height;
+        
+        //Calculate the visible height/width and send it to the gameDrawer
+        float visibleHeight = this.getActualHeight(this.DRAWING_DEPTH);
+        float visibleWidth = this.getActualWidth(visibleHeight);
+        this.gameDrawer.setVisibleLimits(visibleWidth, visibleHeight);
         
         gl.glViewport(0, 0, width, height); 	//Reset The Current Viewport
         gl.glMatrixMode(GL10.GL_PROJECTION); 	//Select The Projection Matrix, the next lines affects this
@@ -150,8 +158,6 @@ public class GlRenderer implements Renderer {
         /* Set up face culling */
         gl.glEnable(GL10.GL_CULL_FACE); //Enable face culling
         gl.glCullFace(GL10.GL_BACK);    // specify which faces to not draw
-        
-        
         
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST); // Really Nice Perspective Calculations
         

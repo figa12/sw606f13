@@ -6,6 +6,12 @@ import dk.aau.cs.giraf.train.R;
 import android.content.Context;
 
 
+/**
+ * This class handles all drawing.
+ * @author jerian
+ * @see GameDrawer#drawGame()
+ * @see GameDrawer#loadAllTexture()
+ */
 public final class GameDrawer {
     
     private interface GameDrawable {
@@ -18,6 +24,8 @@ public final class GameDrawer {
     
     private GL10 gl;
     private Context context;
+    private float visibleWidth = 1.0f;
+    private float visibleHeight = 1.0f;
     
     private ArrayList<GameDrawable> gameDrawables = new ArrayList<GameDrawable>();
     private ArrayList<GameDrawableTexture> gameDrawablesWithTexture = new ArrayList<GameDrawableTexture>();
@@ -31,6 +39,11 @@ public final class GameDrawer {
         this.addGameDrawable(new Train());
     }
     
+    public void setVisibleLimits(float visibleWidth, float visibleHeight) {
+        this.visibleWidth = visibleWidth;
+        this.visibleHeight = visibleHeight;
+    }
+    
     private final void addGameDrawable(GameDrawable gameDrawable) {
         this.gameDrawables.add(gameDrawable);
         
@@ -39,6 +52,7 @@ public final class GameDrawer {
         }
     }
     
+    /** Draw everything on screen */
     public final void drawGame() {
         this.gl.glLoadIdentity(); //Reset The Current Modelview Matrix
         
@@ -47,6 +61,7 @@ public final class GameDrawer {
         }
     }
     
+    /** Loads all texture */
     public final void loadAllTexture() {
         for (GameDrawableTexture gameDrawableTexture : this.gameDrawablesWithTexture) {
             gameDrawableTexture.loadTexture();
@@ -56,23 +71,23 @@ public final class GameDrawer {
     
     private final class Train implements GameDrawableTexture {
         
-        private Texture trainTexture = new Texture(6.0f, 6.0f);
+        private Texture train = new Texture(395.0f, 283.0f);
         private Texture rails = new Texture(1.0f, 1.0f);
         
         @Override
         public void draw() {
             GameDrawer.this.gl.glLoadIdentity(); // reset the position
             
-            GameDrawer.this.gl.glTranslatef(-3.0f, 0.0f, -20.0f);
+            GameDrawer.this.gl.glTranslatef(-3.0f, 0.0f, -907.744f);
             //this.rails.draw(GameDrawer.this.gl);
             
             GameDrawer.this.gl.glTranslatef(6.0f, 2.0f, 0.0f);
-            this.trainTexture.draw(GameDrawer.this.gl);
+            this.train.draw(GameDrawer.this.gl);
         }
 
         @Override
         public void loadTexture() {
-            this.trainTexture.loadGLTexture(GameDrawer.this.gl, GameDrawer.this.context, R.drawable.train, Texture.AspectRatio.KeepHeight);
+            this.train.loadGLTexture(GameDrawer.this.gl, GameDrawer.this.context, R.drawable.train, Texture.AspectRatio.KeepBoth);
             
         }
     }

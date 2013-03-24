@@ -69,7 +69,7 @@ public class Texture extends Square {
     }
     
     /**
-     * The aspect ratio setting used two rescale the shape according to the texture<br><br>
+     * The aspect ratio setting used to rescale the shape according to the texture<br><br>
      * {@code KeepWidth} resizes the height<br>
      * {@code KeepHeight} resizes the width<br>
      * {@code KeepBoth} does not resize the shape, keeps the original width and height<br>
