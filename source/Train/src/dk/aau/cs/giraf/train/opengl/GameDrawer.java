@@ -72,7 +72,7 @@ public final class GameDrawer {
 
         @Override
         public void loadTexture() {
-            this.trainTexture.loadGLTexture(GameDrawer.this.gl, GameDrawer.this.context, R.drawable.trainudenpoweroftwo, Texture.AspectRatio.KeepHeight);
+            this.trainTexture.loadGLTexture(GameDrawer.this.gl, GameDrawer.this.context, R.drawable.train, Texture.AspectRatio.KeepHeight);
             
         }
     }
