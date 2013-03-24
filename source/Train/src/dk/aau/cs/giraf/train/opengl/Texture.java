@@ -75,7 +75,7 @@ public class Texture extends Square {
      * {@code KeepBoth} does not resize the shape, keeps the original width and height<br>
      */
     public enum AspectRatio {
-        KeepWidth, KeepHeight, KeepBoth
+        KeepWidth, KeepHeight, KeepBoth, BitmapOneToOne
     }
     
     /**
@@ -92,6 +92,10 @@ public class Texture extends Square {
             break;
         case KeepWidth:
             super.setHeight(super.getWidth() * ((float) bitmapHeight / bitmapWidth));
+            break;
+        case BitmapOneToOne:
+            super.setWidth(bitmapWidth);
+            super.setHeight(bitmapHeight);
             break;
         default:
             // do nothing
