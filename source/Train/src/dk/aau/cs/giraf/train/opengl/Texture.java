@@ -177,7 +177,7 @@ public class Texture extends Square {
         this.setAspectRatio(option, bitmap.getWidth(), bitmap.getHeight());
         
         //Resizes the bitmap to a power-of-two and crops the texture accordingly
-        Bitmap newBitmap = this.resizeBitmap(bitmap);
+        //bitmap = this.resizeBitmap(bitmap);
         
         //Generate one texture pointer...
         gl.glGenTextures(1, textures, 0);
@@ -191,11 +191,10 @@ public class Texture extends Square {
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE); // stretch according to texture vertices
         
         //Use the Android GLUtils to specify a two-dimensional texture image from our bitmap
-        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, newBitmap, 0);
+        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
         
         //Clean up. Sends the bitmap to the garbage collector
         bitmap.recycle();
-        newBitmap.recycle();
     }
     
     /**
@@ -217,15 +216,18 @@ public class Texture extends Square {
         int newWidth = this.getNextPowerOfTwo(bitmap.getWidth());
         int newHeight = this.getNextPowerOfTwo(bitmap.getHeight());
         
-        /* Check whether the bitmap was already the correct size */
+        // Check whether the bitmap was already the correct size
         if(newWidth != bitmap.getWidth() || newHeight != bitmap.getHeight()) {
-            /* Create a new bitmap that is a power-of-two */
+            // Create a new bitmap that is a power-of-two
             Bitmap newBitmap = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(newBitmap);
             canvas.drawBitmap(bitmap, 0.0f, 0.0f, null);
             
             // Crop the texture to fit the original size
             this.cropTexture(bitmap.getWidth(), bitmap.getHeight(), newWidth, newHeight);
+            
+            // Clean up. Send to garbage collector
+            bitmap.recycle();
             
             return newBitmap;
         }
