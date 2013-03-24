@@ -214,10 +214,8 @@ public class Texture extends Square {
      * @return A new bitmap with power-of-two width/height 
      */
     private Bitmap resizeBitmap(Bitmap bitmap) {
-        int oldWidth = bitmap.getWidth();
-        int oldHeight = bitmap.getHeight();
-        int newWidth = this.getNextPowerOfTwo(oldWidth);
-        int newHeight = this.getNextPowerOfTwo(oldHeight);
+        int newWidth = this.getNextPowerOfTwo(bitmap.getWidth());
+        int newHeight = this.getNextPowerOfTwo(bitmap.getHeight());
         
         /* Check whether the bitmap was already the correct size */
         if(newWidth != bitmap.getWidth() || newHeight != bitmap.getHeight()) {
@@ -227,7 +225,7 @@ public class Texture extends Square {
             canvas.drawBitmap(bitmap, 0.0f, 0.0f, null);
             
             // Crop the texture to fit the original size
-            this.cropTexture(oldWidth, oldHeight, newWidth, newHeight);
+            this.cropTexture(bitmap.getWidth(), bitmap.getHeight(), newWidth, newHeight);
             
             return newBitmap;
         }
