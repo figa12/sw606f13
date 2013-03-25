@@ -3,164 +3,230 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-        
+
         <dk.aau.cs.giraf.train.opengl.GlView
             android:id="@+id/openglview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
     </FrameLayout>
-    
-    <FrameLayout
-        android:id="@+id/Cart1LayoutLeft"
-        android:layout_width="150dp"
+
+    <!-- Cart1 -->
+
+    <LinearLayout
+        android:id="@+id/Cart1LinearLayout"
+        android:layout_width="310dp"
         android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="480dp"
-        android:background="@drawable/shape"
-        android:tag="filled" >
-        <ImageView
-            android:id="@+id/myimage2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/nej" />
+        android:orientation="horizontal" >
 
-    </FrameLayout>
+        <!-- Cart1Left -->
 
-    <FrameLayout
-        android:id="@+id/Cart1LayoutRight"
-        android:layout_width="150dp"
+        <FrameLayout
+            android:id="@+id/Cart1LeftLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:tag="filled" >
+
+            <ImageView
+                android:id="@+id/Cart1LeftImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/nej" >
+            </ImageView>
+        </FrameLayout>
+
+        <!-- Cart1Right -->
+
+        <FrameLayout
+            android:id="@+id/Cart1RightLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:tag="filled" >
+
+            <ImageView
+                android:id="@+id/Cart1RightImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/bade" >
+            </ImageView>
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- Cart2 -->
+
+    <LinearLayout
+        android:id="@+id/Cart2LinearLayout"
+        android:layout_width="310dp"
         android:layout_height="150dp"
-        android:layout_marginLeft="250dp"
-        android:layout_marginTop="480dp"
-        android:background="@drawable/shape"
-        android:tag="filled" >
-           
-        <ImageView
-            android:id="@+id/myimage3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/mig" />
-    </FrameLayout>
+        android:layout_alignBottom="@id/Cart1LinearLayout"
+        android:layout_marginLeft="70dp"
+        android:layout_toRightOf="@id/Cart1LinearLayout"
+        android:orientation="horizontal" >
 
-    <FrameLayout
-        android:id="@+id/Cart2LayoutLeft"
-        android:layout_width="150dp"
+        <!-- Cart2Left -->
+
+        <FrameLayout
+            android:id="@+id/Cart2LeftLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:tag="filled" >
+
+            <ImageView
+                android:id="@+id/Cart2LeftImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/se" >
+            </ImageView>
+        </FrameLayout>
+
+        <!-- Cart2Right -->
+
+        <FrameLayout
+            android:id="@+id/Cart2RightLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape"
+            android:tag="filled" >
+
+            <ImageView
+                android:id="@+id/Cart2RightImageView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:src="@drawable/mig" >
+            </ImageView>
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- TrainStation -->
+
+    <LinearLayout
+        android:id="@+id/StationLeftLinearLayout"
+        android:layout_width="310dp"
         android:layout_height="150dp"
-        android:layout_marginLeft="460dp"
-        android:layout_marginTop="480dp"
-        android:background="@drawable/shape"
-        android:tag="filled" >       
-        
-        <ImageView
-            android:id="@+id/myimage4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/bade" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/Cart2LayoutRight"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginLeft="630dp"
-        android:layout_marginTop="480dp"
-        android:background="@drawable/shape"
-        android:tag="filled" >
-
-        <ImageView
-            android:id="@+id/myimage1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/se" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/TrainLayout"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginLeft="830dp"
-        android:layout_marginTop="400dp"
-        android:background="@drawable/shape" >
-
-        <ImageView
-            android:id="@+id/myimage10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/Platform1Layout"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="250dp"
-        android:background="@drawable/shape" >
+        android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/myimage9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
+        <!-- Spot1 -->
 
-    <FrameLayout
-        android:id="@+id/Platform2Layout"
+        <FrameLayout
+            android:id="@+id/Spot1LeftLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape" >
+
+            <ImageView
+                android:id="@+id/Spot1LeftImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </ImageView>
+        </FrameLayout>
+        <!-- Spot2 -->
+
+        <FrameLayout
+            android:id="@+id/Spot2RightLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape" >
+
+            <ImageView
+                android:id="@+id/Spot2RightImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </ImageView>
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- StationRight -->
+
+    <LinearLayout
+        android:id="@+id/StationRightLinearLayout"
+        android:layout_width="310dp"
+        android:layout_height="150dp"
+        android:layout_alignBottom="@id/StationLeftLinearLayout"
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@id/StationLeftLinearLayout"
+        android:orientation="horizontal" >
+
+        <!-- Spot3 -->
+
+        <FrameLayout
+            android:id="@+id/Spot3LeftLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape" >
+
+            <ImageView
+                android:id="@+id/Spot3LeftImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </ImageView>
+        </FrameLayout>
+        <!-- Spot4 -->
+
+        <FrameLayout
+            android:id="@+id/Spot4RightLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape" >
+
+            <ImageView
+                android:id="@+id/Spot4RightImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </ImageView>
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- TrainDriver -->
+    <LinearLayout
+        android:id="@+id/TrainDriverLinearLayout"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginLeft="215dp"
-        android:layout_marginTop="250dp"
-        android:background="@drawable/shape" >
+        android:layout_alignBottom="@id/StationRightLinearLayout"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_toRightOf="@id/StationRightLinearLayout"
+        android:orientation="horizontal" >
+        
+        <FrameLayout
+            android:id="@+id/Spot4RightLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape" >
 
-        <ImageView
-            android:id="@+id/myimage8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
+            <ImageView
+                android:id="@+id/Spot4RightImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </ImageView>
+        </FrameLayout>
+    </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/Platform3Layout"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginLeft="405dp"
-        android:layout_marginTop="250dp"
-        android:background="@drawable/shape" >
-
-        <ImageView
-            android:id="@+id/myimage7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/Platform4Layout"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginLeft="592dp"
-        android:layout_marginTop="250dp"
-        android:background="@drawable/shape" >
-
-        <ImageView
-            android:id="@+id/myimage6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/StationLayout"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginLeft="400dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/shape" >
-
-        <ImageView
-            android:id="@+id/myimage5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
-    
-    
-</RelativeLayout> 
+</RelativeLayout>
