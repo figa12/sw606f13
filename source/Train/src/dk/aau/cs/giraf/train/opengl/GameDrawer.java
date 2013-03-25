@@ -132,7 +132,7 @@ public final class GameDrawer {
 		private Texture mediumWheel = new Texture(1.0f, 1.0f); // wheel diameter 78.71
 		private Texture smallWheel = new Texture(1.0f, 1.0f); // wheel diameter 60.8
 		private Texture wheelShaft = new Texture(1.0f, 1.0f);
-		//private Texture ground = new Texture(1.0f, 1.0f);
+		private RepeatableTexture ground = new RepeatableTexture(1280.0f, 21.0f);
 
 		@Override
 		public void draw() {
@@ -167,11 +167,11 @@ public final class GameDrawer {
 			gl.glTranslatef(-43.17f, -42.48f, 0);
 			this.wheelShaft.draw(gl);
 			
-			/*//Ground
+			//Ground
 			gl.glLoadIdentity();
 			
 			gl.glTranslatef(-640f, -356f, DRAWING_DEPTH);
-			this.ground.draw(gl);*/	
+			this.ground.draw(gl);
 
 			
 		}
@@ -182,7 +182,7 @@ public final class GameDrawer {
 			this.largeWheel.loadTexture(gl, context, R.drawable.texture_wheel_large, Texture.AspectRatio.BitmapOneToOne);
 			this.smallWheel.loadTexture(gl, context, R.drawable.texture_wheel_small, Texture.AspectRatio.BitmapOneToOne);
 			this.wheelShaft.loadTexture(gl, context, R.drawable.texture_wheel_shaft, Texture.AspectRatio.BitmapOneToOne);
-			//this.ground.loadGLTexture(gl, context, R.drawable.texture_ground, Texture.AspectRatio.BitmapOneToOne);
+			this.ground.loadTexture(gl, context, R.drawable.texture_ground_mini);
 			
 		}
 		
