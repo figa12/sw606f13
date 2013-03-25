@@ -6,27 +6,25 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import dk.aau.cs.giraf.train.R;
-
-import android.app.Application;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.opengl.GLUtils;
 
 /**
  * A Texture class that extends the {@link Square} class.
  * The texture will always stretch to the specified size.
- * Use {@link #loadGLTexture(GL10, Context, int)} to load the texture into OpenGL.
+ * Use {@link #loadTexture(GL10, Context, int)} to load the texture into OpenGL.
  * 
  * @author Jesper
  * @see Square
  * @see Shape
  */
 public class Texture extends Square {
+    
+    /** If true: Loading texture will generate an equivalent power-of-two sized bitmap texture. */
+    protected final boolean GENERATE_POWER_OF_TWO_EQUIVALENT = false;
     
     /** 
      * The texture pointer to memory.
@@ -37,8 +35,10 @@ public class Texture extends Square {
     /** The buffer holding the texture coordinates */
     private FloatBuffer textureBuffer;
     
-    /** The texture coordinates.
-     * The order of the coordinates determines the orientation of the texture. */   
+    /** 
+     * The texture coordinates.
+     * The order of the coordinates determines the orientation of the texture.
+     */   
     private float textureCoordinates[] = {
         // Mapping coordinates for the vertices
         0.0f, 0.0f,    // bottom left  (V1)
@@ -49,7 +49,6 @@ public class Texture extends Square {
     
     /** 
      * Sets the size of the texture and initialises a {@link FloatBuffer} for the vertices.
-     * 
      * @see Square#Square(float, float)
      * @param width
      * @param height
@@ -66,6 +65,15 @@ public class Texture extends Square {
         textureBuffer = byteBuf.asFloatBuffer();
         textureBuffer.put(textureCoordinates);
         textureBuffer.position(0);
+    }
+    
+    /**
+     * Set new texture coordinates and reinitialise the texture buffer.
+     * @param textureCoordinates The new texture coordinates
+     */
+    protected void setTextureCoordinates(float[] textureCoordinates) {
+        this.textureCoordinates = textureCoordinates;
+        this.initialiseTextureBuffer();
     }
     
     /**
@@ -154,34 +162,23 @@ public class Texture extends Square {
         gl.glDisable(GL10.GL_TEXTURE_2D);
     }
     
-    /** 
-     * Loads the specified texture.
-     * 
-     * @param gl              the GL10 instance
-     * @param context         the current activity context
-     * @param resourcePointer a pointer to the resource to load
+    /**
+     * Generate the texture and the pointer.
+     * @param gl                 the GL10 instance
+     * @param context            the current activity context
+     * @param resourcePointer    a pointer to the resource to load
+     * @param option             specify which length to keep when resizing the shape to match the texture's aspect ratio
+     * @param glTextureParameter the wrap texture parameter
      */
-    public void loadGLTexture(GL10 gl, Context context, int resourcePointer) {
-        this.loadGLTexture(gl, context, resourcePointer, AspectRatio.KeepBoth);
-    }
-    
-    /** 
-     * Loads the specified texture.
-     * 
-     * @param gl              the GL10 instance
-     * @param context         the current activity context
-     * @param resourcePointer a pointer to the resource to load
-     * @param option          specify which length to keep when resizing the shape to match the texture's aspect ratio
-     */
-    public void loadGLTexture(GL10 gl, Context context, int resourcePointer, AspectRatio option) {
-        //Get the texture from the Android resource directory
+    protected void generateTexturePointer(GL10 gl, Context context, int resourcePointer, AspectRatio option, int glTextureParameter) {
+      //Get the texture from the Android resource directory
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourcePointer);
         
         //Resizes the shape to fit the aspect ratio
         this.setAspectRatio(option, bitmap.getWidth(), bitmap.getHeight());
         
         //Resizes the bitmap to a power-of-two and crops the texture accordingly
-        //bitmap = this.resizeBitmap(bitmap);
+        if(this.GENERATE_POWER_OF_TWO_EQUIVALENT) bitmap = this.resizeBitmap(bitmap);
         
         //Generate one texture pointer...
         gl.glGenTextures(1, textures, 0);
@@ -191,14 +188,35 @@ public class Texture extends Square {
         //Specify parameters for texture
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR); // use LINEAR when upscaling
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR); // use LINEAR when downscaling
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE); // stretch according to texture vertices
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE); // stretch according to texture vertices
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, glTextureParameter);
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, glTextureParameter);
         
         //Use the Android GLUtils to specify a two-dimensional texture image from our bitmap
         GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
         
         //Clean up. Sends the bitmap to the garbage collector
         bitmap.recycle();
+    }
+    
+    /** 
+     * Loads the specified texture.
+     * @param gl              the GL10 instance
+     * @param context         the current activity context
+     * @param resourcePointer a pointer to the resource to load
+     */
+    public void loadTexture(GL10 gl, Context context, int resourcePointer) {
+        this.loadTexture(gl, context, resourcePointer, AspectRatio.KeepBoth);
+    }
+    
+    /** 
+     * Loads the specified texture.
+     * @param gl              the GL10 instance
+     * @param context         the current activity context
+     * @param resourcePointer a pointer to the resource to load
+     * @param option          specify which length to keep when resizing the shape to match the texture's aspect ratio
+     */
+    public void loadTexture(GL10 gl, Context context, int resourcePointer, AspectRatio option) {
+        this.generateTexturePointer(gl, context, resourcePointer, option, GL10.GL_CLAMP_TO_EDGE); // make 'clamp to edge' default
     }
     
     /**
@@ -247,13 +265,12 @@ public class Texture extends Square {
      * @see #resizeBitmap(Bitmap)
      */
     private void cropTexture(int oldWidth, int oldHeight, int newWidth, int newHeight) {
-        this.textureCoordinates = new float[] {
+        this.setTextureCoordinates(new float[] {
                 // Mapping coordinates for the vertices
                 0.0f, 0.0f,                                            // bottom left  (V1)
                 (float) oldWidth/newWidth, 0.0f,                       // bottom right (V3)
                 0.0f, (float) oldHeight/newHeight,                     // top left     (V2)
                 (float) oldWidth/newWidth, (float) oldHeight/newHeight // top right    (V4)
-            };
-        this.initialiseTextureBuffer();
+            });
     }
 }

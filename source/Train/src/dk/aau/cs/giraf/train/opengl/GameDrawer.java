@@ -84,7 +84,7 @@ public final class GameDrawer {
 
         @Override
         public void loadTexture() {
-            this.train.loadGLTexture(gl, context, R.drawable.texture_train, Texture.AspectRatio.BitmapOneToOne);
+            this.train.loadTexture(gl, context, R.drawable.texture_train, Texture.AspectRatio.BitmapOneToOne);
             
         }
     }
