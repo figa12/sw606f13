@@ -3,10 +3,6 @@ package dk.aau.cs.giraf.train.opengl;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.opengl.GLUtils;
-
 
 /**
  * Should have a power-of-two size //TODO more explaining
@@ -14,9 +10,6 @@ import android.opengl.GLUtils;
  * @see Texture
  */
 public class RepeatableTexture extends Texture {
-    
-    private float textureWidth;
-    private float textureheight;
     
     public RepeatableTexture(float width, float height) {
         super(width, height);
