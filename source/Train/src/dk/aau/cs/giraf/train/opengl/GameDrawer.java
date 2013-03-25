@@ -36,6 +36,7 @@ public final class GameDrawer {
 		this.context = context;
 
 		// add GameDrawables to the list in the order they should be drawn
+		this.addGameDrawable(new Station());
 		this.addGameDrawable(new Train());
 		this.addGameDrawable(new Wheels());
 	}
@@ -69,6 +70,25 @@ public final class GameDrawer {
 			gameDrawableTexture.loadTexture();
 		}
 		this.gameDrawablesWithTexture.clear();
+	}
+	
+	private final class Station implements GameDrawableTexture {
+		private Texture trainStation = new Texture(1.0f, 1.0f);
+
+		@Override
+		public void draw() {
+			gl.glLoadIdentity(); // reset the position
+
+			gl.glTranslatef(-588.64f, 376f, DRAWING_DEPTH);
+			this.trainStation.draw(gl);
+			
+		}
+
+		@Override
+		public void loadTexture() {
+			this.trainStation.loadTexture(gl, context, R.drawable.texture_train_station, Texture.AspectRatio.BitmapOneToOne);
+			
+		}
 	}
 
 	private final class Train implements GameDrawableTexture {
