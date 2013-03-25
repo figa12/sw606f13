@@ -72,19 +72,19 @@ public final class GameDrawer {
     
     private final class Train implements GameDrawableTexture {
         
-        private Texture train = new Texture(395.0f, 283.0f);
+        private Texture train = new Texture(1.0f, 1.0f);
         
         @Override
         public void draw() {
-            GameDrawer.this.gl.glLoadIdentity(); // reset the position
+            gl.glLoadIdentity(); // reset the position
             
-            GameDrawer.this.gl.glTranslatef(-GameDrawer.this.visibleWidth/2, GameDrawer.this.visibleHeight/2, GameDrawer.this.DRAWING_DEPTH);
-            this.train.draw(GameDrawer.this.gl);
+            gl.glTranslatef(-visibleWidth/2, visibleHeight/2, DRAWING_DEPTH);
+            this.train.draw(gl);
         }
 
         @Override
         public void loadTexture() {
-            this.train.loadGLTexture(GameDrawer.this.gl, GameDrawer.this.context, R.drawable.train);
+            this.train.loadGLTexture(gl, context, R.drawable.texture_train, Texture.AspectRatio.BitmapOneToOne);
             
         }
     }
