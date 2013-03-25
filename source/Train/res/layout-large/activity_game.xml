@@ -194,5 +194,58 @@
             </ImageView>
         </FrameLayout>
     </LinearLayout>
+    
+        <!-- TrainDriver -->
+
+    <LinearLayout
+        android:id="@+id/TrainDriverLinearLayout"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignBottom="@id/Cart2LinearLayout"
+        android:layout_marginBottom="75dp"
+        android:layout_marginLeft="70dp"
+        android:layout_toRightOf="@id/Cart2LinearLayout"
+        android:orientation="horizontal" >
+
+        <FrameLayout
+            android:id="@+id/TrainDriverLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape" >
+
+            <ImageView
+                android:id="@+id/TrainDriverImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </ImageView>
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- StationCategory -->
+
+    <LinearLayout
+        android:id="@+id/StationCategoryLinearLayout"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="270dp"
+        android:orientation="horizontal" >
+
+        <FrameLayout
+            android:id="@+id/StationCategoryLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape" >
+
+            <ImageView
+                android:id="@+id/StationCategoryImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </ImageView>
+        </FrameLayout>
+    </LinearLayout>
 
 </RelativeLayout>
