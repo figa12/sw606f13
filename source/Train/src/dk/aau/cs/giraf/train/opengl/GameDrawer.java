@@ -104,18 +104,17 @@ public final class GameDrawer {
 			gl.glTranslatef(-542.32f, -142.72f, DRAWING_DEPTH);
 			this.wagon.draw(gl);
 
-			gl.glTranslatef(314.87f, -152f, 0);
-			this.shaft.draw(gl, 0, 0, 0, 1);
+			gl.glTranslatef(314.87f, -152f, 0f);
+			this.shaft.draw(gl, 0f, 0f, 0f, 1f);
 
-			gl.glTranslatef(40f, 152f, 0);
+			gl.glTranslatef(40f, 152f, 0f);
 			this.wagon.draw(gl);
 
-			gl.glTranslatef(314.87f, -152f, 0);
-			this.shaft.draw(gl, 0, 0, 0, 1);
+			gl.glTranslatef(314.87f, -152f, 0f);
+			this.shaft.draw(gl, 0f, 0f, 0f, 1f);
 
-			gl.glTranslatef(33f, 242.35f, 0);
+			gl.glTranslatef(33f, 242.35f, 0f);
 			this.train.draw(gl);
-		
 	}
 
 		@Override
@@ -132,7 +131,7 @@ public final class GameDrawer {
 		private Texture mediumWheel = new Texture(1.0f, 1.0f); // wheel diameter 78.71
 		private Texture smallWheel = new Texture(1.0f, 1.0f); // wheel diameter 60.8
 		private Texture wheelShaft = new Texture(1.0f, 1.0f);
-		private RepeatableTexture ground = new RepeatableTexture(1280.0f, 21.0f);
+		private Texture ground = new Texture(1280.0f, 21.0f); // should be 1280.0 , 21.0
 
 		@Override
 		public void draw() {
@@ -143,13 +142,13 @@ public final class GameDrawer {
 			gl.glTranslatef(-507.08f, -277.04f, DRAWING_DEPTH);
 			this.mediumWheel.draw(gl);
 
-			gl.glTranslatef(167.56f, 0f, 0);
+			gl.glTranslatef(167.56f, 0f, 0f);
 			this.mediumWheel.draw(gl);
 			
-			gl.glTranslatef(187.38f, 0f, 0);
+			gl.glTranslatef(187.38f, 0f, 0f);
 			this.mediumWheel.draw(gl);
 			
-			gl.glTranslatef(167.56f, 0f, 0);
+			gl.glTranslatef(167.56f, 0f, 0f);
 			this.mediumWheel.draw(gl);
 			
 			//Train wheels
@@ -158,13 +157,13 @@ public final class GameDrawer {
 			gl.glTranslatef(191.02f, -250.74f, DRAWING_DEPTH);
 			this.largeWheel.draw(gl);
 			
-			gl.glTranslatef(153.56f, -45.6f, 0);
+			gl.glTranslatef(153.56f, -45.6f, 0f);
 			this.smallWheel.draw(gl);
 		
-			gl.glTranslatef(79.55f, 0f, 0);
+			gl.glTranslatef(79.55f, 0f, 0f);
 			this.smallWheel.draw(gl);
 			
-			gl.glTranslatef(-43.17f, -42.48f, 0);
+			gl.glTranslatef(-43.17f, -42.48f, 0f);
 			this.wheelShaft.draw(gl);
 			
 			//Ground
@@ -172,8 +171,6 @@ public final class GameDrawer {
 			
 			gl.glTranslatef(-640f, -356f, DRAWING_DEPTH);
 			this.ground.draw(gl);
-
-			
 		}
 
 		@Override
@@ -183,9 +180,6 @@ public final class GameDrawer {
 			this.smallWheel.loadTexture(gl, context, R.drawable.texture_wheel_small, Texture.AspectRatio.BitmapOneToOne);
 			this.wheelShaft.loadTexture(gl, context, R.drawable.texture_wheel_shaft, Texture.AspectRatio.BitmapOneToOne);
 			this.ground.loadTexture(gl, context, R.drawable.texture_ground_mini);
-			
 		}
-		
 	}
-	
 }

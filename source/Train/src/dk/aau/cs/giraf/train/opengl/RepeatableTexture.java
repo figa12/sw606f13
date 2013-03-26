@@ -3,21 +3,35 @@ package dk.aau.cs.giraf.train.opengl;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 /**
- * Should have a power-of-two size //TODO more explaining
- * @author jerian
+ * The class extends {@link Texture}. The given texture is repeated relative to the repeat-style.
+ * This class has compatibility issues.
+ * @author Jesper
  * @see Texture
  */
 public class RepeatableTexture extends Texture {
     
-    public RepeatableTexture(float width, float height) {
+    protected Style style;
+    protected float numberOfRepeats;
+    
+    public RepeatableTexture(float width, float height, Style style, float numberOfRepeats) {
         super(width, height);
+        super.GENERATE_POWER_OF_TWO_EQUIVALENT = false; // will not work with repeatable texture
+        
+        this.style = style;
+        this.numberOfRepeats = numberOfRepeats;
     }
     
     @Override
     public void loadTexture(GL10 gl, Context context, int resourcePointer) {
-        super.generateTexturePointer(gl, context, resourcePointer, Texture.AspectRatio.KeepBoth, GL10.GL_REPEAT);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourcePointer);
+        
+        this.setRepeatableTexture(style, bitmap.getWidth(), bitmap.getHeight(), this.numberOfRepeats);
+        
+        super.generateTexturePointer(gl, context, bitmap, Texture.AspectRatio.KeepBoth, GL10.GL_REPEAT);
     }
     
     @Override
@@ -26,27 +40,34 @@ public class RepeatableTexture extends Texture {
     }
     
     public enum Style {
-        RepeatHorizontally, RepeatVertically, RepeatBoth
+        RepeatHorizontally, RepeatVertically
     }
     
-    public void setRepeatableTexture(Style option, float numberOfRepeats) {
-        // investigate whether this should be called before or after loading texture
+    protected void setRepeatableTexture(Style option, int bitmapWidth, int bitmapHeight, float numberOfRepeats) {
+        // investigate when method should be called
         switch(option) {
-        case RepeatBoth:
-            // use bitmap size
+        case RepeatHorizontally: // numberOfRepeats = vertically
+            super.setTextureCoordinates(new float[] {
+                    // Mapping coordinates for the vertices
+                    0.0f, 0.0f,                                                         // bottom left  (V1)
+                    numberOfRepeats * (super.getWidth() / bitmapWidth), 0.0f,           // bottom right (V3)
+                    0.0f, numberOfRepeats,                                              // top left     (V2)
+                    numberOfRepeats * (super.getWidth() / bitmapWidth), numberOfRepeats // top right    (V4)
+            });
             break;
-        case RepeatHorizontally:
-            
-            break;
-        case RepeatVertically:
-            
-            break;
-        default:
+        case RepeatVertically: // numberOfRepeats = horizontally
+            super.setTextureCoordinates(new float[] {
+                    // Mapping coordinates for the vertices
+                    0.0f, 0.0f,                                                           // bottom left  (V1)
+                    numberOfRepeats, 0.0f,                                                // bottom right (V3)
+                    0.0f, numberOfRepeats * (super.getHeight() / bitmapHeight),           // top left     (V2)
+                    numberOfRepeats, numberOfRepeats * (super.getHeight() / bitmapHeight) // top right    (V4)
+            });
             break;
         }
     }
     
-    public void setRepeatableTexture(Style option) {
-        this.setRepeatableTexture(option, 1);
+    protected void setRepeatableTexture(Style option, int bitmapWidth, int bitmapHeight) {
+        this.setRepeatableTexture(option, bitmapWidth, bitmapHeight, 1.0f);
     }
 }
