@@ -5,12 +5,14 @@ import android.graphics.Bitmap;
 import android.opengl.GLES10;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 
 
 /**
  * This class ({@code GlView}) extends {@link GLSurfaceView}.
  * Touch events for this surface is created here.
- * @author jerian
+ * @author Jesper
  * @see GlRenderer
  */
 public class GlView extends GLSurfaceView {
@@ -48,6 +50,16 @@ public class GlView extends GLSurfaceView {
         this.setup(context);
     }
     
-    
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        
+        long eventDuration = event.getEventTime() - event.getDownTime(); // the time the screen is touched
+        
+        float x = event.getX();
+        float y = event.getY();
+        //Log.d(GlView.class.getSimpleName(), "Touched: " + Float.toString(x) + " x " + Float.toString(y));
+        
+        return true;
+    }
 
 }

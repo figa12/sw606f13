@@ -126,7 +126,7 @@ public abstract class Shape {
      * @see #draw(GL10 gl, float red, float green, float blue, float alpha)
      */
     public void draw(GL10 gl) {
-        this.draw(gl, 1.0f, 1.0f, 1.0f, 1.0f); // white, no tranparency
+        this.draw(gl, new Color()); // white, no tranparency
     }
     
     /**
@@ -141,9 +141,9 @@ public abstract class Shape {
      * @param alpha a value between 0.0f and 1.0f.
      * @see #draw(GL10)
      */
-    public void draw(GL10 gl, float red, float green, float blue, float alpha) {
+    public void draw(GL10 gl, Color color) {
         //Set the color of the shape
-        gl.glColor4f(red, green, blue, alpha);
+        gl.glColor4f(color.red, color.green, color.blue, color.alpha);
         
         //Set the face rotation
         gl.glFrontFace(GL10.GL_CW); // TODO further investigation nedded
