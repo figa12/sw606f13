@@ -2,12 +2,8 @@ package dk.aau.cs.giraf.train.opengl;
 
 import dk.aau.cs.giraf.train.R;
 
-
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
 import android.content.ClipData;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -20,174 +16,177 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 public class GameActivity extends Activity {
-	
+
 	private GlView openGLView;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_game);
-		// Show the Up button in the action bar.
-		setupActionBar();
-		
-		
-	    findViewById(R.id.myimage1).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage2).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage3).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage4).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage5).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage6).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage7).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage8).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.myimage9).setOnTouchListener(new MyTouchListener());
-	    findViewById(R.id.StationLayout).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Cart1LayoutLeft).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Cart1LayoutRight).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Cart2LayoutLeft).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Cart2LayoutRight).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Platform1Layout).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Platform2Layout).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Platform3Layout).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.Platform4Layout).setOnDragListener(new MyDragListener());
-	    findViewById(R.id.TrainLayout).setOnDragListener(new MyDragListener());
-	    
-		
-	    Resources res = getResources();
-	    
-	    openGLView = (GlView)findViewById(R.id.openglview);
-	    
-	    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+		this.setContentView(R.layout.activity_game);
+
+		this.setListeners();
+
+		this.openGLView = (GlView) findViewById(R.id.openglview);
+
+		this.getWindow().getDecorView()
+				.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE); // TODO
+																			// investigate
+																			// API
+																			// level
+																			// problems
+																			// and
+																			// write
+																			// results
+																			// in
+																			// comment
 	}
-	
+
+	/*
+	 * Sets touch and drag listeners. This is temporary and only for proof of
+	 * concept
+	 */
+	private void setListeners() {
+		// TouchListeners
+		findViewById(R.id.Cart1LeftImageView).setOnTouchListener(
+				new TouchListener());
+		findViewById(R.id.Cart1RightImageView).setOnTouchListener(
+				new TouchListener());
+		findViewById(R.id.Cart2LeftImageView).setOnTouchListener(
+				new TouchListener());
+		findViewById(R.id.Cart2RightImageView).setOnTouchListener(
+				new TouchListener());
+		findViewById(R.id.Spot1LeftImageView).setOnTouchListener(
+				new TouchListener());
+		findViewById(R.id.Spot2RightImageView).setOnTouchListener(
+				new TouchListener());
+		findViewById(R.id.Spot3LeftImageView).setOnTouchListener(
+				new TouchListener());
+		findViewById(R.id.Spot4RightImageView).setOnTouchListener(
+				new TouchListener());
+
+		// Draglisteners
+		findViewById(R.id.Cart1LeftLayout)
+				.setOnDragListener(new DragListener());
+		findViewById(R.id.Cart1RightLayout).setOnDragListener(
+				new DragListener());
+		findViewById(R.id.Cart2LeftLayout)
+				.setOnDragListener(new DragListener());
+		findViewById(R.id.Cart2RightLayout).setOnDragListener(
+				new DragListener());
+		findViewById(R.id.Spot1LeftLayout)
+				.setOnDragListener(new DragListener());
+		findViewById(R.id.Spot2RightLayout).setOnDragListener(
+				new DragListener());
+		findViewById(R.id.Spot3LeftLayout)
+				.setOnDragListener(new DragListener());
+		findViewById(R.id.Spot4RightLayout).setOnDragListener(
+				new DragListener());
+	}
+
 	@Override
-    protected void onPause() {
-        super.onPause();
-        openGLView.onPause();
-    }
+	protected void onPause() {
+		super.onPause();
+		this.openGLView.onPause();
+	}
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        openGLView.onResume();
-    }
-	
-	private final class MyTouchListener implements OnTouchListener {
-	    public boolean onTouch(View view, MotionEvent motionEvent) {
-	    	
-	      if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-	        ClipData data = ClipData.newPlainText("", "");
-	        DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-	        view.startDrag(data, shadowBuilder, view, 0);
-	        view.setVisibility(View.INVISIBLE);
-	        	return true;
-	       } 
-	      else {
-	        return false;
-	      }
-	    }
-	  }
-	
-	class MyDragListener implements OnDragListener {
-	    Drawable enterShape = getResources().getDrawable(R.drawable.shape_droptarget);
-	    Drawable normalShape = getResources().getDrawable(R.drawable.shape);
-
-	    @Override
-	    public boolean onDrag(View v, DragEvent event) {
-	      boolean validDrop = false;
-//	      int action = event.getAction();
-	      View view = (View) event.getLocalState();
-	      ViewGroup ownerContainer = (ViewGroup) view.getParent();
-	      switch (event.getAction()) 
-	      {
-	      
-	      case DragEvent.ACTION_DRAG_STARTED:
-	        // Do nothing
-	        break;
-	        
-	      case DragEvent.ACTION_DRAG_ENTERED:
-	        v.setBackgroundDrawable(enterShape);
-	        break;
-	      
-	      case DragEvent.ACTION_DRAG_EXITED:
-	        v.setBackgroundDrawable(normalShape);
-	        break;
-	        
-	      case DragEvent.ACTION_DROP:
-	        // Dropped, reassign View to ViewGroup  
-	    	validDrop = true;
-	        LinearLayout dropContainer = (LinearLayout) v;
-	        
-	        Object tag = dropContainer.getTag();
-	       /* if (!v.getClass().equals(LinearLayout.class))
-	  	  	{
-	    		findViewById(view.getId()).setVisibility(View.VISIBLE);
-		        ownerContainer.setTag(view.getId());
-	  	  	}*/
-	    		if (tag == null) {
-	    			
-	    			ownerContainer.removeView(view);
-	    			ownerContainer.setTag(null);
-			        
-	    			dropContainer.addView(view);
-	    			dropContainer.setTag(view.getId());
-			        view.setVisibility(View.VISIBLE); 
-			        
-			       		        
-	    		}
-	    		else {
-			        findViewById(view.getId()).setVisibility(View.VISIBLE);
-			        ownerContainer.setTag(view.getId());
-	    		}
-	    		
-	        break;
-	      case DragEvent.ACTION_DRAG_ENDED:
-	        v.setBackgroundDrawable(normalShape);
-	        if (validDrop == false)
-	        {
-	        	findViewById(view.getId()).setVisibility(View.VISIBLE);
-		        ownerContainer.setTag(view.getId());
-	        }
-	      default:
-	        break;
-	      }
-	      return true;
-	    }
-	  }
+	@Override
+	protected void onResume() {
+		super.onResume();
+		this.openGLView.onResume();
+	}
 
 	/**
-	 * Set up the {@link android.app.ActionBar}.
+	 * A touch listener that starts a drag event. There should also be a
+	 * receiver implementing {@link OnDragListener}.
+	 * 
+	 * @see DragListener
 	 */
-	private void setupActionBar() {
-
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
+	private final class TouchListener implements OnTouchListener {
+		@Override
+		public boolean onTouch(View view, MotionEvent motionEvent) {
+			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+				ClipData data = ClipData.newPlainText("", "");
+				DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
+						view);
+				view.startDrag(data, shadowBuilder, view, 0);
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.game, menu);
-		return true;
-	}
+	/**
+	 * A drag listner implementing an onDrag() method that runs when something
+	 * is dragged to it.
+	 */
+	private final class DragListener implements OnDragListener {
+		private Drawable enterShape;
+		private Drawable normalShape;
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			NavUtils.navigateUpFromSameTask(this);
+		public DragListener() {
+			Resources resources = getResources();
+
+			this.enterShape = resources
+					.getDrawable(R.drawable.shape_droptarget);
+			this.normalShape = resources.getDrawable(R.drawable.shape);
+		}
+
+		@Override
+		public boolean onDrag(View v, DragEvent event) {
+			if (event.getLocalState() == null) {
+				// do nothing, maybe return false..
+				return true;
+			}
+			
+			View draggedView = (View) event.getLocalState();
+			ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
+			
+			switch (event.getAction()) {
+			case DragEvent.ACTION_DRAG_STARTED:
+				// makes the draggedview invisible in ownerContainer
+				draggedView.setVisibility(View.INVISIBLE);
+				break;
+
+			case DragEvent.ACTION_DRAG_ENTERED:
+				// Change the background of droplayout(purely style)
+				v.setBackgroundDrawable(enterShape); // FIXME code is
+														// deprecated, use new
+				break;
+
+			case DragEvent.ACTION_DRAG_EXITED:
+				// Change the background back when exiting droplayout(purely
+				// style)
+				v.setBackgroundDrawable(normalShape); // FIXME code is
+														// deprecated, use new
+				break;
+
+			case DragEvent.ACTION_DROP:
+				// Dropped, assigns the draggedview to the dropcontainer if
+				// the container does not already contain a view.
+				FrameLayout dropContainer = (FrameLayout) v;
+				Object tag = dropContainer.getTag();
+
+				if (tag == null) {
+					ownerContainer.removeView(draggedView);
+					ownerContainer.setTag(null);
+					dropContainer.addView(draggedView);
+					dropContainer.setTag("filled");
+				}
+				break;
+
+			case DragEvent.ACTION_DRAG_ENDED:
+				// Makes the draggedview visible again after the view has
+				// been moved or the drop wasn't valid.
+				v.setBackgroundDrawable(normalShape); // FIXME code is
+														// deprecated, use new
+				draggedView.setVisibility(View.VISIBLE);
+				break;
+
+			}
 			return true;
 		}
-		return super.onOptionsItemSelected(item);
 	}
-
 }

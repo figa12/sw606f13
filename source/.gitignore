@@ -18,3 +18,17 @@ local.properties
 .metadata/
 
 *.tmp
+TimerLib/
+GIRAF_Components/
+Pictogram/
+PictoTester/
+Launcher/
+LocalDB/
+OasisApp/
+OasisLib/
+PARROT/
+Wombat/
+wheel/
+DrawLib/
+android/
+AmbilWarna/

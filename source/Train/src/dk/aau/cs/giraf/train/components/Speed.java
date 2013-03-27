@@ -17,7 +17,7 @@ public class Speed {
 		this.xv = 2;
 		this.yv = 1;
 	}
-
+	
 	public Speed(float xv, float yv) {
 		this.xv = xv;
 		this.yv = yv;
@@ -26,12 +26,15 @@ public class Speed {
 	public float getXv() {
 		return xv;
 	}
+	
 	public void setXv(float xv) {
 		this.xv = xv;
 	}
+	
 	public float getYv() {
 		return yv;
 	}
+	
 	public void setYv(float yv) {
 		this.yv = yv;
 	}
@@ -39,6 +42,7 @@ public class Speed {
 	public int getxDirection() {
 		return xDirection;
 	}
+	
 	public void setxDirection(int xDirection) {
 		this.xDirection = xDirection;
 	}
