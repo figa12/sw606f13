@@ -5,6 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_game">GameActivity</string>
+    
+    <!-- PROFILE ACTIVITY -->
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="profile_list_header">Profiler</string>
     <string name="game_list_header">Gemte Spil</string>
@@ -12,5 +14,8 @@
     <string name="profile_pic_description">Profil Billede</string>
     <string name="last_used">Sidst Brugt</string>
     <string name="predefined">Predefineret</string>
+    <string name="category">Kategori</string>
+    <string name="associated_pictograms">Pictogrammer</string>
+
 
 </resources>
