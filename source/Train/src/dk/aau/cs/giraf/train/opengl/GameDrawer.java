@@ -105,13 +105,13 @@ public final class GameDrawer {
 			this.wagon.draw(gl);
 
 			gl.glTranslatef(314.87f, -152f, 0f);
-			this.shaft.draw(gl, 0f, 0f, 0f, 1f);
+			this.shaft.draw(gl, new Color(0f, 0f, 0f, 1f));
 
 			gl.glTranslatef(40f, 152f, 0f);
 			this.wagon.draw(gl);
 
 			gl.glTranslatef(314.87f, -152f, 0f);
-			this.shaft.draw(gl, 0f, 0f, 0f, 1f);
+			this.shaft.draw(gl, new Color(0f, 0f, 0f, 1f));
 
 			gl.glTranslatef(33f, 242.35f, 0f);
 			this.train.draw(gl);

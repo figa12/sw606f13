@@ -117,26 +117,23 @@ public class Texture extends Square {
     
     /**
      * Draws the texture.
-     * This method calls {@link #draw(GL10, float, float, float, float)} and sets the color to white with no transparency.
+     * This method calls {@link #draw(GL10, Color)} and sets the color to white with no transparency.
      */
     @Override
     public void draw(GL10 gl) {
-        this.draw(gl, 1.0f, 1.0f, 1.0f, 1.0f); // White, no transparency
+        this.draw(gl, new Color()); // White, no transparency
     }
     
     /** 
      * Draw the texture with the specified RGBA color
      * 
      * @param gl    the GL10 instance.
-     * @param red   a value between 0.0f and 1.0f.
-     * @param green a value between 0.0f and 1.0f.
-     * @param blue  a value between 0.0f and 1.0f.
-     * @param alpha a value between 0.0f and 1.0f.
+     * @param color a color overlay
      * @see #draw(GL10)
      */
     @Override
-    public void draw(GL10 gl, float red, float green, float blue, float alpha) {
-        gl.glColor4f(red, green, blue, alpha);
+    public void draw(GL10 gl, Color color) {
+        gl.glColor4f(color.red, color.green, color.blue, color.alpha);
         
         //Enable texture
         gl.glEnable(GL10.GL_TEXTURE_2D);
