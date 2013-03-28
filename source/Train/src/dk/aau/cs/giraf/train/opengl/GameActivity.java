@@ -6,6 +6,7 @@ import java.util.List;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
+import dk.aau.cs.giraf.train.R.drawable;
 import dk.aau.cs.giraf.train.R.id;
 
 import android.os.Bundle;
@@ -72,23 +73,34 @@ public class GameActivity extends Activity {
 	 */
 	private void createPictogramLayouts(int numbersOfPictograms){
 		setLayouts();
-		Resources res = getResources();
-		
+		Drawable enterShape = getResources().getDrawable(R.drawable.shape);
+		/*
 		((FrameLayout)findViewById(id.Cart1LeftLayout)).setOnDragListener(new DragListener());
 		((FrameLayout)findViewById(id.Cart1RightLayout)).setOnDragListener(new DragListener());
 		((FrameLayout)findViewById(id.Cart2LeftLayout)).setOnDragListener(new DragListener());
-		((FrameLayout)findViewById(id.Cart2RightLayout)).setOnDragListener(new DragListener());
+		((FrameLayout)findViewById(id.Cart2RightLayout)).setOnDragListener(new DragListener());*/
 		
-		for (LinearLayout linear : stationLayouts) {
+		LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+		linearLayoutParams.weight = 1;
+		
+		for (LinearLayout stationlinear : stationLayouts) {
 			for (int j = 0; j < (numbersOfPictograms/2); j++) {
-				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-				linearLayoutParams.weight = 1;
-				
 				FrameLayout frameLayout = new FrameLayout(this);
 				frameLayout.setTag("filled");
 				frameLayout.setOnDragListener(new DragListener());
+				frameLayout.setBackgroundDrawable(enterShape);
 				
-				linear.addView(frameLayout,linearLayoutParams);
+				stationlinear.addView(frameLayout,linearLayoutParams);
+			}
+		}
+		
+		for (LinearLayout cartlinear : cartsLayouts) {
+			for (int j = 0; j < (numbersOfPictograms/2); j++) {
+				FrameLayout frameLayout = new FrameLayout(this);
+				frameLayout.setOnDragListener(new DragListener());
+				frameLayout.setBackgroundDrawable(enterShape);
+				
+				cartlinear.addView(frameLayout,linearLayoutParams);
 			}
 		}
 	}

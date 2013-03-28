@@ -26,32 +26,6 @@
         android:layout_marginBottom="70dp"
         android:layout_marginLeft="70dp"
         android:orientation="horizontal" >
-
-        <!-- Cart1Left -->
-
-        <FrameLayout
-            android:id="@+id/Cart1LeftLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape" >
-
-           
-        </FrameLayout>
-
-        <!-- Cart1Right -->
-
-        <FrameLayout
-            android:id="@+id/Cart1RightLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape">
-
-            
-        </FrameLayout>
     </LinearLayout>
 
     <!-- Cart2 -->
@@ -64,36 +38,11 @@
         android:layout_marginLeft="70dp"
         android:layout_toRightOf="@id/Cart1LinearLayout"
         android:orientation="horizontal" >
-
-        <!-- Cart2Left -->
-
-        <FrameLayout
-            android:id="@+id/Cart2LeftLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape" >
-
-           
-        </FrameLayout>
-
-        <!-- Cart2Right -->
-
-        <FrameLayout
-            android:id="@+id/Cart2RightLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape" >
-
-            
-        </FrameLayout>
     </LinearLayout>
 
     <!-- TrainStation -->
 
+    <!-- StationLeft -->
     <LinearLayout
         android:id="@+id/StationLeftLinearLayout"
         android:layout_width="310dp"
