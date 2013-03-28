@@ -45,7 +45,7 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_game);
 
-		this.createPictogramLayouts(4);
+		this.createPictogramLayouts(6);
 
 		this.setPictoClass();
 
@@ -81,12 +81,14 @@ public class GameActivity extends Activity {
 		
 		for (LinearLayout linear : stationLayouts) {
 			for (int j = 0; j < (numbersOfPictograms/2); j++) {
-				FrameLayout frame = new FrameLayout(this);
-				LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-				layout.weight = 1;
-				frame.setOnDragListener(new DragListener());
+				FrameLayout frameLayout = new FrameLayout(this);
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 				
-				linear.addView(frame,layout);
+				linearLayoutParams.weight = 1;
+				frameLayout.setTag("filled");
+				frameLayout.setOnDragListener(new DragListener());
+				
+				linear.addView(frameLayout,linearLayoutParams);
 			}
 		}
 	}
@@ -115,11 +117,13 @@ public class GameActivity extends Activity {
 			for (int j = 0; j < linear[i].getChildCount(); j++) {
 				Pictogram p = PictoFactory.INSTANCE.getPictogram(this, 0);
 				p.renderImage();
-				p.renderText();
 				p.setOnTouchListener(new TouchListener());
+				p.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape)); //to test
 				
-
-				((FrameLayout) linear[i].getChildAt(j)).addView(p,new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+				FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+				frameLayoutParams.gravity = Gravity.TOP;
+				
+				((FrameLayout) linear[i].getChildAt(j)).addView(p,frameLayoutParams);
 				((FrameLayout) linear[i].getChildAt(j)).setOnDragListener(new DragListener());
 				((FrameLayout) linear[i].getChildAt(j)).setTag("filled");
 			}
