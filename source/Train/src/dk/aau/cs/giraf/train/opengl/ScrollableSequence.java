@@ -3,40 +3,38 @@ package dk.aau.cs.giraf.train.opengl;
 import java.util.ArrayList;
 import javax.microedition.khronos.opengles.GL10;
 
-public class ScrollableSequence {
+import android.graphics.Point;
+
+public class ScrollableSequence extends Positionable {
 	
-	private class ScrollableItem {
+    /**
+     * Extends {@link Positionable} to get new {@link Coordinate} instead of using the {@link Coordinate} inside the {@link Shape} object.
+     * This gives the possibility of reusing a Shape that already have its own coordinates.
+     * @author Jesper
+     * @see ScrollableItem#ScrollableItem(Shape, Coordinate, Color)
+     */
+	private class ScrollableItem extends Positionable {
 		
 	    private Shape shape;
 	    
-	    /** The position on the sequence of this item */
-	    private float x = 0.0f;
-		
-	    /** The y coordinate on the sequence's height */
-		private float y = 0.0f;
-		
 		private Color color;
 		
-		public ScrollableItem(Shape shape, float x, float y) {
-		    this(shape, x, y, new Color());
-		}
-		
-		public ScrollableItem(Shape shape, float x, float y, Color color) {
+		public ScrollableItem(Shape shape, Coordinate coordinate, Color color) {
             this.shape = shape;
-            this.x = x;
-            this.y = y;
+            super.addCoordinate(coordinate);
             this.color = color;
         }
-		
-		/** Gets the current x-coordinate */
-		/*public float getX() {
-			return this.x;
-		}*/
-		
-		/** Gets the current y-coordinate */
-		/*public float getY() {
-			return this.y;
-		}*/
+
+        @Override
+        public void draw(GL10 gl, Color color) {
+            this.shape.draw(gl, color);
+            
+        }
+
+        @Override
+        public void draw(GL10 gl) {
+            this.shape.draw(gl);
+        }
 	}
 	
 	private ArrayList<ScrollableItem> sequence;
@@ -46,23 +44,40 @@ public class ScrollableSequence {
         this.sequence = new ArrayList<ScrollableItem>();
 	}
 	
-	public void addScrollableItem(Shape shape, float x, float y) {
-		ScrollableItem scrollableItem = new ScrollableItem(shape, x, y);
-	    this.sequence.add(scrollableItem);
+	public void addScrollableItem(Shape shape, Coordinate coordinate) { // possibility of overriding the shapes own position
+		this.addScrollableItem(shape, coordinate, new Color());
 	}
 	
+	public void addScrollableItem(Shape shape, Coordinate coordinate, Color color) { // possibility of overriding the shapes own position
+        ScrollableItem scrollableItem = new ScrollableItem(shape, coordinate, color);
+        this.sequence.add(scrollableItem);
+    }
+	
+	private float currentX;
+    private float currentY;
+	
 	/** Draw the sequence */
-    public void draw(GL10 gl) {
-        float currentX = 0.0f; //FIXME garbage for garbage collector each frame
-        float currentY = 0.0f; //FIXME garbage for garbage collector each frame
+	public void draw(GL10 gl) {
+        this.draw(gl, new Color());
+    }
+	
+	/** Draw the sequence */
+	@Override
+    public void draw(GL10 gl, Color color) {
+        this.currentX = 0f;
+        this.currentY = 0f;
         
         gl.glPushMatrix();
         
         for (ScrollableItem item : this.sequence) {
-            currentX = item.x - currentX;
-            currentY = item.y - currentY;
-            gl.glTranslatef(currentX, currentY, 0f);
-            item.shape.draw(gl, item.color);
+            for (Coordinate coordinate : item.getCoordinates()) {
+                // calculate how much to move on the axis to get to the item's position
+                currentX += coordinate.x - currentX;
+                currentY += coordinate.y - currentY;
+
+                gl.glTranslatef(coordinate.x - currentX, coordinate.y - currentY, 0f);
+                item.draw(gl, item.color);
+            }
         }
         gl.glPopMatrix();
     }

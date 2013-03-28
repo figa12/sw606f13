@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.train.opengl;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import dk.aau.cs.giraf.train.opengl.Texture.AspectRatio;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,7 +32,7 @@ public class RepeatableTexture extends Texture {
         
         this.setRepeatableTexture(style, bitmap.getWidth(), bitmap.getHeight(), this.numberOfRepeats);
         
-        super.generateTexturePointer(gl, context, bitmap, Texture.AspectRatio.KeepBoth, GL10.GL_REPEAT);
+        super.generateTexturePointer(gl, context, bitmap, AspectRatio.KeepBoth, GL10.GL_REPEAT);
     }
     
     @Override

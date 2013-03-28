@@ -22,7 +22,7 @@ import android.opengl.GLUtils;
  * @see Square
  * @see Shape
  */
-public class Texture extends Square {
+public class Texture extends Square implements Positionable.Texture {
     
     /** If true: Loading texture will generate an equivalent power-of-two sized bitmap texture. */
     protected boolean GENERATE_POWER_OF_TWO_EQUIVALENT = false;
