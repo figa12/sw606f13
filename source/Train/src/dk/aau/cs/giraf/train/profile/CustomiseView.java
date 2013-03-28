@@ -12,9 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class CustomiseView extends ListView {
+	
+	ArrayList<Station> stations = new ArrayList<Station>();
+	CustomiseAdapter adapter;
 
 	public CustomiseView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -22,11 +26,11 @@ public class CustomiseView extends ListView {
 		
 		Station station1 = new Station("STATION 1");
 		Station station2 = new Station("STATION 2");
-		ArrayList<Station> stations = new ArrayList<Station>();
+		
 		stations.add(station1);
 		stations.add(station2);
 		
-		CustomiseAdapter adapter = new CustomiseAdapter(this.getContext(), android.R.layout.simple_list_item_1, stations);
+		this.adapter = new CustomiseAdapter(this.getContext(), android.R.layout.simple_list_item_1, stations);
 		setAdapter(adapter);
 	}
 	

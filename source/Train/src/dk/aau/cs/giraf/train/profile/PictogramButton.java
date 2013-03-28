@@ -11,14 +11,14 @@ import android.view.View.DragShadowBuilder;
 import android.view.View.OnTouchListener;
 import android.widget.FrameLayout;
 
-public class AddPictogramButton extends FrameLayout {
+public class PictogramButton extends FrameLayout {
 
-	public AddPictogramButton(Context context, AttributeSet attrs) {
+	public PictogramButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 	}
 	
-	public AddPictogramButton(Context context) {
+	public PictogramButton(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
 	}
