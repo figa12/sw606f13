@@ -113,7 +113,8 @@
         android:layout_alignBottom="@id/StationLeftLinearLayout"
         android:layout_marginLeft="25dp"
         android:layout_toRightOf="@id/StationLeftLinearLayout"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:clipChildren="true">
 
     </LinearLayout>
 

@@ -81,10 +81,10 @@ public class GameActivity extends Activity {
 		
 		for (LinearLayout linear : stationLayouts) {
 			for (int j = 0; j < (numbersOfPictograms/2); j++) {
-				FrameLayout frameLayout = new FrameLayout(this);
 				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-				
 				linearLayoutParams.weight = 1;
+				
+				FrameLayout frameLayout = new FrameLayout(this);
 				frameLayout.setTag("filled");
 				frameLayout.setOnDragListener(new DragListener());
 				
@@ -119,11 +119,12 @@ public class GameActivity extends Activity {
 				p.renderImage();
 				p.setOnTouchListener(new TouchListener());
 				p.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape)); //to test
+				p.setClipToPadding(true);
 				
-				FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-				frameLayoutParams.gravity = Gravity.TOP;
+				FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
 				
 				((FrameLayout) linear[i].getChildAt(j)).addView(p,frameLayoutParams);
+				((FrameLayout) linear[i].getChildAt(j)).setClipChildren(true);
 				((FrameLayout) linear[i].getChildAt(j)).setOnDragListener(new DragListener());
 				((FrameLayout) linear[i].getChildAt(j)).setTag("filled");
 			}
