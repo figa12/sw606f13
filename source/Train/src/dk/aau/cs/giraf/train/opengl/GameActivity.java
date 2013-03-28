@@ -48,7 +48,7 @@ public class GameActivity extends Activity {
 		this.setContentView(R.layout.activity_game);
 
 		//
-		this.createPictogramLayouts(4);
+		this.createPictogramLayouts(6);
 
 		this.openGLView = (GlView) findViewById(R.id.openglview);
 
@@ -72,12 +72,8 @@ public class GameActivity extends Activity {
 	 */
 	private void createPictogramLayouts(int numbersOfPictograms) {
 		setLayouts();
-		Drawable enterShape = getResources().getDrawable(R.drawable.shape);
-
-		LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.MATCH_PARENT);
-		linearLayoutParams.weight = 1;
+		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
+	
 		
 		trainDriverLinear.getChildAt(0).setOnDragListener(new DragListener());
 		stationCategoryLinear.getChildAt(0).setOnDragListener(new DragListener());
@@ -85,9 +81,13 @@ public class GameActivity extends Activity {
 		
 		for (LinearLayout stationlinear : stationLinear) {
 			for (int j = 0; j < (numbersOfPictograms / 2); j++) {
+				int height = (stationlinear.getWidth())/(numbersOfPictograms/2); //testing
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+				linearLayoutParams.weight = 1;
+				
 				FrameLayout frameLayout = new FrameLayout(this);
 				frameLayout.setOnDragListener(new DragListener());
-				frameLayout.setBackgroundDrawable(enterShape);
+				frameLayout.setBackgroundDrawable(normalShape);
 
 				stationlinear.addView(frameLayout, linearLayoutParams);
 			}
@@ -95,9 +95,11 @@ public class GameActivity extends Activity {
 
 		for (LinearLayout cartlinear : cartsLinear) {
 			for (int j = 0; j < (numbersOfPictograms / 2); j++) {
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+				linearLayoutParams.weight = 1;
 				FrameLayout frameLayout = new FrameLayout(this);
 				frameLayout.setOnDragListener(new DragListener());
-				frameLayout.setBackgroundDrawable(enterShape);
+				frameLayout.setBackgroundDrawable(normalShape);
 
 				cartlinear.addView(frameLayout, linearLayoutParams);
 			}
@@ -106,7 +108,7 @@ public class GameActivity extends Activity {
 	}
 
 	/**
-	 * 
+	 * Find the LinearLayouts sepcified in activti_game.xml and stores the ref in different lists.
 	 */
 	private void setLayouts() {
 		cartsLinear = new ArrayList<LinearLayout>();
@@ -119,7 +121,7 @@ public class GameActivity extends Activity {
 		cartsLinear.add((LinearLayout) findViewById(id.Cart1LinearLayout));
 	}
 	/**
-	 * 
+	 * Adds pictograms to Station, StationCategory and TrainDriver
 	 */
 	private void addPictogram() {
 
@@ -140,9 +142,13 @@ public class GameActivity extends Activity {
 				p.setOnTouchListener(new TouchListener());
 				p.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape)); //to test
 				
-				FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+				
+				
+				FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+				p.setLayoutParams(frameLayoutParams);
+				
 				try{
-					((FrameLayout) linearPictograms.get(i).getChildAt(j)).addView(p,frameLayoutParams);
+					((FrameLayout) linearPictograms.get(i).getChildAt(j)).addView(p);
 					((FrameLayout) linearPictograms.get(i).getChildAt(j)).setTag("filled");
 				} catch(Exception e){
 					Log.d(GameActivity.class.getSimpleName(), "Null value, when adding pictograms to FrameLayouts");
