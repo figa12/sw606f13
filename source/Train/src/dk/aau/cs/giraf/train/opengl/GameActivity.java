@@ -1,32 +1,54 @@
 package dk.aau.cs.giraf.train.opengl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import dk.aau.cs.giraf.pictogram.PictoFactory;
+import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
+import dk.aau.cs.giraf.train.R.drawable;
+import dk.aau.cs.giraf.train.R.id;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.text.Layout;
+import android.text.style.EasyEditSpan;
+import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.DragEvent;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.FrameLayout.LayoutParams;
 
 public class GameActivity extends Activity {
 
 	private GlView openGLView;
+	private ArrayList<LinearLayout> stationLinear;
+	private ArrayList<LinearLayout> cartsLinear;
+	private LinearLayout stationCategoryLinear;
+	private LinearLayout trainDriverLinear;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_game);
 
-		this.setListeners();
+		//
+		this.createPictogramLayouts(6);
 
 		this.openGLView = (GlView) findViewById(R.id.openglview);
 
@@ -43,46 +65,96 @@ public class GameActivity extends Activity {
 																			// comment
 	}
 
-	/*
-	 * Sets touch and drag listeners. This is temporary and only for proof of
-	 * concept
+	/**
+	 * Dynamically adds FrameLayout defined by numbersOfPictograms,
+	 * The Framelayout is then filled with pictograms.
+	 * @param numbersOfPictograms
 	 */
-	private void setListeners() {
-		// TouchListeners
-		findViewById(R.id.Cart1LeftImageView).setOnTouchListener(
-				new TouchListener());
-		findViewById(R.id.Cart1RightImageView).setOnTouchListener(
-				new TouchListener());
-		findViewById(R.id.Cart2LeftImageView).setOnTouchListener(
-				new TouchListener());
-		findViewById(R.id.Cart2RightImageView).setOnTouchListener(
-				new TouchListener());
-		findViewById(R.id.Spot1LeftImageView).setOnTouchListener(
-				new TouchListener());
-		findViewById(R.id.Spot2RightImageView).setOnTouchListener(
-				new TouchListener());
-		findViewById(R.id.Spot3LeftImageView).setOnTouchListener(
-				new TouchListener());
-		findViewById(R.id.Spot4RightImageView).setOnTouchListener(
-				new TouchListener());
+	private void createPictogramLayouts(int numbersOfPictograms) {
+		setLayouts();
+		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
+	
+		
+		trainDriverLinear.getChildAt(0).setOnDragListener(new DragListener());
+		stationCategoryLinear.getChildAt(0).setOnDragListener(new DragListener());
+		
+		
+		for (LinearLayout stationlinear : stationLinear) {
+			for (int j = 0; j < (numbersOfPictograms / 2); j++) {
+				int height = (stationlinear.getWidth())/(numbersOfPictograms/2); //testing
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+				linearLayoutParams.weight = 1;
+				
+				FrameLayout frameLayout = new FrameLayout(this);
+				frameLayout.setOnDragListener(new DragListener());
+				frameLayout.setBackgroundDrawable(normalShape);
 
-		// Draglisteners
-		findViewById(R.id.Cart1LeftLayout)
-				.setOnDragListener(new DragListener());
-		findViewById(R.id.Cart1RightLayout).setOnDragListener(
-				new DragListener());
-		findViewById(R.id.Cart2LeftLayout)
-				.setOnDragListener(new DragListener());
-		findViewById(R.id.Cart2RightLayout).setOnDragListener(
-				new DragListener());
-		findViewById(R.id.Spot1LeftLayout)
-				.setOnDragListener(new DragListener());
-		findViewById(R.id.Spot2RightLayout).setOnDragListener(
-				new DragListener());
-		findViewById(R.id.Spot3LeftLayout)
-				.setOnDragListener(new DragListener());
-		findViewById(R.id.Spot4RightLayout).setOnDragListener(
-				new DragListener());
+				stationlinear.addView(frameLayout, linearLayoutParams);
+			}
+		}
+
+		for (LinearLayout cartlinear : cartsLinear) {
+			for (int j = 0; j < (numbersOfPictograms / 2); j++) {
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+				linearLayoutParams.weight = 1;
+				FrameLayout frameLayout = new FrameLayout(this);
+				frameLayout.setOnDragListener(new DragListener());
+				frameLayout.setBackgroundDrawable(normalShape);
+
+				cartlinear.addView(frameLayout, linearLayoutParams);
+			}
+		}
+		this.addPictogram();
+	}
+
+	/**
+	 * Find the LinearLayouts sepcified in activti_game.xml and stores the ref in different lists.
+	 */
+	private void setLayouts() {
+		cartsLinear = new ArrayList<LinearLayout>();
+		stationLinear = new ArrayList<LinearLayout>();
+		stationCategoryLinear = (LinearLayout) findViewById(id.StationCategoryLinearLayout);
+		trainDriverLinear = (LinearLayout) findViewById(id.TrainDriverLinearLayout);
+		stationLinear.add((LinearLayout) findViewById(id.StationLeftLinearLayout));
+		stationLinear.add((LinearLayout) findViewById(id.StationRightLinearLayout));
+		cartsLinear.add((LinearLayout) findViewById(id.Cart2LinearLayout));
+		cartsLinear.add((LinearLayout) findViewById(id.Cart1LinearLayout));
+	}
+	/**
+	 * Adds pictograms to Station, StationCategory and TrainDriver
+	 */
+	private void addPictogram() {
+
+		// hardcoded for demotest
+		List<LinearLayout> linearPictograms = new ArrayList<LinearLayout>();
+		linearPictograms.addAll(stationLinear);
+		linearPictograms.add(stationCategoryLinear);
+		linearPictograms.add(trainDriverLinear);
+		
+		List<LinearLayout> linearNoPictograms = new ArrayList<LinearLayout>();
+		linearNoPictograms.addAll(cartsLinear);
+		
+		for (int i = 0; i < linearPictograms.size(); i++) {
+			for (int j = 0; j < linearPictograms.get(i).getChildCount(); j++) {
+				Pictogram p = PictoFactory.INSTANCE.getPictogram(this, 0);
+				p.renderImage();
+				p.renderText();
+				p.setOnTouchListener(new TouchListener());
+				p.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape)); //to test
+				
+				
+				
+				FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+				p.setLayoutParams(frameLayoutParams);
+				
+				try{
+					((FrameLayout) linearPictograms.get(i).getChildAt(j)).addView(p);
+					((FrameLayout) linearPictograms.get(i).getChildAt(j)).setTag("filled");
+				} catch(Exception e){
+					Log.d(GameActivity.class.getSimpleName(), "Null value, when adding pictograms to FrameLayouts");
+				}
+			}
+		}
 	}
 
 	@Override
@@ -140,10 +212,10 @@ public class GameActivity extends Activity {
 				// do nothing, maybe return false..
 				return true;
 			}
-			
+
 			View draggedView = (View) event.getLocalState();
 			ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
-			
+
 			switch (event.getAction()) {
 			case DragEvent.ACTION_DRAG_STARTED:
 				// makes the draggedview invisible in ownerContainer

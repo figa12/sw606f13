@@ -14,12 +14,23 @@ import android.content.Context;
  */
 public final class GameDrawer {
 
-	private interface GameDrawable {
-		public void draw();
-	}
-
-	private interface GameDrawableTexture extends GameDrawable {
-		public void loadTexture();
+	private abstract class DrawableGroup {
+		public abstract void draw();
+		public abstract void load();
+		
+		public void moveAndDraw(Positionable positionable) {
+		    for (Coordinate coordinate : positionable.getCoordinates()) {
+		        moveTo(coordinate);
+		        positionable.draw(gl);
+		    }
+		}
+		
+		public void moveAndDraw(Positionable positionable, Color color) {
+		    for (Coordinate coordinate : positionable.getCoordinates()) {
+                moveTo(coordinate);
+                positionable.draw(gl, color);
+            }
+		}
 	}
 
 	private GL10 gl;
@@ -27,14 +38,16 @@ public final class GameDrawer {
 	private float visibleWidth = 1.0f;
 	private float visibleHeight = 1.0f;
 	private final float DRAWING_DEPTH = -907.744f;
+	private float currentX = 0f;
+	private float currentY = 0f;
+	private float currentZ = 0f;
 
-	private ArrayList<GameDrawable> gameDrawables = new ArrayList<GameDrawable>();
-	private ArrayList<GameDrawableTexture> gameDrawablesWithTexture = new ArrayList<GameDrawableTexture>();
-
+	private ArrayList<DrawableGroup> gameDrawables = new ArrayList<DrawableGroup>();
+	
 	public GameDrawer(GL10 gl, Context context) {
 		this.gl = gl;
 		this.context = context;
-
+		
 		// add GameDrawables to the list in the order they should be drawn
 		this.addGameDrawable(new Station());
 		this.addGameDrawable(new Train());
@@ -46,135 +59,121 @@ public final class GameDrawer {
 		this.visibleHeight = visibleHeight;
 	}
 
-	private final void addGameDrawable(GameDrawable gameDrawable) {
+	private final void addGameDrawable(DrawableGroup gameDrawable) {
 		this.gameDrawables.add(gameDrawable);
-
-		if (gameDrawable instanceof GameDrawableTexture) {
-			this.gameDrawablesWithTexture
-					.add((GameDrawableTexture) gameDrawable);
-		}
 	}
 
 	/** Draw everything on screen */
 	public final void drawGame() {
 		this.gl.glLoadIdentity(); // Reset The Current Modelview Matrix
 
-		for (GameDrawable gameDrawable : this.gameDrawables) {
+		for (DrawableGroup gameDrawable : this.gameDrawables) {
+		    this.resetPosition();
 			gameDrawable.draw();
 		}
 	}
 
 	/** Loads all texture */
 	public final void loadAllTexture() {
-		for (GameDrawableTexture gameDrawableTexture : this.gameDrawablesWithTexture) {
-			gameDrawableTexture.loadTexture();
+		for (DrawableGroup gameDrawableTexture : this.gameDrawables) {
+			gameDrawableTexture.load();
 		}
-		this.gameDrawablesWithTexture.clear();
 	}
 	
-	private final class Station implements GameDrawableTexture {
+	private final void moveTo(Coordinate coordinate) {
+	    this.gl.glTranslatef(coordinate.x - this.currentX, coordinate.y - this.currentY, coordinate.z - this.currentZ);
+	    
+	    this.currentX += coordinate.x - this.currentX;
+        this.currentY += coordinate.y - this.currentY;
+        this.currentZ += coordinate.z - this.currentZ;
+	}
+	
+	private final void resetPosition() {
+	    this.gl.glLoadIdentity();
+	    this.currentX = 0f;
+	    this.currentY = 0f;
+	    this.currentZ = 0f;
+	}
+	
+	private final class Station extends DrawableGroup {
 		private Texture trainStation = new Texture(1.0f, 1.0f);
-
+		
+		public Station() {
+		    trainStation.addCoordinate(-588.64f, 376f, DRAWING_DEPTH);
+		}
+		
 		@Override
 		public void draw() {
-			gl.glLoadIdentity(); // reset the position
-
-			gl.glTranslatef(-588.64f, 376f, DRAWING_DEPTH);
-			this.trainStation.draw(gl);
-			
+			super.moveAndDraw(this.trainStation);
 		}
 
 		@Override
-		public void loadTexture() {
+		public void load() {
 			this.trainStation.loadTexture(gl, context, R.drawable.texture_train_station, Texture.AspectRatio.BitmapOneToOne);
 			
 		}
 	}
 
-	private final class Train implements GameDrawableTexture {
+	private final class Train extends DrawableGroup {
 
 		private Texture train = new Texture(1.0f, 1.0f);
 		private Texture wagon = new Texture(1.0f, 1.0f);
 		private Square shaft = new Square(40f, 3f);
-
+		
+		public Train() {
+		    this.wagon.addCoordinate(-542.32f, -142.72f, DRAWING_DEPTH);
+		    this.wagon.addCoordinate(-187.45f, -142.72f, DRAWING_DEPTH);
+		    this.shaft.addCoordinate(-227.45f, -294.72f, DRAWING_DEPTH);
+		    this.shaft.addCoordinate(127.42f, -294.72f, DRAWING_DEPTH);
+		    this.train.addCoordinate(160.42f, -52.37f, DRAWING_DEPTH);
+		}
+		
 		@Override
 		public void draw() {
-			gl.glLoadIdentity(); // reset the position
-
-			gl.glTranslatef(-542.32f, -142.72f, DRAWING_DEPTH);
-			this.wagon.draw(gl);
-
-			gl.glTranslatef(314.87f, -152f, 0f);
-			this.shaft.draw(gl, new Color(0f, 0f, 0f, 1f));
-
-			gl.glTranslatef(40f, 152f, 0f);
-			this.wagon.draw(gl);
-
-			gl.glTranslatef(314.87f, -152f, 0f);
-			this.shaft.draw(gl, new Color(0f, 0f, 0f, 1f));
-
-			gl.glTranslatef(33f, 242.35f, 0f);
-			this.train.draw(gl);
+			super.moveAndDraw(this.shaft, new Color(0f, 0f, 0f, 1f));
+			super.moveAndDraw(this.wagon);
+			super.moveAndDraw(this.train);
 	}
 
 		@Override
-		public void loadTexture() {
+		public void load() {
 			this.wagon.loadTexture(gl, context, R.drawable.texture_wagon, Texture.AspectRatio.BitmapOneToOne);
 			this.train.loadTexture(gl, context, R.drawable.texture_train, Texture.AspectRatio.BitmapOneToOne);
-
 		}
 	}
 	
-	private final class Wheels implements GameDrawableTexture {
+	private final class Wheels extends DrawableGroup {
 		
 		private Texture largeWheel = new Texture(1.0f, 1.0f); // wheel diameter 106.4
 		private Texture mediumWheel = new Texture(1.0f, 1.0f); // wheel diameter 78.71
 		private Texture smallWheel = new Texture(1.0f, 1.0f); // wheel diameter 60.8
 		private Texture wheelShaft = new Texture(1.0f, 1.0f);
-		private Texture ground = new Texture(1280.0f, 21.0f); // should be 1280.0 , 21.0
-
+		private Texture ground = new Texture(1280.0f, 21.0f);
+		
+		public Wheels() {
+		    this.mediumWheel.addCoordinate(-507.08f, -277.04f, DRAWING_DEPTH);
+		    this.mediumWheel.addCoordinate(-339.52f, -277.04f, DRAWING_DEPTH);
+		    this.mediumWheel.addCoordinate(-152.14f, -277.04f, DRAWING_DEPTH);
+		    this.mediumWheel.addCoordinate(15.42f, -277.04f, DRAWING_DEPTH);
+            this.largeWheel.addCoordinate(191.02f, -250.74f, DRAWING_DEPTH);
+            this.smallWheel.addCoordinate(344.58f, -296.34f, DRAWING_DEPTH);
+            this.smallWheel.addCoordinate(424.13f, -296.34f, DRAWING_DEPTH);
+            this.wheelShaft.addCoordinate(380.96f, -338.82f, DRAWING_DEPTH);
+            this.ground.addCoordinate(-640f, -356f, DRAWING_DEPTH);
+		}
+		
 		@Override
 		public void draw() {
 			
-			//Wagon wheels			
-			gl.glLoadIdentity(); // reset the position
-			
-			gl.glTranslatef(-507.08f, -277.04f, DRAWING_DEPTH);
-			this.mediumWheel.draw(gl);
-
-			gl.glTranslatef(167.56f, 0f, 0f);
-			this.mediumWheel.draw(gl);
-			
-			gl.glTranslatef(187.38f, 0f, 0f);
-			this.mediumWheel.draw(gl);
-			
-			gl.glTranslatef(167.56f, 0f, 0f);
-			this.mediumWheel.draw(gl);
-			
-			//Train wheels
-			gl.glLoadIdentity(); // reset the position
-			
-			gl.glTranslatef(191.02f, -250.74f, DRAWING_DEPTH);
-			this.largeWheel.draw(gl);
-			
-			gl.glTranslatef(153.56f, -45.6f, 0f);
-			this.smallWheel.draw(gl);
-		
-			gl.glTranslatef(79.55f, 0f, 0f);
-			this.smallWheel.draw(gl);
-			
-			gl.glTranslatef(-43.17f, -42.48f, 0f);
-			this.wheelShaft.draw(gl);
-			
-			//Ground
-			gl.glLoadIdentity();
-			
-			gl.glTranslatef(-640f, -356f, DRAWING_DEPTH);
-			this.ground.draw(gl);
+		    super.moveAndDraw(this.mediumWheel);
+		    super.moveAndDraw(this.largeWheel);
+		    super.moveAndDraw(this.smallWheel);
+		    super.moveAndDraw(this.wheelShaft);
+		    super.moveAndDraw(this.ground);
 		}
 
 		@Override
-		public void loadTexture() {
+		public void load() {
 			this.mediumWheel.loadTexture(gl, context, R.drawable.texture_wheel_medium, Texture.AspectRatio.BitmapOneToOne);
 			this.largeWheel.loadTexture(gl, context, R.drawable.texture_wheel_large, Texture.AspectRatio.BitmapOneToOne);
 			this.smallWheel.loadTexture(gl, context, R.drawable.texture_wheel_small, Texture.AspectRatio.BitmapOneToOne);

@@ -1,8 +1,6 @@
 package dk.aau.cs.giraf.train.opengl;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.opengl.GLES10;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.util.Log;

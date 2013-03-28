@@ -11,7 +11,7 @@ package dk.aau.cs.giraf.train.opengl;
  * @see Shape
  * @see Shape#draw(GL10, float, float, float, float)
  */
-public class Square extends dk.aau.cs.giraf.train.opengl.Shape {
+public class Square extends Shape {
     
     /**
      * Creates a square with the specified size.

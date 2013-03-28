@@ -12,12 +12,12 @@ import javax.microedition.khronos.opengles.GL10;
  * @author jerian
  *
  */
-public abstract class Shape {
+public abstract class Shape extends Positionable {
     
     /** The width of the shape. */
-    private float width = 0.0f;
+    private float width;
     /** The height of the shape. */
-    private float height = 0.0f;
+    private float height;
     
     /** The buffer holding the vertices. */
     private FloatBuffer vertexBuffer;
