@@ -1,32 +1,55 @@
 package dk.aau.cs.giraf.train.opengl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import dk.aau.cs.giraf.pictogram.PictoFactory;
+import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
+import dk.aau.cs.giraf.train.R.id;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.text.Layout;
+import android.text.style.EasyEditSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.DragEvent;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.FrameLayout.LayoutParams;
 
 public class GameActivity extends Activity {
 
 	private GlView openGLView;
+	private ArrayList<LinearLayout> stationLayouts;
+	private ArrayList<LinearLayout> cartsLayouts;
+	private LinearLayout stationCategoryLayout;
+	private LinearLayout trainDriverLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_game);
 
-		this.setListeners();
+		this.createPictogramLayouts(4);
+
+		this.setPictoClass();
+
+		// this.setListeners();
 
 		this.openGLView = (GlView) findViewById(R.id.openglview);
 
@@ -43,9 +66,72 @@ public class GameActivity extends Activity {
 																			// comment
 	}
 
+	/**
+	 * 
+	 * @param numbersOfPictograms
+	 */
+	private void createPictogramLayouts(int numbersOfPictograms){
+		setLayouts();
+		Resources res = getResources();
+		
+		((FrameLayout)findViewById(id.Cart1LeftLayout)).setOnDragListener(new DragListener());
+		((FrameLayout)findViewById(id.Cart1RightLayout)).setOnDragListener(new DragListener());
+		((FrameLayout)findViewById(id.Cart2LeftLayout)).setOnDragListener(new DragListener());
+		((FrameLayout)findViewById(id.Cart2RightLayout)).setOnDragListener(new DragListener());
+		
+		for (LinearLayout linear : stationLayouts) {
+			for (int j = 0; j < (numbersOfPictograms/2); j++) {
+				FrameLayout frame = new FrameLayout(this);
+				LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+				layout.weight = 1;
+				frame.setOnDragListener(new DragListener());
+				
+				linear.addView(frame,layout);
+			}
+		}
+	}
+
+	private void setLayouts() {
+		cartsLayouts = new ArrayList<LinearLayout>();
+		stationLayouts = new ArrayList<LinearLayout>();
+		stationCategoryLayout = (LinearLayout) findViewById(id.StationCategoryLinearLayout);
+		trainDriverLayout = (LinearLayout) findViewById(id.TrainDriverLinearLayout);
+		stationLayouts.add((LinearLayout) findViewById(id.StationLeftLinearLayout));
+		stationLayouts.add((LinearLayout) findViewById(id.StationRightLinearLayout));
+		cartsLayouts.add((LinearLayout) findViewById(id.Cart2LinearLayout));
+		cartsLayouts.add((LinearLayout) findViewById(id.Cart1LinearLayout));
+	}
+
+	private void setPictoClass() {
+
+		// hardcoded for demotest
+		LinearLayout[] linear = new LinearLayout[4];
+		linear[0] = (LinearLayout) findViewById(id.StationLeftLinearLayout);
+		linear[1] = (LinearLayout) findViewById(id.StationRightLinearLayout);
+		linear[2] = (LinearLayout) findViewById(id.TrainDriverLinearLayout);
+		linear[3] = (LinearLayout) findViewById(id.StationCategoryLinearLayout);
+		
+		for (int i = 0; i < linear.length; i++) {
+			for (int j = 0; j < linear[i].getChildCount(); j++) {
+				Pictogram p = PictoFactory.INSTANCE.getPictogram(this, 0);
+				p.renderImage();
+				p.renderText();
+				p.setOnTouchListener(new TouchListener());
+				
+
+				((FrameLayout) linear[i].getChildAt(j)).addView(p,new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+				((FrameLayout) linear[i].getChildAt(j)).setOnDragListener(new DragListener());
+				((FrameLayout) linear[i].getChildAt(j)).setTag("filled");
+			}
+		}
+	}
+
 	/*
 	 * Sets touch and drag listeners. This is temporary and only for proof of
 	 * concept
+	 */
+	/**
+	 * Sets the onDragListeners and onTouchListeners for the pictograms
 	 */
 	private void setListeners() {
 		// TouchListeners
@@ -108,8 +194,7 @@ public class GameActivity extends Activity {
 		public boolean onTouch(View view, MotionEvent motionEvent) {
 			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 				ClipData data = ClipData.newPlainText("", "");
-				DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
-						view);
+				DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
 				view.startDrag(data, shadowBuilder, view, 0);
 				return true;
 			} else {
@@ -129,8 +214,7 @@ public class GameActivity extends Activity {
 		public DragListener() {
 			Resources resources = getResources();
 
-			this.enterShape = resources
-					.getDrawable(R.drawable.shape_droptarget);
+			this.enterShape = resources.getDrawable(R.drawable.shape_droptarget);
 			this.normalShape = resources.getDrawable(R.drawable.shape);
 		}
 
@@ -140,10 +224,10 @@ public class GameActivity extends Activity {
 				// do nothing, maybe return false..
 				return true;
 			}
-			
+
 			View draggedView = (View) event.getLocalState();
 			ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
-			
+
 			switch (event.getAction()) {
 			case DragEvent.ACTION_DRAG_STARTED:
 				// makes the draggedview invisible in ownerContainer

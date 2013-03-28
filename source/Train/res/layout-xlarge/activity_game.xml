@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <FrameLayout
+        android:id="@+id/openglframe"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -33,15 +35,9 @@
             android:layout_height="match_parent"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/shape"
-            android:tag="filled" >
+            android:background="@drawable/shape" >
 
-            <ImageView
-                android:id="@+id/Cart1LeftImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/nej" >
-            </ImageView>
+           
         </FrameLayout>
 
         <!-- Cart1Right -->
@@ -52,15 +48,9 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:background="@drawable/shape"
-            android:tag="filled" >
+            android:background="@drawable/shape">
 
-            <ImageView
-                android:id="@+id/Cart1RightImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/bade" >
-            </ImageView>
+            
         </FrameLayout>
     </LinearLayout>
 
@@ -83,15 +73,9 @@
             android:layout_height="match_parent"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/shape"
-            android:tag="filled" >
+            android:background="@drawable/shape" >
 
-            <ImageView
-                android:id="@+id/Cart2LeftImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/se" >
-            </ImageView>
+           
         </FrameLayout>
 
         <!-- Cart2Right -->
@@ -102,15 +86,9 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            android:background="@drawable/shape"
-            android:tag="filled" >
+            android:background="@drawable/shape" >
 
-            <ImageView
-                android:id="@+id/Cart2RightImageView"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/mig" >
-            </ImageView>
+            
         </FrameLayout>
     </LinearLayout>
 
@@ -123,39 +101,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="25dp"
         android:orientation="horizontal" >
-
-        <!-- Spot1 -->
-
-        <FrameLayout
-            android:id="@+id/Spot1LeftLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape" >
-
-            <ImageView
-                android:id="@+id/Spot1LeftImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            </ImageView>
-        </FrameLayout>
-        <!-- Spot2 -->
-
-        <FrameLayout
-            android:id="@+id/Spot2RightLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape" >
-
-            <ImageView
-                android:id="@+id/Spot2RightImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            </ImageView>
-        </FrameLayout>
+     
     </LinearLayout>
 
     <!-- StationRight -->
@@ -169,38 +115,6 @@
         android:layout_toRightOf="@id/StationLeftLinearLayout"
         android:orientation="horizontal" >
 
-        <!-- Spot3 -->
-
-        <FrameLayout
-            android:id="@+id/Spot3LeftLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape" >
-
-            <ImageView
-                android:id="@+id/Spot3LeftImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            </ImageView>
-        </FrameLayout>
-        <!-- Spot4 -->
-
-        <FrameLayout
-            android:id="@+id/Spot4RightLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape" >
-
-            <ImageView
-                android:id="@+id/Spot4RightImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            </ImageView>
-        </FrameLayout>
     </LinearLayout>
 
     <!-- TrainDriver -->
@@ -222,11 +136,7 @@
             android:layout_weight="1"
             android:background="@drawable/shape" >
 
-            <ImageView
-                android:id="@+id/TrainDriverImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            </ImageView>
+            
         </FrameLayout>
     </LinearLayout>
 
@@ -248,11 +158,7 @@
             android:layout_weight="1"
             android:background="@drawable/shape" >
 
-            <ImageView
-                android:id="@+id/StationCategoryImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-            </ImageView>
+            
         </FrameLayout>
     </LinearLayout>
 
