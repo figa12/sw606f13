@@ -95,8 +95,6 @@ public class Texture extends Square implements Positionable.Texture {
     /**
      * Resizes shape to fit the texture's aspect ratio.
      * @param option specify to resize the width, the height, or none
-     * @param bitmapWidth the width of the bitmap texture
-     * @param bitmapHeight the height of the bitmap texture
      * @see AspectRatio
      */
     @SuppressWarnings("incomplete-switch") // KeepBoth should not have a case

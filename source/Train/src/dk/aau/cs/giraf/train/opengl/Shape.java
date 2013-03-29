@@ -9,7 +9,7 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * An abstract class used for drawing shapes.
  * 
- * @author jerian
+ * @author Jesper
  *
  */
 public abstract class Shape extends Positionable {
@@ -118,12 +118,12 @@ public abstract class Shape extends Positionable {
     
     /**
      * Draws the shape with a standard drawing method.
-     * This method calls {@link #draw(GL10, float, float, float, float)} and sets the color to white with no transparency.
+     * This method calls {@link #draw(GL10, Color)} and sets the color to white with no transparency.
      * This should be sufficient to draw squares and triangles,
      * the method should be overridden though.
      * 
      * @param gl the GL10 instance.
-     * @see #draw(GL10 gl, float red, float green, float blue, float alpha)
+     * @see #draw(GL10 gl, Color color)
      */
     public void draw(GL10 gl) {
         this.draw(gl, new Color()); // white, no tranparency
@@ -135,10 +135,7 @@ public abstract class Shape extends Positionable {
      * the method should be overridden though.
      * 
      * @param gl    the GL10 instance.
-     * @param red   a value between 0.0f and 1.0f.
-     * @param green a value between 0.0f and 1.0f.
-     * @param blue  a value between 0.0f and 1.0f.
-     * @param alpha a value between 0.0f and 1.0f.
+     * @param color the color overlay for this shape
      * @see #draw(GL10)
      */
     public void draw(GL10 gl, Color color) {
@@ -146,7 +143,7 @@ public abstract class Shape extends Positionable {
         gl.glColor4f(color.red, color.green, color.blue, color.alpha);
         
         //Set the face rotation
-        gl.glFrontFace(GL10.GL_CW); // TODO further investigation nedded
+        gl.glFrontFace(GL10.GL_CW);
         
         //Point to our vertex buffer
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, this.getVertexBuffer());
