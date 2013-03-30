@@ -1,9 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal"
-    android:baselineAligned="false" >
+    android:baselineAligned="false"
+    android:background="@drawable/background">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -74,19 +76,25 @@
                 android:id="@+id/categoryHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"
+                android:layout_weight=".2"
                 android:background="@android:color/black"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="@string/category"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@android:color/white"
                 android:textSize="15sp" />
+
+            <LinearLayout
+                android:id="@+id/customiseSubheaderStroke"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white" />
                 
             <TextView
                 android:id="@+id/associatedPictogramHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"
+                android:layout_weight=".8"
                 android:background="@android:color/black"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="@string/associated_pictograms"
@@ -97,7 +105,7 @@
         </LinearLayout>        
         
         <dk.aau.cs.giraf.train.profile.CustomiseView
-            android:id="@+id/profilelist"
+            android:id="@+id/customiseListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
         
