@@ -30,27 +30,24 @@ public class ScrollableSequence extends Renderable {
             this.color = color;
         }
 
+		@Override
+        public void draw(GL10 gl) {
+		    // always use the this.color
+            this.shape.draw(gl, this.color);
+        }
+		
         @Override
         public void draw(GL10 gl, Color color) {
-            this.shape.draw(gl, color);
-            
-        }
-
-        @Override
-        public void draw(GL10 gl) {
-            this.shape.draw(gl);
+            // ignore color input, use this.color instead
+            this.shape.draw(gl, this.color);
         }
 	}
 	
-	private ArrayList<ScrollableItem> sequence;
+	private ArrayList<ScrollableItem> sequence = new ArrayList<ScrollableItem>();
 	
-	
-	public ScrollableSequence() {
-        this.sequence = new ArrayList<ScrollableItem>();
-	}
 	
 	public void addScrollableItem(Shape shape, Coordinate coordinate) { // possibility of overriding the shapes own position
-		this.addScrollableItem(shape, coordinate, new Color());
+		this.addScrollableItem(shape, coordinate, Colors.White);
 	}
 	
 	public void addScrollableItem(Shape shape, Coordinate coordinate, Color color) { // possibility of overriding the shapes own position
@@ -61,9 +58,21 @@ public class ScrollableSequence extends Renderable {
 	private float currentX;
     private float currentY;
 	
+    private void move(GL10 gl, float x, float y) {
+        currentX += x;
+        currentY += y;
+        
+        gl.glTranslatef(x, y, 0f);
+    }
+    
+    private void moveTo(GL10 gl, Coordinate coordinate) {
+        this.move(gl, coordinate.x - currentX, coordinate.y - currentY);
+    }
+    
 	/** Draw the sequence */
+    @Override
 	public void draw(GL10 gl) {
-        this.draw(gl, new Color());
+        this.draw(gl, Colors.White);
     }
 	
 	/** Draw the sequence */
@@ -76,12 +85,8 @@ public class ScrollableSequence extends Renderable {
         
         for (ScrollableItem item : this.sequence) {
             for (Coordinate coordinate : item.getCoordinates()) {
-                // calculate how much to move on the axis to get to the item's position
-                currentX += coordinate.x - currentX;
-                currentY += coordinate.y - currentY;
-
-                gl.glTranslatef(coordinate.x - currentX, coordinate.y - currentY, 0f);
-                item.draw(gl, item.color);
+                this.moveTo(gl, coordinate);
+                item.draw(gl);
             }
         }
         gl.glPopMatrix();

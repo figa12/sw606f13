@@ -20,7 +20,7 @@ public class GlRenderer implements Renderer {
     
     /* Constants */
     private final float NEAR_CLIPPING_PLANE_DEPTH = 907.0f;
-    private final float FAR_CLIPPING_PLANE_DEPTH = 1000.0f;
+    private final float FAR_CLIPPING_PLANE_DEPTH = 1500.0f;
     private final float FIELD_OF_VIEW_ANGLE = 45.0f;
     private final float DRAWING_DEPTH = 907.744f;
     

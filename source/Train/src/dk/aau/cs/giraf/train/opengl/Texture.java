@@ -119,7 +119,7 @@ public class Texture extends Square implements Renderable.Texture {
      */
     @Override
     public void draw(GL10 gl) {
-        this.draw(gl, new Color()); // White, no transparency
+        this.draw(gl, Colors.White);
     }
     
     /** 

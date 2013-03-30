@@ -126,7 +126,7 @@ public abstract class Shape extends Renderable {
      * @see #draw(GL10 gl, Color color)
      */
     public void draw(GL10 gl) {
-        this.draw(gl, new Color()); // white, no tranparency
+        this.draw(gl, Colors.White);
     }
     
     /**

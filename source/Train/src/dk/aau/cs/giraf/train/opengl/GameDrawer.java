@@ -54,7 +54,7 @@ public final class GameDrawer {
 	    }
 		
 		public final void translateRotateAndDraw(float angle, Shape shape) {
-		    this.translateRotateAndDraw(angle, shape, new Color());
+		    this.translateRotateAndDraw(angle, shape, Colors.White);
 		}
 		
 		public final void translateRotateAndDraw(float angle, Shape shape, Color color) {
@@ -185,7 +185,7 @@ public final class GameDrawer {
 		
 		@Override
 		public final void draw() {
-			super.translateAndDraw(this.shaft, new Color(0f, 0f, 0f, 1f));
+			super.translateAndDraw(this.shaft, Colors.Black);
 			super.translateAndDraw(this.wagon);
 			super.translateAndDraw(this.train);
 	}
@@ -249,24 +249,24 @@ public final class GameDrawer {
 	private final class Middleground extends DrawableGroup {
 	    
 	    private ScrollableSequence sequence = new ScrollableSequence();
-	    private Square square1 = new Square(100f, 100f);
-	    private Square square2 = new Square(100f, 100f);
-        
+	    private Square square = new Square(100f, 100f);
 	    
         @Override
         public void load() {
-            this.sequence.addCoordinate(800f, 300f, MIDDLEGROUND);
-            Color color1 = new Color(1f, 0f, 0f, 1f);
-            Color color2 = new Color(0f, 1f, 0f, 1f);
-            this.sequence.addScrollableItem(square1, new Coordinate(0f, 0f, 0f), color1);
-            this.sequence.addScrollableItem(square2, new Coordinate(100f, 0f, 0f), color2);
-            this.sequence.addScrollableItem(square1, new Coordinate(200f, 0f, 0f), color2);
-            this.sequence.addScrollableItem(square2, new Coordinate(300f, 0f, 0f), color1);
+            this.sequence.addCoordinate(500f, 300f, MIDDLEGROUND);
+            
+            for (float i = 0f; i <= 5000f; i += 100f) {
+                this.sequence.addScrollableItem(square, new Coordinate(i, 0f, 0f), Colors.Blue);
+                i += 100f;
+                this.sequence.addScrollableItem(square, new Coordinate(i, 0f, 0f), Colors.Green);
+            }
         }
 
         @Override
         public void draw() {
             super.translateAndDraw(this.sequence);
+            
+            this.sequence.move(-((systemTimeNow - systemTimeLast)/1000000.0f) * 0.1f, 0f, 0f);
         }
 	}
 
@@ -283,10 +283,8 @@ public final class GameDrawer {
 
         @Override
         public void draw() {
-            Color color = new Color(0, 0, 0, 25);
-            
-            super.translateAndDraw(this.horizontalAxis, color);
-            super.translateAndDraw(this.verticalAxis, color);
+            super.translateAndDraw(this.horizontalAxis, Colors.TransparentBlack);
+            super.translateAndDraw(this.verticalAxis, Colors.TransparentBlack);
         }
 	}
 }
