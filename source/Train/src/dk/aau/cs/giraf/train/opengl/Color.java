@@ -34,7 +34,7 @@ public class Color {
      * @param blue
      * @param alpha
      */
-    public Color(int red, int green, int blue, int alpha) { //TODO test this constructor
+    public Color(int red, int green, int blue, int alpha) {
         this.setColor( (float) red   / 255f,
                        (float) green / 255f,
                        (float) blue  / 255f,

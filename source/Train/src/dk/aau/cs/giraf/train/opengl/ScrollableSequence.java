@@ -5,15 +5,20 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.graphics.Point;
 
-public class ScrollableSequence extends Positionable {
+/**
+ * //TODO
+ * @author Jesper
+ *
+ */
+public class ScrollableSequence extends Renderable {
 	
     /**
-     * Extends {@link Positionable} to get new {@link Coordinate} instead of using the {@link Coordinate} inside the {@link Shape} object.
+     * Extends {@link Renderable} to get a new {@link Coordinate} instead of using the {@link Coordinate} inside the {@link Shape} object.
      * This gives the possibility of reusing a Shape that already have its own coordinates.
      * @author Jesper
      * @see ScrollableItem#ScrollableItem(Shape, Coordinate, Color)
      */
-	private class ScrollableItem extends Positionable {
+	private class ScrollableItem extends Renderable {
 		
 	    private Shape shape;
 	    

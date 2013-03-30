@@ -12,7 +12,7 @@ import javax.microedition.khronos.opengles.GL10;
  * @author Jesper
  *
  */
-public abstract class Shape extends Positionable {
+public abstract class Shape extends Renderable {
     
     /** The width of the shape. */
     private float width;

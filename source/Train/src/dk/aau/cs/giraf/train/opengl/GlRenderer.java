@@ -138,7 +138,7 @@ public class GlRenderer implements Renderer {
         this.gameDrawer = new GameDrawer(gl, this.context); //Create the game drawer instance
         timingLogger.addSplit("initiated new GameDrawer");
         
-        this.gameDrawer.loadAllTexture();                   //Load all texture
+        this.gameDrawer.loadTexture();                   //Load all texture
         
         timingLogger.addSplit("loaded all textures");
         
