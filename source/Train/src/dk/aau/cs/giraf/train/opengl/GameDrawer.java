@@ -14,18 +14,31 @@ import android.util.TimingLogger;
  * @see GameDrawer#loadTexture()
  */
 public final class GameDrawer {
-
-	private abstract class DrawableGroup {
+    
+    /**
+     * An abstract class specifying a group of renderables to be drawn and loaded together.
+     * Methods for translating, rotating, and drawing.
+     * @author Jesper
+     */
+	private abstract class RenderableGroup {
+	    /** Load everything up. Loading happens one time, before drawing. */
 	    public abstract void load();
+	    /** Draw the group */
 	    public abstract void draw();
 		
+	    /**
+	     * Translate to each of the renderable's coordinates and draw it.
+	     * @param renderable is the renderable to be drawn.
+	     */
 		public final void translateAndDraw(Renderable renderable) {
-		    for (Coordinate coordinate : renderable.getCoordinates()) {
-		        moveTo(coordinate);
-		        renderable.draw(gl);
-		    }
+		    this.translateAndDraw(renderable, Colors.White);
 		}
 		
+		/**
+         * Translate to each of the renderable's coordinates and draw it.
+         * @param renderable is the renderable to be drawn.
+		 * @param color is the overlay to be used.
+		 */
 		public final void translateAndDraw(Renderable renderable, Color color) {
 		    for (Coordinate coordinate : renderable.getCoordinates()) {
                 moveTo(coordinate);
@@ -33,102 +46,99 @@ public final class GameDrawer {
             }
 		}
 		
-		private final void rotateCenterAndDraw(float angle, Shape shape, Color color) {
-	        //first move half width/height. This will be the center of the shape
-	        move(shape.getWidth()/2, -shape.getHeight()/2, 0f);
-	        
-	        //create a new drawing matrix at the shape's center
-	        gl.glPushMatrix();
-	        
-            //then rotate the matrix
-            gl.glRotatef(angle, 0f, 0f, 1f);
-            
-	        //then move the shape, in the new matrix, to align the center of the shape with the center of the matrix
-	        gl.glTranslatef(-shape.getWidth()/2, shape.getHeight()/2, 0f);
-	        
-	        //draw
-	        shape.draw(gl, color);
-	        
-	        //discard the matrix
-	        gl.glPopMatrix();
-	    }
-		
+		/**
+		 * Translate to each of the shape's coordinates, rotate, and draw it.
+		 * @param angle is the amount to rotate.
+		 * @param shape is the shape to be rotated/drawn
+		 */
 		public final void translateRotateAndDraw(float angle, Shape shape) {
 		    this.translateRotateAndDraw(angle, shape, Colors.White);
 		}
 		
+		/**
+		 * Translate to each of the shape's coordinates, rotate, and draw it.
+		 * @param angle is the amount to rotate.
+		 * @param shape is the shape to be rotated/drawn
+		 * @param color is the overlay to be used.
+		 */
 		public final void translateRotateAndDraw(float angle, Shape shape, Color color) {
             for (Coordinate coordinate : shape.getCoordinates()) {
                 moveTo(coordinate);
-                this.rotateCenterAndDraw(angle, shape, color);
+                shape.rotateCenterAndDraw(gl, angle, color);
             }
         }
 	}
 
 	private GL10 gl;
 	private Context context;
-	private float visibleWidth = 1f;
-	private float visibleHeight = 1f;
 	
 	private final float FOREGROUND = -907.744f;
 	private final float MIDDLEGROUND = -1300f;
 	
+	private float timeDifference;
+	private long systemTimeLast = System.nanoTime();
 	private long systemTimeNow = 1;
-	private long systemTimeLast = 0;
 	
 	private float currentX = 0f;
 	private float currentY = 0f;
 	private float currentZ = 0f;
-
-	private ArrayList<DrawableGroup> gameDrawables = new ArrayList<DrawableGroup>();
+	
+	/** The list of {@link RenderableGroup}s. */
+	private ArrayList<RenderableGroup> gameRenderableGroups = new ArrayList<RenderableGroup>();
 	
 	public GameDrawer(GL10 gl, Context context) {
 		this.gl = gl;
 		this.context = context;
 		
-		// add GameDrawables to the list in the order they should be drawn
-		this.addDrawableGroup(new Middleground());
-		this.addDrawableGroup(new Station());
-		this.addDrawableGroup(new Train());
-		this.addDrawableGroup(new Wheels());
+		// add RenderableGroups to the list in the order they should be drawn
+		//this.addRenderableGroup(new Middleground());
+		this.addRenderableGroup(new Station());
+		this.addRenderableGroup(new Train());
+		this.addRenderableGroup(new Wheels());
 		
-		this.addDrawableGroup(new Tester()); // Always draw last
+		this.addRenderableGroup(new Tester()); // Always draw last
 	}
 
-	public void setVisibleLimits(float visibleWidth, float visibleHeight) {
-		this.visibleWidth = visibleWidth;
-		this.visibleHeight = visibleHeight;
+	private final void addRenderableGroup(RenderableGroup renderableGroup) {
+		this.gameRenderableGroups.add(renderableGroup);
 	}
 
-	private final void addDrawableGroup(DrawableGroup drawableGroup) {
-		this.gameDrawables.add(drawableGroup);
-	}
-
-	/** Draw everything on screen */
+	/** Draw everything on screen. */
 	public synchronized final void drawGame() { //FIXME does it give sense to use 'synchronized' keyword here?
 	    this.resetPosition();
 	    
 	    this.systemTimeNow = System.nanoTime();
+	    this.timeDifference = (this.systemTimeNow - this.systemTimeLast)/1000000.0f; //FIXME follow the trace of this for the first drawn frame. It's dangerous.
 	    
-		for (DrawableGroup drawableGroup : this.gameDrawables) {
-			drawableGroup.draw();
-			//this.resetPosition();
+		for (RenderableGroup renderableGroup : this.gameRenderableGroups) {
+			renderableGroup.draw();
 		}
 		
 		this.systemTimeLast = this.systemTimeNow;
 	}
 
-	/** Loads all texture */
+	/** Call all {@link RenderableGroup#load()} from {@link GameDrawer#gameRenderableGroups}. */
 	public final void loadTexture() {
-		for (DrawableGroup drawableGroup : this.gameDrawables) {
-			drawableGroup.load();
+		for (RenderableGroup renderableGroup : this.gameRenderableGroups) {
+			renderableGroup.load();
 		}
 	}
 	
+	/**
+	 * Moves the current position to the coordinate.
+	 * @param coordinate is the position to translate to.
+	 * @see #move(float, float, float)
+	 */
 	private final void moveTo(Coordinate coordinate) {
 	    this.move(coordinate.x - this.currentX, coordinate.y - this.currentY, coordinate.z - this.currentZ);
 	}
 	
+	/**
+	 * Translate by the specified amount.
+	 * @param x direction
+	 * @param y direction
+	 * @param z direction
+	 */
 	private final void move(float x, float y, float z) {
 	    this.gl.glTranslatef(x, y, z);
         
@@ -137,6 +147,7 @@ public final class GameDrawer {
         this.currentZ += z;
 	}
 	
+	/** Load identity and reset the current X, Y, and Z to 0. */
 	private final void resetPosition() {
 	    this.gl.glLoadIdentity();
 	    this.currentX = 0f;
@@ -144,7 +155,7 @@ public final class GameDrawer {
 	    this.currentZ = 0f;
 	}
 	
-	private final class Station extends DrawableGroup {
+	private final class Station extends RenderableGroup {
 		
 	    private Texture trainStation = new Texture(1.0f, 1.0f);
 		
@@ -163,7 +174,7 @@ public final class GameDrawer {
 		}
 	}
 
-	private final class Train extends DrawableGroup {
+	private final class Train extends RenderableGroup {
 
 		private Texture train = new Texture(1.0f, 1.0f);
 		private Texture wagon = new Texture(1.0f, 1.0f);
@@ -193,7 +204,7 @@ public final class GameDrawer {
 		
 	}
 	
-	private final class Wheels extends DrawableGroup {
+	private final class Wheels extends RenderableGroup {
 		
 		private Texture largeWheel = new Texture(1.0f, 1.0f); // wheel diameter 106.4
 		private Texture mediumWheel = new Texture(1.0f, 1.0f); // wheel diameter 78.71
@@ -242,13 +253,13 @@ public final class GameDrawer {
             
             super.translateAndDraw(this.ground);
 		    
-		    this.rotation -= 0.2f * (systemTimeNow - systemTimeLast)/1000000.0f;
+		    this.rotation -= 0.2f * timeDifference;
 		}
 	}
 	
-	private final class Middleground extends DrawableGroup {
+	private final class Middleground extends RenderableGroup {
 	    
-	    private ScrollableSequence sequence = new ScrollableSequence();
+	    private RenderableMatrix sequence = new RenderableMatrix();
 	    private Square square = new Square(100f, 100f);
 	    
         @Override
@@ -256,9 +267,9 @@ public final class GameDrawer {
             this.sequence.addCoordinate(500f, 300f, MIDDLEGROUND);
             
             for (float i = 0f; i <= 5000f; i += 100f) {
-                this.sequence.addScrollableItem(square, new Coordinate(i, 0f, 0f), Colors.Blue);
+                this.sequence.addRenderableMatrixItem(square, new Coordinate(i, 0f, 0f), Colors.Blue);
                 i += 100f;
-                this.sequence.addScrollableItem(square, new Coordinate(i, 0f, 0f), Colors.Green);
+                this.sequence.addRenderableMatrixItem(square, new Coordinate(i, 0f, 0f), Colors.Green);
             }
         }
 
@@ -266,12 +277,14 @@ public final class GameDrawer {
         public void draw() {
             super.translateAndDraw(this.sequence);
             
-            this.sequence.move(-((systemTimeNow - systemTimeLast)/1000000.0f) * 0.1f, 0f, 0f);
+            this.sequence.move(-timeDifference * 0.1f, 0f, 0f);
         }
 	}
 
-	private final class Tester extends DrawableGroup {
+	private final class Tester extends RenderableGroup {
 	    
+	    /* Thin squares to be used as the axes on screen.
+	     * It makes it easier to 'understand' the OpenGL matrix. */
 	    private Square horizontalAxis = new Square(1280f, 1.1f);
 	    private Square verticalAxis = new Square(1.1f, 752f);
 	    

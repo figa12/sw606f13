@@ -8,9 +8,8 @@ import javax.microedition.khronos.opengles.GL10;
 
 /**
  * An abstract class used for drawing shapes.
- * 
  * @author Jesper
- *
+ * @see Renderable
  */
 public abstract class Shape extends Renderable {
     
@@ -156,5 +155,32 @@ public abstract class Shape extends Renderable {
         
         //Disable the client state before leaving
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+    }
+    
+    public void rotateCenterAndDraw(GL10 gl, float angle) {
+        this.rotateCenterAndDraw(gl, angle, Colors.White);
+    }
+    
+    public void rotateCenterAndDraw(GL10 gl, float angle, Color color) {
+        //first move half width/height. This will be the center of the shape
+        gl.glTranslatef(this.getWidth()/2, -this.getHeight()/2, 0f);
+        
+        //create a new drawing matrix at the shape's center
+        gl.glPushMatrix();
+        
+        //then rotate the matrix
+        gl.glRotatef(angle, 0f, 0f, 1f);
+        
+        //then move the shape, in the new matrix, to align the center of the shape with the center of the matrix
+        gl.glTranslatef(-this.getWidth()/2, this.getHeight()/2, 0f);
+        
+        //draw
+        this.draw(gl, color);
+        
+        //discard the matrix
+        gl.glPopMatrix();
+        
+        //then move back to where the original matrix were
+        gl.glTranslatef(-this.getWidth()/2, this.getHeight()/2, 0f);
     }
 }

@@ -3,6 +3,7 @@ package dk.aau.cs.giraf.train.opengl;
 /**
  * Simple class holding a {@code x}, {@code y}, and {@code z} coordinate.
  * @author Jesper
+ * @see #Coordinate(float, float, float)
  */
 public class Coordinate {
     public float x;
