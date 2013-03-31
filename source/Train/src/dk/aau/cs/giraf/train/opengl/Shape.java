@@ -127,7 +127,7 @@ public abstract class Shape extends Renderable {
      */
     @Override
     public void draw(GL10 gl, Coordinate coordinate) {
-        this.draw(gl, coordinate, Colors.White);
+        this.draw(gl, coordinate, Color.White);
     }
     
     /**
@@ -168,7 +168,7 @@ public abstract class Shape extends Renderable {
      * @param angle      amount to rotate.
      */
     public void rotateCenterAndDraw(GL10 gl, Coordinate coordinate, float angle) {
-        this.rotateCenterAndDraw(gl, coordinate, angle, Colors.White);
+        this.rotateCenterAndDraw(gl, coordinate, angle, Color.White);
     }
     
     /**

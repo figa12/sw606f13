@@ -63,7 +63,7 @@ public class RenderableMatrix extends Renderable {
 	 * @param coordinate in this matrix where the renderable is to be drawn.
 	 */
 	public void addRenderableMatrixItem(Renderable renderable, Coordinate coordinate) {
-		this.addRenderableMatrixItem(renderable, coordinate, Colors.White);
+		this.addRenderableMatrixItem(renderable, coordinate, Color.White);
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class RenderableMatrix extends Renderable {
      */
     @Override
 	public void draw(GL10 gl, Coordinate coordinate) {
-        this.draw(gl, coordinate, Colors.White);
+        this.draw(gl, coordinate, Color.White);
     }
 	
     /**
@@ -130,7 +130,7 @@ public class RenderableMatrix extends Renderable {
         this.currentY = 0f;
         
         gl.glPushMatrix();
-        
+            
         for (RenderableMatrixItem item : this.matrixItems) {
             for (Coordinate itemCoordinate : item.getCoordinates()) {
                 this.moveTo(gl, itemCoordinate);

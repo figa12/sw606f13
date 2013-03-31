@@ -120,7 +120,7 @@ public class Texture extends Square implements Renderable.Texture {
      */
     @Override
     public void draw(GL10 gl, Coordinate coordinate) {
-        this.draw(gl, coordinate, Colors.White);
+        this.draw(gl, coordinate, Color.White);
     }
     
     /** 

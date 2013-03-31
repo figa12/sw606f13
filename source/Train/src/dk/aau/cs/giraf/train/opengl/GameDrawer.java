@@ -31,7 +31,7 @@ public final class GameDrawer {
 	     * @param renderable is the renderable to be drawn.
 	     */
 		public final void translateAndDraw(Renderable renderable) {
-		    this.translateAndDraw(renderable, Colors.White);
+		    this.translateAndDraw(renderable, Color.White);
 		}
 		
 		/**
@@ -52,7 +52,7 @@ public final class GameDrawer {
 		 * @param shape is the shape to be rotated/drawn
 		 */
 		public final void translateRotateAndDraw(float angle, Shape shape) {
-		    this.translateRotateAndDraw(angle, shape, Colors.White);
+		    this.translateRotateAndDraw(angle, shape, Color.White);
 		}
 		
 		/**
@@ -199,7 +199,7 @@ public final class GameDrawer {
 		
 		@Override
 		public final void draw() {
-			super.translateAndDraw(this.shaft, Colors.Black);
+			super.translateAndDraw(this.shaft, Color.Black);
 			super.translateAndDraw(this.wagon);
 			super.translateAndDraw(this.train);
 	}
@@ -270,9 +270,9 @@ public final class GameDrawer {
             this.sequence.addCoordinate(500f, 300f, MIDDLEGROUND);
             
             for (float i = 0f; i <= 5000f; i += 100f) {
-                this.sequence.addRenderableMatrixItem(square, new Coordinate(i, 0f, 0f), Colors.Blue);
+                this.sequence.addRenderableMatrixItem(square, new Coordinate(i, 0f, 0f), Color.Blue);
                 i += 100f;
-                this.sequence.addRenderableMatrixItem(square, new Coordinate(i, 0f, 0f), Colors.Green);
+                this.sequence.addRenderableMatrixItem(square, new Coordinate(i, 0f, 0f), Color.Green);
             }
         }
 
@@ -318,8 +318,8 @@ public final class GameDrawer {
 
         @Override
         public void draw() {
-            super.translateAndDraw(this.horizontalAxis, Colors.TransparentBlack);
-            super.translateAndDraw(this.verticalAxis, Colors.TransparentBlack);
+            super.translateAndDraw(this.horizontalAxis, Color.TransparentBlack);
+            super.translateAndDraw(this.verticalAxis, Color.TransparentBlack);
         }
 	}
 }
