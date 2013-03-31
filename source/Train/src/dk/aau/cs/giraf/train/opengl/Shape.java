@@ -81,18 +81,12 @@ public abstract class Shape extends Renderable {
         return this.vertices;
     }
     
-    /**
-     * Get the width.
-     * @return float width
-     */
+    @Override
     public float getWidth() {
         return this.width;
     }
     
-    /**
-     * Get the height.
-     * @return float height
-     */
+    @Override
     public float getHeight() {
         return this.height;
     }

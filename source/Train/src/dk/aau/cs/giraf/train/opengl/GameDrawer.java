@@ -69,8 +69,14 @@ public final class GameDrawer {
         }
 	}
 
+	public enum WeatherStyle {
+	    Sunny, Cloudy
+	}
+	
 	private GL10 gl;
 	private Context context;
+	private Coordinate currentPosition = new Coordinate(0f, 0f, 0f);
+	private WeatherStyle weatherStyle;
 	
 	private final float FOREGROUND = -907.744f;
 	private final float MIDDLEGROUND = -1300f;
@@ -79,7 +85,6 @@ public final class GameDrawer {
 	private long systemTimeLast = System.nanoTime();
 	private long systemTimeNow = 1;
 	
-	private Coordinate currentPosition = new Coordinate(0f, 0f, 0f);
 	
 	/** The list of {@link RenderableGroup}s. */
 	private ArrayList<RenderableGroup> gameRenderableGroups = new ArrayList<RenderableGroup>();
@@ -92,12 +97,14 @@ public final class GameDrawer {
 	public GameDrawer(GL10 gl, Context context) {
 		this.gl = gl;
 		this.context = context;
+		this.weatherStyle = WeatherStyle.Cloudy;
 		
 		// add RenderableGroups to the list in the order they should be drawn
 		//this.addRenderableGroup(new Middleground());
 		this.addRenderableGroup(new Station());
 		this.addRenderableGroup(new Train());
 		this.addRenderableGroup(new Wheels());
+		//this.addRenderableGroup(new Overlay());
 		
 		this.addRenderableGroup(new Tester()); // Always draw last
 	}
@@ -182,6 +189,7 @@ public final class GameDrawer {
 		private Texture train = new Texture(1.0f, 1.0f);
 		private Texture wagon = new Texture(1.0f, 1.0f);
 		private Square shaft = new Square(40f, 3f);
+		private Square trainWindow = new Square(95f, 95f);
 		
 		@Override
         public final void load() {
@@ -191,6 +199,7 @@ public final class GameDrawer {
             this.shaft.addCoordinate(-227.45f, -294.72f, FOREGROUND);
             this.shaft.addCoordinate(127.42f, -294.72f, FOREGROUND);
             this.train.addCoordinate(160.42f, -52.37f, FOREGROUND);
+            this.trainWindow.addCoordinate(198.92f, -87f, FOREGROUND);
             
             //Load the textures
             this.wagon.loadTexture(gl, context, R.drawable.texture_wagon, Texture.AspectRatio.BitmapOneToOne);
@@ -201,10 +210,49 @@ public final class GameDrawer {
 		public final void draw() {
 			super.translateAndDraw(this.shaft, Color.Black);
 			super.translateAndDraw(this.wagon);
+			super.translateAndDraw(this.trainWindow, Color.Window);
 			super.translateAndDraw(this.train);
+		}
 	}
+	
+	private final class TrainSmoke extends RenderableGroup {
+	    
+	    private final int smokeParticles = 5;
+	    private Square smokeParticle = new Square(25f, 25f);
+	    private Color smokeColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+	    private Smoke[] smokes = new Smoke[this.smokeParticles];
+	    
+	    private final float maximumSmokeDistance = 150f;
+        
+	    private final float trainMaxSpeed = 20f; // test temp
+	    private final float trainCurrentSpeed = 10f; // test temp
+	    
+	    private final float smokeMinimumSpeed = 50f;
+	    private final float smokeMaximumSpeed = 100f;
+        private float currentSmokeSpeed = 0f;
+	    private float xSpeed = 0f;
+        private float ySpeed = 50f;
+	    
+        
+        private void updateSmokeSpeed() {
+            
+        }
+        
+        @Override
+        public void load() {
+            // TODO Auto-generated method stub
+            
+        }
 
-		
+        @Override
+        public void draw() {
+            for (Smoke smoke : this.smokes) {
+                
+            }
+        }
+        
+        private final class Smoke {
+        }
 	}
 	
 	private final class Wheels extends RenderableGroup {
@@ -270,9 +318,9 @@ public final class GameDrawer {
             this.sequence.addCoordinate(500f, 300f, MIDDLEGROUND);
             
             for (float i = 0f; i <= 5000f; i += 100f) {
-                this.sequence.addRenderableMatrixItem(square, new Coordinate(i, 0f, 0f), Color.Blue);
+                this.sequence.addRenderableMatrixItem(square, new Coordinate(0f, i, 0f), Color.Blue);
                 i += 100f;
-                this.sequence.addRenderableMatrixItem(square, new Coordinate(i, 0f, 0f), Color.Green);
+                this.sequence.addRenderableMatrixItem(square, new Coordinate(0f, i, 0f), Color.Green);
             }
         }
 
@@ -280,15 +328,14 @@ public final class GameDrawer {
         public void draw() {
             super.translateAndDraw(this.sequence);
             
-            this.sequence.move(-timeDifference * 0.1f, 0f, 0f);
+            this.sequence.move(0f, -timeDifference * 0.1f, 0f);
         }
 	}
 	
 	private final class WeatherGenerator extends RenderableGroup {
 	    
-	    private Texture bigCloud = new Texture(1f, 1f);
-	    private Texture smallCloud = new Texture(1f, 1f);
-        private Square overlay = new Square(1280f, 752f);
+	    private Square bigCloud = new Square(1f, 1f);
+	    private Square smallCloud = new Square(1f, 1f);
 	    
         @Override
         public void load() {
@@ -299,6 +346,29 @@ public final class GameDrawer {
         public void draw() {
             // TODO Auto-generated method stub
             
+        }
+	    
+	}
+	
+	private final class Overlay extends RenderableGroup {
+	    
+	    Square overlay = new Square(640f, 752f); // should be 1281, 753, left at this for testing purposes
+	    
+        @Override
+        public void load() {
+            this.overlay.addCoordinate(0f, 376f, FOREGROUND);
+        }
+
+        @Override
+        public void draw() {
+            switch(weatherStyle) {
+            case Cloudy:
+                super.translateAndDraw(this.overlay, Color.DarkWeather);
+                break;
+            case Sunny:
+                // overlay yellow to indicate light?
+                break;
+            }
         }
 	    
 	}

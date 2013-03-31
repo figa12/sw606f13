@@ -81,4 +81,11 @@ public abstract class Renderable {
      * @param color overlay
      */
     public abstract void draw(GL10 gl, Coordinate coordinate, Color color);
+    
+    /** Return the width of this {@link Renderable}. */
+    public abstract float getWidth();
+    
+    /** Return the height of this {@link Renderable}. */
+    public abstract float getHeight();
+    
 }

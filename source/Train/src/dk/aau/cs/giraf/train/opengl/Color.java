@@ -13,6 +13,8 @@ public class Color {
     public final static Color Red = new Color(1f, 0f, 0f, 1f);
     public final static Color Green = new Color(0f, 1f, 0f, 1f);
     public final static Color Blue = new Color(0f, 0f, 1f, 1f);
+    public final static Color Window = new Color(0f, 0f, 0.75f, 1f);
+    public final static Color DarkWeather = new Color(0f, 0f, 0.2f, 0.1f);
     
     /* The color values. */
     public float red;

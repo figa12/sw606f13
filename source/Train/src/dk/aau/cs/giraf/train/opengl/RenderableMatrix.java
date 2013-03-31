@@ -40,6 +40,16 @@ public class RenderableMatrix extends Renderable {
         }
 		
 		@Override
+        public float getWidth() {
+            return this.renderable.getWidth();
+        }
+
+        @Override
+        public float getHeight() {
+            return this.renderable.getHeight();
+        }
+		
+		@Override
         public void draw(GL10 gl, Coordinate coordinate) {
 		    // always use the this.color
             this.renderable.draw(gl, coordinate, this.color);
@@ -77,6 +87,44 @@ public class RenderableMatrix extends Renderable {
 	public void addRenderableMatrixItem(Renderable renderable, Coordinate coordinate, Color color) {
         RenderableMatrixItem scrollableItem = new RenderableMatrixItem(renderable, coordinate, color);
         this.matrixItems.add(scrollableItem);
+    }
+	
+	@Override
+    public float getWidth() {
+        if(this.matrixItems.size() == 0) {
+            return 0f;
+        }
+        
+	    float highestX = this.matrixItems.get(0).getCoordinates().get(0).getX();
+        
+        for (RenderableMatrixItem item : this.matrixItems) {
+            for (Coordinate itemCoordinate : item.getCoordinates()) {
+                if(highestX < itemCoordinate.getX() + item.getWidth()) {
+                    highestX = itemCoordinate.getX() + item.getWidth();
+                }
+            }
+        }
+        // in this case the width is defined by the distance from the matrix center to the farthest item + width
+        return highestX;
+    }
+
+    @Override
+    public float getHeight() {
+        if(this.matrixItems.size() == 0) {
+            return 0f;
+        }
+        
+        float highestY = this.matrixItems.get(0).getCoordinates().get(0).getY();
+        
+        for (RenderableMatrixItem item : this.matrixItems) {
+            for (Coordinate itemCoordinate : item.getCoordinates()) {
+                if(highestY > itemCoordinate.getY() - item.getHeight()) {
+                    highestY = itemCoordinate.getY() - item.getHeight();
+                }
+            }
+        }
+        // in this case the height is defined by the distance from the matrix center to the lowest item + height
+        return Math.abs(highestY);
     }
 	
 	/** The current X position inside this matrix. */
@@ -133,8 +181,15 @@ public class RenderableMatrix extends Renderable {
             
         for (RenderableMatrixItem item : this.matrixItems) {
             for (Coordinate itemCoordinate : item.getCoordinates()) {
-                this.moveTo(gl, itemCoordinate);
-                item.draw(gl, itemCoordinate);
+                //only draw if the item is visible on the screen
+                if(     coordinate.getX() + itemCoordinate.getX() + item.getWidth() >= -coordinate.getVisibleWidth()/2 &&
+                        coordinate.getX() + itemCoordinate.getX() <= coordinate.getVisibleWidth()/2 &&
+                        coordinate.getY() + itemCoordinate.getY() >= -coordinate.getVisibleHeight()/2 &&
+                        coordinate.getY() + itemCoordinate.getY() - item.getHeight() <= coordinate.getVisibleHeight()/2 ) {
+                    
+                    this.moveTo(gl, itemCoordinate);
+                    item.draw(gl, itemCoordinate);
+                }
             }
         }
         gl.glPopMatrix();
