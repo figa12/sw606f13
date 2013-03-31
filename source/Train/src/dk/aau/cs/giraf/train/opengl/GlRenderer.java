@@ -94,6 +94,11 @@ public class GlRenderer implements Renderer {
         
         gl.glMatrixMode(GL10.GL_MODELVIEW); 	//Select The Modelview Matrix
         gl.glLoadIdentity(); 					//Reset The Modelview Matrix
+        
+        TimingLogger timingLogger = new TimingLogger(GlRenderer.class.getSimpleName(), "onSurfaceChanged");
+        this.gameDrawer.loadTexture(); //Load all texture
+        timingLogger.addSplit("loaded all textures");
+        timingLogger.dumpToLog();
     }
     
     /** 
@@ -103,7 +108,7 @@ public class GlRenderer implements Renderer {
      * @param depth to calculate the visible height
      */
     public static float getActualHeight(float depth) {
-        double otherAngles = (180.0 - GlRenderer.FIELD_OF_VIEW_ANGLE) / 2.0; // TODO make better variable name
+        double otherAngles = (180.0 - GlRenderer.FIELD_OF_VIEW_ANGLE) / 2.0;
         double hypotenuse = depth / Math.sin(Math.toRadians(otherAngles));
         return (float) Math.sqrt(Math.pow(hypotenuse, 2.0) - Math.pow(depth, 2.0)) * 2;
     }
@@ -116,7 +121,7 @@ public class GlRenderer implements Renderer {
      * @see #getActualHeight(float depth)
      */
     public static float getActualWidth(float actualHeight) {
-        float aspectRatio = (float) surfaceWidth / surfaceHeight;
+        float aspectRatio = (float) GlRenderer.surfaceWidth / GlRenderer.surfaceHeight;
         return actualHeight * aspectRatio;
     }
     
@@ -125,14 +130,7 @@ public class GlRenderer implements Renderer {
      * @see Renderer#onSurfaceCreated(GL10, EGLConfig)
      */
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        TimingLogger timingLogger = new TimingLogger(GlRenderer.class.getSimpleName(), "onSurfaceCreated");
-        
         this.gameDrawer = new GameDrawer(gl, this.context); //Create the game drawer instance
-        timingLogger.addSplit("initiated new GameDrawer");
-        
-        this.gameDrawer.loadTexture();                   //Load all texture
-        
-        timingLogger.addSplit("loaded all textures");
         
         gl.glShadeModel(GL10.GL_SMOOTH);                    //Enable Smooth Shading
         
@@ -152,8 +150,5 @@ public class GlRenderer implements Renderer {
         gl.glCullFace(GL10.GL_BACK);    // specify which faces to not draw
         
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST); // Really Nice Perspective Calculations
-        
-        timingLogger.addSplit("created the OpenGL surface");
-        timingLogger.dumpToLog();
     }
 }

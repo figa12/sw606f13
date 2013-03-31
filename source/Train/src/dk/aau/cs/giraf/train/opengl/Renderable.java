@@ -61,22 +61,24 @@ public abstract class Renderable {
      */
     public void move(float moveX, float moveY, float moveZ) {
         for (Coordinate coordinate : this.coordinates) {
-            coordinate.x += moveX;
-            coordinate.y += moveY;
-            coordinate.z += moveZ;
+            coordinate.moveX(moveX);
+            coordinate.moveY(moveY);
+            coordinate.moveZ(moveZ);
         }
     }
     
     /**
      * Draw this renderable.
      * @param gl the {@link GL10} instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
      */
-    public abstract void draw(GL10 gl);
+    public abstract void draw(GL10 gl, Coordinate coordinate);
     
     /**
      * Draw this renderable.
      * @param gl the {@link GL10} instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
      * @param color overlay
      */
-    public abstract void draw(GL10 gl, Color color);
+    public abstract void draw(GL10 gl, Coordinate coordinate, Color color);
 }

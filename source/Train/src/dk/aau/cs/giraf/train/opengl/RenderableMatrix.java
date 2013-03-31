@@ -40,15 +40,15 @@ public class RenderableMatrix extends Renderable {
         }
 		
 		@Override
-        public void draw(GL10 gl) {
+        public void draw(GL10 gl, Coordinate coordinate) {
 		    // always use the this.color
-            this.renderable.draw(gl, this.color);
+            this.renderable.draw(gl, coordinate, this.color);
         }
 		
         @Override
-        public void draw(GL10 gl, Color color) {
+        public void draw(GL10 gl, Coordinate coordinate, Color color) {
             // ignore color input, use this.color instead
-            this.renderable.draw(gl, this.color);
+            this.renderable.draw(gl, coordinate, this.color);
         }
 	}
 	
@@ -58,6 +58,7 @@ public class RenderableMatrix extends Renderable {
 	/**
 	 * Add a {@link RenderableMatrixItem} to this matrix.
 	 * The {@link Renderable}'s own coordinates are ignored, the input coordinate is used instead.
+	 * The z-axis is disabled.
 	 * @param renderable to add to this matrix.
 	 * @param coordinate in this matrix where the renderable is to be drawn.
 	 */
@@ -68,6 +69,7 @@ public class RenderableMatrix extends Renderable {
 	/**
 	 * Add a {@link RenderableMatrixItem} to this matrix.
 	 * The {@link Renderable}'s own coordinates are ignored, the input coordinate is used instead.
+	 * The z-axis is disabled.
 	 * @param renderable to add to this matrix.
      * @param coordinate in this matrix where the renderable is to be drawn.
 	 * @param color overlay, in this matrix, for this item.
@@ -103,34 +105,36 @@ public class RenderableMatrix extends Renderable {
      * @see Coordinates
      */
     private void moveTo(GL10 gl, Coordinate coordinate) {
-        this.move(gl, coordinate.x - currentX, coordinate.y - currentY);
+        this.move(gl, coordinate.getX() - currentX, coordinate.getY() - currentY);
     }
     
     /**
      * Draw the entire renderable matrix.
      * @param gl the {@link GL10} instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
      */
     @Override
-	public void draw(GL10 gl) {
-        this.draw(gl, Colors.White);
+	public void draw(GL10 gl, Coordinate coordinate) {
+        this.draw(gl, coordinate, Colors.White);
     }
 	
     /**
      * Draw the entire renderable matrix.
      * @param gl the {@link GL10} instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
      * @param color is the overlay.
      */
 	@Override
-    public void draw(GL10 gl, Color color) {
+    public void draw(GL10 gl, Coordinate coordinate, Color color) {
         this.currentX = 0f;
         this.currentY = 0f;
         
         gl.glPushMatrix();
         
         for (RenderableMatrixItem item : this.matrixItems) {
-            for (Coordinate coordinate : item.getCoordinates()) {
-                this.moveTo(gl, coordinate);
-                item.draw(gl);
+            for (Coordinate itemCoordinate : item.getCoordinates()) {
+                this.moveTo(gl, itemCoordinate);
+                item.draw(gl, itemCoordinate);
             }
         }
         gl.glPopMatrix();

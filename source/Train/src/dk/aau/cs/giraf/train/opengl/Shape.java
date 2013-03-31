@@ -121,11 +121,13 @@ public abstract class Shape extends Renderable {
      * This should be sufficient to draw squares and triangles,
      * the method should be overridden though.
      * 
-     * @param gl the GL10 instance.
+     * @param gl         the {@link GL10} instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
      * @see #draw(GL10 gl, Color color)
      */
-    public void draw(GL10 gl) {
-        this.draw(gl, Colors.White);
+    @Override
+    public void draw(GL10 gl, Coordinate coordinate) {
+        this.draw(gl, coordinate, Colors.White);
     }
     
     /**
@@ -133,11 +135,13 @@ public abstract class Shape extends Renderable {
      * This should be sufficient to draw squares and triangles,
      * the method should be overridden though.
      * 
-     * @param gl    the GL10 instance.
-     * @param color the color overlay for this shape
+     * @param gl         the {@link GL10} instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
+     * @param color      the color overlay for this shape
      * @see #draw(GL10)
      */
-    public void draw(GL10 gl, Color color) {
+    @Override
+    public void draw(GL10 gl, Coordinate coordinate, Color color) {
         //Set the color of the shape
         gl.glColor4f(color.red, color.green, color.blue, color.alpha);
         
@@ -157,11 +161,24 @@ public abstract class Shape extends Renderable {
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
     }
     
-    public void rotateCenterAndDraw(GL10 gl, float angle) {
-        this.rotateCenterAndDraw(gl, angle, Colors.White);
+    /**
+     * Rotate the shape around its center by the specified angle and draw it.
+     * @param gl         the {@link GL10} instance.
+     * @param coordinate where where the {@link Renderable} is being drawn.
+     * @param angle      amount to rotate.
+     */
+    public void rotateCenterAndDraw(GL10 gl, Coordinate coordinate, float angle) {
+        this.rotateCenterAndDraw(gl, coordinate, angle, Colors.White);
     }
     
-    public void rotateCenterAndDraw(GL10 gl, float angle, Color color) {
+    /**
+     * Rotate the shape around its center by the specified angle and draw it.
+     * @param gl         the the {@link GL10} instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
+     * @param angle      amount to rotate.
+     * @param color      the color overlay for this shape.
+     */
+    public void rotateCenterAndDraw(GL10 gl, Coordinate coordinate, float angle, Color color) {
         //first move half width/height. This will be the center of the shape
         gl.glTranslatef(this.getWidth()/2, -this.getHeight()/2, 0f);
         
@@ -175,7 +192,7 @@ public abstract class Shape extends Renderable {
         gl.glTranslatef(-this.getWidth()/2, this.getHeight()/2, 0f);
         
         //draw
-        this.draw(gl, color);
+        this.draw(gl, coordinate, color);
         
         //discard the matrix
         gl.glPopMatrix();

@@ -113,24 +113,25 @@ public class Texture extends Square implements Renderable.Texture {
         }
     }
     
-    /**
-     * Draws the texture.
-     * This method calls {@link #draw(GL10, Color)} and sets the color to white with no transparency.
+    /** 
+     * Draw the texture.
+     * @param gl    the GL10 instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
      */
     @Override
-    public void draw(GL10 gl) {
-        this.draw(gl, Colors.White);
+    public void draw(GL10 gl, Coordinate coordinate) {
+        this.draw(gl, coordinate, Colors.White);
     }
     
     /** 
      * Draw the texture with the specified RGBA color
      * 
      * @param gl    the GL10 instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
      * @param color a color overlay
-     * @see #draw(GL10)
      */
     @Override
-    public void draw(GL10 gl, Color color) {
+    public void draw(GL10 gl, Coordinate coordinate, Color color) {
         gl.glColor4f(color.red, color.green, color.blue, color.alpha);
         
         //Enable texture

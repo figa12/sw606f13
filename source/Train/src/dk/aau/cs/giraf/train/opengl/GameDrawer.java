@@ -42,7 +42,7 @@ public final class GameDrawer {
 		public final void translateAndDraw(Renderable renderable, Color color) {
 		    for (Coordinate coordinate : renderable.getCoordinates()) {
                 moveTo(coordinate);
-                renderable.draw(gl, color);
+                renderable.draw(gl, coordinate, color);
             }
 		}
 		
@@ -64,7 +64,7 @@ public final class GameDrawer {
 		public final void translateRotateAndDraw(float angle, Shape shape, Color color) {
             for (Coordinate coordinate : shape.getCoordinates()) {
                 moveTo(coordinate);
-                shape.rotateCenterAndDraw(gl, angle, color);
+                shape.rotateCenterAndDraw(gl, coordinate, angle, color);
             }
         }
 	}
@@ -79,13 +79,16 @@ public final class GameDrawer {
 	private long systemTimeLast = System.nanoTime();
 	private long systemTimeNow = 1;
 	
-	private float currentX = 0f;
-	private float currentY = 0f;
-	private float currentZ = 0f;
+	private Coordinate currentPosition = new Coordinate(0f, 0f, 0f);
 	
 	/** The list of {@link RenderableGroup}s. */
 	private ArrayList<RenderableGroup> gameRenderableGroups = new ArrayList<RenderableGroup>();
 	
+	/**
+	 * Create the {@link GameDrawer}. All {@link RenderableGroup}s are created here.
+	 * @param gl the {@link GL10} instance
+	 * @param context
+	 */
 	public GameDrawer(GL10 gl, Context context) {
 		this.gl = gl;
 		this.context = context;
@@ -98,7 +101,7 @@ public final class GameDrawer {
 		
 		this.addRenderableGroup(new Tester()); // Always draw last
 	}
-
+	
 	private final void addRenderableGroup(RenderableGroup renderableGroup) {
 		this.gameRenderableGroups.add(renderableGroup);
 	}
@@ -130,7 +133,9 @@ public final class GameDrawer {
 	 * @see #move(float, float, float)
 	 */
 	private final void moveTo(Coordinate coordinate) {
-	    this.move(coordinate.x - this.currentX, coordinate.y - this.currentY, coordinate.z - this.currentZ);
+	    this.move(coordinate.getX() - this.currentPosition.getX(),
+	              coordinate.getY() - this.currentPosition.getY(),
+	              coordinate.getZ() - this.currentPosition.getZ());
 	}
 	
 	/**
@@ -141,18 +146,16 @@ public final class GameDrawer {
 	 */
 	private final void move(float x, float y, float z) {
 	    this.gl.glTranslatef(x, y, z);
-        
-        this.currentX += x;
-        this.currentY += y;
-        this.currentZ += z;
+
+        this.currentPosition.moveX(x);
+        this.currentPosition.moveY(y);
+        this.currentPosition.moveZ(z);
 	}
 	
-	/** Load identity and reset the current X, Y, and Z to 0. */
+	/** Load identity and reset the current coordinate to 0. */
 	private final void resetPosition() {
 	    this.gl.glLoadIdentity();
-	    this.currentX = 0f;
-	    this.currentY = 0f;
-	    this.currentZ = 0f;
+	    this.currentPosition.resetCoordinate();
 	}
 	
 	private final class Station extends RenderableGroup {
@@ -248,7 +251,7 @@ public final class GameDrawer {
             gl.glRotatef(this.rotation, 0f, 0f, 1f);
             gl.glTranslatef(20f, 0f, 0f);
             gl.glRotatef(-this.rotation, 0f, 0f, 1f);
-            this.wheelShaft.draw(gl);
+            this.wheelShaft.draw(gl, currentPosition);
             gl.glPopMatrix();
             
             super.translateAndDraw(this.ground);
@@ -280,7 +283,26 @@ public final class GameDrawer {
             this.sequence.move(-timeDifference * 0.1f, 0f, 0f);
         }
 	}
+	
+	private final class WeatherGenerator extends RenderableGroup {
+	    
+	    private Texture bigCloud = new Texture(1f, 1f);
+	    private Texture smallCloud = new Texture(1f, 1f);
+        private Square overlay = new Square(1280f, 752f);
+	    
+        @Override
+        public void load() {
+            // TODO Auto-generated method stub
+        }
 
+        @Override
+        public void draw() {
+            // TODO Auto-generated method stub
+            
+        }
+	    
+	}
+	
 	private final class Tester extends RenderableGroup {
 	    
 	    /* Thin squares to be used as the axes on screen.
