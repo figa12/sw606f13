@@ -20,11 +20,7 @@ public class Coordinate {
      * @param z
      */
     public Coordinate(float x, float y, float z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        
-        this.calculateVisibility();
+        this.setCoordinate(x, y, z);
     }
     
     /** Get the x attribute. */
@@ -81,6 +77,28 @@ public class Coordinate {
     private void calculateVisibility() {
         this.visibleHeight = GlRenderer.getActualHeight(this.z);
         this.visibleWidth = GlRenderer.getActualWidth(this.visibleHeight);
+    }
+    
+    /**
+     * Set the coordinate.
+     * @param x
+     * @param y
+     */
+    public void setCoordinate(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+    
+    /**
+     * Set the coordinate.
+     * @param x
+     * @param y
+     * @param z
+     */
+    public void setCoordinate(float x, float y, float z) {
+        this.setCoordinate(x, y);
+        this.z = z;
+        this.calculateVisibility();
     }
     
     /** Reset the coordinate to (0,0,0) */

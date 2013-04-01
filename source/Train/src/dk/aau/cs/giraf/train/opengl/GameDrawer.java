@@ -41,10 +41,29 @@ public final class GameDrawer {
 		 */
 		public final void translateAndDraw(Renderable renderable, Color color) {
 		    for (Coordinate coordinate : renderable.getCoordinates()) {
-                moveTo(coordinate);
-                renderable.draw(gl, coordinate, color);
+                this.translateAndDraw(renderable, coordinate, color);
             }
 		}
+		
+		/**
+		 * Translate to the specified coordinate and draw the renderable.
+		 * @param renderable is the renderable to be drawn.
+		 * @param coordinate is where the renderable will be drawn.
+		 */
+		public final void translateAndDraw(Renderable renderable, Coordinate coordinate) {
+		    this.translateAndDraw(renderable, coordinate, Color.White);
+		}
+		
+		/**
+         * Translate to the specified coordinate and draw the renderable.
+         * @param renderable is the renderable to be drawn.
+         * @param coordinate is where the renderable will be drawn.
+		 * @param color is the overlay to be used.
+		 */
+		public final void translateAndDraw(Renderable renderable, Coordinate coordinate, Color color) {
+		    moveTo(coordinate);
+            renderable.draw(gl, coordinate, color);
+        }
 		
 		/**
 		 * Translate to each of the shape's coordinates, rotate, and draw it.
@@ -68,7 +87,8 @@ public final class GameDrawer {
             }
         }
 	}
-
+	
+	/** An enum indicating a type of weather. */
 	public enum WeatherStyle {
 	    Sunny, Cloudy
 	}
@@ -103,6 +123,7 @@ public final class GameDrawer {
 		//this.addRenderableGroup(new Middleground());
 		this.addRenderableGroup(new Station());
 		this.addRenderableGroup(new Train());
+		this.addRenderableGroup(new TrainSmoke());
 		this.addRenderableGroup(new Wheels());
 		//this.addRenderableGroup(new Overlay());
 		
@@ -217,41 +238,61 @@ public final class GameDrawer {
 	
 	private final class TrainSmoke extends RenderableGroup {
 	    
-	    private final int smokeParticles = 5;
-	    private Square smokeParticle = new Square(25f, 25f);
-	    private Color smokeColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
-	    private Smoke[] smokes = new Smoke[this.smokeParticles];
+	    private final int SMOKE_CLOUDS = 10;
 	    
-	    private final float maximumSmokeDistance = 150f;
+	    private Square[] smokeClouds = new Square[this.SMOKE_CLOUDS];
+	    private Coordinate[] coordinates = new Coordinate[this.SMOKE_CLOUDS];
+	    private Color[] colors = new Color[this.SMOKE_CLOUDS];
+	    
+	    private Coordinate startCoordinate = new Coordinate(455.42f, -52.37f, FOREGROUND);
+	    
+	    private int resetIndex = 0;
+	    private float timeBetweenSmokeParticles = 100f; // ms
+	    private float timeSinceLastReset = 0f;
+        private float ySpeed = 0.18f;
         
-	    private final float trainMaxSpeed = 20f; // test temp
-	    private final float trainCurrentSpeed = 10f; // test temp
-	    
-	    private final float smokeMinimumSpeed = 50f;
-	    private final float smokeMaximumSpeed = 100f;
-        private float currentSmokeSpeed = 0f;
-	    private float xSpeed = 0f;
-        private float ySpeed = 50f;
-	    
-        
-        private void updateSmokeSpeed() {
+        private void resetOneSmokeCloud() {
+            this.resetIndex = ++this.resetIndex % this.SMOKE_CLOUDS;
             
+            this.coordinates[this.resetIndex].setCoordinate(this.startCoordinate.getX(), this.startCoordinate.getY());
+            this.colors[this.resetIndex].setColor(Color.TrainSmoke.red, Color.TrainSmoke.green, Color.TrainSmoke.blue, Color.TrainSmoke.alpha);
+        }
+        
+        private int i; // if i'm not mistake;, allocate permanent memory. Not so much garbage.
+        
+        private void updateSmokeClouds() {
+            for (i = 0; i < this.SMOKE_CLOUDS; i++) {
+                this.coordinates[i].moveX(-2f); //TODO scale this in the current train speed
+                this.coordinates[i].moveY(this.ySpeed*timeDifference);
+                
+                this.colors[i].alpha -= (1f / (this.timeBetweenSmokeParticles * this.SMOKE_CLOUDS)) * timeDifference;
+            }
         }
         
         @Override
         public void load() {
-            // TODO Auto-generated method stub
-            
+            /* Start conditions. */
+            for (i = 0; i < this.SMOKE_CLOUDS; i++) {
+                this.smokeClouds[i] = new Square(25f, 25f);
+                this.coordinates[i] = new Coordinate(this.startCoordinate.getX(), this.startCoordinate.getY(), this.startCoordinate.getZ());
+                this.colors[i] = new Color(Color.TrainSmoke.red, Color.TrainSmoke.green, Color.TrainSmoke.blue, 0f); // invisible
+            }
         }
 
         @Override
         public void draw() {
-            for (Smoke smoke : this.smokes) {
-                
+            this.timeSinceLastReset += timeDifference;
+            if(this.timeSinceLastReset >= this.timeBetweenSmokeParticles) {
+                this.timeSinceLastReset = 0f;
+                this.resetOneSmokeCloud();
             }
-        }
-        
-        private final class Smoke {
+            
+            /* Draw all smoke clouds. */
+            for (i = 0; i < this.SMOKE_CLOUDS; i++) {
+                super.translateAndDraw(this.smokeClouds[i], this.coordinates[i], this.colors[i]);
+            }
+            
+            this.updateSmokeClouds();
         }
 	}
 	
