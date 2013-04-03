@@ -13,7 +13,7 @@ public class Color {
     public final static Color Red = new Color(1f, 0f, 0f, 1f);
     public final static Color Green = new Color(0f, 1f, 0f, 1f);
     public final static Color Blue = new Color(0f, 0f, 1f, 1f);
-    public final static Color Window = new Color(0.6941f, 0.6902f, 0.8431f, 1f);
+    public final static Color Window = new Color(0.6941f, 0.6902f, 0.8431f, 0.65f);
     public final static Color DarkWeather = new Color(0f, 0f, 0.2f, 0.1f);
     public final static Color TrainSmoke = new Color(0.5f, 0.5f, 0.5f, 1f);
     

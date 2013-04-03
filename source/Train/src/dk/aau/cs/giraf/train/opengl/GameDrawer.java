@@ -1,6 +1,8 @@
 package dk.aau.cs.giraf.train.opengl;
 
 import java.util.ArrayList;
+import java.util.Random;
+
 import javax.microedition.khronos.opengles.GL10;
 import dk.aau.cs.giraf.train.R;
 import android.content.Context;
@@ -97,6 +99,9 @@ public final class GameDrawer {
 	private Context context;
 	private Coordinate currentPosition = new Coordinate(0f, 0f, 0f);
 	private WeatherStyle weatherStyle;
+	private Random random = new Random();
+	private float currentTrainSpeed = 0.1f; // pixels per ms
+	private float pixelMovementForThisFrame = 0f; // timeDifference*currentTrainSpeed //TODO better name.
 	
 	private final float FOREGROUND = -907.744f;
 	private final float MIDDLEGROUND = -1300f;
@@ -120,7 +125,7 @@ public final class GameDrawer {
 		this.weatherStyle = WeatherStyle.Cloudy;
 		
 		// add RenderableGroups to the list in the order they should be drawn
-		//this.addRenderableGroup(new Middleground());
+		this.addRenderableGroup(new Middleground());
 		this.addRenderableGroup(new Station());
 		this.addRenderableGroup(new Train());
 		this.addRenderableGroup(new TrainSmoke());
@@ -130,7 +135,9 @@ public final class GameDrawer {
 		this.addRenderableGroup(new Tester()); // Always draw last
 	}
 	
+	/** Add a renderable group to the list of renderable groups. */
 	private final void addRenderableGroup(RenderableGroup renderableGroup) {
+	    //FIXME this method doesn't really do anything anymore, consider removing
 		this.gameRenderableGroups.add(renderableGroup);
 	}
 
@@ -140,6 +147,7 @@ public final class GameDrawer {
 	    
 	    this.systemTimeNow = System.nanoTime();
 	    this.timeDifference = (this.systemTimeNow - this.systemTimeLast)/1000000.0f; //FIXME follow the trace of this for the first drawn frame. It's dangerous.
+	    this.pixelMovementForThisFrame = -this.currentTrainSpeed * this.timeDifference;
 	    
 		for (RenderableGroup renderableGroup : this.gameRenderableGroups) {
 			renderableGroup.draw();
@@ -184,6 +192,17 @@ public final class GameDrawer {
 	private final void resetPosition() {
 	    this.gl.glLoadIdentity();
 	    this.currentPosition.resetCoordinate();
+	}
+	
+	/**
+	 * Gets a random number between the specified boundaries.
+	 * @param minimum is the minimum value of the random number.
+	 * @param maximum is the maximum value of the random number.
+	 * @return A random floating point number between minimum and maximum.
+	 * @see Random
+	 */
+	private final float getRandomNumber(float minimum, float maximum) {
+	    return minimum + (maximum - minimum) * this.random.nextFloat();
 	}
 	
 	private final class Station extends RenderableGroup {
@@ -236,23 +255,23 @@ public final class GameDrawer {
 		}
 	}
 	
-	private final class TrainSmoke extends RenderableGroup {
+	private final class TrainSmoke extends RenderableGroup { //FIXME if numberOfSmokeClouds should change according to 
 	    
-	    private final int SMOKE_CLOUDS = 10;
+	    private int numberOfSmokeClouds = 10;
 	    
-	    private Square[] smokeClouds = new Square[this.SMOKE_CLOUDS];
-	    private Coordinate[] coordinates = new Coordinate[this.SMOKE_CLOUDS];
-	    private Color[] colors = new Color[this.SMOKE_CLOUDS];
+	    private Texture smokeCloud = new Texture(1f, 1f);
+	    private Coordinate[] coordinates = new Coordinate[this.numberOfSmokeClouds];
+	    private Color[] colors = new Color[this.numberOfSmokeClouds];
 	    
 	    private Coordinate startCoordinate = new Coordinate(455.42f, -52.37f, FOREGROUND);
 	    
 	    private int resetIndex = 0;
-	    private float timeBetweenSmokeParticles = 100f; // ms
+	    private float timeBetweenSmokeParticles = 80f; // ms
 	    private float timeSinceLastReset = 0f;
-        private float ySpeed = 0.18f;
+        private final float ySpeed = 0.18f;
         
         private void resetOneSmokeCloud() {
-            this.resetIndex = ++this.resetIndex % this.SMOKE_CLOUDS;
+            this.resetIndex = ++this.resetIndex % this.numberOfSmokeClouds;
             
             this.coordinates[this.resetIndex].setCoordinate(this.startCoordinate.getX(), this.startCoordinate.getY());
             this.colors[this.resetIndex].setColor(Color.TrainSmoke.red, Color.TrainSmoke.green, Color.TrainSmoke.blue, Color.TrainSmoke.alpha);
@@ -261,19 +280,20 @@ public final class GameDrawer {
         private int i; // if i'm not mistake;, allocate permanent memory. Not so much garbage.
         
         private void updateSmokeClouds() {
-            for (i = 0; i < this.SMOKE_CLOUDS; i++) {
-                this.coordinates[i].moveX(-2f); //TODO scale this in the current train speed
+            for (i = 0; i < this.numberOfSmokeClouds; i++) {
+                this.coordinates[i].moveX(pixelMovementForThisFrame);
                 this.coordinates[i].moveY(this.ySpeed*timeDifference);
                 
-                this.colors[i].alpha -= (1f / (this.timeBetweenSmokeParticles * this.SMOKE_CLOUDS)) * timeDifference;
+                this.colors[i].alpha -= (1f / (this.timeBetweenSmokeParticles * this.numberOfSmokeClouds)) * timeDifference;
             }
         }
         
         @Override
         public void load() {
+            this.smokeCloud.loadTexture(gl, context, R.drawable.texture_train_smoke, Texture.AspectRatio.BitmapOneToOne);
+            
             /* Start conditions. */
-            for (i = 0; i < this.SMOKE_CLOUDS; i++) {
-                this.smokeClouds[i] = new Square(25f, 25f);
+            for (i = 0; i < this.numberOfSmokeClouds; i++) {
                 this.coordinates[i] = new Coordinate(this.startCoordinate.getX(), this.startCoordinate.getY(), this.startCoordinate.getZ());
                 this.colors[i] = new Color(Color.TrainSmoke.red, Color.TrainSmoke.green, Color.TrainSmoke.blue, 0f); // invisible
             }
@@ -288,8 +308,8 @@ public final class GameDrawer {
             }
             
             /* Draw all smoke clouds. */
-            for (i = 0; i < this.SMOKE_CLOUDS; i++) {
-                super.translateAndDraw(this.smokeClouds[i], this.coordinates[i], this.colors[i]);
+            for (i = 0; i < this.numberOfSmokeClouds; i++) {
+                super.translateAndDraw(this.smokeCloud, this.coordinates[i], this.colors[i]);
             }
             
             this.updateSmokeClouds();
@@ -298,13 +318,32 @@ public final class GameDrawer {
 	
 	private final class Wheels extends RenderableGroup {
 		
-		private Texture largeWheel = new Texture(1.0f, 1.0f); // wheel diameter 106.4
+		private Texture largeWheel = new Texture(1.0f, 1.0f); // wheel diameter 106.39
 		private Texture mediumWheel = new Texture(1.0f, 1.0f); // wheel diameter 78.71
 		private Texture smallWheel = new Texture(1.0f, 1.0f); // wheel diameter 60.8
 		private Texture wheelShaft = new Texture(1.0f, 1.0f);
 		private Texture ground = new Texture(1280.0f, 21.0f);
 		
-		private Float rotation = 0f;
+		private float[] rotation = { 0f, 0f, 0f }; // rotation number for each wheel size
+		private final double[] wheelDiameter = {
+		        106.39f, // large wheel
+		        78.71f,  // medium wheel
+		        60.8f    // small wheel
+		};
+		private final int largeWheelIndex = 0;
+		private final int mediumWheelIndex = 1;
+		private final int smallWheelIndex = 2;
+		
+		private float calculateRotation(int wheelIndex) { //TODO investigate garbage
+		    if(wheelIndex - 1 > this.wheelDiameter.length) { //perform error check
+		        return 0;
+		    }
+		    
+		    double circumference = this.wheelDiameter[wheelIndex] * Math.PI;
+		    double degreePerPixel = 360.0 / circumference;
+		    this.rotation[wheelIndex] += (float) degreePerPixel * pixelMovementForThisFrame;
+		    return this.rotation[wheelIndex];
+		}
 		
 		@Override
         public final void load() {
@@ -316,7 +355,6 @@ public final class GameDrawer {
             this.largeWheel.addCoordinate(191.02f, -250.74f, FOREGROUND);
             this.smallWheel.addCoordinate(344.58f, -296.34f, FOREGROUND);
             this.smallWheel.addCoordinate(424.13f, -296.34f, FOREGROUND);
-            //this.wheelShaft.addCoordinate(380.96f, -338.82f, DRAWING_DEPTH);
             this.wheelShaft.addCoordinate(370.83f, -321.84f, FOREGROUND);
             this.ground.addCoordinate(-640f, -356f, FOREGROUND);
 		    
@@ -330,22 +368,20 @@ public final class GameDrawer {
 		
 		@Override
 		public final void draw() {
-		    super.translateRotateAndDraw(rotation, this.mediumWheel);
-		    super.translateRotateAndDraw(rotation, this.largeWheel);
-            super.translateRotateAndDraw(rotation, this.smallWheel);
+		    super.translateRotateAndDraw(this.calculateRotation(this.mediumWheelIndex), this.mediumWheel);
+		    super.translateRotateAndDraw(this.calculateRotation(this.largeWheelIndex), this.largeWheel);
+            super.translateRotateAndDraw(this.calculateRotation(this.smallWheelIndex), this.smallWheel);
             
             // draw the wheel shaft
             moveTo(this.wheelShaft.getCoordinates().get(0));
             gl.glPushMatrix();
-            gl.glRotatef(this.rotation, 0f, 0f, 1f);
-            gl.glTranslatef(20f, 0f, 0f);
-            gl.glRotatef(-this.rotation, 0f, 0f, 1f);
+            gl.glRotatef(this.rotation[this.smallWheelIndex], 0f, 0f, 1f);
+            gl.glTranslatef(22f, 0f, 0f);
+            gl.glRotatef(-this.rotation[this.smallWheelIndex], 0f, 0f, 1f);
             this.wheelShaft.draw(gl, currentPosition);
             gl.glPopMatrix();
             
             super.translateAndDraw(this.ground);
-		    
-		    this.rotation -= 0.2f * timeDifference;
 		}
 	}
 	
@@ -357,11 +393,12 @@ public final class GameDrawer {
         @Override
         public void load() {
             this.sequence.addCoordinate(500f, 300f, MIDDLEGROUND);
+            this.sequence.addCoordinate(198.92f, -87f, MIDDLEGROUND);
             
             for (float i = 0f; i <= 5000f; i += 100f) {
-                this.sequence.addRenderableMatrixItem(square, new Coordinate(0f, i, 0f), Color.Blue);
+                this.sequence.addRenderableMatrixItem(square, new Coordinate(i, 0f, 0f), Color.Blue);
                 i += 100f;
-                this.sequence.addRenderableMatrixItem(square, new Coordinate(0f, i, 0f), Color.Green);
+                this.sequence.addRenderableMatrixItem(square, new Coordinate(i, 0f, 0f), Color.Green);
             }
         }
 
@@ -369,7 +406,7 @@ public final class GameDrawer {
         public void draw() {
             super.translateAndDraw(this.sequence);
             
-            this.sequence.move(0f, -timeDifference * 0.1f, 0f);
+            this.sequence.move(pixelMovementForThisFrame, 0f, 0f);
         }
 	}
 	
@@ -377,6 +414,8 @@ public final class GameDrawer {
 	    
 	    private Square bigCloud = new Square(1f, 1f);
 	    private Square smallCloud = new Square(1f, 1f);
+	    private float heightLimit; // final?
+	    
 	    
         @Override
         public void load() {
