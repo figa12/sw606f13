@@ -36,7 +36,7 @@ public final class Wheels extends RenderableGroup {
         
         double circumference = this.wheelDiameter[wheelIndex] * Math.PI;
         double degreePerPixel = 360.0 / circumference;
-        this.rotation[wheelIndex] += (float) degreePerPixel * super.gameDrawer.pixelMovementForThisFrame;
+        this.rotation[wheelIndex] += (float) degreePerPixel * GameData.pixelMovementForThisFrame;
         return this.rotation[wheelIndex];
     }
     

@@ -40,10 +40,10 @@ public final class TrainSmoke extends RenderableGroup { //FIXME if numberOfSmoke
     
     private void updateSmokeClouds() {
         for (i = 0; i < this.numberOfSmokeClouds; i++) {
-            this.coordinates[i].moveX(super.gameDrawer.pixelMovementForThisFrame);
-            this.coordinates[i].moveY(this.ySpeed*super.gameDrawer.timeDifference);
+            this.coordinates[i].moveX(GameData.pixelMovementForThisFrame);
+            this.coordinates[i].moveY(this.ySpeed * GameData.timeDifference);
             
-            this.colors[i].alpha -= (1f / (this.timeBetweenSmokeParticles * this.numberOfSmokeClouds)) * super.gameDrawer.timeDifference;
+            this.colors[i].alpha -= (1f / (this.timeBetweenSmokeParticles * this.numberOfSmokeClouds)) * GameData.timeDifference;
         }
     }
     
@@ -60,7 +60,7 @@ public final class TrainSmoke extends RenderableGroup { //FIXME if numberOfSmoke
 
     @Override
     public void draw() {
-        this.timeSinceLastReset += super.gameDrawer.timeDifference;
+        this.timeSinceLastReset += GameData.timeDifference;
         if(this.timeSinceLastReset >= this.timeBetweenSmokeParticles) {
             this.timeSinceLastReset = 0f;
             this.resetOneSmokeCloud();
