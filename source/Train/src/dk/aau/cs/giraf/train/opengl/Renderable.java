@@ -56,6 +56,19 @@ public abstract class Renderable {
      * Move all the {@link #coordinates} by the specified amount.
      * @param moveX
      * @param moveY
+     * @see Coordinate
+     */
+    public void move(float moveX, float moveY) {
+        for (Coordinate coordinate : this.coordinates) {
+            coordinate.moveX(moveX);
+            coordinate.moveY(moveY);
+        }
+    }
+    
+    /**
+     * Move all the {@link #coordinates} by the specified amount.
+     * @param moveX
+     * @param moveY
      * @param moveZ
      * @see Coordinate
      */
