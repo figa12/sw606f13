@@ -6,6 +6,7 @@ import java.util.List;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
+import dk.aau.cs.giraf.train.opengl.game.GameData;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -179,6 +180,8 @@ public class GameActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		this.openGLView.onResume();
+		
+		GameData.resetGameData();
 	}
 
 	/**

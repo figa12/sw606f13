@@ -17,6 +17,7 @@
     </FrameLayout>
 
     <!-- Cart1 -->
+
     <LinearLayout
         android:id="@+id/Cart1LinearLayout"
         android:layout_width="310dp"
@@ -27,7 +28,7 @@
         android:orientation="horizontal" >
     </LinearLayout>
 
-    <!-- Cart2-->
+    <!-- Cart2 -->
 
     <LinearLayout
         android:id="@+id/Cart2LinearLayout"
@@ -41,9 +42,7 @@
 
     <!-- TrainStation -->
 
-
     <!-- StationLeft -->
-
     <LinearLayout
         android:id="@+id/StationLeftLinearLayout"
         android:layout_width="310dp"
@@ -51,6 +50,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="25dp"
         android:orientation="horizontal" >
+     
     </LinearLayout>
 
     <!-- StationRight -->
@@ -62,8 +62,9 @@
         android:layout_alignBottom="@id/StationLeftLinearLayout"
         android:layout_marginLeft="25dp"
         android:layout_toRightOf="@id/StationLeftLinearLayout"
-        android:clipChildren="true"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:clipChildren="true">
+
     </LinearLayout>
 
     <!-- TrainDriver -->
@@ -77,6 +78,16 @@
         android:layout_marginLeft="70dp"
         android:layout_toRightOf="@id/Cart2LinearLayout"
         android:orientation="horizontal" >
+
+        <FrameLayout
+            android:id="@+id/TrainDriverLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape" >
+
+            
+        </FrameLayout>
     </LinearLayout>
 
     <!-- StationCategory -->
@@ -86,9 +97,19 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="270dp"
         android:layout_marginTop="25dp"
+        android:layout_marginLeft="270dp"
         android:orientation="horizontal" >
+
+        <FrameLayout
+            android:id="@+id/StationCategoryLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape" >
+
+            
+        </FrameLayout>
     </LinearLayout>
 
 </RelativeLayout>

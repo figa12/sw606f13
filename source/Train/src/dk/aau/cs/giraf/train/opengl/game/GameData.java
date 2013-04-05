@@ -2,10 +2,12 @@ package dk.aau.cs.giraf.train.opengl.game;
 
 public class GameData {
     
-    public static final float maxTrainSpeed = 0.2f;
+    public static final float maxTrainSpeed = 0.325f;
     public static float currentTrainVelocity = 0f; // pixels per ms
     public static float pixelMovementForThisFrame = 0f; // timeDifference*currentTrainSpeed //TODO better name.
-    private static float totalDistanceTraveled = 0f;
+    public static float totalDistanceTraveled = 0f;
+    public static int numberOfStations = 4;
+    public static float distanceBetweenStations = 10000f;
     
     public static float timeDifference;
     public static long systemTimeLast = System.nanoTime();
@@ -26,17 +28,14 @@ public class GameData {
     public static final void accelerateTrain() {
         if(!GameData.changingVelocity) {
             GameData.changingVelocity = true;
-            GameData.deltaVelocity = GameData.currentTrainVelocity / GameData.timeToBringToFullStop;
+            GameData.deltaVelocity = GameData.maxTrainSpeed / GameData.timeToBringToFullStop;
         }
     }
     
-    private static float brakingStarted = 0f;
-    
     public static final void decelerateTrain() {
         if(!GameData.changingVelocity) {
-            GameData.brakingStarted = GameData.totalDistanceTraveled;
             GameData.changingVelocity = true;
-            GameData.deltaVelocity = -GameData.currentTrainVelocity / GameData.timeToBringToFullStop;
+            GameData.deltaVelocity = -GameData.maxTrainSpeed / GameData.timeToBringToFullStop;
         }
     }
     
@@ -46,9 +45,6 @@ public class GameData {
             
             if(GameData.currentTrainVelocity <= 0f) {
                 GameData.currentTrainVelocity = 0f;
-                
-                float temp = GameData.totalDistanceTraveled - GameData.brakingStarted;
-                
                 GameData.changingVelocity = false;
             }
             else if(GameData.currentTrainVelocity >= GameData.maxTrainSpeed) {
@@ -56,5 +52,19 @@ public class GameData {
                 GameData.changingVelocity = false;
             }
         }
+    }
+    
+    public static final float brakingDistance() {
+        return (float) -Math.pow(GameData.currentTrainVelocity, 2.0)/2*GameData.deltaVelocity;
+    }
+    
+    public static final void resetGameData() { // recreate start conditions
+        GameData.currentTrainVelocity = 0f;
+        GameData.pixelMovementForThisFrame = 0f;
+        GameData.totalDistanceTraveled = 0f;
+        GameData.systemTimeLast = System.nanoTime();
+        GameData.systemTimeNow = 1;
+        GameData.changingVelocity = false;
+        GameData.deltaVelocity = 0f;
     }
 }
