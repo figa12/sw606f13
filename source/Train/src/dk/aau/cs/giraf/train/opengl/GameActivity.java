@@ -1,40 +1,27 @@
 package dk.aau.cs.giraf.train.opengl;
 
-import java.lang.annotation.Retention;
 import java.util.ArrayList;
 import java.util.List;
 
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
-import dk.aau.cs.giraf.train.R.drawable;
-import dk.aau.cs.giraf.train.R.id;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.app.Activity;
 import android.content.ClipData;
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.text.Layout;
-import android.text.style.EasyEditSpan;
-import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.DragEvent;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.FrameLayout.LayoutParams;
 
 public class GameActivity extends Activity {
 
@@ -268,7 +255,6 @@ public class GameActivity extends Activity {
 					Object tag = dropContainer.getTag();
 
 					if (tag == null) {
-						
 						ownerContainer.removeView(draggedView);
 						ownerContainer.setTag(null);
 						dropContainer.addView(draggedView);
