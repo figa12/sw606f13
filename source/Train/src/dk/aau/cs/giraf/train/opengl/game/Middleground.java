@@ -20,7 +20,7 @@ public final class Middleground extends RenderableGroup {
     
     @Override
     public void load() {
-        this.sequence.addCoordinate(500f, 300f, super.gameDrawer.MIDDLEGROUND);
+        this.sequence.addCoordinate(500f, 300f, super.gameDrawer.MIDDLEGROUND-500f);
         this.sequence.addCoordinate(198.92f, -87f, super.gameDrawer.MIDDLEGROUND);
         
         for (float i = 0f; i <= 8000f; i += 100f) {
@@ -34,6 +34,6 @@ public final class Middleground extends RenderableGroup {
     public void draw() {
         super.translateAndDraw(this.sequence);
         
-        this.sequence.move(GameData.pixelMovementForThisFrame, 0f, 0f);
+        this.sequence.move(GameData.pixelMovementForThisFrame, 0f);
     }
 }

@@ -41,26 +41,5 @@ public final class Train extends RenderableGroup {
         super.translateAndDraw(this.wagon);
         super.translateAndDraw(this.trainWindow, Color.Window);
         super.translateAndDraw(this.train);
-        
-        this.toggleVelocity();
-    }
-    
-    private int temp = 1;
-    private float timeSinceLast = 0f;
-    
-    
-    private void toggleVelocity() {
-        this.timeSinceLast += GameData.timeDifference;
-        
-        if(this.timeSinceLast > 16000f) {
-            this.timeSinceLast = 0f;
-            
-            if(temp++ % 2 == 0) {
-                GameData.decelerateTrain();
-            }
-            else {
-                GameData.accelerateTrain();
-            }
-        }
     }
 }

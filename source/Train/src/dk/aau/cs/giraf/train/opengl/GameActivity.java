@@ -6,33 +6,23 @@ import java.util.List;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
-import dk.aau.cs.giraf.train.R.drawable;
-import dk.aau.cs.giraf.train.R.id;
+import dk.aau.cs.giraf.train.opengl.game.GameData;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.ClipData;
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.text.Layout;
-import android.text.style.EasyEditSpan;
-import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.DragEvent;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.FrameLayout.LayoutParams;
 
 public class GameActivity extends Activity {
 
@@ -47,8 +37,7 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_game);
 
-		//
-		this.createPictogramLayouts(6);
+		this.createPictogramLayouts(4);
 
 		this.openGLView = (GlView) findViewById(R.id.openglview);
 
@@ -66,36 +55,34 @@ public class GameActivity extends Activity {
 	}
 
 	/**
-	 * Dynamically adds FrameLayout defined by numbersOfPictograms,
-	 * The Framelayout is then filled with pictograms.
+	 * Dynamically adds FrameLayout defined by numbersOfPictograms, The
+	 * Framelayout is then filled with pictograms.
+	 * 
 	 * @param numbersOfPictograms
 	 */
 	private void createPictogramLayouts(int numbersOfPictograms) {
 		setLayouts();
 		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
-	
-		
-		trainDriverLinear.getChildAt(0).setOnDragListener(new DragListener());
-		stationCategoryLinear.getChildAt(0).setOnDragListener(new DragListener());
-		
-		
+
 		for (LinearLayout stationlinear : stationLinear) {
 			for (int j = 0; j < (numbersOfPictograms / 2); j++) {
-				int height = (stationlinear.getWidth())/(numbersOfPictograms/2); //testing
-				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+				//int height = (stationlinear.getWidth())/ (numbersOfPictograms / 2); // testing
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+						LinearLayout.LayoutParams.MATCH_PARENT);
 				linearLayoutParams.weight = 1;
-				
+
 				FrameLayout frameLayout = new FrameLayout(this);
 				frameLayout.setOnDragListener(new DragListener());
 				frameLayout.setBackgroundDrawable(normalShape);
-
 				stationlinear.addView(frameLayout, linearLayoutParams);
 			}
 		}
 
 		for (LinearLayout cartlinear : cartsLinear) {
 			for (int j = 0; j < (numbersOfPictograms / 2); j++) {
-				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.MATCH_PARENT,
+						LinearLayout.LayoutParams.MATCH_PARENT);
 				linearLayoutParams.weight = 1;
 				FrameLayout frameLayout = new FrameLayout(this);
 				frameLayout.setOnDragListener(new DragListener());
@@ -104,35 +91,62 @@ public class GameActivity extends Activity {
 				cartlinear.addView(frameLayout, linearLayoutParams);
 			}
 		}
-		this.addPictogram();
+		
+		//frame settings for StationCategory
+		LinearLayout.LayoutParams linearLayoutParams2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.MATCH_PARENT);
+		linearLayoutParams2.weight = 1;
+
+		FrameLayout frameLayout2 = new FrameLayout(this);
+		frameLayout2.setOnDragListener(new DragListener());
+		frameLayout2.setBackgroundDrawable(normalShape);
+		stationCategoryLinear.addView(frameLayout2,linearLayoutParams2);
+	
+		
+		//frame setttings for TrainDriver
+		LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.MATCH_PARENT);
+		linearLayoutParams.weight = 1;
+
+		FrameLayout frameLayout = new FrameLayout(this);
+		frameLayout.setOnDragListener(new DragListener());
+		frameLayout.setBackgroundDrawable(normalShape);
+		trainDriverLinear.addView(frameLayout,linearLayoutParams);
+
+		//add pictograms to the frames
+		addPictograms();
 	}
 
 	/**
-	 * Find the LinearLayouts sepcified in activti_game.xml and stores the ref in different lists.
+	 * Find the LinearLayouts sepcified in activti_game.xml and stores the ref
+	 * in different lists.
 	 */
 	private void setLayouts() {
-		cartsLinear = new ArrayList<LinearLayout>();
+		//StationLeft and Right
 		stationLinear = new ArrayList<LinearLayout>();
-		stationCategoryLinear = (LinearLayout) findViewById(id.StationCategoryLinearLayout);
-		trainDriverLinear = (LinearLayout) findViewById(id.TrainDriverLinearLayout);
-		stationLinear.add((LinearLayout) findViewById(id.StationLeftLinearLayout));
-		stationLinear.add((LinearLayout) findViewById(id.StationRightLinearLayout));
-		cartsLinear.add((LinearLayout) findViewById(id.Cart2LinearLayout));
-		cartsLinear.add((LinearLayout) findViewById(id.Cart1LinearLayout));
+		stationLinear.add((LinearLayout) findViewById(R.id.StationLeftLinearLayout));
+		stationLinear.add((LinearLayout) findViewById(R.id.StationRightLinearLayout));
+		
+		//StationCategory
+		stationCategoryLinear = (LinearLayout) findViewById(R.id.StationCategoryLinearLayout);
+		
+		//Carts1 and 2
+		cartsLinear = new ArrayList<LinearLayout>();
+		cartsLinear.add((LinearLayout) findViewById(R.id.Cart1LinearLayout));
+		cartsLinear.add((LinearLayout) findViewById(R.id.Cart2LinearLayout));
+		
+		//TrainDriver
+		trainDriverLinear = (LinearLayout) findViewById(R.id.TrainDriverLinearLayout);
 	}
+
 	/**
 	 * Adds pictograms to Station, StationCategory and TrainDriver
 	 */
-	private void addPictogram() {
-
-		// hardcoded for demotest
+	private void addPictograms() {
 		List<LinearLayout> linearPictograms = new ArrayList<LinearLayout>();
 		linearPictograms.addAll(stationLinear);
 		linearPictograms.add(stationCategoryLinear);
 		linearPictograms.add(trainDriverLinear);
-		
-		List<LinearLayout> linearNoPictograms = new ArrayList<LinearLayout>();
-		linearNoPictograms.addAll(cartsLinear);
 		
 		for (int i = 0; i < linearPictograms.size(); i++) {
 			for (int j = 0; j < linearPictograms.get(i).getChildCount(); j++) {
@@ -140,18 +154,17 @@ public class GameActivity extends Activity {
 				p.renderImage();
 				p.renderText();
 				p.setOnTouchListener(new TouchListener());
-				p.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape)); //to test
-				
-				
-				
-				FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-				p.setLayoutParams(frameLayoutParams);
-				
-				try{
-					((FrameLayout) linearPictograms.get(i).getChildAt(j)).addView(p);
+				//p.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape)); // to test
+
+				FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(
+						FrameLayout.LayoutParams.MATCH_PARENT,
+						FrameLayout.LayoutParams.MATCH_PARENT);
+
+				try {
+					((FrameLayout) linearPictograms.get(i).getChildAt(j)).addView(p,frameLayoutParams);
 					((FrameLayout) linearPictograms.get(i).getChildAt(j)).setTag("filled");
-				} catch(Exception e){
-					Log.d(GameActivity.class.getSimpleName(), "Null value, when adding pictograms to FrameLayouts");
+				} catch (Exception e) {
+					Log.d(GameActivity.class.getSimpleName(),"Null value, when adding pictograms to FrameLayouts");
 				}
 			}
 		}
@@ -167,6 +180,8 @@ public class GameActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		this.openGLView.onResume();
+		
+		GameData.resetGameData();
 	}
 
 	/**
@@ -201,64 +216,78 @@ public class GameActivity extends Activity {
 		public DragListener() {
 			Resources resources = getResources();
 
-			this.enterShape = resources
-					.getDrawable(R.drawable.shape_droptarget);
+			this.enterShape = resources.getDrawable(R.drawable.shape_droptarget);
 			this.normalShape = resources.getDrawable(R.drawable.shape);
 		}
 
 		@Override
 		public boolean onDrag(View v, DragEvent event) {
-			if (event.getLocalState() == null) {
+			if (event.getLocalState() != null) {
 				// do nothing, maybe return false..
-				return true;
-			}
+				final View draggedView = (View) event.getLocalState();
+				
 
-			View draggedView = (View) event.getLocalState();
-			ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
+				switch (event.getAction()) {
+				case DragEvent.ACTION_DRAG_STARTED:
+					// makes the draggedview invisible in ownerContainer
+					draggedView.setVisibility(View.INVISIBLE);
+					break;
 
-			switch (event.getAction()) {
-			case DragEvent.ACTION_DRAG_STARTED:
-				// makes the draggedview invisible in ownerContainer
-				draggedView.setVisibility(View.INVISIBLE);
-				break;
+				case DragEvent.ACTION_DRAG_ENTERED:
+					// Change the background of droplayout(purely style)
+					v.setBackgroundDrawable(enterShape); // FIXME code is
+															// deprecated, use
+															// new
+					break;
 
-			case DragEvent.ACTION_DRAG_ENTERED:
-				// Change the background of droplayout(purely style)
-				v.setBackgroundDrawable(enterShape); // FIXME code is
-														// deprecated, use new
-				break;
+				case DragEvent.ACTION_DRAG_EXITED:
+					// Change the background back when exiting droplayout(purely
+					// style)
+					v.setBackgroundDrawable(normalShape); // FIXME code is
+															// deprecated, use
+															// new
+					break;
 
-			case DragEvent.ACTION_DRAG_EXITED:
-				// Change the background back when exiting droplayout(purely
-				// style)
-				v.setBackgroundDrawable(normalShape); // FIXME code is
-														// deprecated, use new
-				break;
+				case DragEvent.ACTION_DROP:
+					// Dropped, assigns the draggedview to the dropcontainer if
+					// the container does not already contain a view.
+					
+					ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
+					
+					FrameLayout dropContainer = (FrameLayout) v;
+					Object tag = dropContainer.getTag();
 
-			case DragEvent.ACTION_DROP:
-				// Dropped, assigns the draggedview to the dropcontainer if
-				// the container does not already contain a view.
-				FrameLayout dropContainer = (FrameLayout) v;
-				Object tag = dropContainer.getTag();
+					if (tag == null) {
+						ownerContainer.removeView(draggedView);
+						ownerContainer.setTag(null);
+						dropContainer.addView(draggedView);
+						dropContainer.setTag("filled");
+					}
+					break;
 
-				if (tag == null) {
-					ownerContainer.removeView(draggedView);
-					ownerContainer.setTag(null);
-					dropContainer.addView(draggedView);
-					dropContainer.setTag("filled");
+				case DragEvent.ACTION_DRAG_ENDED:
+					// Makes the draggedview visible again after the view has
+					// been moved or the drop wasn't valid.
+					 v.setBackgroundDrawable(normalShape); // FIXME code is
+					// deprecated, use new
+				
+					 //The weird bug is solves by this.
+					draggedView.post(new Runnable() {
+						
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							draggedView.setVisibility(View.VISIBLE);
+						}
+					});
+					break;
+
 				}
-				break;
-
-			case DragEvent.ACTION_DRAG_ENDED:
-				// Makes the draggedview visible again after the view has
-				// been moved or the drop wasn't valid.
-				v.setBackgroundDrawable(normalShape); // FIXME code is
-														// deprecated, use new
-				draggedView.setVisibility(View.VISIBLE);
-				break;
-
+				return true;
+			} 
+			else {
+				return false;
 			}
-			return true;
 		}
 	}
 }
