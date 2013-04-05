@@ -36,7 +36,7 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_game);
 
-		this.createPictogramLayouts(4);
+		this.createPictogramLayouts(6);
 
 		this.openGLView = (GlView) findViewById(R.id.openglview);
 
@@ -248,7 +248,6 @@ public class GameActivity extends Activity {
 				case DragEvent.ACTION_DROP:
 					// Dropped, assigns the draggedview to the dropcontainer if
 					// the container does not already contain a view.
-					
 					ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
 					
 					FrameLayout dropContainer = (FrameLayout) v;
@@ -270,7 +269,6 @@ public class GameActivity extends Activity {
 				
 					 //The weird bug is solves by this.
 					draggedView.post(new Runnable() {
-						
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
