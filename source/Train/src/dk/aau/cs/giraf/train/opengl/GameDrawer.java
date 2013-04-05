@@ -2,12 +2,11 @@ package dk.aau.cs.giraf.train.opengl;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import javax.microedition.khronos.opengles.GL10;
-import dk.aau.cs.giraf.train.R;
+
+import dk.aau.cs.giraf.train.opengl.game.GameData;
 import dk.aau.cs.giraf.train.opengl.game.RenderableGroup;
 import android.content.Context;
-import android.util.TimingLogger;
 
 /**
  * This class handles all game drawing.
@@ -16,7 +15,7 @@ import android.util.TimingLogger;
  * @see GameDrawer#drawGame()
  * @see GameDrawer#loadTexture()
  */
-public class GameDrawer {
+public final class GameDrawer {
     
 	/** An enum indicating a type of weather. */
 	public enum WeatherStyle {
@@ -28,16 +27,8 @@ public class GameDrawer {
 	public WeatherStyle weatherStyle = WeatherStyle.Sunny;
 	private Random random = new Random();
 	
-	public float currentTrainSpeed = 0.1f; // pixels per ms
-	public float pixelMovementForThisFrame = 0f; // timeDifference*currentTrainSpeed //TODO better name.
-	
 	public final float FOREGROUND = -907.744f;
 	public final float MIDDLEGROUND = -1300f;
-	
-	public float timeDifference;
-	private long systemTimeLast = System.nanoTime();
-	private long systemTimeNow = 1;
-	
 	
 	/** The list of {@link RenderableGroup}s. */
 	private ArrayList<RenderableGroup> gameRenderableGroups = new ArrayList<RenderableGroup>();
@@ -52,7 +43,8 @@ public class GameDrawer {
 		
 		// add RenderableGroups to the list in the order they should be drawn
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Middleground(gl, context, this));
-		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Station(gl, context, this));
+		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Weather(gl, context, this));
+		//this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Station(gl, context, this));
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Train(gl, context, this));
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.TrainSmoke(gl, context, this));
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Wheels(gl, context, this));
@@ -70,15 +62,14 @@ public class GameDrawer {
 	public synchronized final void drawGame() { //FIXME does it give sense to use 'synchronized' keyword here?
 	    this.resetPosition();
 	    
-	    this.systemTimeNow = System.nanoTime();
-	    this.timeDifference = (this.systemTimeNow - this.systemTimeLast)/1000000.0f; //FIXME follow the trace of this for the first drawn frame. It's dangerous.
-	    this.pixelMovementForThisFrame = -this.currentTrainSpeed * this.timeDifference;
+	    GameData.systemTimeNow = System.nanoTime();
+	    GameData.updateData();
 	    
 		for (RenderableGroup renderableGroup : this.gameRenderableGroups) {
 			renderableGroup.draw();
 		}
 		
-		this.systemTimeLast = this.systemTimeNow;
+		GameData.systemTimeLast = GameData.systemTimeNow;
 	}
 
 	/** Call all {@link RenderableGroup#load()} from {@link GameDrawer#gameRenderableGroups}. */

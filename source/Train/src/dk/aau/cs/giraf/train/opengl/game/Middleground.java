@@ -23,7 +23,7 @@ public final class Middleground extends RenderableGroup {
         this.sequence.addCoordinate(500f, 300f, super.gameDrawer.MIDDLEGROUND);
         this.sequence.addCoordinate(198.92f, -87f, super.gameDrawer.MIDDLEGROUND);
         
-        for (float i = 0f; i <= 5000f; i += 100f) {
+        for (float i = 0f; i <= 8000f; i += 100f) {
             this.sequence.addRenderableMatrixItem(square, new Coordinate(i, 0f, 0f), Color.Blue);
             i += 100f;
             this.sequence.addRenderableMatrixItem(square, new Coordinate(i, 0f, 0f), Color.Green);
@@ -34,6 +34,6 @@ public final class Middleground extends RenderableGroup {
     public void draw() {
         super.translateAndDraw(this.sequence);
         
-        this.sequence.move(super.gameDrawer.pixelMovementForThisFrame, 0f, 0f);
+        this.sequence.move(GameData.pixelMovementForThisFrame, 0f, 0f);
     }
 }
