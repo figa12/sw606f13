@@ -27,8 +27,9 @@ public final class GameDrawer {
 	public WeatherStyle weatherStyle = WeatherStyle.Sunny;
 	private Random random = new Random();
 	
-	public final float FOREGROUND = -907.744f;
+	public final float FOREGROUND = -907.7443f;
 	public final float MIDDLEGROUND = -1300f;
+	public final float BACKGROUND = -2500f;
 	
 	/** The list of {@link RenderableGroup}s. */
 	private ArrayList<RenderableGroup> gameRenderableGroups = new ArrayList<RenderableGroup>();

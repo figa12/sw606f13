@@ -22,7 +22,7 @@ public class GlRenderer implements Renderer {
     private static final float NEAR_CLIPPING_PLANE_DEPTH = 907.0f;
     private static final float FAR_CLIPPING_PLANE_DEPTH = 5000.0f;
     private static final float FIELD_OF_VIEW_ANGLE = 45.0f;
-    private static final float FOREGROUND = 907.744f;
+    private static final float FOREGROUND = 907.7443f;
     
     /** The width of the GLSurfaceView */
     private static int surfaceWidth;
