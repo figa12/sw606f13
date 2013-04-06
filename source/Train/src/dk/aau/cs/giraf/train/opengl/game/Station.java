@@ -4,9 +4,11 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
 import dk.aau.cs.giraf.train.R;
+import dk.aau.cs.giraf.train.opengl.Color;
 import dk.aau.cs.giraf.train.opengl.Coordinate;
 import dk.aau.cs.giraf.train.opengl.GameDrawer;
 import dk.aau.cs.giraf.train.opengl.RenderableMatrix;
+import dk.aau.cs.giraf.train.opengl.Square;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
 public final class Station extends RenderableGroup {
@@ -17,6 +19,7 @@ public final class Station extends RenderableGroup {
     
     private Texture trainStation = new Texture(1.0f, 1.0f);
     private Texture platform = new Texture(1280f, 100f);
+    private Square trainStopper = new Square(150f, 150f);
     
     private RenderableMatrix stationPlatformMatrix = new RenderableMatrix();
     
@@ -36,6 +39,10 @@ public final class Station extends RenderableGroup {
             this.stationPlatformMatrix.addRenderableMatrixItem(this.platform, new Coordinate(xPosition, 0f, super.gameDrawer.FOREGROUND));
             xPosition += GameData.distanceBetweenStations + this.platform.getWidth();
         }
+        
+        xPosition -= (GameData.distanceBetweenStations + this.platform.getWidth());
+        
+        this.stationPlatformMatrix.addRenderableMatrixItem(this.trainStopper, new Coordinate(xPosition + 1575f, 0f, super.gameDrawer.FOREGROUND), Color.Black);
     }
     
     private float nextStopPosition = 0f - 640f;

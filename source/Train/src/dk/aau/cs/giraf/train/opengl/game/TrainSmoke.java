@@ -33,7 +33,7 @@ public final class TrainSmoke extends RenderableGroup { //FIXME if numberOfSmoke
         this.resetIndex = ++this.resetIndex % this.numberOfSmokeClouds;
         
         this.coordinates[this.resetIndex].setCoordinate(this.startCoordinate.getX(), this.startCoordinate.getY());
-        this.colors[this.resetIndex].setColor(Color.TrainSmoke.red, Color.TrainSmoke.green, Color.TrainSmoke.blue, Color.TrainSmoke.alpha);
+        this.colors[this.resetIndex].setColor(1f, 1f, 1f, 1f);
     }
     
     private int i; // if i'm not mistake;, allocate permanent memory. Not so much garbage.
@@ -54,7 +54,7 @@ public final class TrainSmoke extends RenderableGroup { //FIXME if numberOfSmoke
         /* Start conditions. */
         for (i = 0; i < this.numberOfSmokeClouds; i++) {
             this.coordinates[i] = new Coordinate(this.startCoordinate.getX(), this.startCoordinate.getY(), this.startCoordinate.getZ());
-            this.colors[i] = new Color(Color.TrainSmoke.red, Color.TrainSmoke.green, Color.TrainSmoke.blue, 0f); // invisible
+            this.colors[i] = new Color(1f, 1f, 1f, 0f); // invisible
         }
     }
 

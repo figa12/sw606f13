@@ -22,14 +22,35 @@ public class GradientSquare extends Square {
         Vertical, Horizontal
     }
     
+    /**
+     * Creates a gradient square with the specified size.
+     * The gradient is vertical or horizontal.
+     * The gradient color is {@code firstColor} to {@code secondColor} respectively top to bottom or left to right.
+     * @param width
+     * @param height
+     * @param firstColor  gradient
+     * @param secondColor gradient
+     * @param style       the gradient style
+     * @see Square#Square(float, float)
+     * @see Color
+     * @see GradientStyle
+     */
     public GradientSquare(float width, float height, Color firstColor, Color secondColor, GradientStyle style) {
         super(width, height);
         this.initialiseColorBuffer(firstColor, secondColor, style);
     }
     
+    /**
+     * Map colors to the vertices.
+     * @param firstColor
+     * @param secondColor
+     * @param style
+     */
     private void initialiseColorBuffer(Color firstColor, Color secondColor, GradientStyle style) {
+        
         float colors[];
         
+        //Set the colors according to the style
         switch(style) {
         case Horizontal:
             colors = new float[] {
@@ -48,10 +69,10 @@ public class GradientSquare extends Square {
             };
             break;
         default:
-            return; // abort
+            return;
         }
         
-        // Initiate the color buffer
+        // Initialise the color buffer
         ByteBuffer byteBuf = ByteBuffer.allocateDirect(colors.length * 4);
         byteBuf.order(ByteOrder.nativeOrder());
         this.colorBuffer = byteBuf.asFloatBuffer();
