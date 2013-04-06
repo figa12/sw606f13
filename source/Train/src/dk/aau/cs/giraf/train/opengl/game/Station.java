@@ -24,7 +24,7 @@ public final class Station extends RenderableGroup {
     public final void load() {
         //Add coordinates to the renderables
         this.trainStation.addCoordinate(-588.64f, 376f, super.gameDrawer.FOREGROUND);
-        this.stationPlatformMatrix.addCoordinate(-640f, -205f, super.gameDrawer.FOREGROUND);
+        this.stationPlatformMatrix.addCoordinate(-640f, -207f, super.gameDrawer.FOREGROUND);
         
         //Load the textures
         this.trainStation.loadTexture(super.gl, super.context, R.drawable.texture_train_station, Texture.AspectRatio.BitmapOneToOne);

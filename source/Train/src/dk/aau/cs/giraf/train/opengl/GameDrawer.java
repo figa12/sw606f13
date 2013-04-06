@@ -43,8 +43,8 @@ public final class GameDrawer {
 		this.gl = gl;
 		
 		// add RenderableGroups to the list in the order they should be drawn
-		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Middleground(gl, context, this));
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Weather(gl, context, this));
+		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Middleground(gl, context, this));
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Station(gl, context, this));
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Train(gl, context, this));
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.TrainSmoke(gl, context, this));

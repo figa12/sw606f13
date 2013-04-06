@@ -4,7 +4,7 @@ public class GameData {
     
     public static final float maxTrainSpeed = 0.325f;
     public static float currentTrainVelocity = 0f; // pixels per ms
-    public static float pixelMovementForThisFrame = 0f; // timeDifference*currentTrainSpeed //TODO better name.
+    public static float pixelMovementForThisFrame = 0f; // timeDifference*currentTrainSpeed
     public static float totalDistanceTraveled = 0f;
     public static int numberOfStations = 4;
     public static float distanceBetweenStations = 10000f;
@@ -14,7 +14,7 @@ public class GameData {
     public static long systemTimeNow = 1;
     
     private static boolean changingVelocity = false;
-    private static final float timeToBringToFullStop = 4000f; // ms. Brug konstant deceleration i stedet
+    private static final float timeToBringToFullStop = 4000f;
     private static float deltaVelocity = 0f;
     
     public static final void updateData() {

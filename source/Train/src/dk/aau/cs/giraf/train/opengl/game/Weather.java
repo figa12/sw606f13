@@ -4,7 +4,9 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
 import dk.aau.cs.giraf.train.R;
+import dk.aau.cs.giraf.train.opengl.Color;
 import dk.aau.cs.giraf.train.opengl.GameDrawer;
+import dk.aau.cs.giraf.train.opengl.GradientSquare;
 import dk.aau.cs.giraf.train.opengl.Square;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
@@ -14,17 +16,22 @@ public final class Weather extends RenderableGroup {
         super(gl, context, gameDrawer);
     }
     
-    private Texture sun = new Texture(1f, 1f);
+    private Texture sun = new Texture(250f, 250f);
+    private GradientSquare backgroundGradient = new GradientSquare(3525.23f, 2071.07f, Color.BackgroundTopColor, Color.BackgroundBottomColor, GradientSquare.GradientStyle.Vertical);
     
     @Override
     public void load() {
-        this.sun.addCoordinate(472.8f, 310.96f, super.gameDrawer.FOREGROUND);
+        //Add coordinates to the renderables
+        this.sun.addCoordinate(1462.61f, 985.53f, super.gameDrawer.BACKGROUND);
+        this.backgroundGradient.addCoordinate(-1762.61f, 1035.53f, super.gameDrawer.BACKGROUND);
         
-        this.sun.loadTexture(super.gl, super.context, R.drawable.texture_sun, Texture.AspectRatio.BitmapOneToOne);
+        //Load the textures
+        this.sun.loadTexture(super.gl, super.context, R.drawable.texture_sun);
     }
 
     @Override
     public void draw() {
+        super.translateAndDraw(this.backgroundGradient);
         super.translateAndDraw(this.sun);
     }
 }
