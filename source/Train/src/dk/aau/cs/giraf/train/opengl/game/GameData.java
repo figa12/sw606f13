@@ -21,23 +21,23 @@ public class GameData {
     public static long systemTimeNow = 1; // ns
     
     private static boolean changingVelocity = false;
-    private static final float accelerationTime = 4000f; // ms
-    private static float deltaVelocity = 0f; // pixels per ms^2
+    private static final float accelerationTime = 3930f; // ms
+    private static float deltaVelocity = GameData.maxTrainSpeed / GameData.accelerationTime; // pixels per ms^2
     
     /** Updates all game data. */
     public static final void updateData() {
         GameData.timeDifference = (GameData.systemTimeNow - GameData.systemTimeLast)/1000000.0f; //FIXME follow the trace of this for the first drawn frame. It's dangerous.
-        GameData.pixelMovementForThisFrame = -GameData.currentTrainVelocity * GameData.timeDifference;
-        GameData.totalDistanceTraveled -= GameData.pixelMovementForThisFrame;
         
         GameData.updateVelocity();
+        GameData.pixelMovementForThisFrame = -GameData.currentTrainVelocity * GameData.timeDifference;
+        GameData.totalDistanceTraveled -= GameData.pixelMovementForThisFrame;
     }
     
     /** Initiate train acceleration. */
     public static final void accelerateTrain() {
         if(!GameData.changingVelocity) {
             GameData.changingVelocity = true;
-            GameData.deltaVelocity = GameData.maxTrainSpeed / GameData.accelerationTime;
+            GameData.deltaVelocity = Math.abs(GameData.deltaVelocity);
         }
     }
     
@@ -45,11 +45,11 @@ public class GameData {
     public static final void decelerateTrain() {
         if(!GameData.changingVelocity) {
             GameData.changingVelocity = true;
-            GameData.deltaVelocity = -GameData.maxTrainSpeed / GameData.accelerationTime;
+            GameData.deltaVelocity = -1 * Math.abs(GameData.deltaVelocity);
         }
     }
     
-    private static final void updateVelocity() {
+    public static final void updateVelocity() {
         if(GameData.changingVelocity) {
             GameData.currentTrainVelocity += GameData.deltaVelocity * GameData.timeDifference;
             
@@ -66,8 +66,8 @@ public class GameData {
     
     /** Calculate the train's braking distance. */
     public static final float brakingDistance() {
-        return (float) -Math.pow(GameData.currentTrainVelocity, 2.0)/2*GameData.deltaVelocity;
-    }
+        return (float) (-Math.pow(GameData.currentTrainVelocity, 2.0)) / 2 * -1 * Math.abs(GameData.deltaVelocity);
+    } 
     
     /** Reset all game data to its start conditions. */
     public static final void resetGameData() { // recreate start conditions
@@ -77,7 +77,6 @@ public class GameData {
         GameData.systemTimeLast = System.nanoTime();
         GameData.systemTimeNow = 1;
         GameData.changingVelocity = false;
-        GameData.deltaVelocity = 0f;
         GameData.numberOfStops = 0;
     }
 }

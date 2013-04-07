@@ -33,16 +33,30 @@ public final class Station extends RenderableGroup {
         this.trainStation.loadTexture(super.gl, super.context, R.drawable.texture_train_station, Texture.AspectRatio.BitmapOneToOne);
         this.platform.loadTexture(super.gl, super.context, R.drawable.texture_platform, Texture.AspectRatio.BitmapOneToOne);
         
+        /* Add stations to the matrix. */
         float xPosition = -364f; // first platform position
         
         for (int i = 0; i < GameData.numberOfStations; i++) {
-            this.stationPlatformMatrix.addRenderableMatrixItem(this.platform, new Coordinate(xPosition, 0f, GameData.FOREGROUND));
+            this.stationPlatformMatrix.addRenderableMatrixItem(this.trainStation, new Coordinate(xPosition + 364f + (640f - 588.64f), 583f, 0f));
+            this.stationPlatformMatrix.addRenderableMatrixItem(this.platform, new Coordinate(xPosition, 0f, 0f));
+            
             xPosition += GameData.distanceBetweenStations + this.platform.getWidth();
         }
         
         xPosition -= (GameData.distanceBetweenStations + this.platform.getWidth());
         
-        this.stationPlatformMatrix.addRenderableMatrixItem(this.trainStopper, new Coordinate(xPosition + 1575f, 0f, GameData.FOREGROUND), Color.Black);
+        this.stationPlatformMatrix.addRenderableMatrixItem(this.trainStopper, new Coordinate(xPosition + 1575f, 0f, 0f), Color.Black);
+    }
+    
+    @Override
+    public final void draw() {
+        //Move
+        this.stationPlatformMatrix.move(GameData.pixelMovementForThisFrame, 0f);
+        
+        //Draw
+        super.translateAndDraw(this.stationPlatformMatrix);
+        
+        this.checkTrainPosition();
     }
     
     private float nextStopPosition = -640f;
@@ -54,14 +68,5 @@ public final class Station extends RenderableGroup {
             GameData.decelerateTrain();
             GameData.numberOfStops++;
         }
-    }
-    
-    @Override
-    public final void draw() {
-        //super.translateAndDraw(this.trainStation);
-        super.translateAndDraw(this.stationPlatformMatrix);
-        this.stationPlatformMatrix.move(GameData.pixelMovementForThisFrame, 0f);
-        
-        this.checkTrainPosition();
     }
 }

@@ -9,13 +9,13 @@ public class Color {
     /* Already created color objects. */
     public final static Color White = new Color(1f, 1f, 1f, 1f);
     public final static Color Black = new Color(0f, 0f, 0f, 1f);
-    public final static Color TransparentBlack = new Color(0, 0, 0, 25);
+    public final static Color TransparentBlack = new Color(0f, 0f, 0f, 0.15f);
     public final static Color Red = new Color(1f, 0f, 0f, 1f);
     public final static Color Green = new Color(0f, 1f, 0f, 1f);
     public final static Color Blue = new Color(0f, 0f, 1f, 1f);
     public final static Color Window = new Color(0.5f, 0.5f, 0.5f, 0.5f); // (0.6941f, 0.6902f, 0.8431f, 0.65f);
     public final static Color DarkWeather = new Color(0f, 0f, 0.2f, 0.1f);
-    public final static Color BackgroundTopColor = new Color(181, 188, 255, 255);
+    public final static Color BackgroundTopColor = new Color(130, 147, 255, 255);
     public final static Color BackgroundBottomColor = new Color(1f, 1f, 1f, 1f);
     
     /* The color values. */
@@ -26,7 +26,7 @@ public class Color {
     
     /** Sets color to white, without transparency */
     public Color() {
-        this.setColor(1f, 1f, 1f, 1f); // White
+        this.setColor(1f, 1f, 1f, 1f);
     }
     
     /**
