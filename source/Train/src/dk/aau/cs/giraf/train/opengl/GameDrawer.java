@@ -27,16 +27,12 @@ public final class GameDrawer {
 	public WeatherStyle weatherStyle = WeatherStyle.Sunny;
 	private Random random = new Random();
 	
-	public final float FOREGROUND = -907.7443f;
-	public final float MIDDLEGROUND = -1300f;
-	public final float BACKGROUND = -2500f;
-	
 	/** The list of {@link RenderableGroup}s. */
 	private ArrayList<RenderableGroup> gameRenderableGroups = new ArrayList<RenderableGroup>();
 	
 	/**
 	 * Create the {@link GameDrawer}. All {@link RenderableGroup}s are created here.
-	 * @param gl the {@link GL10} instance
+	 * @param gl the {@link GL10} instance.
 	 * @param context
 	 */
 	public GameDrawer(GL10 gl, Context context) {
@@ -53,7 +49,6 @@ public final class GameDrawer {
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Tester(gl, context, this)); // Always draw last
 	}
 	
-	/** Add a renderable group to the list of renderable groups. */
 	private final void addRenderableGroup(RenderableGroup renderableGroup) {
 	    //FIXME this method doesn't really do anything anymore, consider removing
 		this.gameRenderableGroups.add(renderableGroup);

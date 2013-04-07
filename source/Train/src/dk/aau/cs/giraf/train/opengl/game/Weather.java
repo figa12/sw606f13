@@ -7,7 +7,6 @@ import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.Color;
 import dk.aau.cs.giraf.train.opengl.GameDrawer;
 import dk.aau.cs.giraf.train.opengl.GradientSquare;
-import dk.aau.cs.giraf.train.opengl.Square;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
 public final class Weather extends RenderableGroup {
@@ -22,8 +21,8 @@ public final class Weather extends RenderableGroup {
     @Override
     public void load() {
         //Add coordinates to the renderables
-        this.sun.addCoordinate(1462.61f, 985.53f, super.gameDrawer.BACKGROUND);
-        this.backgroundGradient.addCoordinate(-1762.61f, 1035.53f, super.gameDrawer.BACKGROUND);
+        this.sun.addCoordinate(1462.61f, 985.53f, GameData.BACKGROUND);
+        this.backgroundGradient.addCoordinate(-1762.61f, 1035.53f, GameData.BACKGROUND);
         
         //Load the textures
         this.sun.loadTexture(super.gl, super.context, R.drawable.texture_sun);

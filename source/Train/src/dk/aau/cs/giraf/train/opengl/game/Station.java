@@ -26,8 +26,8 @@ public final class Station extends RenderableGroup {
     @Override
     public final void load() {
         //Add coordinates to the renderables
-        this.trainStation.addCoordinate(-588.64f, 376f, super.gameDrawer.FOREGROUND);
-        this.stationPlatformMatrix.addCoordinate(-640f, -207f, super.gameDrawer.FOREGROUND);
+        this.trainStation.addCoordinate(-588.64f, 376f, GameData.FOREGROUND);
+        this.stationPlatformMatrix.addCoordinate(-640f, -207f, GameData.FOREGROUND);
         
         //Load the textures
         this.trainStation.loadTexture(super.gl, super.context, R.drawable.texture_train_station, Texture.AspectRatio.BitmapOneToOne);
@@ -36,16 +36,16 @@ public final class Station extends RenderableGroup {
         float xPosition = -364f; // first platform position
         
         for (int i = 0; i < GameData.numberOfStations; i++) {
-            this.stationPlatformMatrix.addRenderableMatrixItem(this.platform, new Coordinate(xPosition, 0f, super.gameDrawer.FOREGROUND));
+            this.stationPlatformMatrix.addRenderableMatrixItem(this.platform, new Coordinate(xPosition, 0f, GameData.FOREGROUND));
             xPosition += GameData.distanceBetweenStations + this.platform.getWidth();
         }
         
         xPosition -= (GameData.distanceBetweenStations + this.platform.getWidth());
         
-        this.stationPlatformMatrix.addRenderableMatrixItem(this.trainStopper, new Coordinate(xPosition + 1575f, 0f, super.gameDrawer.FOREGROUND), Color.Black);
+        this.stationPlatformMatrix.addRenderableMatrixItem(this.trainStopper, new Coordinate(xPosition + 1575f, 0f, GameData.FOREGROUND), Color.Black);
     }
     
-    private float nextStopPosition = 0f - 640f;
+    private float nextStopPosition = -640f;
     private float timeStopped = 0f;
     private boolean stopping = false;
     private boolean waitingForGo = true;

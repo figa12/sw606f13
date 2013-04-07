@@ -43,15 +43,15 @@ public final class Wheels extends RenderableGroup {
     @Override
     public final void load() {
         //Add coordinates to the renderables
-        this.mediumWheel.addCoordinate(-507.08f, -277.04f, super.gameDrawer.FOREGROUND);
-        this.mediumWheel.addCoordinate(-339.52f, -277.04f, super.gameDrawer.FOREGROUND);
-        this.mediumWheel.addCoordinate(-152.14f, -277.04f, super.gameDrawer.FOREGROUND);
-        this.mediumWheel.addCoordinate(15.42f, -277.04f, super.gameDrawer.FOREGROUND);
-        this.largeWheel.addCoordinate(191.02f, -250.74f, super.gameDrawer.FOREGROUND);
-        this.smallWheel.addCoordinate(344.58f, -296.34f, super.gameDrawer.FOREGROUND);
-        this.smallWheel.addCoordinate(424.13f, -296.34f, super.gameDrawer.FOREGROUND);
-        this.wheelShaft.addCoordinate(370.83f, -321.84f, super.gameDrawer.FOREGROUND);
-        this.ground.addCoordinate(-640f, -356f, super.gameDrawer.FOREGROUND);
+        this.mediumWheel.addCoordinate(-507.08f, -277.04f, GameData.FOREGROUND);
+        this.mediumWheel.addCoordinate(-339.52f, -277.04f, GameData.FOREGROUND);
+        this.mediumWheel.addCoordinate(-152.14f, -277.04f, GameData.FOREGROUND);
+        this.mediumWheel.addCoordinate(15.42f, -277.04f, GameData.FOREGROUND);
+        this.largeWheel.addCoordinate(191.02f, -250.74f, GameData.FOREGROUND);
+        this.smallWheel.addCoordinate(344.58f, -296.34f, GameData.FOREGROUND);
+        this.smallWheel.addCoordinate(424.13f, -296.34f, GameData.FOREGROUND);
+        this.wheelShaft.addCoordinate(370.83f, -321.84f, GameData.FOREGROUND);
+        this.ground.addCoordinate(-640f, -356f, GameData.FOREGROUND);
         
         //Load the textures
         this.mediumWheel.loadTexture(gl, context, R.drawable.texture_wheel_medium, Texture.AspectRatio.BitmapOneToOne);

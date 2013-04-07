@@ -23,12 +23,12 @@ public final class Train extends RenderableGroup {
     @Override
     public final void load() {
         //Add coordinates to the renderables
-        this.wagon.addCoordinate(-542.32f, -142.72f, super.gameDrawer.FOREGROUND);
-        this.wagon.addCoordinate(-187.45f, -142.72f, super.gameDrawer.FOREGROUND);
-        this.shaft.addCoordinate(-227.45f, -294.72f, super.gameDrawer.FOREGROUND);
-        this.shaft.addCoordinate(127.42f, -294.72f, super.gameDrawer.FOREGROUND);
-        this.train.addCoordinate(160.42f, -52.37f, super.gameDrawer.FOREGROUND);
-        this.trainWindow.addCoordinate(198.92f, -87f, super.gameDrawer.FOREGROUND);
+        this.wagon.addCoordinate(-542.32f, -142.72f, GameData.FOREGROUND);
+        this.wagon.addCoordinate(-187.45f, -142.72f, GameData.FOREGROUND);
+        this.shaft.addCoordinate(-227.45f, -294.72f, GameData.FOREGROUND);
+        this.shaft.addCoordinate(127.42f, -294.72f, GameData.FOREGROUND);
+        this.train.addCoordinate(160.42f, -52.37f, GameData.FOREGROUND);
+        this.trainWindow.addCoordinate(198.92f, -87f, GameData.FOREGROUND);
         
         //Load the textures
         this.wagon.loadTexture(gl, context, R.drawable.texture_wagon, Texture.AspectRatio.BitmapOneToOne);

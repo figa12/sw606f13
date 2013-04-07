@@ -20,8 +20,8 @@ public final class Middleground extends RenderableGroup {
     
     @Override
     public void load() {
-        this.sequence.addCoordinate(500f, 300f, super.gameDrawer.MIDDLEGROUND-500f);
-        this.sequence.addCoordinate(198.92f, -87f, super.gameDrawer.MIDDLEGROUND);
+        this.sequence.addCoordinate(500f, 300f, GameData.MIDDLEGROUND-500f);
+        this.sequence.addCoordinate(198.92f, -87f, GameData.MIDDLEGROUND);
         
         for (float i = 0f; i <= 8000f; i += 100f) {
             this.sequence.addRenderableMatrixItem(square, new Coordinate(i, 0f, 0f), Color.Blue);

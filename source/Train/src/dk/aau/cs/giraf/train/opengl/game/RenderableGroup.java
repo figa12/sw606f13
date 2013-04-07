@@ -12,6 +12,7 @@ import dk.aau.cs.giraf.train.opengl.Shape;
  * An abstract class specifying a group of renderables to be drawn and loaded together.
  * Methods for translating, rotating, and drawing.
  * @author Jesper
+ * @see GameDrawer
  */
 public abstract class RenderableGroup {
     

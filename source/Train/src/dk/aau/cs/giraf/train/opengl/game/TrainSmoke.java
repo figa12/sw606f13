@@ -22,7 +22,7 @@ public final class TrainSmoke extends RenderableGroup { //FIXME if numberOfSmoke
     private Coordinate[] coordinates = new Coordinate[this.numberOfSmokeClouds];
     private Color[] colors = new Color[this.numberOfSmokeClouds];
     
-    private Coordinate startCoordinate = new Coordinate(455.42f, -52.37f, super.gameDrawer.FOREGROUND);
+    private Coordinate startCoordinate = new Coordinate(455.42f, -52.37f, GameData.FOREGROUND);
     
     private int resetIndex = 0;
     private float timeBetweenSmokeParticles = 80f; // ms

@@ -20,8 +20,8 @@ public final class Tester extends RenderableGroup {
     
     @Override
     public void load() {
-        this.horizontalAxis.addCoordinate(-this.horizontalAxis.getWidth()/2f, this.horizontalAxis.getHeight()/2f, super.gameDrawer.FOREGROUND);
-        this.verticalAxis.addCoordinate(-this.verticalAxis.getWidth()/2f, this.verticalAxis.getHeight()/2f, super.gameDrawer.FOREGROUND);
+        this.horizontalAxis.addCoordinate(-this.horizontalAxis.getWidth()/2f, this.horizontalAxis.getHeight()/2f, GameData.FOREGROUND);
+        this.verticalAxis.addCoordinate(-this.verticalAxis.getWidth()/2f, this.verticalAxis.getHeight()/2f, GameData.FOREGROUND);
     }
 
     @Override
