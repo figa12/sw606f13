@@ -46,31 +46,13 @@ public final class Station extends RenderableGroup {
     }
     
     private float nextStopPosition = -640f;
-    private float timeStopped = 0f;
-    private boolean stopping = false;
-    private boolean waitingForGo = true;
-    private int numberOfStops = 0;
     
     private final void checkTrainPosition() {
         // if close to station, start braking
         if(GameData.totalDistanceTraveled + GameData.brakingDistance() >= this.nextStopPosition) {
             this.nextStopPosition += GameData.distanceBetweenStations + this.platform.getWidth();
             GameData.decelerateTrain();
-            this.stopping = true;
-        }
-        
-        timeStopped += GameData.timeDifference;
-        
-        if(this.stopping && GameData.currentTrainVelocity == 0f) {
-            timeStopped = 0f;
-            this.stopping = false;
-            this.waitingForGo = true;
-            this.numberOfStops++;
-        }
-        
-        if(this.waitingForGo && this.timeStopped > 10000 && this.numberOfStops < GameData.numberOfStations) {
-            GameData.accelerateTrain();
-            this.waitingForGo = false;
+            GameData.numberOfStops++;
         }
     }
     

@@ -16,7 +16,7 @@ public final class TrainSmoke extends RenderableGroup { //FIXME if numberOfSmoke
         super(gl, context, gameDrawer);
     }
 
-    private int numberOfSmokeClouds = 10;
+    private int numberOfSmokeClouds = 5;
     
     private Texture smokeCloud = new Texture(1f, 1f);
     private Coordinate[] coordinates = new Coordinate[this.numberOfSmokeClouds];
@@ -25,7 +25,7 @@ public final class TrainSmoke extends RenderableGroup { //FIXME if numberOfSmoke
     private Coordinate startCoordinate = new Coordinate(455.42f, -52.37f, GameData.FOREGROUND);
     
     private int resetIndex = 0;
-    private float timeBetweenSmokeParticles = 80f; // ms
+    private float timeBetweenSmokeParticles = 150f; // ms
     private float timeSinceLastReset = 0f;
     private final float ySpeed = 0.18f;
     

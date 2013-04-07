@@ -8,10 +8,13 @@ public class GameData {
     
     public static final float maxTrainSpeed = 0.325f; // pixels per ms
     public static float currentTrainVelocity = 0f; // pixels per ms
+    
     public static float pixelMovementForThisFrame = 0f; // pixels
     public static float totalDistanceTraveled = 0f;
+    
     public static int numberOfStations = 4;
     public static float distanceBetweenStations = 10000f; // pixel
+    public static int numberOfStops = 0;
     
     public static float timeDifference; // ms
     public static long systemTimeLast = System.nanoTime(); // ns
@@ -75,5 +78,6 @@ public class GameData {
         GameData.systemTimeNow = 1;
         GameData.changingVelocity = false;
         GameData.deltaVelocity = 0f;
+        GameData.numberOfStops = 0;
     }
 }

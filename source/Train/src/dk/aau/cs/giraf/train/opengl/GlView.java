@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.train.opengl;
 
+import dk.aau.cs.giraf.train.opengl.game.GameData;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
@@ -50,12 +51,15 @@ public class GlView extends GLSurfaceView {
     
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        //long eventDuration = event.getEventTime() - event.getDownTime(); // the time the screen is touched
         
-        long eventDuration = event.getEventTime() - event.getDownTime(); // the time the screen is touched
-        
-        float x = event.getX();
-        float y = event.getY();
+        //float x = event.getX();
+        //float y = event.getY();
         //Log.d(GlView.class.getSimpleName(), "Touched: " + Float.toString(x) + " x " + Float.toString(y));
+        
+        if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations) {
+            GameData.accelerateTrain();
+        }
         
         return true;
     }
