@@ -59,7 +59,13 @@ public final class Station extends RenderableGroup {
         Collections.shuffle(stations);
         LinkedList<StationContainer> stationsQueue = this.getQueue(stations);
         
-        /* Add stations to the matrix. */
+        //Calculate all stopping positions
+        GameData.nextStoppingPosition[0] = GameData.distanceBetweenStations + this.platform.getWidth();
+        for (int i = 1; i < GameData.numberOfStations; i++) {
+            GameData.nextStoppingPosition[i] += GameData.nextStoppingPosition[i-1] + GameData.distanceBetweenStations + this.platform.getWidth();
+        }
+        
+        //Add stations to the matrix
         float xPosition = -364f; // first platform position
         
         for (int i = 0; i < GameData.numberOfStations; i++) {
@@ -91,18 +97,5 @@ public final class Station extends RenderableGroup {
         
         //Draw
         super.translateAndDraw(this.stationPlatformMatrix);
-        
-        this.checkTrainPosition();
-    }
-    
-    private float nextStopPosition = -640f;
-    
-    private final void checkTrainPosition() {
-        // if close to station, start braking
-        if(GameData.totalDistanceTraveled + GameData.brakingDistance() >= this.nextStopPosition) {
-            this.nextStopPosition += GameData.distanceBetweenStations + this.platform.getWidth();
-            GameData.decelerateTrain();
-            GameData.numberOfStops++;
-        }
     }
 }
