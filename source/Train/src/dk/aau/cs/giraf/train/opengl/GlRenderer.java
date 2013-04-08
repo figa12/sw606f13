@@ -132,7 +132,7 @@ public class GlRenderer implements Renderer {
         
         gl.glShadeModel(GL10.GL_SMOOTH);                    //Enable Smooth Shading
         
-        gl.glClearColor(0.9f, 0.9f, 0.9f, 1.0f);            //Set Background color
+        gl.glClearColor(1f, 1f, 1f, 1f);            //Set Background color
         
         /* Set up the depth buffer */
         gl.glClearDepthf(1.0f);          //Depth Buffer Setup
