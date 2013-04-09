@@ -57,10 +57,14 @@ public class GlView extends GLSurfaceView {
         //float y = event.getY();
         //Log.d(GlView.class.getSimpleName(), "Touched: " + Float.toString(x) + " x " + Float.toString(y));
         
-        if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations - 1) {
-            GameData.accelerateTrain();
+        if(event.getAction() == MotionEvent.ACTION_DOWN && GameData.isPaused) {
+            GameData.onResume();
         }
-        
+        else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations - 1) {
+                GameData.accelerateTrain();
+            }
+        }
         return true;
     }
 

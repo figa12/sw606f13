@@ -38,7 +38,8 @@ public class GameActivity extends Activity {
 		this.setContentView(R.layout.activity_game);
 
 		this.createPictogramLayouts(6);
-
+		
+		GameData.resetGameData();
 		this.openGLView = (GlView) findViewById(R.id.openglview);
 
 		this.getWindow().getDecorView()
@@ -173,6 +174,7 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		GameData.onPause();
 		this.openGLView.onPause();
 	}
 
@@ -180,8 +182,6 @@ public class GameActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		this.openGLView.onResume();
-		
-		GameData.resetGameData();
 	}
 
 	/**
@@ -287,5 +287,15 @@ public class GameActivity extends Activity {
 				return false;
 			}
 		}
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle savedInstanceState) {
+	    GameData.onSaveInstanceState(savedInstanceState);
+	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+	    GameData.onRestoreInstanceState(savedInstanceState);
 	}
 }

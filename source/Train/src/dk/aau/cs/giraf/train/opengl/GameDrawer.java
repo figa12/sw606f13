@@ -47,6 +47,7 @@ public final class GameDrawer {
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Wheels(gl, context, this));
 		
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Tester(gl, context, this)); // Always draw last
+		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Overlay(gl, context, this));
 	}
 	
 	private final void addRenderableGroup(RenderableGroup renderableGroup) {

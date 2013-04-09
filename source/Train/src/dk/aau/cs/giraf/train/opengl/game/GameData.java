@@ -1,5 +1,7 @@
 package dk.aau.cs.giraf.train.opengl.game;
 
+import android.os.Bundle;
+
 /**
  * This class holds static data relevant for the game.
  * @author Jesper
@@ -8,8 +10,10 @@ package dk.aau.cs.giraf.train.opengl.game;
 public class GameData {
     
     public static final float FOREGROUND = -907.7443f;
-    public static final float MIDDLEGROUND = -1300f;
-    public static final float BACKGROUND = -2500f;
+    public static final float MIDDLEGROUND = -2500f;
+    public static final float BACKGROUND = -3000f;
+    
+    public static boolean isPaused = false;
     
     public static final float maxTrainSpeed = 0.35f; // pixels per ms // 0.325 is nice
     public static float currentTrainVelocity = 0f; // pixels per ms
@@ -32,7 +36,7 @@ public class GameData {
     
     /** Updates all game data. */
     public static final void updateData() {
-        GameData.timeDifference = (GameData.systemTimeNow - GameData.systemTimeLast)/1000000.0f; //FIXME follow the trace of this for the first drawn frame. It's dangerous.
+        GameData.timeDifference = (GameData.systemTimeNow - GameData.systemTimeLast)/1000000.0f;
         
         //Limit timeDifference from game freezes
         if(GameData.timeDifference > 1000f) {
@@ -115,5 +119,22 @@ public class GameData {
         GameData.changingVelocity = false;
         GameData.numberOfStops = 0;
         GameData.nextStoppingPosition = new float[GameData.numberOfStations];
+        GameData.isPaused = false;
+    }
+    
+    public static final void onPause() {
+        GameData.isPaused = true;
+    }
+    
+    public static final void onResume() {
+        GameData.isPaused = false;
+    }
+    
+    public static final void onSaveInstanceState(Bundle savedInstanceState) {
+        
+    }
+    
+    public static final void onRestoreInstanceState(Bundle savedInstanceState) {
+        
     }
 }
