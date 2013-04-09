@@ -41,13 +41,13 @@ public final class GameDrawer {
 		// add RenderableGroups to the list in the order they should be drawn
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Weather(gl, context, this));
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Middleground(gl, context, this));
-		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Station(gl, context, this));
+		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Station(gl, context, this)); //Station also creates some GameData
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Train(gl, context, this));
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.TrainSmoke(gl, context, this));
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Wheels(gl, context, this));
+		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Overlay(gl, context, this));
 		
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Tester(gl, context, this)); // Always draw last
-		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Overlay(gl, context, this));
 	}
 	
 	private final void addRenderableGroup(RenderableGroup renderableGroup) {

@@ -110,7 +110,7 @@ public class GameData {
     }
     
     /** Reset all game data to its start conditions. */
-    public static final void resetGameData() { // recreate start conditions
+    public static final void resetGameData() {
         GameData.currentTrainVelocity = 0f;
         GameData.pixelMovementForThisFrame = 0f;
         GameData.totalDistanceTraveled = 0f;
@@ -122,19 +122,60 @@ public class GameData {
         GameData.isPaused = false;
     }
     
+    private static final String CURRENT_TRAIN_VELOCITY  = "currentTrainCelocity";
+    private static final String TOTAL_DISTANCE_TRAVELED = "totalDistanceTraveled";
+    private static final String CHANGING_VELOCITY       = "changingVelocity";
+    private static final String NUMBER_OF_STOPS         = "numberOfStops";
+    private static final String NEXT_STOPPING_POSITION  = "nextStoppingPosition";
+    
+    private static Bundle bundle;
+    
+    /** Pause the game. */
     public static final void onPause() {
         GameData.isPaused = true;
+        GameData.onSaveInstanceState(new Bundle()); //Save this GameData state
+        
+        //Then pause the GameData
+        GameData.currentTrainVelocity  = 0f;
+        GameData.changingVelocity      = false;
     }
     
+    /** Resume the game. First resume when the user is ready. */
     public static final void onResume() {
-        GameData.isPaused = false;
+        if(GameData.bundle == null) {
+            return;
+        }
+        
+        // Restore state each time we resume
+        GameData.currentTrainVelocity  = GameData.bundle.getFloat(GameData.CURRENT_TRAIN_VELOCITY);
+        GameData.totalDistanceTraveled = GameData.bundle.getFloat(GameData.TOTAL_DISTANCE_TRAVELED);
+        GameData.systemTimeLast        = System.nanoTime(); // the old value of systemTimeLast is useless now, get new
+        GameData.changingVelocity      = GameData.bundle.getBoolean(GameData.CHANGING_VELOCITY);
+        GameData.numberOfStops         = GameData.bundle.getInt(GameData.NUMBER_OF_STOPS);
+        GameData.nextStoppingPosition  = GameData.bundle.getFloatArray(NEXT_STOPPING_POSITION);
+        GameData.isPaused              = false;
     }
     
+    /**
+     * Save this instance of game data.
+     * @param savedInstanceState
+     */
     public static final void onSaveInstanceState(Bundle savedInstanceState) {
-        
+        GameData.bundle = savedInstanceState;
+        savedInstanceState.putFloat(GameData.CURRENT_TRAIN_VELOCITY, GameData.currentTrainVelocity);
+        savedInstanceState.putFloat(GameData.TOTAL_DISTANCE_TRAVELED, GameData.totalDistanceTraveled);
+        savedInstanceState.putBoolean(GameData.CHANGING_VELOCITY, GameData.changingVelocity);
+        savedInstanceState.putInt(GameData.NUMBER_OF_STOPS, GameData.numberOfStops);
+        savedInstanceState.putFloatArray(GameData.NEXT_STOPPING_POSITION, GameData.nextStoppingPosition);
     }
     
+    /**
+     * Restore this instance of game data.
+     * @param savedInstanceState
+     */
     public static final void onRestoreInstanceState(Bundle savedInstanceState) {
+        GameData.bundle = new Bundle(savedInstanceState); // override old GameDate.bundle because this is the relevant one
         
+        /* After this, GameData.onResume() is called, this is where the state is restored */
     }
 }
