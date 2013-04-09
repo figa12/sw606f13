@@ -166,6 +166,10 @@ public class RenderableMatrix extends Renderable {
         this.draw(gl, coordinate, Color.White);
     }
 	
+    private int i;
+    private int j;
+    private ArrayList<Coordinate> coordinates;
+    
     /**
      * Draw the entire renderable matrix.
      * @param gl the {@link GL10} instance.
@@ -179,7 +183,7 @@ public class RenderableMatrix extends Renderable {
         
         gl.glPushMatrix();
             
-        for (RenderableMatrixItem item : this.matrixItems) {
+        /*for (RenderableMatrixItem item : this.matrixItems) {
             for (Coordinate itemCoordinate : item.getCoordinates()) {
                 //only draw if the item is visible on the screen
                 if(     coordinate.getX() + itemCoordinate.getX() + item.getWidth() >= -coordinate.getVisibleWidth()/2 &&
@@ -191,7 +195,24 @@ public class RenderableMatrix extends Renderable {
                     item.draw(gl, itemCoordinate);
                 }
             }
+        }*/
+        
+        // these for-loops create less garbage than the foreach counterpart
+        for (i = 0; i < this.matrixItems.size(); i++) {
+            this.coordinates = this.matrixItems.get(i).getCoordinates();
+            for (j = 0; j < this.coordinates.size(); j++) {
+                //only draw if the item is visible on the screen
+                if(     coordinate.getX() + this.coordinates.get(j).getX() + this.matrixItems.get(i).getWidth() >= -coordinate.getVisibleWidth()/2 &&
+                        coordinate.getX() + this.coordinates.get(j).getX() <= coordinate.getVisibleWidth()/2 &&
+                        coordinate.getY() + this.coordinates.get(j).getY() >= -coordinate.getVisibleHeight()/2 &&
+                        coordinate.getY() + this.coordinates.get(j).getY() - this.matrixItems.get(i).getHeight() <= coordinate.getVisibleHeight()/2 ) {
+                    
+                    this.moveTo(gl, this.coordinates.get(j));
+                    this.matrixItems.get(i).draw(gl, this.coordinates.get(j));
+                }
+            }
         }
+        
         gl.glPopMatrix();
     }
 }
