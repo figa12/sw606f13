@@ -8,7 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 /**
  * A {@link Renderable} gradient square that extends {@link Square}.
- * Two colors can be specified for 
+ * Two colors can be specified to create gradiance with.
  * @author Jesper
  * @see Square
  */

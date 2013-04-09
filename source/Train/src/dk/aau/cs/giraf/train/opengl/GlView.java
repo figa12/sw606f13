@@ -21,7 +21,7 @@ public class GlView extends GLSurfaceView {
      * @param context send to renderer
      */
     private void setup(Context context) {
-        this.setEGLContextClientVersion(1); // Pick an OpenGL ES 1 context.
+        this.setEGLContextClientVersion(1); // Pick an OpenGL ES 1 context. Going old school because its easier
         
         this.setEGLConfigChooser(true);
         

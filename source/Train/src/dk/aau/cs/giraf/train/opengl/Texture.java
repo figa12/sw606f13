@@ -13,7 +13,7 @@ import android.graphics.Canvas;
 import android.opengl.GLUtils;
 
 /**
- * A Texture class that extends the {@link Square} class.
+ * A texture class that extends the {@link Square} class.
  * The texture will always stretch to the specified size.
  * Use {@link #loadTexture} to load the texture into OpenGL.
  * Use {@link #draw} to draw the texture at the current position.
@@ -29,7 +29,7 @@ public class Texture extends Square implements Renderable.Texture {
     
     /** 
      * The texture pointer to memory.
-     * It must be an array since the parameter of {@link GL10#glGenTextures} takes an array
+     * It must be an array since the parameter of {@link GL10#glGenTextures} takes an array.
      */
     private int[] textures = new int[1];
     
@@ -75,7 +75,7 @@ public class Texture extends Square implements Renderable.Texture {
     
     /**
      * Set new texture coordinates and reinitialise the texture buffer.
-     * @param textureCoordinates The new texture coordinates
+     * @param textureCoordinates the new texture coordinates.
      */
     protected void setTextureCoordinates(float[] textureCoordinates) {
         this.textureCoordinates = textureCoordinates;
@@ -83,10 +83,11 @@ public class Texture extends Square implements Renderable.Texture {
     }
     
     /**
-     * The aspect ratio setting used to rescale the shape according to the texture<br><br>
-     * {@code KeepWidth} resizes the height<br>
-     * {@code KeepHeight} resizes the width<br>
-     * {@code KeepBoth} does not resize the shape, keeps the original width and height<br>
+     * The aspect ratio setting used to rescale the shape according to the texture.<br><br>
+     * {@code KeepWidth} resizes the height.<br>
+     * {@code KeepHeight} resizes the width.<br>
+     * {@code KeepBoth} does not resize the shape, keeps the original width and height.<br>
+     * {@code BitmapOneToOne} resizes both the height and the width to equal the original size of the bitmap texture.
      */
     public enum AspectRatio {
         KeepWidth, KeepHeight, KeepBoth, BitmapOneToOne
@@ -94,7 +95,7 @@ public class Texture extends Square implements Renderable.Texture {
     
     /**
      * Resizes shape to fit the texture's aspect ratio.
-     * @param option specify to resize the width, the height, or none
+     * @param option specify to resize the width, the height, both, or none.
      * @see AspectRatio
      */
     @SuppressWarnings("incomplete-switch") // KeepBoth should not have a case
@@ -115,7 +116,7 @@ public class Texture extends Square implements Renderable.Texture {
     
     /** 
      * Draw the texture.
-     * @param gl    the GL10 instance.
+     * @param gl         the {@link GL10} instance.
      * @param coordinate where the {@link Renderable} is being drawn.
      */
     @Override
@@ -126,9 +127,9 @@ public class Texture extends Square implements Renderable.Texture {
     /** 
      * Draw the texture with the specified RGBA color
      * 
-     * @param gl    the GL10 instance.
+     * @param gl    the {@link GL10} instance.
      * @param coordinate where the {@link Renderable} is being drawn.
-     * @param color a color overlay
+     * @param color a color overlay.
      */
     @Override
     public void draw(GL10 gl, Coordinate coordinate, Color color) {
@@ -164,11 +165,11 @@ public class Texture extends Square implements Renderable.Texture {
     
     /**
      * Generate the texture and the pointer.
-     * @param gl                 the GL10 instance
-     * @param context            the current activity context
-     * @param bitmap             the bitmap to use as texture
-     * @param option             specify which length to keep when resizing the shape to match the texture's aspect ratio
-     * @param glTextureParameter the wrap texture parameter
+     * @param gl                 the {@link GL10} instance.
+     * @param context            the current activity context.
+     * @param bitmap             the bitmap to use as texture.
+     * @param option             specify which length to keep when resizing the shape to match the texture's aspect ratio.
+     * @param glTextureParameter the wrap texture parameter.
      */
     protected void generateTexturePointer(GL10 gl, Context context, Bitmap bitmap, AspectRatio option, int glTextureParameter) {
         this.bitmapWidth = bitmap.getWidth();
@@ -178,7 +179,10 @@ public class Texture extends Square implements Renderable.Texture {
         this.setAspectRatio(option);
         
         //Resizes the bitmap to a power-of-two and crops the texture accordingly
-        if(this.GENERATE_POWER_OF_TWO_EQUIVALENT) bitmap = this.resizeBitmap(bitmap);
+        if(this.GENERATE_POWER_OF_TWO_EQUIVALENT) bitmap = this.generatePowerOfTwoBitmap(bitmap);
+        
+        //Resizes the bitmap if its size is not supported on this device
+        bitmap = this.maintainMaxTextureSize(gl, bitmap);
         
         //Generate one texture pointer...
         gl.glGenTextures(1, textures, 0);
@@ -200,11 +204,11 @@ public class Texture extends Square implements Renderable.Texture {
     
     /**
      * Generate the texture and the pointer.
-     * @param gl                 the GL10 instance
-     * @param context            the current activity context
-     * @param resourcePointer    a pointer to the resource to load
-     * @param option             specify which length to keep when resizing the shape to match the texture's aspect ratio
-     * @param glTextureParameter the wrap texture parameter
+     * @param gl                 the {@link GL10} instance.
+     * @param context            the current activity context.
+     * @param resourcePointer    a pointer to the resource to load.
+     * @param option             specify which length to keep when resizing the shape to match the texture's aspect ratio.
+     * @param glTextureParameter the wrap texture parameter.
      */
     protected void generateTexturePointer(GL10 gl, Context context, int resourcePointer, AspectRatio option, int glTextureParameter) {
       //Get the texture from the Android resource directory
@@ -214,9 +218,9 @@ public class Texture extends Square implements Renderable.Texture {
     
     /** 
      * Loads the specified texture.
-     * @param gl              the GL10 instance
-     * @param context         the current activity context
-     * @param resourcePointer a pointer to the resource to load
+     * @param gl              the {@link GL10} instance.
+     * @param context         the current activity context.
+     * @param resourcePointer a pointer to the resource to load.
      */
     public void loadTexture(GL10 gl, Context context, int resourcePointer) {
         this.loadTexture(gl, context, resourcePointer, AspectRatio.KeepBoth);
@@ -224,10 +228,10 @@ public class Texture extends Square implements Renderable.Texture {
     
     /** 
      * Loads the specified texture.
-     * @param gl              the GL10 instance
-     * @param context         the current activity context
-     * @param resourcePointer a pointer to the resource to load
-     * @param option          specify which length to keep when resizing the shape to match the texture's aspect ratio
+     * @param gl              the {@link GL10} instance.
+     * @param context         the current activity context.
+     * @param resourcePointer a pointer to the resource to load.
+     * @param option          specify which length to keep when resizing the shape to match the texture's aspect ratio.
      */
     public void loadTexture(GL10 gl, Context context, int resourcePointer, AspectRatio option) {
         this.generateTexturePointer(gl, context, resourcePointer, option, GL10.GL_CLAMP_TO_EDGE); // make 'clamp to edge' default
@@ -235,7 +239,7 @@ public class Texture extends Square implements Renderable.Texture {
     
     /**
      * Calculate the next power-of-two that is greater than or equal to x.
-     * @param x the number to find the next power-of-two of
+     * @param x the number to find the next power-of-two of.
      * @return A power-of-two-number greater than or equal to x
      */
     private int getNextPowerOfTwo(int x) {
@@ -248,7 +252,7 @@ public class Texture extends Square implements Renderable.Texture {
      * @param bitmap
      * @return A new bitmap with power-of-two width/height 
      */
-    protected Bitmap resizeBitmap(Bitmap bitmap) {
+    protected Bitmap generatePowerOfTwoBitmap(Bitmap bitmap) {
         int newWidth = this.getNextPowerOfTwo(bitmap.getWidth());
         int newHeight = this.getNextPowerOfTwo(bitmap.getHeight());
         
@@ -272,11 +276,11 @@ public class Texture extends Square implements Renderable.Texture {
     
     /**
      * Crop the texture to remove the unneccesary alpha channels around the bitmap.
-     * @param oldWidth the bitmaps original width
-     * @param oldHeight the bitmaps original height
-     * @param newWidth the new power-of-two width
-     * @param newHeight the new power-of-two height
-     * @see #resizeBitmap(Bitmap)
+     * @param oldWidth the bitmaps original width.
+     * @param oldHeight the bitmaps original height.
+     * @param newWidth the new power-of-two width.
+     * @param newHeight the new power-of-two height.
+     * @see #generatePowerOfTwoBitmap(Bitmap)
      */
     protected void cropTexture(int oldWidth, int oldHeight, int newWidth, int newHeight) {
         this.setTextureCoordinates(new float[] {
@@ -286,5 +290,29 @@ public class Texture extends Square implements Renderable.Texture {
                 0.0f, (float) oldHeight/newHeight,                     // top left     (V2)
                 (float) oldWidth/newWidth, (float) oldHeight/newHeight // top right    (V4)
             });
+    }
+    
+    /**
+     * The max texture size is different on different devices.
+     * To make sure the texture still works on different devices the texture needs to be scaled down to an appropiate size.
+     * @param gl     the {@link GL10} instance.
+     * @param bitmap the bitmap to change if its size is to big.
+     * @return
+     */
+    protected Bitmap maintainMaxTextureSize(GL10 gl, Bitmap bitmap) {
+        int[] maxSize = new int[1];
+        gl.glGetIntegerv(GL10.GL_MAX_TEXTURE_SIZE, maxSize, 0); //Get max supported texture size on this device
+        
+        //If the width is to big and width is greater than the height
+        if(bitmap.getWidth() > maxSize[0] && bitmap.getWidth() >= bitmap.getHeight()) {
+            return Bitmap.createScaledBitmap(bitmap, maxSize[0], (int) (bitmap.getHeight() * ((double) bitmap.getHeight() / maxSize[0])), true);
+        }
+        //If the height is to big and height is greater than the width
+        else if(bitmap.getHeight() > maxSize[0] && bitmap.getHeight() >= bitmap.getWidth()) {
+            return Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * ((double) bitmap.getWidth() / maxSize[0])), maxSize[0], true);
+        }
+        else {
+            return bitmap;
+        }
     }
 }

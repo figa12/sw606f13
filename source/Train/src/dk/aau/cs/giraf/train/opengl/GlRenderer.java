@@ -18,9 +18,9 @@ import android.util.TimingLogger;
 public class GlRenderer implements Renderer {
     
     /* Constants */
-    private static final float NEAR_CLIPPING_PLANE_DEPTH = 907.0f;
-    private static final float FAR_CLIPPING_PLANE_DEPTH = 5000.0f;
-    private static final float FIELD_OF_VIEW_ANGLE = 45.0f;
+    protected static final float NEAR_CLIPPING_PLANE_DEPTH = 907.0f;
+    protected static final float FAR_CLIPPING_PLANE_DEPTH = 5000.0f;
+    protected static final float FIELD_OF_VIEW_ANGLE = 45.0f;
     
     /** The width of the GLSurfaceView */
     private static int surfaceWidth;
