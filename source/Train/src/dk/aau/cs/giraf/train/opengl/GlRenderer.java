@@ -107,8 +107,8 @@ public class GlRenderer implements Renderer {
      */
     public static float getActualHeight(float depth) {
         double otherAngles = (180.0 - GlRenderer.FIELD_OF_VIEW_ANGLE) / 2.0;
-        double hypotenuse = depth / Math.sin(Math.toRadians(otherAngles));
-        return (float) Math.sqrt(Math.pow(hypotenuse, 2.0) - Math.pow(depth, 2.0)) * 2;
+        double hypotenuse = Math.abs(depth) / Math.sin(Math.toRadians(otherAngles));
+        return (float) Math.sqrt(Math.pow(hypotenuse, 2.0) - Math.pow(Math.abs(depth), 2.0)) * 2;
     }
     
     /** 

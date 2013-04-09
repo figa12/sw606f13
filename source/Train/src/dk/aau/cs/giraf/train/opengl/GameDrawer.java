@@ -62,9 +62,9 @@ public final class GameDrawer {
 	    GameData.systemTimeNow = System.nanoTime();
 	    GameData.updateData();
 	    
-		for (RenderableGroup renderableGroup : this.gameRenderableGroups) {
-			renderableGroup.draw();
-		}
+		for (int i = 0; i < this.gameRenderableGroups.size(); i++) {
+		    this.gameRenderableGroups.get(i).draw();
+        }
 		
 		GameData.systemTimeLast = GameData.systemTimeNow;
 	}

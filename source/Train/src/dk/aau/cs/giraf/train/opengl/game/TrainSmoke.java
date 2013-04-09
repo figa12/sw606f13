@@ -36,10 +36,8 @@ public final class TrainSmoke extends RenderableGroup { //FIXME if numberOfSmoke
         this.colors[this.resetIndex].setColor(1f, 1f, 1f, 1f);
     }
     
-    private int i; // if i'm not mistake;, allocate permanent memory. Not so much garbage.
-    
     private void updateSmokeClouds() {
-        for (i = 0; i < this.numberOfSmokeClouds; i++) {
+        for (int i = 0; i < this.numberOfSmokeClouds; i++) {
             this.coordinates[i].moveX(GameData.pixelMovementForThisFrame);
             this.coordinates[i].moveY(this.ySpeed * GameData.timeDifference);
             
@@ -52,7 +50,7 @@ public final class TrainSmoke extends RenderableGroup { //FIXME if numberOfSmoke
         this.smokeCloud.loadTexture(gl, context, R.drawable.texture_train_smoke, Texture.AspectRatio.BitmapOneToOne);
         
         /* Start conditions. */
-        for (i = 0; i < this.numberOfSmokeClouds; i++) {
+        for (int i = 0; i < this.numberOfSmokeClouds; i++) {
             this.coordinates[i] = new Coordinate(this.startCoordinate.getX(), this.startCoordinate.getY(), this.startCoordinate.getZ());
             this.colors[i] = new Color(1f, 1f, 1f, 0f); // invisible
         }
@@ -67,7 +65,7 @@ public final class TrainSmoke extends RenderableGroup { //FIXME if numberOfSmoke
         }
         
         /* Draw all smoke clouds. */
-        for (i = 0; i < this.numberOfSmokeClouds; i++) {
+        for (int i = 0; i < this.numberOfSmokeClouds; i++) {
             super.translateAndDraw(this.smokeCloud, this.coordinates[i], this.colors[i]);
         }
         

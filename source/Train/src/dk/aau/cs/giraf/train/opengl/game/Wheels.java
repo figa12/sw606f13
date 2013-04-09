@@ -5,6 +5,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.GameDrawer;
+import dk.aau.cs.giraf.train.opengl.GlRenderer;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
 public final class Wheels extends RenderableGroup {
@@ -17,7 +18,7 @@ public final class Wheels extends RenderableGroup {
     private Texture mediumWheel = new Texture(1.0f, 1.0f); // wheel diameter 78.71
     private Texture smallWheel = new Texture(1.0f, 1.0f); // wheel diameter 60.8
     private Texture wheelShaft = new Texture(1.0f, 1.0f);
-    private Texture ground = new Texture(1280.0f, 21.0f);
+    private Texture ground;
     
     private float[] rotation = { 0f, 0f, 0f }; // rotation number for each wheel size
     private final double[] wheelDiameter = {
@@ -42,6 +43,9 @@ public final class Wheels extends RenderableGroup {
     
     @Override
     public final void load() {
+        //Create ground object
+        this.ground = new Texture(GlRenderer.getActualWidth(GlRenderer.getActualHeight(GameData.FOREGROUND)), 21.0f);
+        
         //Add coordinates to the renderables
         this.mediumWheel.addCoordinate(-507.08f, -277.04f, GameData.FOREGROUND);
         this.mediumWheel.addCoordinate(-339.52f, -277.04f, GameData.FOREGROUND);
@@ -51,7 +55,7 @@ public final class Wheels extends RenderableGroup {
         this.smallWheel.addCoordinate(344.58f, -296.34f, GameData.FOREGROUND);
         this.smallWheel.addCoordinate(424.13f, -296.34f, GameData.FOREGROUND);
         this.wheelShaft.addCoordinate(370.83f, -321.84f, GameData.FOREGROUND);
-        this.ground.addCoordinate(-640f, -356f, GameData.FOREGROUND);
+        this.ground.addCoordinate(-GlRenderer.getActualWidth(GlRenderer.getActualHeight(GameData.FOREGROUND))/2, -356f, GameData.FOREGROUND);
         
         //Load the textures
         this.mediumWheel.loadTexture(gl, context, R.drawable.texture_wheel_medium, Texture.AspectRatio.BitmapOneToOne);

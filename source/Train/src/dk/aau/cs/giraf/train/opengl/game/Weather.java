@@ -22,7 +22,7 @@ public final class Weather extends RenderableGroup {
     @Override
     public void load() {
         //Create background gradient
-        float height = GlRenderer.getActualHeight(-GameData.BACKGROUND);
+        float height = GlRenderer.getActualHeight(GameData.BACKGROUND);
         float width = GlRenderer.getActualWidth(height);
         this.backgroundGradient = new GradientSquare(width, height, Color.BackgroundTopColor, Color.BackgroundBottomColor, GradientSquare.GradientStyle.Vertical);
         
