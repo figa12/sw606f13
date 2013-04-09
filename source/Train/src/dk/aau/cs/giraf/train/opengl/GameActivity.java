@@ -291,11 +291,13 @@ public class GameActivity extends Activity {
 	
 	@Override
 	protected void onSaveInstanceState(Bundle savedInstanceState) {
+	    super.onSaveInstanceState(savedInstanceState);
 	    GameData.onSaveInstanceState(savedInstanceState);
 	}
 	
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+	    super.onRestoreInstanceState(savedInstanceState);
 	    GameData.onRestoreInstanceState(savedInstanceState);
 	}
 }
