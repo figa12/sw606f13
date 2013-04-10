@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.opengl.GLUtils;
+import android.util.Log;
 
 /**
  * A texture class that extends the {@link Square} class.
@@ -305,10 +306,12 @@ public class Texture extends Square implements Renderable.Texture {
         
         //If the width is to big and width is greater than the height
         if(bitmap.getWidth() > maxSize[0] && bitmap.getWidth() >= bitmap.getHeight()) {
+            Log.w(Texture.class.getSimpleName(), "One of the loaded textures is too big. It is downscaled to respect the max texture size for this device.");
             return Bitmap.createScaledBitmap(bitmap, maxSize[0], (int) (bitmap.getHeight() * ((double) bitmap.getHeight() / maxSize[0])), true);
         }
         //If the height is to big and height is greater than the width
         else if(bitmap.getHeight() > maxSize[0] && bitmap.getHeight() >= bitmap.getWidth()) {
+            Log.w(Texture.class.getSimpleName(), "One of the loaded textures is too big. It is downscaled to respect the max texture size for this device.");
             return Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * ((double) bitmap.getWidth() / maxSize[0])), maxSize[0], true);
         }
         else {

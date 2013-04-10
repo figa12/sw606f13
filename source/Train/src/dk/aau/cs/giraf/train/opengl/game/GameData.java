@@ -11,7 +11,7 @@ import android.os.Bundle;
 public class GameData {
     
     public static final float FOREGROUND = -907.7443f;
-    public static final float MIDDLEGROUND = -2999f;
+    public static final float MIDDLEGROUND = -1800f;
     public static final float BACKGROUND = -3000f;
     
     public static boolean isPaused = false;
@@ -110,6 +110,11 @@ public class GameData {
         GameData.totalDistanceTraveled -= GameData.pixelMovementForThisFrame;
     }
     
+    /**
+     * Get the total visible travel distance for this game sessions.
+     * @param depth to calculate in.
+     * @return Visible travel distance.
+     */
     public static final float getTotalTravelDistance(float depth) {
         return GameData.nextStoppingPosition[GameData.numberOfStations-2] + GlRenderer.getActualWidth(GlRenderer.getActualHeight(depth));
     }
