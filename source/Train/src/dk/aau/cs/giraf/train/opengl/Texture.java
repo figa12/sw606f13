@@ -298,7 +298,7 @@ public class Texture extends Square implements Renderable.Texture {
      * To make sure the texture still works on different devices the texture needs to be scaled down to an appropiate size.
      * @param gl     the {@link GL10} instance.
      * @param bitmap the bitmap to change if its size is to big.
-     * @return
+     * @return       Scaled bitmap, if neccesary.
      */
     protected Bitmap maintainMaxTextureSize(GL10 gl, Bitmap bitmap) {
         int[] maxSize = new int[1];
