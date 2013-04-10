@@ -16,13 +16,13 @@ public final class Weather extends RenderableGroup {
     }
     
     private Texture sun = new Texture(250f, 250f);
-    private GradientSquare backgroundGradient = new GradientSquare(3525.23f, 2071.07f, Color.BackgroundTopColor, Color.BackgroundBottomColor, GradientSquare.GradientStyle.Vertical);
+    private GradientSquare backgroundGradient = new GradientSquare(4230.27f, 2485.29f, Color.BackgroundTopColor, Color.BackgroundBottomColor, GradientSquare.GradientStyle.Vertical);
     
     @Override
     public void load() {
         //Add coordinates to the renderables
         this.sun.addCoordinate(1462.61f, 985.53f, GameData.BACKGROUND);
-        this.backgroundGradient.addCoordinate(-1762.61f, 1035.53f, GameData.BACKGROUND);
+        this.backgroundGradient.addCoordinate(-2115.13f, 1242.64f, GameData.BACKGROUND);
         
         //Load the textures
         this.sun.loadTexture(super.gl, super.context, R.drawable.texture_sun);

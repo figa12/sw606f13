@@ -10,7 +10,7 @@ import android.os.Bundle;
 public class GameData {
     
     public static final float FOREGROUND = -907.7443f;
-    public static final float MIDDLEGROUND = -2500f;
+    public static final float MIDDLEGROUND = -1800f;
     public static final float BACKGROUND = -3000f;
     
     public static boolean isPaused = false;
