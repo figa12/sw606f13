@@ -67,7 +67,7 @@ public abstract class RenderableGroup {
      * @param color is the overlay to be used.
      */
     public final void translateAndDraw(Renderable renderable, Coordinate coordinate, Color color) {
-        gameDrawer.moveTo(coordinate);
+        this.gameDrawer.translateTo(coordinate);
         renderable.draw(this.gl, coordinate, color);
     }
     
@@ -89,7 +89,7 @@ public abstract class RenderableGroup {
     public final void translateRotateAndDraw(float angle, Shape shape, Color color) {
         //For seems to create less garbage than foreach
         for (int i = 0; i < shape.getCoordinates().size(); i++) {
-            gameDrawer.moveTo(shape.getCoordinates().get(i));
+            this.gameDrawer.translateTo(shape.getCoordinates().get(i));
             shape.rotateCenterAndDraw(this.gl, shape.getCoordinates().get(i), angle, color);
         }
     }

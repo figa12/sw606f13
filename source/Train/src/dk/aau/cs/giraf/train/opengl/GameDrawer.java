@@ -13,7 +13,7 @@ import android.content.Context;
  * 
  * @author Jesper
  * @see GameDrawer#drawGame()
- * @see GameDrawer#loadTexture()
+ * @see GameDrawer#loadGame()
  */
 public final class GameDrawer {
     
@@ -28,7 +28,7 @@ public final class GameDrawer {
 	private Random random = new Random();
 	
 	/** The list of {@link RenderableGroup}s. */
-	private ArrayList<RenderableGroup> gameRenderableGroups = new ArrayList<RenderableGroup>();
+	private ArrayList<RenderableGroup> renderableGroups = new ArrayList<RenderableGroup>();
 	
 	/**
 	 * Create the {@link GameDrawer}. All {@link RenderableGroup}s are created here.
@@ -56,7 +56,7 @@ public final class GameDrawer {
 	
 	private final void addRenderableGroup(RenderableGroup renderableGroup) {
 	    //FIXME this method doesn't really do anything anymore, consider removing
-		this.gameRenderableGroups.add(renderableGroup);
+		this.renderableGroups.add(renderableGroup);
 	}
 
 	/** Draw everything on screen. */
@@ -66,16 +66,16 @@ public final class GameDrawer {
 	    GameData.systemTimeNow = System.nanoTime();
 	    GameData.updateData();
 	    
-		for (int i = 0; i < this.gameRenderableGroups.size(); i++) {
-		    this.gameRenderableGroups.get(i).draw();
+		for (int i = 0; i < this.renderableGroups.size(); i++) {
+		    this.renderableGroups.get(i).draw();
         }
 		
 		GameData.systemTimeLast = GameData.systemTimeNow;
 	}
 
-	/** Call all {@link RenderableGroup#load()} from {@link GameDrawer#gameRenderableGroups}. */
-	public final void loadTexture() {
-		for (RenderableGroup renderableGroup : this.gameRenderableGroups) {
+	/** Call all {@link RenderableGroup#load()} from {@link GameDrawer#renderableGroups}. */
+	public final void loadGame() {
+		for (RenderableGroup renderableGroup : this.renderableGroups) {
 			renderableGroup.load();
 		}
 	}
@@ -83,10 +83,10 @@ public final class GameDrawer {
 	/**
 	 * Moves the current position to the coordinate.
 	 * @param coordinate is the position to translate to.
-	 * @see #move(float, float, float)
+	 * @see #translate(float, float, float)
 	 */
-	public final void moveTo(Coordinate coordinate) {
-	    this.move(coordinate.getX() - this.currentPosition.getX(),
+	public final void translateTo(Coordinate coordinate) {
+	    this.translate(coordinate.getX() - this.currentPosition.getX(),
 	              coordinate.getY() - this.currentPosition.getY(),
 	              coordinate.getZ() - this.currentPosition.getZ());
 	}
@@ -97,7 +97,7 @@ public final class GameDrawer {
 	 * @param y direction
 	 * @param z direction
 	 */
-	private final void move(float x, float y, float z) {
+	private final void translate(float x, float y, float z) {
 	    this.gl.glTranslatef(x, y, z);
 
         this.currentPosition.moveX(x);
@@ -122,6 +122,13 @@ public final class GameDrawer {
 	    return minimum + (maximum - minimum) * this.random.nextFloat();
 	}
 	
+	/**
+     * Gets a random number between the specified boundaries.
+     * @param minimum is the minimum value of the random number.
+     * @param maximum is the maximum value of the random number.
+     * @return A random integer between minimum and maximum.
+     * @see Random
+     */
 	private final int getRandomNumber(int minimum, int maximum) {
 	    return this.random.nextInt(maximum - minimum + 1) + minimum;
 	}

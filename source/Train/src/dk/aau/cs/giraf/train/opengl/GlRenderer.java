@@ -94,7 +94,7 @@ public class GlRenderer implements Renderer {
         gl.glLoadIdentity(); 					//Reset The Modelview Matrix
         
         TimingLogger timingLogger = new TimingLogger(GlRenderer.class.getSimpleName(), "onSurfaceChanged");
-        this.gameDrawer.loadTexture(); //Load all texture
+        this.gameDrawer.loadGame(); //Load all texture
         timingLogger.addSplit("loaded all textures");
         timingLogger.dumpToLog();
     }

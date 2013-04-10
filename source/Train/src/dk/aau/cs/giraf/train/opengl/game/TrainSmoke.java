@@ -10,13 +10,13 @@ import dk.aau.cs.giraf.train.opengl.GameDrawer;
 import dk.aau.cs.giraf.train.opengl.Texture;
 import dk.aau.cs.giraf.train.opengl.game.RenderableGroup;
 
-public final class TrainSmoke extends RenderableGroup { //FIXME if numberOfSmokeClouds should change according to 
+public final class TrainSmoke extends RenderableGroup {
     
     public TrainSmoke(GL10 gl, Context context, GameDrawer gameDrawer) {
         super(gl, context, gameDrawer);
     }
 
-    private int numberOfSmokeClouds = 5;
+    private final int numberOfSmokeClouds = 5;
     
     private Texture smokeCloud = new Texture(1f, 1f);
     private Coordinate[] coordinates = new Coordinate[this.numberOfSmokeClouds];
@@ -25,23 +25,28 @@ public final class TrainSmoke extends RenderableGroup { //FIXME if numberOfSmoke
     private Coordinate startCoordinate = new Coordinate(455.42f, -52.37f, GameData.FOREGROUND);
     
     private int resetIndex = 0;
-    private float timeBetweenSmokeParticles = 150f; // ms
+    private final float timeBetweenSmokeClouds = 150f; // ms
     private float timeSinceLastReset = 0f;
-    private final float ySpeed = 0.18f;
+    private final float ySpeed = 0.15f;
     
     private void resetOneSmokeCloud() {
+        //Increment the reset index
         this.resetIndex = ++this.resetIndex % this.numberOfSmokeClouds;
         
+        //Put cloud back to exhaust
         this.coordinates[this.resetIndex].setCoordinate(this.startCoordinate.getX(), this.startCoordinate.getY());
         this.colors[this.resetIndex].setColor(1f, 1f, 1f, 1f);
     }
     
     private void updateSmokeClouds() {
+        //Updates position and alpha channels
         for (int i = 0; i < this.numberOfSmokeClouds; i++) {
+            //Always move smoke vertically, move smoke horizontally relative to the train speed.
             this.coordinates[i].moveX(GameData.pixelMovementForThisFrame);
             this.coordinates[i].moveY(this.ySpeed * GameData.timeDifference);
             
-            this.colors[i].alpha -= (1f / (this.timeBetweenSmokeParticles * this.numberOfSmokeClouds)) * GameData.timeDifference;
+            //Fade the smoke
+            this.colors[i].alpha -= (1f / (this.timeBetweenSmokeClouds * this.numberOfSmokeClouds)) * GameData.timeDifference;
         }
     }
     
@@ -49,7 +54,7 @@ public final class TrainSmoke extends RenderableGroup { //FIXME if numberOfSmoke
     public void load() {
         this.smokeCloud.loadTexture(gl, context, R.drawable.texture_train_smoke, Texture.AspectRatio.BitmapOneToOne);
         
-        /* Start conditions. */
+        //Start conditions:
         for (int i = 0; i < this.numberOfSmokeClouds; i++) {
             this.coordinates[i] = new Coordinate(this.startCoordinate.getX(), this.startCoordinate.getY(), this.startCoordinate.getZ());
             this.colors[i] = new Color(1f, 1f, 1f, 0f); // invisible
@@ -58,17 +63,24 @@ public final class TrainSmoke extends RenderableGroup { //FIXME if numberOfSmoke
 
     @Override
     public void draw() {
+        //Reset one smoke cloud at the given interval
         this.timeSinceLastReset += GameData.timeDifference;
-        if(this.timeSinceLastReset >= this.timeBetweenSmokeParticles) {
+        if(this.timeSinceLastReset >= this.timeBetweenSmokeClouds) {
             this.timeSinceLastReset = 0f;
-            this.resetOneSmokeCloud();
+            
+            if(!GameData.isPaused) {
+                this.resetOneSmokeCloud();
+            }
         }
         
-        /* Draw all smoke clouds. */
+        //Draw all smoke clouds.
         for (int i = 0; i < this.numberOfSmokeClouds; i++) {
             super.translateAndDraw(this.smokeCloud, this.coordinates[i], this.colors[i]);
         }
         
-        this.updateSmokeClouds();
+        if(!GameData.isPaused) {
+            //Update position and alpha channels
+            this.updateSmokeClouds();
+        }
     }
 }

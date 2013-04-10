@@ -72,7 +72,7 @@ public final class Wheels extends RenderableGroup {
         super.translateRotateAndDraw(this.calculateRotation(this.smallWheelIndex), this.smallWheel);
         
         // draw the wheel shaft
-        super.gameDrawer.moveTo(this.wheelShaft.getCoordinates().get(0));
+        super.gameDrawer.translateTo(this.wheelShaft.getCoordinates().get(0));
         gl.glPushMatrix();
         gl.glRotatef(this.rotation[this.smallWheelIndex], 0f, 0f, 1f);
         gl.glTranslatef(22f, 0f, 0f);
