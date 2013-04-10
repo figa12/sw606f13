@@ -38,10 +38,14 @@ public final class GameDrawer {
 	public GameDrawer(GL10 gl, Context context) {
 		this.gl = gl;
 		
+		//Start by creating the stations object, and calculate the stopping positions
+		dk.aau.cs.giraf.train.opengl.game.Station station = new dk.aau.cs.giraf.train.opengl.game.Station(gl, context, this);
+		station.calculateStoppingPositions();
+		
 		// add RenderableGroups to the list in the order they should be drawn
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Weather(gl, context, this));
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Middleground(gl, context, this));
-		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Station(gl, context, this)); //Station also creates some GameData
+		this.addRenderableGroup(station);
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Train(gl, context, this));
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.TrainSmoke(gl, context, this));
 		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Wheels(gl, context, this));
@@ -116,5 +120,9 @@ public final class GameDrawer {
 	 */
 	private final float getRandomNumber(float minimum, float maximum) {
 	    return minimum + (maximum - minimum) * this.random.nextFloat();
+	}
+	
+	private final int getRandomNumber(int minimum, int maximum) {
+	    return this.random.nextInt(maximum - minimum + 1) + minimum;
 	}
 }

@@ -1,8 +1,6 @@
 package dk.aau.cs.giraf.train.opengl.game;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 
@@ -59,12 +57,6 @@ public final class Station extends RenderableGroup {
         Collections.shuffle(stations);
         LinkedList<StationContainer> stationsQueue = this.getQueue(stations);
         
-        //Calculate all stopping positions
-        GameData.nextStoppingPosition[0] = GameData.distanceBetweenStations + this.platform.getWidth();
-        for (int i = 1; i < GameData.numberOfStations; i++) {
-            GameData.nextStoppingPosition[i] += GameData.nextStoppingPosition[i-1] + GameData.distanceBetweenStations + this.platform.getWidth();
-        }
-        
         //Add stations to the matrix
         float xPosition = -364f; // first platform position
         
@@ -80,6 +72,17 @@ public final class Station extends RenderableGroup {
         xPosition -= (GameData.distanceBetweenStations + this.platform.getWidth());
         
         this.stationPlatformMatrix.addRenderableMatrixItem(this.trainStopper, new Coordinate(xPosition + 1575f, 0f, 0f), Color.Black);
+    }
+    
+    public final void calculateStoppingPositions() {
+        //Unfortunately we need the size of the platform now
+        this.platform.loadTexture(super.gl, super.context, R.drawable.texture_platform, Texture.AspectRatio.BitmapOneToOne);
+        
+        //Calculate all stopping positions
+        GameData.nextStoppingPosition[0] = GameData.distanceBetweenStations + this.platform.getWidth();
+        for (int i = 1; i < GameData.numberOfStations; i++) {
+            GameData.nextStoppingPosition[i] += GameData.nextStoppingPosition[i-1] + GameData.distanceBetweenStations + this.platform.getWidth();
+        }
     }
     
     private final LinkedList<StationContainer> getQueue(ArrayList<StationContainer> list) {

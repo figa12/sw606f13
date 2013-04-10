@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.train.opengl.game;
 
+import dk.aau.cs.giraf.train.opengl.GlRenderer;
 import android.os.Bundle;
 
 /**
@@ -10,12 +11,12 @@ import android.os.Bundle;
 public class GameData {
     
     public static final float FOREGROUND = -907.7443f;
-    public static final float MIDDLEGROUND = -1800f;
+    public static final float MIDDLEGROUND = -2999f;
     public static final float BACKGROUND = -3000f;
     
     public static boolean isPaused = false;
     
-    public static final float maxTrainSpeed = 0.35f; // pixels per ms // 0.325 is nice
+    public static final float maxTrainSpeed = 1f; // pixels per ms // 0.35 is nice
     public static float currentTrainVelocity = 0f; // pixels per ms
     
     public static float pixelMovementForThisFrame = 0f; // pixels
@@ -109,6 +110,10 @@ public class GameData {
         GameData.totalDistanceTraveled -= GameData.pixelMovementForThisFrame;
     }
     
+    public static final float getTotalTravelDistance(float depth) {
+        return GameData.nextStoppingPosition[GameData.numberOfStations-2] + GlRenderer.getActualWidth(GlRenderer.getActualHeight(depth));
+    }
+    
     /** Reset all game data to its start conditions. */
     public static final void resetGameData() {
         GameData.currentTrainVelocity = 0f;
@@ -157,7 +162,7 @@ public class GameData {
     }
     
     /**
-     * Save this instance of game data.
+     * Save instance of game data.
      * @param savedInstanceState
      */
     public static final void onSaveInstanceState(Bundle savedInstanceState) {
@@ -170,7 +175,7 @@ public class GameData {
     }
     
     /**
-     * Restore this instance of game data.
+     * Restore instance of game data.
      * @param savedInstanceState
      */
     public static final void onRestoreInstanceState(Bundle savedInstanceState) {
