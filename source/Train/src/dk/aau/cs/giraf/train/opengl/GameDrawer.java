@@ -17,14 +17,8 @@ import android.content.Context;
  */
 public final class GameDrawer {
     
-	/** An enum indicating a type of weather. */
-	public enum WeatherStyle {
-	    Sunny, Cloudy
-	}
-	
 	private GL10 gl;
 	public Coordinate currentPosition = new Coordinate(0f, 0f, 0f);
-	public WeatherStyle weatherStyle = WeatherStyle.Sunny;
 	private Random random = new Random();
 	
 	/** The list of {@link RenderableGroup}s. */

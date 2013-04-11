@@ -11,7 +11,11 @@ import dk.aau.cs.giraf.train.opengl.GradientSquare;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
 public final class Weather extends RenderableGroup {
-
+    
+    public enum WeatherStyle {
+        Sunny, Cloudy
+    }
+    
     public Weather(GL10 gl, Context context, GameDrawer gameDrawer) {
         super(gl, context, gameDrawer);
     }
