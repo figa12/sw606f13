@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class CustomiseAdapter extends ArrayAdapter<Station> {
@@ -38,6 +39,7 @@ public class CustomiseAdapter extends ArrayAdapter<Station> {
 	
 	private HashMap mHolders = new HashMap();
 	
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		View v = convertView;
@@ -55,46 +57,101 @@ public class CustomiseAdapter extends ArrayAdapter<Station> {
 			
 			v.setTag(holder);
 	        deleteButton.setTag(holder);
+	        
+	        
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
+		
 		holder.position = position;
 		mHolders.put(holder.position, holder);
 		
+		
+		
 		Station s = items.get(position);
+		//if (fl.getChildAt(0) != null) {
+		//s.category = (Pictogram) fl.getChildAt(0);
+		//}
+		
 		if (s != null) {
 			/* Find station */
-			TextView tv = (TextView) v.findViewById(R.id.testytest);
 			PictogramButton fl = (PictogramButton) v.findViewById(R.id.list_category);
+			TextView tv = (TextView) v.findViewById(R.id.testytest);
+			
 			//DeleteRowButton dr = (DeleteRowButton) v.findViewById(R.id.deleteRowasdf);
 			
 			if (tv != null) {
 				tv.setText(s.ID);
 			}
 			
-			/*
-			if (fl != null) {
-				fl.addView(s.category);
+			
+			if (fl.getChildAt(0) != null && fl != null) {
+				fl.removeAllViews();
+				Pictogram tempCategory = s.category;
+				PictogramButton tempParent = (PictogramButton) tempCategory.getParent();
+				if (tempParent != null) {
+					tempParent.removeAllViews();
+				}
+				fl.addView(tempCategory);
+				int a = 2;
 			}
-			*/
+			
 		}
 		return v;	
 		
 	}
 	
+	public void setCategories(ViewGroup parent) {
+		CustomiseView list = (CustomiseView) parent.getParent();
+		int totalChildren = list.getChildCount();
+		for (int i=0; i<totalChildren; i++) {
+			LinearLayout layout = (LinearLayout) list.getChildAt(i);
+			LinearLayout categoryLayout = (LinearLayout) layout.getChildAt(0);
+			PictogramButton button = (PictogramButton) categoryLayout.getChildAt(0);
+			if (button.getChildAt(0) != null) {
+			Pictogram category = (Pictogram) button.getChildAt(0);
+			Station s = items.get(i);
+			s.category = category;
+			items.set(i, s);
+			notifyDataSetChanged();
+			}
+		}
+	}
+	
 	
 	private final class ClickListener implements OnClickListener {
+		
+		
 		@Override
 		public void onClick(View v) {
+			
+			View parent = (View) v.getParent();
+			ViewGroup grandparent = (ViewGroup) parent.getParent();
+			setCategories(grandparent);
+			
+			
+			 //LinearLayout firstParentView = (LinearLayout) v.getParent();
+			 //LinearLayout secondParentView = (LinearLayout) firstParentView.getParent();
+			 
+			 //LinearLayout tempview = (LinearLayout) secondParentView.getChildAt(0);
+			 
+			 //for(Station item : items) {
+				//final PictogramButton itemCategory = (PictogramButton) secondParentView.findViewById(R.id.list_category);
+				//holder.pictogram = itemCategory;
+				//item.category = (Pictogram) itemCategory.getChildAt(0);
+				
+			 //}
+			
 		    ViewHolder deleteHolder = (ViewHolder) v.getTag();
+		    
 		    int pos = deleteHolder.position;
 		    mHolders.remove(pos);
 
 
 		    ViewHolder currentHolder;
 
-		    // Shift 'position' of remaining languages 
+		    // Shift 'position' of list items
 		    // down since 'pos' was deleted
 		    for(int i=pos+1; i<getCount(); i++){
 		        currentHolder = (ViewHolder) mHolders.get(i);

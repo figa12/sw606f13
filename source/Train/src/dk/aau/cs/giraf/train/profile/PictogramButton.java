@@ -1,5 +1,7 @@
 package dk.aau.cs.giraf.train.profile;
 
+import java.util.List;
+
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import android.content.ClipData;
@@ -18,7 +20,7 @@ public class PictogramButton extends FrameLayout {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public PictogramButton(Context context) {
+	public PictogramButton(Context context) { 
 		super(context);
 		// TODO Auto-generated constructor stub
 	}
@@ -26,8 +28,12 @@ public class PictogramButton extends FrameLayout {
 	@Override
 	public boolean onTouchEvent(MotionEvent motionEvent) {
 		if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-			Pictogram p = PictoFactory.INSTANCE.getPictogram(getContext(), 0);
+			//List<Pictogram> allPictograms = PictoFactory.INSTANCE.getAllPictograms(getContext());
+			Pictogram p = PictoFactory.INSTANCE.getPictogram(getContext(), 201L);
 			p.renderImage();
+			if (this.getChildAt(0) != null) {
+			removeAllViews();
+			}
 			addView(p);
 
 			return true;
