@@ -52,7 +52,7 @@ public final class Station extends RenderableGroup {
         
         //Add stations to list and randomise
         ArrayList<StationContainer> stations = new ArrayList<StationContainer>();
-        stations.add(new StationContainer(redTrainStation, 364f + (640f - 588.64f), 583f));
+        stations.add(new StationContainer(redTrainStation, 364f + (640f - 588.64f) - 16f, 583f));
         
         Collections.shuffle(stations);
         LinkedList<StationContainer> stationsQueue = this.getQueue(stations);
