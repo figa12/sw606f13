@@ -23,8 +23,8 @@
         android:layout_width="310dp"
         android:layout_height="150dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="70dp"
-        android:layout_marginLeft="70dp"
+        android:layout_marginBottom="75dp"
+        android:layout_marginLeft="105dp"
         android:orientation="horizontal" >
     </LinearLayout>
 
@@ -35,7 +35,7 @@
         android:layout_width="310dp"
         android:layout_height="150dp"
         android:layout_alignBottom="@id/Cart1LinearLayout"
-        android:layout_marginLeft="70dp"
+        android:layout_marginLeft="45dp"
         android:layout_toRightOf="@id/Cart1LinearLayout"
         android:orientation="horizontal" >
     </LinearLayout>
@@ -47,8 +47,9 @@
         android:id="@+id/StationLeftLinearLayout"
         android:layout_width="310dp"
         android:layout_height="150dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="25dp"
+        android:layout_above="@id/Cart1LinearLayout"
+        android:layout_marginLeft="75dp"
+        android:layout_marginBottom="15dp"
         android:orientation="horizontal" >
      
     </LinearLayout>
@@ -60,7 +61,7 @@
         android:layout_width="310dp"
         android:layout_height="150dp"
         android:layout_alignBottom="@id/StationLeftLinearLayout"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="100dp"
         android:layout_toRightOf="@id/StationLeftLinearLayout"
         android:orientation="horizontal" 
         android:clipChildren="true">
@@ -71,11 +72,11 @@
 
     <LinearLayout
         android:id="@+id/TrainDriverLinearLayout"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignBottom="@id/Cart2LinearLayout"
-        android:layout_marginBottom="75dp"
-        android:layout_marginLeft="70dp"
+        android:layout_marginBottom="117dp"
+        android:layout_marginLeft="67dp"
         android:layout_toRightOf="@id/Cart2LinearLayout"
         android:orientation="horizontal" >
     </LinearLayout>
@@ -84,11 +85,11 @@
 
     <LinearLayout
         android:id="@+id/StationCategoryLinearLayout"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="270dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="385dp"
         android:orientation="horizontal" >
     </LinearLayout>
 
