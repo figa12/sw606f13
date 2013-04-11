@@ -151,7 +151,7 @@ public class GameActivity extends Activity {
 		
 		for (int i = 0; i < linearPictograms.size(); i++) {
 			for (int j = 0; j < linearPictograms.get(i).getChildCount(); j++) {
-				Pictogram p = PictoFactory.INSTANCE.getPictogram(this, 201L);
+				Pictogram p = PictoFactory.INSTANCE.getPictogram(this, 1L);
 				p.renderImage();
 				p.renderText();
 				p.setOnTouchListener(new TouchListener());
