@@ -15,12 +15,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class CustomiseView extends ListView {
+public class CustomiseListView extends ListView {
 	
 	ArrayList<Station> stations = new ArrayList<Station>();
 	CustomiseAdapter adapter;
 
-	public CustomiseView(Context context, AttributeSet attrs) {
+	public CustomiseListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 		

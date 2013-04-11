@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import dk.aau.cs.giraf.train.R;
-import dk.aau.cs.giraf.train.profile.CustomiseView;
+import dk.aau.cs.giraf.train.profile.CustomiseListView;
 import dk.aau.cs.giraf.train.profile.CustomiseAdapter;
 
 public class DeleteRowButton extends FrameLayout {
