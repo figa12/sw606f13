@@ -26,9 +26,11 @@ public class CustomiseView extends ListView {
 		
 		Station station1 = new Station("STATION 1");
 		Station station2 = new Station("STATION 2");
+		Station station3 = new Station("STATION 3");
 		
 		stations.add(station1);
 		stations.add(station2);
+		stations.add(station3);
 		
 		this.adapter = new CustomiseAdapter(this.getContext(), android.R.layout.simple_list_item_1, stations);
 		setAdapter(adapter);

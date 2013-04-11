@@ -94,7 +94,6 @@ public class CustomiseAdapter extends ArrayAdapter<Station> {
 					tempParent.removeAllViews();
 				}
 				fl.addView(tempCategory);
-				int a = 2;
 			}
 			
 		}
