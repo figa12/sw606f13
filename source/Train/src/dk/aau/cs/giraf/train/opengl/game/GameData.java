@@ -16,7 +16,7 @@ public class GameData {
     
     public static boolean isPaused = false;
     
-    public static final float maxTrainSpeed = 1f; // pixels per ms // 0.35 is nice
+    public static final float maxTrainSpeed = 0.35f; // pixels per ms // 0.35 is nice
     public static float currentTrainVelocity = 0f; // pixels per ms
     
     public static float pixelMovementForThisFrame = 0f; // pixels
@@ -89,8 +89,8 @@ public class GameData {
                 GameData.currentTrainVelocity += GameData.deltaVelocity * GameData.timeDifference;
                 
                 //minimum reachable velocity. We need a little velocity to get to the nextStoppingPosition
-                if(GameData.currentTrainVelocity <= 0.0065f) {
-                    GameData.currentTrainVelocity = 0.0065f;
+                if(GameData.currentTrainVelocity <= 0.01f) {
+                    GameData.currentTrainVelocity = 0.01f;
                 }
             }
         }

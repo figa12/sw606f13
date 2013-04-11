@@ -1,10 +1,12 @@
 package dk.aau.cs.giraf.train.opengl;
 
+import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.game.GameData;
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
 
@@ -15,6 +17,9 @@ import android.view.MotionEvent;
  * @see GlRenderer
  */
 public class GlView extends GLSurfaceView {
+    
+    private final SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+    private final int sound = soundPool.load(this.getContext(), R.raw.koere, 1);
     
     /**
      * Set {@link GLSurfaceView} settings.
@@ -63,6 +68,7 @@ public class GlView extends GLSurfaceView {
         else if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations - 1) {
                 GameData.accelerateTrain();
+                this.soundPool.play(sound, 1f, 1f, 0, 0, 0.75f);
             }
         }
         return true;
