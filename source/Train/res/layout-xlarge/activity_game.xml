@@ -78,16 +78,6 @@
         android:layout_marginLeft="70dp"
         android:layout_toRightOf="@id/Cart2LinearLayout"
         android:orientation="horizontal" >
-
-        <FrameLayout
-            android:id="@+id/TrainDriverLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/shape" >
-
-            
-        </FrameLayout>
     </LinearLayout>
 
     <!-- StationCategory -->
@@ -100,16 +90,6 @@
         android:layout_marginTop="25dp"
         android:layout_marginLeft="270dp"
         android:orientation="horizontal" >
-
-        <FrameLayout
-            android:id="@+id/StationCategoryLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/shape" >
-
-            
-        </FrameLayout>
     </LinearLayout>
 
 </RelativeLayout>
