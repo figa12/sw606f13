@@ -164,6 +164,7 @@ public class GameActivity extends Activity {
 				try {
 					((FrameLayout) linearPictograms.get(i).getChildAt(j)).addView(p,frameLayoutParams);
 					((FrameLayout) linearPictograms.get(i).getChildAt(j)).setTag("filled");
+					((FrameLayout) linearPictograms.get(i).getChildAt(j)).setBackgroundDrawable(getResources().getDrawable(R.drawable.shape));
 				} catch (Exception e) {
 					Log.d(GameActivity.class.getSimpleName(),"Null value, when adding pictograms to FrameLayouts");
 				}
