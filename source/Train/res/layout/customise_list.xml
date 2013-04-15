@@ -43,7 +43,7 @@
         android:layout_height="75dp"
         android:src="@drawable/nej"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="350dp" />
+        android:layout_marginLeft="300dp" />
         
     
   </LinearLayout>

@@ -124,7 +124,7 @@ public final class GameDrawer {
 	 * @return A random floating point number between minimum and maximum.
 	 * @see Random
 	 */
-	private final float getRandomNumber(float minimum, float maximum) {
+	public final float getRandomNumber(float minimum, float maximum) {
 	    return minimum + (maximum - minimum) * this.random.nextFloat();
 	}
 	
@@ -135,7 +135,7 @@ public final class GameDrawer {
      * @return A random integer between minimum and maximum.
      * @see Random
      */
-	private final int getRandomNumber(int minimum, int maximum) {
+	public final int getRandomNumber(int minimum, int maximum) {
 	    return this.random.nextInt(maximum - minimum + 1) + minimum;
 	}
 }
