@@ -109,14 +109,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         
-        <LinearLayout
+        <dk.aau.cs.giraf.train.profile.RowButton
 				android:id="@+id/testytestbuttontest"
-				android:layout_width="100dp"
+				android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="350dp"
                 android:background="@color/green" />
         
+        
     </LinearLayout>
+    
+    
 
 </LinearLayout>

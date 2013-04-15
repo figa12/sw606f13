@@ -62,7 +62,6 @@ public class CustomiseAdapter extends ArrayAdapter<Station> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		
 		holder.position = position;
 		holders.put(holder.position, holder);
 		
@@ -83,9 +82,12 @@ public class CustomiseAdapter extends ArrayAdapter<Station> {
 			if (testTextView != null) {
 				testTextView.setText(station.ID);
 			}
+
+			if(parent != null) {
+			setCategories(parent);
+			}
 			
-			
-			if (categoryButton.getChildAt(0) != null && categoryButton != null) {
+			if (categoryButton.getChildAt(0) != null && categoryButton != null && categoryButton.getChildAt(0) instanceof Pictogram) {
 				categoryButton.removeAllViews();
 				Pictogram tempCategory = station.category;
 				PictogramButton tempParent = (PictogramButton) tempCategory.getParent();
@@ -100,9 +102,9 @@ public class CustomiseAdapter extends ArrayAdapter<Station> {
 		
 	}
 	
-	public void setCategories(ViewGroup parent) {
-		CustomiseListView list = (CustomiseListView) parent.getParent();
+	public void setCategories(ViewGroup list) {
 		int totalChildren = list.getChildCount();
+		
 		for (int i=0; i<totalChildren; i++) {
 			LinearLayout listItem = (LinearLayout) list.getChildAt(i);
 			LinearLayout categoryLayout = (LinearLayout) listItem.getChildAt(0);
@@ -110,6 +112,9 @@ public class CustomiseAdapter extends ArrayAdapter<Station> {
 			
 			if (button.getChildAt(0) != null) {
 				Pictogram category = (Pictogram) button.getChildAt(0);
+				if(i >= this.items.size()) {
+					return;
+				}
 				Station station = this.items.get(i);
 				station.category = category;
 				this.items.set(i, station);
@@ -127,7 +132,8 @@ public class CustomiseAdapter extends ArrayAdapter<Station> {
 			
 			View parent = (View) view.getParent();
 			ViewGroup grandparent = (ViewGroup) parent.getParent();
-			CustomiseAdapter.this.setCategories(grandparent);
+			CustomiseListView list = (CustomiseListView) grandparent.getParent();
+			CustomiseAdapter.this.setCategories(list);
 			
 			
 			 //LinearLayout firstParentView = (LinearLayout) v.getParent();
