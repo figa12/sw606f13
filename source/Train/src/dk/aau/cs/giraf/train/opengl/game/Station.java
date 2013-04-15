@@ -78,6 +78,9 @@ public final class Station extends RenderableGroup {
         //Unfortunately we need the size of the platform now
         this.platform.loadTexture(super.gl, super.context, R.drawable.texture_platform, Texture.AspectRatio.BitmapOneToOne);
         
+        //Make new array
+        GameData.nextStoppingPosition = new float[GameData.numberOfStations];
+        
         //Calculate all stopping positions
         GameData.nextStoppingPosition[0] = GameData.distanceBetweenStations + this.platform.getWidth();
         for (int i = 1; i < GameData.numberOfStations; i++) {

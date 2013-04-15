@@ -33,19 +33,19 @@ public class GameData {
     private static boolean changingVelocity = false;
     private static final float accelerationTime = 5000f; // ms
     private static float deltaVelocity = GameData.maxTrainSpeed / GameData.accelerationTime; // pixels per ms^2
-    public static float[] nextStoppingPosition = new float[GameData.numberOfStations];
+    public static float[] nextStoppingPosition;
     
     /** Updates all game data. */
-    public static final void updateData() {
+    public synchronized static final void updateData() {
         GameData.timeDifference = (GameData.systemTimeNow - GameData.systemTimeLast)/1000000.0f;
         
         //Limit timeDifference from game freezes
-        if(GameData.timeDifference > 1000f) {
-            GameData.timeDifference = 1000f;
+        if(GameData.timeDifference > 500f) { //FIXME consider lower value
+            GameData.timeDifference = 500f;
         }
         
         //if we are within braking distance of our next stop, then start braking
-        if(!GameData.changingVelocity && GameData.nextStoppingPosition[GameData.numberOfStops] - GameData.brakingDistance() <= GameData.totalDistanceTraveled) {
+        if(!GameData.changingVelocity && GameData.nextStoppingPosition[GameData.numberOfStops] - GameData.brakingDistance() <= GameData.totalDistanceTraveled && !GameData.isPaused) {
             GameData.decelerateTrain();
         }
         
@@ -72,7 +72,7 @@ public class GameData {
         return (float) (-Math.pow(GameData.maxTrainSpeed, 2.0)) / (2 * -Math.abs(GameData.deltaVelocity));
     }
     
-    private static final void updateVelocity() {
+    private synchronized static final void updateVelocity() {
         if(GameData.changingVelocity) {
             
             // if accelerating
@@ -95,7 +95,6 @@ public class GameData {
             }
         }
         
-        //update the pixel movement
         GameData.pixelMovementForThisFrame = -GameData.currentTrainVelocity * GameData.timeDifference;
         
         //if we have reached our next stop or are about to go too far, then make sure the train stops at the exact position
@@ -106,7 +105,6 @@ public class GameData {
             GameData.numberOfStops++;
         }
         
-        //update trip computer
         GameData.totalDistanceTraveled -= GameData.pixelMovementForThisFrame;
     }
     
@@ -119,6 +117,40 @@ public class GameData {
         return GameData.nextStoppingPosition[GameData.numberOfStations-2] + GlRenderer.getActualWidth(GlRenderer.getActualHeight(depth));
     }
     
+    private static final String CURRENT_TRAIN_VELOCITY  = "currentTrainCelocity";
+    private static final String CHANGING_VELOCITY       = "changingVelocity";
+    //private static final String TOTAL_DISTANCE_TRAVELED = "totalDistanceTraveled";
+    //private static final String NUMBER_OF_STOPS         = "numberOfStops";
+    //private static final String NEXT_STOPPING_POSITION  = "nextStoppingPosition";
+    
+    private static Bundle bundle;
+    
+    /** Pause the game. */
+    public synchronized static final void onPause() {
+        GameData.isPaused = true;
+        
+        //Save the current instance state
+        GameData.bundle = new Bundle();
+        GameData.bundle.putFloat(GameData.CURRENT_TRAIN_VELOCITY, GameData.currentTrainVelocity);
+        GameData.bundle.putBoolean(GameData.CHANGING_VELOCITY, GameData.changingVelocity);
+        
+        //Then pause the GameData
+        GameData.changingVelocity     = false;
+        GameData.currentTrainVelocity = 0f;
+    }
+    
+    /** Resume the game. */
+    public synchronized static final void onResume() {
+        if(GameData.bundle != null) {
+            //Restore instance state
+            GameData.changingVelocity     = GameData.bundle.getBoolean(GameData.CHANGING_VELOCITY);
+            GameData.currentTrainVelocity = GameData.bundle.getFloat(GameData.CURRENT_TRAIN_VELOCITY);
+        }
+        
+        GameData.isPaused = false;
+        GameData.bundle   = null; //Free memory
+    }
+    
     /** Reset all game data to its start conditions. */
     public static final void resetGameData() {
         GameData.currentTrainVelocity = 0f;
@@ -128,64 +160,6 @@ public class GameData {
         GameData.systemTimeNow = 1;
         GameData.changingVelocity = false;
         GameData.numberOfStops = 0;
-        GameData.nextStoppingPosition = new float[GameData.numberOfStations];
         GameData.isPaused = false;
-    }
-    
-    private static final String CURRENT_TRAIN_VELOCITY  = "currentTrainCelocity";
-    private static final String TOTAL_DISTANCE_TRAVELED = "totalDistanceTraveled";
-    private static final String CHANGING_VELOCITY       = "changingVelocity";
-    private static final String NUMBER_OF_STOPS         = "numberOfStops";
-    private static final String NEXT_STOPPING_POSITION  = "nextStoppingPosition";
-    
-    private static Bundle bundle;
-    
-    /** Pause the game. */
-    public static final void onPause() {
-        GameData.isPaused = true;
-        GameData.onSaveInstanceState(new Bundle()); //Save this GameData state
-        
-        //Then pause the GameData
-        GameData.currentTrainVelocity  = 0f;
-        GameData.changingVelocity      = false;
-    }
-    
-    /** Resume the game. First resume when the user is ready. */
-    public static final void onResume() {
-        if(GameData.bundle == null) {
-            return;
-        }
-        
-        // Restore state each time we resume
-        GameData.currentTrainVelocity  = GameData.bundle.getFloat(GameData.CURRENT_TRAIN_VELOCITY);
-        GameData.totalDistanceTraveled = GameData.bundle.getFloat(GameData.TOTAL_DISTANCE_TRAVELED);
-        GameData.systemTimeLast        = System.nanoTime(); // the old value of systemTimeLast is useless now, get new
-        GameData.changingVelocity      = GameData.bundle.getBoolean(GameData.CHANGING_VELOCITY);
-        GameData.numberOfStops         = GameData.bundle.getInt(GameData.NUMBER_OF_STOPS);
-        GameData.nextStoppingPosition  = GameData.bundle.getFloatArray(NEXT_STOPPING_POSITION);
-        GameData.isPaused              = false;
-    }
-    
-    /**
-     * Save instance of game data.
-     * @param savedInstanceState
-     */
-    public static final void onSaveInstanceState(Bundle savedInstanceState) {
-        GameData.bundle = savedInstanceState;
-        savedInstanceState.putFloat(GameData.CURRENT_TRAIN_VELOCITY, GameData.currentTrainVelocity);
-        savedInstanceState.putFloat(GameData.TOTAL_DISTANCE_TRAVELED, GameData.totalDistanceTraveled);
-        savedInstanceState.putBoolean(GameData.CHANGING_VELOCITY, GameData.changingVelocity);
-        savedInstanceState.putInt(GameData.NUMBER_OF_STOPS, GameData.numberOfStops);
-        savedInstanceState.putFloatArray(GameData.NEXT_STOPPING_POSITION, GameData.nextStoppingPosition);
-    }
-    
-    /**
-     * Restore instance of game data.
-     * @param savedInstanceState
-     */
-    public static final void onRestoreInstanceState(Bundle savedInstanceState) {
-        GameData.bundle = new Bundle(savedInstanceState); // override old GameDate.bundle because this is the relevant one
-        
-        /* After this, GameData.onResume() is called, this is where the state is restored */
     }
 }

@@ -15,6 +15,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
@@ -175,7 +176,6 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		GameData.onPause();
 		this.openGLView.onPause();
 	}
 
@@ -291,14 +291,21 @@ public class GameActivity extends Activity {
 	}
 	
 	@Override
-	protected void onSaveInstanceState(Bundle savedInstanceState) {
-	    super.onSaveInstanceState(savedInstanceState);
-	    GameData.onSaveInstanceState(savedInstanceState);
+	public void onSaveInstanceState(Bundle outState) {
+	    super.onSaveInstanceState(outState);
+	    GameData.resetGameData();
 	}
 	
 	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-	    super.onRestoreInstanceState(savedInstanceState);
-	    GameData.onRestoreInstanceState(savedInstanceState);
-	}
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //Stop the user from unexpected back presses
+	    if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //TODO Take appropiate actions here. OK/Cancel dialog
+	        GameData.onPause();
+	        return true;
+            //return super.onKeyDown(keyCode, event);
+        }
+	    
+        return super.onKeyDown(keyCode, event);
+    }
 }
