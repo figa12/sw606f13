@@ -14,7 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
+/**
+ * 
+ * @author figa
+ *
+ */
 public class CustomiseListView extends ListView {
 	
 	ArrayList<Station> stations = new ArrayList<Station>();
@@ -34,6 +38,11 @@ public class CustomiseListView extends ListView {
 		
 		this.adapter = new CustomiseAdapter(this.getContext(), android.R.layout.simple_list_item_1, stations);
 		setAdapter(adapter);
+	}
+	
+	public void addStation(Station station) {
+		this.stations.add(station);
+		adapter.notifyDataSetChanged();
 	}
 	
 }
