@@ -33,7 +33,7 @@ public class GlView extends GLSurfaceView {
         
         this.setEGLConfigChooser(true);
         
-        //this.setPreserveEGLContextOnPause(true); // TODO investigate
+        this.setPreserveEGLContextOnPause(false); //When false: onSurfaceCreated is called when app is restored
         
         this.glRenderer = new GlRenderer(context);
         this.setRenderer(this.glRenderer);

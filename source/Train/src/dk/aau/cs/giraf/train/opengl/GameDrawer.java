@@ -42,15 +42,15 @@ public final class GameDrawer {
         station.calculateStoppingPositions();
         
         // add RenderableGroups to the list in the order they should be drawn
-        this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Weather(gl, context, this));
-        this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Middleground(gl, context, this));
-        this.addRenderableGroup(station);
-        this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Train(gl, context, this));
-        this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.TrainSmoke(gl, context, this));
-        this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Wheels(gl, context, this));
-        this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Overlay(gl, context, this));
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Weather(gl, context, this));
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Middleground(gl, context, this));
+        this.renderableGroups.add(station);
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Train(gl, context, this));
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.TrainSmoke(gl, context, this));
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Wheels(gl, context, this));
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Overlay(gl, context, this));
         
-        this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Tester(gl, context, this)); // Always draw last
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Tester(gl, context, this)); // Always draw last
 	}
 	
 	/** Destroys all the renderable groups. Must be initialised again.
@@ -59,13 +59,8 @@ public final class GameDrawer {
 	    this.renderableGroups = null;
 	}
 	
-	private final void addRenderableGroup(RenderableGroup renderableGroup) {
-	    //FIXME this method doesn't really do anything anymore, consider removing
-		this.renderableGroups.add(renderableGroup);
-	}
-
 	/** Draw everything on screen. */
-	public synchronized final void drawGame() { //FIXME does it give sense to use 'synchronized' keyword here?
+	public synchronized final void drawGame() {
 	    this.resetPosition();
 	    
 	    GameData.systemTimeNow = System.nanoTime();
