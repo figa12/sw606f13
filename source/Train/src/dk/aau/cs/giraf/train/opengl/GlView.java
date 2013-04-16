@@ -6,6 +6,7 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.opengl.GLSurfaceView;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
@@ -21,6 +22,8 @@ public class GlView extends GLSurfaceView {
     private final SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
     private final int sound = soundPool.load(this.getContext(), R.raw.koere, 1);
     
+    private GlRenderer glRenderer;
+    
     /**
      * Set {@link GLSurfaceView} settings.
      * @param context send to renderer
@@ -30,9 +33,10 @@ public class GlView extends GLSurfaceView {
         
         this.setEGLConfigChooser(true);
         
-        //this.setPreserveEGLContextOnPause(true); // TODO investigate
+        this.setPreserveEGLContextOnPause(false); //When false: onSurfaceCreated is called when app is restored
         
-        this.setRenderer(new GlRenderer(context));
+        this.glRenderer = new GlRenderer(context);
+        this.setRenderer(this.glRenderer);
     }
     
     /**
@@ -55,6 +59,12 @@ public class GlView extends GLSurfaceView {
     }
     
     @Override
+    public Parcelable onSaveInstanceState() {
+        this.glRenderer.onSaveInstanceState();
+        return super.onSaveInstanceState();
+    }
+    
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         //long eventDuration = event.getEventTime() - event.getDownTime(); // the time the screen is touched
         
@@ -62,6 +72,7 @@ public class GlView extends GLSurfaceView {
         //float y = event.getY();
         //Log.d(GlView.class.getSimpleName(), "Touched: " + Float.toString(x) + " x " + Float.toString(y));
         
+        //If the game is paused, then resume on click
         if(event.getAction() == MotionEvent.ACTION_DOWN && GameData.isPaused) {
             GameData.onResume();
         }

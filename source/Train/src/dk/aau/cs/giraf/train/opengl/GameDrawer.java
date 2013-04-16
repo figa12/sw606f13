@@ -22,7 +22,7 @@ public final class GameDrawer {
 	private Random random = new Random();
 	
 	/** The list of {@link RenderableGroup}s. */
-	private ArrayList<RenderableGroup> renderableGroups = new ArrayList<RenderableGroup>();
+	private ArrayList<RenderableGroup> renderableGroups;
 	
 	/**
 	 * Create the {@link GameDrawer}. All {@link RenderableGroup}s are created here.
@@ -31,33 +31,40 @@ public final class GameDrawer {
 	 */
 	public GameDrawer(GL10 gl, Context context) {
 		this.gl = gl;
-		
-		//Start by creating the stations object, and calculate the stopping positions
-		dk.aau.cs.giraf.train.opengl.game.Station station = new dk.aau.cs.giraf.train.opengl.game.Station(gl, context, this);
-		station.calculateStoppingPositions();
-		
-		// add RenderableGroups to the list in the order they should be drawn
-		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Weather(gl, context, this));
-		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Middleground(gl, context, this));
-		this.addRenderableGroup(station);
-		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Train(gl, context, this));
-		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.TrainSmoke(gl, context, this));
-		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Wheels(gl, context, this));
-		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Overlay(gl, context, this));
-		
-		this.addRenderableGroup(new dk.aau.cs.giraf.train.opengl.game.Tester(gl, context, this)); // Always draw last
 	}
 	
-	private final void addRenderableGroup(RenderableGroup renderableGroup) {
-	    //FIXME this method doesn't really do anything anymore, consider removing
-		this.renderableGroups.add(renderableGroup);
+	/** Initialises the list of renderable groups. */
+	public final void initiaslise(Context context) {
+	    this.renderableGroups = new ArrayList<RenderableGroup>();
+	    
+	    //Start by creating the stations object, and calculate the stopping positions
+        dk.aau.cs.giraf.train.opengl.game.Station station = new dk.aau.cs.giraf.train.opengl.game.Station(gl, context, this);
+        station.calculateStoppingPositions();
+        
+        // add RenderableGroups to the list in the order they should be drawn
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Weather(gl, context, this));
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Middleground(gl, context, this));
+        this.renderableGroups.add(station);
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Train(gl, context, this));
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.TrainSmoke(gl, context, this));
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Wheels(gl, context, this));
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Overlay(gl, context, this));
+        
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Tester(gl, context, this)); // Always draw last
 	}
-
+	
+	/** Destroys all the renderable groups. Must be initialised again.
+	 *  @see GameDrawer#initiaslise(Context) */
+	public void freeMemory() {
+	    this.renderableGroups = null;
+	}
+	
 	/** Draw everything on screen. */
-	public synchronized final void drawGame() { //FIXME does it give sense to use 'synchronized' keyword here?
+	public synchronized final void drawGame() {
 	    this.resetPosition();
 	    
 	    GameData.systemTimeNow = System.nanoTime();
+	    
 	    GameData.updateData();
 	    
 		for (int i = 0; i < this.renderableGroups.size(); i++) {
