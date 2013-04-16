@@ -1,7 +1,11 @@
 package dk.aau.cs.giraf.train.opengl.game;
 
+import java.io.Flushable;
+
+import dk.aau.cs.giraf.train.opengl.GameActivity;
 import dk.aau.cs.giraf.train.opengl.GlRenderer;
 import android.os.Bundle;
+import android.view.View;
 
 /**
  * This class holds static data relevant for the game.
@@ -104,6 +108,15 @@ public class GameData {
             GameData.currentTrainVelocity = 0f;
             GameData.changingVelocity = false;
             GameData.numberOfStops++;
+            //make flute visble
+            GameActivity.fluteButton.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					GameActivity.trainDrive(false);
+				}
+			});
         }
         
         //update trip computer
