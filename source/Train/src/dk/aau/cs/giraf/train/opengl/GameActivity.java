@@ -10,7 +10,9 @@ import dk.aau.cs.giraf.train.opengl.game.GameData;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -300,12 +302,30 @@ public class GameActivity extends Activity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //Stop the user from unexpected back presses
 	    if (keyCode == KeyEvent.KEYCODE_BACK) {
-            //TODO Take appropiate actions here. OK/Cancel dialog
 	        GameData.onPause();
+	        
+	        boolean doSuper = false;
+	        
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+            //myAlertDialog.setTitle("Title");
+            alertDialog.setCancelable(false);
+            alertDialog.setMessage("Er du sikker på at du vil afslutte?");
+            alertDialog.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface arg0, int arg1) {
+                    //'Ja' button is clicked
+                    finish();
+                }
+            });
+            alertDialog.setNegativeButton("Annuller", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface arg0, int arg1) {
+                    //'Annuller' button is clicked
+                    GameData.onResume();
+                }
+            });
+            
+            alertDialog.show();
 	        return true;
-            //return super.onKeyDown(keyCode, event);
         }
-	    
         return super.onKeyDown(keyCode, event);
     }
 }
