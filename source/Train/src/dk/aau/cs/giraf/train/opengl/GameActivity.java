@@ -156,7 +156,6 @@ public class GameActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				trainDrive(true);
 			}
 		});
@@ -296,17 +295,13 @@ public class GameActivity extends Activity {
 
 				case DragEvent.ACTION_DRAG_ENTERED:
 					// Change the background of droplayout(purely style)
-					v.setBackgroundDrawable(enterShape); // FIXME code is
-															// deprecated, use
-															// new
+					v.setBackgroundDrawable(enterShape);
 					break;
 
 				case DragEvent.ACTION_DRAG_EXITED:
 					// Change the background back when exiting droplayout(purely
 					// style)
-					v.setBackgroundDrawable(normalShape); // FIXME code is
-															// deprecated, use
-															// new
+					v.setBackgroundDrawable(normalShape);					
 					break;
 
 				case DragEvent.ACTION_DROP:
@@ -329,14 +324,12 @@ public class GameActivity extends Activity {
 				case DragEvent.ACTION_DRAG_ENDED:
 					// Makes the draggedview visible again after the view has
 					// been moved or the drop wasn't valid.
-					v.setBackgroundDrawable(normalShape); // FIXME code is
-					// deprecated, use new
+					v.setBackgroundDrawable(normalShape);
 
 					// The weird bug is solves by this.
 					draggedView.post(new Runnable() {
 						@Override
 						public void run() {
-							// TODO Auto-generated method stub
 							draggedView.setVisibility(View.VISIBLE);
 						}
 					});

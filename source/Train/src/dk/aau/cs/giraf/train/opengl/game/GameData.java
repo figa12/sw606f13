@@ -108,14 +108,13 @@ public class GameData {
             GameData.changingVelocity = false;
             GameData.numberOfStops++;
             //make flute visble
-            GameActivity.fluteButton.post(new Runnable() {
+            GameActivity.fluteButton.post(new Runnable() { 
 				
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
 					GameActivity.trainDrive(false);
 				}
-			});
+			});//TODO investigate if this is the right to do it.
         }
         
         GameData.totalDistanceTraveled -= GameData.pixelMovementForThisFrame;
