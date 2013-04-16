@@ -362,8 +362,6 @@ public class GameActivity extends Activity {
 	    if (keyCode == KeyEvent.KEYCODE_BACK) {
 	        GameData.onPause();
 	        
-	        boolean doSuper = false;
-	        
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
             //myAlertDialog.setTitle("Title");
             alertDialog.setCancelable(false);
