@@ -5,20 +5,26 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import dk.aau.cs.giraf.train.opengl.Color;
 import dk.aau.cs.giraf.train.opengl.GameDrawer;
+import dk.aau.cs.giraf.train.opengl.GlRenderer;
 import dk.aau.cs.giraf.train.opengl.Square;
 
 public final class Overlay extends RenderableGroup {
     
-    Square overlay = new Square(1280f, 752f);
-    
     public Overlay(GL10 gl, Context context, GameDrawer gameDrawer) {
         super(gl, context, gameDrawer);
     }
-
+    
+    Square overlay;
+    
     @Override
     public void load() {
+        //Create objects
+        float height = GlRenderer.getActualHeight(GameData.FOREGROUND);
+        float width = GlRenderer.getActualWidth(height);
+        this.overlay = new Square(width, height);
+        
         //Add coordinates
-        this.overlay.addCoordinate(-640f, 376f, -907f);
+        this.overlay.addCoordinate(-width/2, height/2, GameData.FOREGROUND);
     }
 
     @Override

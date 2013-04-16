@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.res.Configuration;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.LinearGradient;
 import android.graphics.drawable.Drawable;
@@ -14,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
@@ -233,7 +236,6 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		GameData.onPause();
 		this.openGLView.onPause();
 	}
 
@@ -349,14 +351,39 @@ public class GameActivity extends Activity {
 	}
 
 	@Override
-	protected void onSaveInstanceState(Bundle savedInstanceState) {
-		super.onSaveInstanceState(savedInstanceState);
-		GameData.onSaveInstanceState(savedInstanceState);
+	public void onSaveInstanceState(Bundle outState) {
+	    super.onSaveInstanceState(outState);
+	    GameData.resetGameData();
 	}
 
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-		GameData.onRestoreInstanceState(savedInstanceState);
-	}
+	
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //Stop the user from unexpected back presses
+	    if (keyCode == KeyEvent.KEYCODE_BACK) {
+	        GameData.onPause();
+	        
+	        boolean doSuper = false;
+	        
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+            //myAlertDialog.setTitle("Title");
+            alertDialog.setCancelable(false);
+            alertDialog.setMessage("Er du sikker på at du vil afslutte?");
+            alertDialog.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface arg0, int arg1) {
+                    //'Ja' button is clicked
+                    finish();
+                }
+            });
+            alertDialog.setNegativeButton("Annuller", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface arg0, int arg1) {
+                    //'Annuller' button is clicked
+                    GameData.onResume();
+                }
+            });
+            
+            alertDialog.show();
+	        return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
