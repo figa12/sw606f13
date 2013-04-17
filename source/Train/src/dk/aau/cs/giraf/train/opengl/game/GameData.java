@@ -1,11 +1,8 @@
 package dk.aau.cs.giraf.train.opengl.game;
 
-import java.io.Flushable;
-
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 import dk.aau.cs.giraf.train.opengl.GlRenderer;
 import android.os.Bundle;
-import android.view.View;
 
 /**
  * This class holds static data relevant for the game.
@@ -44,7 +41,7 @@ public class GameData {
         GameData.timeDifference = (GameData.systemTimeNow - GameData.systemTimeLast)/1000000.0f;
         
         //Limit timeDifference from game freezes
-        if(GameData.timeDifference > 500f) { //FIXME consider lower value
+        if(GameData.timeDifference > 500f) {
             GameData.timeDifference = 500f;
         }
         
