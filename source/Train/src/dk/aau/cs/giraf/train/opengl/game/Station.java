@@ -45,7 +45,7 @@ public final class Station extends RenderableGroup {
     @Override
     public final void load() {
         //Add coordinates to the renderables
-        this.redTrainStation.addCoordinate(-588.64f, 376f, GameData.FOREGROUND);
+        //this.redTrainStation.addCoordinate(-588.64f, 376f, GameData.FOREGROUND);
         this.stationPlatformMatrix.addCoordinate(-640f, -207f, GameData.FOREGROUND);
         
         //Load the textures
@@ -57,8 +57,9 @@ public final class Station extends RenderableGroup {
         //Add stations to list and randomise
         ArrayList<StationContainer> stations = new ArrayList<StationContainer>();
         stations.add(new StationContainer(redTrainStation, 364f + (640f - 588.64f) - 16f, 583f));  
-        stations.add(new StationContainer(yellowTrainStation, 364f + (640f - 588.64f) - 16f, 583f));
         stations.add(new StationContainer(blueTrainStation, 364f + (640f - 588.64f) - 16f, 583f));
+        stations.add(new StationContainer(yellowTrainStation, 364f + (640f - 588.64f) - 16f, 583f));
+
 
         
         Collections.shuffle(stations);

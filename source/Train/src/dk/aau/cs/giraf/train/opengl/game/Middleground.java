@@ -30,10 +30,10 @@ public final class Middleground extends RenderableGroup {
 
     private RenderableMatrix sequence = new RenderableMatrix();
   //  private Square square = new Square(100f, 100f);
-    private Texture hill_small = new Texture(900f, 158f);
-    private Texture hill_medium = new Texture(1100f, 230f);
-    private Texture hill_large = new Texture(1500f, 350f);
-    private Texture hill_larger = new Texture(2048f, 350f);
+    private Texture hill_small = new Texture(1400f, 300f);
+    private Texture hill_medium = new Texture(2200f, 460f);
+    private Texture hill_large = new Texture(3000f, 600f);
+    private Texture hill_larger = new Texture(3800f, 700f);
 
     
     @Override
