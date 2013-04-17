@@ -11,6 +11,8 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.LinearGradient;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +35,7 @@ import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.game.GameData;
+import dk.aau.cs.giraf.train.profile.GameConfiguration;
 
 public class GameActivity extends Activity {
 
@@ -42,15 +45,19 @@ public class GameActivity extends Activity {
 	private static LinearLayout stationCategoryLinear;
 	private LinearLayout trainDriverLinear;
 	public static ImageButton fluteButton;
+	private final static SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+    private static int sound;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_game);
 
+		Configuration config = getResources().getConfiguration();
+		
 		this.createPictogramLayouts(6);
 		
-		Configuration config = getResources().getConfiguration();
+		GameActivity.sound = soundPool.load(this, R.raw.koere, 1);
 		
 		GameData.resetGameData();
 		this.openGLView = (GlView) findViewById(R.id.openglview);
@@ -77,7 +84,7 @@ public class GameActivity extends Activity {
 	private void createPictogramLayouts(int numbersOfPictograms) {
 		setLayouts();
 		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
-		int heightAndWidth = 300/(numbersOfPictograms/2);
+		int height = 300/(numbersOfPictograms/2);
 		
 		for (LinearLayout stationlinear : stationLinear) {
 			for (int j = 0; j < (numbersOfPictograms / 2); j++) {
@@ -85,7 +92,7 @@ public class GameActivity extends Activity {
 				
 				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(
 						0,
-						heightAndWidth);
+						height);
 				
 				linearLayoutParams.gravity = Gravity.CENTER;
 				linearLayoutParams.weight = 1.0f;
@@ -100,7 +107,7 @@ public class GameActivity extends Activity {
 			for (int j = 0; j < (numbersOfPictograms / 2); j++) {
 				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(
 						0,
-						heightAndWidth);
+						height);
 				linearLayoutParams.weight = 1.0f;
 				linearLayoutParams.gravity = Gravity.CENTER;
 				FrameLayout frameLayout = new FrameLayout(this);
@@ -180,7 +187,7 @@ public class GameActivity extends Activity {
 				
 				//check if all stations are empty so train is ready to go.
 				GameData.accelerateTrain();
-                //play sound
+				soundPool.play(sound, 1f, 1f, 0, 0, 0.75f);
                 //Make LinearLayouts invisble or animate
 				fluteButton.setVisibility(View.INVISIBLE);
             }

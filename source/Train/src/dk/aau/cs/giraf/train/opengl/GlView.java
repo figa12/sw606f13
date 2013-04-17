@@ -19,8 +19,7 @@ import android.view.MotionEvent;
  */
 public class GlView extends GLSurfaceView {
     
-    private final SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-    private final int sound = soundPool.load(this.getContext(), R.raw.koere, 1);
+  
     
     private GlRenderer glRenderer;
     
@@ -76,12 +75,12 @@ public class GlView extends GLSurfaceView {
         if(event.getAction() == MotionEvent.ACTION_DOWN && GameData.isPaused) {
             GameData.onResume();
         }
-        else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+        /*else if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations - 1) {
                 GameData.accelerateTrain();
                 this.soundPool.play(sound, 1f, 1f, 0, 0, 0.75f);
             }
-        }
+        }*///Is managed by the flute button now
         return true;
     }
 
