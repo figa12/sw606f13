@@ -16,15 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
-
-    <FrameLayout 
-        android:id="@+id/test"
-        android:layout_height="20dp"
-        android:layout_width="105dp"
-        android:layout_alignBottom="@id/Cart1LinearLayout"
-        android:layout_alignParentLeft="true"
-        android:background="#000000">
-    </FrameLayout>
     
     <!-- Cart1 -->
 
