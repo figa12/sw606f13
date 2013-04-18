@@ -52,27 +52,15 @@ public class GameActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_game);
-
-		Configuration config = getResources().getConfiguration();
-		
-		this.createPictogramLayouts(6);
 		
 		GameActivity.sound = soundPool.load(this, R.raw.koere, 1);
+		
+		this.createPictogramLayouts(6);
 		
 		GameData.resetGameData();
 		this.openGLView = (GlView) findViewById(R.id.openglview);
 
-		this.getWindow().getDecorView()
-				.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE); // TODO
-		// investigate
-		// API
-		// level
-		// problems
-		// and
-		// write
-		// results
-		// in
-		// comment
+		this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 	}
 
 	/**
@@ -82,34 +70,31 @@ public class GameActivity extends Activity {
 	 * @param numbersOfPictograms
 	 */
 	private void createPictogramLayouts(int numbersOfPictograms) {
-		setLayouts();
+		findandSetLayouts();
 		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
 		int height = 300/(numbersOfPictograms/2);
 		
 		for (LinearLayout stationlinear : stationLinear) {
 			for (int j = 0; j < (numbersOfPictograms / 2); j++) {
-				 
-				
-				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(
-						0,
-						height);
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0,height);
 				
 				linearLayoutParams.gravity = Gravity.CENTER;
 				linearLayoutParams.weight = 1.0f;
+				
 				FrameLayout frameLayout = new FrameLayout(this);
 				frameLayout.setOnDragListener(new DragListener());
 				frameLayout.setBackgroundDrawable(normalShape);
+				
 				stationlinear.addView(frameLayout, linearLayoutParams);
 			}
 		}
 
 		for (LinearLayout cartlinear : cartsLinear) {
 			for (int j = 0; j < (numbersOfPictograms / 2); j++) {
-				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(
-						0,
-						height);
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0,height);
 				linearLayoutParams.weight = 1.0f;
 				linearLayoutParams.gravity = Gravity.CENTER;
+				
 				FrameLayout frameLayout = new FrameLayout(this);
 				frameLayout.setOnDragListener(new DragListener());
 				frameLayout.setBackgroundDrawable(normalShape);
@@ -148,7 +133,7 @@ public class GameActivity extends Activity {
 	 * Find the LinearLayouts sepcified in activti_game.xml and stores the ref
 	 * in different lists.
 	 */
-	private void setLayouts() {
+	private void findandSetLayouts() {
 		// StationLeft and Right
 		stationLinear = new ArrayList<LinearLayout>();
 		stationLinear.add((LinearLayout) findViewById(R.id.StationLeftLinearLayout));
@@ -160,8 +145,6 @@ public class GameActivity extends Activity {
 		// FluteButton
 		fluteButton = (ImageButton) findViewById(R.id.FluteImageButton);
 		fluteButton.setOnClickListener(new OnClickListener() {
-
-			@Override
 			public void onClick(View v) {
 				trainDrive(true);
 			}
@@ -176,32 +159,6 @@ public class GameActivity extends Activity {
 
 	}
 	
-	public static void trainDrive(boolean drive){
-		if (drive) {
-			if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations - 1) {
-				for (LinearLayout lin : stationLinear) {
-					lin.setVisibility(View.INVISIBLE);
-				}
-
-				stationCategoryLinear.setVisibility(View.INVISIBLE);
-				
-				//check if all stations are empty so train is ready to go.
-				GameData.accelerateTrain();
-				soundPool.play(sound, 1f, 1f, 0, 0, 0.75f);
-                //Make LinearLayouts invisble or animate
-				fluteButton.setVisibility(View.INVISIBLE);
-            }
-			
-		} else {
-			for (LinearLayout lin : stationLinear) {
-				lin.setVisibility(View.VISIBLE);
-			}
-
-			stationCategoryLinear.setVisibility(View.VISIBLE);
-			fluteButton.setVisibility(View.VISIBLE);
-		}
-	}
-
 	/**
 	 * Adds pictograms to Station, StationCategory and TrainDriver
 	 */
@@ -250,6 +207,33 @@ public class GameActivity extends Activity {
 		super.onResume();
 		this.openGLView.onResume();
 	}
+	
+	public static void trainDrive(boolean drive){
+		if (drive) {
+			if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations - 1) {
+				for (LinearLayout lin : stationLinear) {
+					lin.setVisibility(View.INVISIBLE);
+				}
+
+				stationCategoryLinear.setVisibility(View.INVISIBLE);
+				
+				//check if all stations are empty so train is ready to go.
+				GameData.accelerateTrain();
+				soundPool.play(sound, 1f, 1f, 0, 0, 0.75f);
+                //Make LinearLayouts invisble or animate
+				fluteButton.setVisibility(View.INVISIBLE);
+            }
+			
+		} else {
+			for (LinearLayout lin : stationLinear) {
+				lin.setVisibility(View.VISIBLE);
+			}
+
+			stationCategoryLinear.setVisibility(View.VISIBLE);
+			fluteButton.setVisibility(View.VISIBLE);
+		}
+	}
+
 
 	/**
 	 * A touch listener that starts a drag event. There should also be a
@@ -283,8 +267,7 @@ public class GameActivity extends Activity {
 		public DragListener() {
 			Resources resources = getResources();
 
-			this.enterShape = resources
-					.getDrawable(R.drawable.shape_droptarget);
+			this.enterShape = resources.getDrawable(R.drawable.shape_droptarget);
 			this.normalShape = resources.getDrawable(R.drawable.shape);
 		}
 
