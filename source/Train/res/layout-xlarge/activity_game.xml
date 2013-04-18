@@ -65,7 +65,7 @@
         android:layout_height="150dp"
         android:layout_above="@id/Cart1LinearLayout"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="43dp"
         android:orientation="horizontal">
     </LinearLayout>
 
@@ -76,7 +76,7 @@
         android:layout_width="310dp"
         android:layout_height="150dp"
         android:layout_alignBottom="@id/StationLeftLinearLayout"
-        android:layout_marginLeft="140dp"
+        android:layout_marginLeft="138dp"
         android:layout_toRightOf="@id/StationLeftLinearLayout"
         android:orientation="horizontal" >
     </LinearLayout>
@@ -104,8 +104,8 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="355dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginLeft="370dp"
+        android:layout_marginTop="35dp"
         android:orientation="horizontal" >
     </LinearLayout>
 
