@@ -4,3 +4,6 @@
 [submodule "source/OasisLib"]
 	path = source/OasisLib
 	url = http://cs-cust06-int.cs.aau.dk/git-ro/oasis-lib
+[submodule "source/Pictogram"]
+	path = source/Pictogram
+	url = http://cs-cust06-int.cs.aau.dk/git-ro/pictogram-lib
