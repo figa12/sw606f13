@@ -6,6 +6,7 @@ import dk.aau.cs.giraf.TimerLib.Child;
 import dk.aau.cs.giraf.TimerLib.Guardian;
 import dk.aau.cs.giraf.train.R;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,55 +16,66 @@ import android.widget.TextView;
 
 public class ChildAdapter extends ArrayAdapter<Child> {
 	
-	private ArrayList<Child> items;
-	Guardian guard = Guardian.getInstance();
+	private ArrayList<Child> children;
+	private Guardian guardian = Guardian.getInstance();
+	private int selectedPosition = 0;
+	private Child selectedChild;
 	
-	public ChildAdapter(Context context, int textViewResourceId,
-			ArrayList<Child> items) {
+	public ChildAdapter(Context context, int textViewResourceId, ArrayList<Child> items) {
 		super(context, textViewResourceId, items);
-		this.items = items;
+		this.children = items;
 	}
-
+	
+	public Child getSelectedChild() {
+	    return this.selectedChild;
+	}
+	
+	public void setSelectedPosition(int position) {
+	    this.selectedPosition = position;
+	    this.notifyDataSetChanged();
+	}
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View v = convertView;
-		if (v == null) {
-			LayoutInflater li = (LayoutInflater) getContext().getSystemService(
-					Context.LAYOUT_INFLATER_SERVICE);
-			v = li.inflate(R.layout.profile_list, null);
+		if (convertView == null) {
+			LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			convertView = layoutInflater.inflate(R.layout.profile_list, null);
 		}
+		
 		// TODO: Insert pictures from admin
-		Child c = items.get(position);
-		if (c != null) {
+		Child child = this.children.get(position);
+		
+		if (child != null) {
 			/* Find all the views */
-			ImageView iv = (ImageView) v.findViewById(R.id.profilePic);
-			TextView tv = (TextView) v.findViewById(R.id.profileName);
-
+			ImageView profilePictureImageView = (ImageView) convertView.findViewById(R.id.profilePic);
+			TextView  profileNameTextView = (TextView) convertView.findViewById(R.id.profileName);
+			
 			/* Set the picture */
-			if (iv != null) {
+			if (profilePictureImageView != null) {
 				//TODO: Insert pictures here
-				iv.setImageResource(R.drawable.default_profile);
+				profilePictureImageView.setImageResource(R.drawable.default_profile);
 			}
 			
 			/* If this is either last used or predefined, change the name */
-			if (tv != null) {
-				if (c.name == "Last Used") {
-					tv.setText(R.string.last_used);
-				} else if (c.name == "Predefined Profiles") {
-					tv.setText(R.string.predefined);
+			if (profileNameTextView != null) {
+				if (child.name == "Last Used") {
+					profileNameTextView.setText(R.string.last_used);
+				} else if (child.name == "Predefined Profiles") {
+					profileNameTextView.setText(R.string.predefined);
 				} else {
-					tv.setText(c.name);
+					profileNameTextView.setText(child.name);
 				}
 			}
-
 		}
 		
-			/* Is this profile selected, then highlight */
-			if(c.getProfileId() == guard.profileID){
-				v.setBackgroundResource(R.drawable.list_selected);
-				guard.profileFirstClick = true;
-			}
-		return v;
+        /* Is this profile selected, then highlight */
+        if (position == this.selectedPosition) {
+            this.selectedChild = child;
+            convertView.setBackgroundResource(R.drawable.list_item_selected);
+        }
+        else {
+            convertView.setBackgroundResource(R.drawable.list_item);
+        }
+		return convertView;
 	}
-	
 }
