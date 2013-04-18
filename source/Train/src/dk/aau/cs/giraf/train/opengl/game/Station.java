@@ -34,13 +34,13 @@ public final class Station extends RenderableGroup {
         }
     }
     
-    private Texture redTrainStation = new Texture(1.0f, 1.0f);
-    private Texture yellowTrainStation = new Texture(1.0f, 1.0f);
-    private Texture blueTrainStation = new Texture(1.0f, 1.0f);
-    private Texture platform = new Texture(1280f, 100f);
-    private Texture trainBufferStop = new Texture(1f, 1f);
+    private final Texture redTrainStation = new Texture(1.0f, 1.0f);
+    private final Texture yellowTrainStation = new Texture(1.0f, 1.0f);
+    private final Texture blueTrainStation = new Texture(1.0f, 1.0f);
+    private final Texture platform = new Texture(1280f, 100f);
+    private final Texture trainBufferStop = new Texture(1f, 1f);
     
-    private RenderableMatrix stationPlatformMatrix = new RenderableMatrix();
+    private final RenderableMatrix stationPlatformMatrix = new RenderableMatrix();
     
     @Override
     public final void load() {
