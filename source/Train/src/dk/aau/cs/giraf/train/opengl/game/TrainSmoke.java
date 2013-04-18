@@ -18,18 +18,18 @@ public final class TrainSmoke extends RenderableGroup {
 
     private final int numberOfSmokeClouds = 5;
     
-    private Texture smokeCloud = new Texture(1f, 1f);
+    private final Texture smokeCloud = new Texture(1f, 1f);
     private Coordinate[] coordinates = new Coordinate[this.numberOfSmokeClouds];
     private Color[] colors = new Color[this.numberOfSmokeClouds];
     
-    private Coordinate startCoordinate = new Coordinate(455.42f, -52.37f, GameData.FOREGROUND);
+    private final Coordinate startCoordinate = new Coordinate(455.42f, -52.37f, GameData.FOREGROUND);
     
     private int resetIndex = 0;
     private final float timeBetweenSmokeClouds = 150f; // ms
     private float timeSinceLastReset = 0f;
     private final float ySpeed = 0.15f;
     
-    private void resetOneSmokeCloud() {
+    private final void resetOneSmokeCloud() {
         //Increment the reset index
         this.resetIndex = ++this.resetIndex % this.numberOfSmokeClouds;
         
@@ -38,7 +38,7 @@ public final class TrainSmoke extends RenderableGroup {
         this.colors[this.resetIndex].setColor(1f, 1f, 1f, 1f);
     }
     
-    private void updateSmokeClouds() {
+    private final void updateSmokeClouds() {
         //Updates position and alpha channels
         for (int i = 0; i < this.numberOfSmokeClouds; i++) {
             //Always move smoke vertically, move smoke horizontally relative to the train speed.
@@ -51,7 +51,8 @@ public final class TrainSmoke extends RenderableGroup {
     }
     
     @Override
-    public void load() {
+    public final void load() {
+        //Load the texture
         this.smokeCloud.loadTexture(gl, context, R.drawable.texture_train_smoke, Texture.AspectRatio.BitmapOneToOne);
         
         //Start conditions:
@@ -62,7 +63,7 @@ public final class TrainSmoke extends RenderableGroup {
     }
 
     @Override
-    public void draw() {
+    public final void draw() {
         //Reset one smoke cloud at the given interval
         this.timeSinceLastReset += GameData.timeDifference;
         if(this.timeSinceLastReset >= this.timeBetweenSmokeClouds) {

@@ -15,13 +15,17 @@ public final class Train extends RenderableGroup {
         super(gl, context, gameDrawer);
     }
 
-    private Texture train = new Texture(1.0f, 1.0f);
-    private Texture wagon = new Texture(1.0f, 1.0f);
-    private Square shaft = new Square(40f, 3f);
-    private Square trainWindow = new Square(95f, 95f);
+    private final Texture train = new Texture(1.0f, 1.0f);
+    private final Texture wagon = new Texture(1.0f, 1.0f);
+    private final Square shaft = new Square(40f, 3f);
+    private final Square trainWindow = new Square(95f, 95f);
     
     @Override
     public final void load() {
+        //Load the textures
+        this.wagon.loadTexture(gl, context, R.drawable.texture_wagon, Texture.AspectRatio.BitmapOneToOne);
+        this.train.loadTexture(gl, context, R.drawable.texture_train, Texture.AspectRatio.BitmapOneToOne);
+        
         //Add coordinates to the renderables
         this.wagon.addCoordinate(-542.32f, -142.72f, GameData.FOREGROUND);
         this.wagon.addCoordinate(-187.45f, -142.72f, GameData.FOREGROUND);
@@ -29,10 +33,6 @@ public final class Train extends RenderableGroup {
         this.shaft.addCoordinate(127.42f, -294.72f, GameData.FOREGROUND);
         this.train.addCoordinate(160.42f, -52.37f, GameData.FOREGROUND);
         this.trainWindow.addCoordinate(198.92f, -87f, GameData.FOREGROUND);
-        
-        //Load the textures
-        this.wagon.loadTexture(gl, context, R.drawable.texture_wagon, Texture.AspectRatio.BitmapOneToOne);
-        this.train.loadTexture(gl, context, R.drawable.texture_train, Texture.AspectRatio.BitmapOneToOne);
     }
     
     @Override

@@ -17,7 +17,7 @@ public class Color {
     public final static Color DarkWeather = new Color(0f, 0f, 0.2f, 0.1f);
     public final static Color BackgroundTopColor = new Color(130, 147, 255, 255);
     public final static Color BackgroundBottomColor = new Color(1f, 1f, 1f, 1f);
-    public final static Color PausedOverlay = new Color(0f, 0f, 0f, 0.75f);
+    public final static Color PausedOverlay = new Color(0f, 0f, 0f, 0.5f);
     
     /* The color values. */
     public float red;

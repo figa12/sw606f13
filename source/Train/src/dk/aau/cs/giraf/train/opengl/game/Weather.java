@@ -20,26 +20,26 @@ public final class Weather extends RenderableGroup {
         super(gl, context, gameDrawer);
     }
     
-    private Texture sun = new Texture(250f, 250f);
+    private final Texture sun = new Texture(250f, 250f);
     private GradientSquare backgroundGradient;
     
     @Override
-    public void load() {
+    public final void load() {
         //Create background gradient
         float height = GlRenderer.getActualHeight(GameData.BACKGROUND);
         float width = GlRenderer.getActualWidth(height);
         this.backgroundGradient = new GradientSquare(width, height, Color.BackgroundTopColor, Color.BackgroundBottomColor, GradientSquare.GradientStyle.Vertical);
         
+        //Load the textures
+        this.sun.loadTexture(super.gl, super.context, R.drawable.texture_sun);
+        
         //Add coordinates to the renderables
         this.sun.addCoordinate(1462.61f, 985.53f, GameData.BACKGROUND);
         this.backgroundGradient.addCoordinate(-width/2, height/2, GameData.BACKGROUND);
-        
-        //Load the textures
-        this.sun.loadTexture(super.gl, super.context, R.drawable.texture_sun);
     }
 
     @Override
-    public void draw() {
+    public final void draw() {
         super.translateAndDraw(this.backgroundGradient);
         super.translateAndDraw(this.sun);
     }
