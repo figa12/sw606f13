@@ -1,185 +1,136 @@
 package dk.aau.cs.giraf.train.opengl;
 
 import java.util.ArrayList;
+import java.util.Random;
 import javax.microedition.khronos.opengles.GL10;
-import dk.aau.cs.giraf.train.R;
+
+import dk.aau.cs.giraf.train.opengl.game.GameData;
+import dk.aau.cs.giraf.train.opengl.game.RenderableGroup;
 import android.content.Context;
 
 /**
- * This class handles all drawing.
+ * This class handles all game drawing.
  * 
  * @author Jesper
  * @see GameDrawer#drawGame()
- * @see GameDrawer#loadAllTexture()
+ * @see GameDrawer#loadGame()
  */
 public final class GameDrawer {
-
-	private interface GameDrawable {
-		public void draw();
-	}
-
-	private interface GameDrawableTexture extends GameDrawable {
-		public void loadTexture();
-	}
-
+    
 	private GL10 gl;
-	private Context context;
-	private float visibleWidth = 1.0f;
-	private float visibleHeight = 1.0f;
-	private final float DRAWING_DEPTH = -907.744f;
-
-	private ArrayList<GameDrawable> gameDrawables = new ArrayList<GameDrawable>();
-	private ArrayList<GameDrawableTexture> gameDrawablesWithTexture = new ArrayList<GameDrawableTexture>();
-
+	public Coordinate currentPosition = new Coordinate(0f, 0f, 0f);
+	private Random random = new Random();
+	
+	/** The list of {@link RenderableGroup}s. */
+	private ArrayList<RenderableGroup> renderableGroups;
+	
+	/**
+	 * Create the {@link GameDrawer}. All {@link RenderableGroup}s are created here.
+	 * @param gl the {@link GL10} instance.
+	 * @param context
+	 */
 	public GameDrawer(GL10 gl, Context context) {
 		this.gl = gl;
-		this.context = context;
-
-		// add GameDrawables to the list in the order they should be drawn
-		this.addGameDrawable(new Station());
-		this.addGameDrawable(new Train());
-		this.addGameDrawable(new Wheels());
-	}
-
-	public void setVisibleLimits(float visibleWidth, float visibleHeight) {
-		this.visibleWidth = visibleWidth;
-		this.visibleHeight = visibleHeight;
-	}
-
-	private final void addGameDrawable(GameDrawable gameDrawable) {
-		this.gameDrawables.add(gameDrawable);
-
-		if (gameDrawable instanceof GameDrawableTexture) {
-			this.gameDrawablesWithTexture
-					.add((GameDrawableTexture) gameDrawable);
-		}
-	}
-
-	/** Draw everything on screen */
-	public final void drawGame() {
-		this.gl.glLoadIdentity(); // Reset The Current Modelview Matrix
-
-		for (GameDrawable gameDrawable : this.gameDrawables) {
-			gameDrawable.draw();
-		}
-	}
-
-	/** Loads all texture */
-	public final void loadAllTexture() {
-		for (GameDrawableTexture gameDrawableTexture : this.gameDrawablesWithTexture) {
-			gameDrawableTexture.loadTexture();
-		}
-		this.gameDrawablesWithTexture.clear();
 	}
 	
-	private final class Station implements GameDrawableTexture {
-		private Texture trainStation = new Texture(1.0f, 1.0f);
-
-		@Override
-		public void draw() {
-			gl.glLoadIdentity(); // reset the position
-
-			gl.glTranslatef(-588.64f, 376f, DRAWING_DEPTH);
-			this.trainStation.draw(gl);
-			
-		}
-
-		@Override
-		public void loadTexture() {
-			this.trainStation.loadTexture(gl, context, R.drawable.texture_train_station, Texture.AspectRatio.BitmapOneToOne);
-			
-		}
+	/** Initialises the list of renderable groups. */
+	public final void initiaslise(Context context) {
+	    this.renderableGroups = new ArrayList<RenderableGroup>();
+	    
+	    //Start by creating the stations object, and calculate the stopping positions
+        dk.aau.cs.giraf.train.opengl.game.Station station = new dk.aau.cs.giraf.train.opengl.game.Station(gl, context, this);
+        station.calculateStoppingPositions();
+        
+        // add RenderableGroups to the list in the order they should be drawn
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Weather(gl, context, this));
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Middleground(gl, context, this));
+        this.renderableGroups.add(station);
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Train(gl, context, this));
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.TrainSmoke(gl, context, this));
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Wheels(gl, context, this));
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Overlay(gl, context, this));
+        
+        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Tester(gl, context, this)); // Always draw last
+	}
+	
+	/** Destroys all the renderable groups. Must be initialised again.
+	 *  @see GameDrawer#initiaslise(Context) */
+	public void freeMemory() {
+	    this.renderableGroups = null;
+	}
+	
+	/** Draw everything on screen. */
+	public synchronized final void drawGame() {
+	    this.resetPosition();
+	    
+	    GameData.systemTimeNow = System.nanoTime();
+	    
+	    GameData.updateData();
+	    
+		for (int i = 0; i < this.renderableGroups.size(); i++) {
+		    this.renderableGroups.get(i).draw();
+        }
+		
+		GameData.systemTimeLast = GameData.systemTimeNow;
 	}
 
-	private final class Train implements GameDrawableTexture {
-
-		private Texture train = new Texture(1.0f, 1.0f);
-		private Texture wagon = new Texture(1.0f, 1.0f);
-		private Square shaft = new Square(40f, 3f);
-
-		@Override
-		public void draw() {
-			gl.glLoadIdentity(); // reset the position
-
-			gl.glTranslatef(-542.32f, -142.72f, DRAWING_DEPTH);
-			this.wagon.draw(gl);
-
-			gl.glTranslatef(314.87f, -152f, 0f);
-			this.shaft.draw(gl, new Color(0f, 0f, 0f, 1f));
-
-			gl.glTranslatef(40f, 152f, 0f);
-			this.wagon.draw(gl);
-
-			gl.glTranslatef(314.87f, -152f, 0f);
-			this.shaft.draw(gl, new Color(0f, 0f, 0f, 1f));
-
-			gl.glTranslatef(33f, 242.35f, 0f);
-			this.train.draw(gl);
-	}
-
-		@Override
-		public void loadTexture() {
-			this.wagon.loadTexture(gl, context, R.drawable.texture_wagon, Texture.AspectRatio.BitmapOneToOne);
-			this.train.loadTexture(gl, context, R.drawable.texture_train, Texture.AspectRatio.BitmapOneToOne);
-
+	/** Call all {@link RenderableGroup#load()} from {@link GameDrawer#renderableGroups}. */
+	public final void loadGame() {
+		for (RenderableGroup renderableGroup : this.renderableGroups) {
+			renderableGroup.load();
 		}
 	}
 	
-	private final class Wheels implements GameDrawableTexture {
-		
-		private Texture largeWheel = new Texture(1.0f, 1.0f); // wheel diameter 106.4
-		private Texture mediumWheel = new Texture(1.0f, 1.0f); // wheel diameter 78.71
-		private Texture smallWheel = new Texture(1.0f, 1.0f); // wheel diameter 60.8
-		private Texture wheelShaft = new Texture(1.0f, 1.0f);
-		private Texture ground = new Texture(1280.0f, 21.0f); // should be 1280.0 , 21.0
+	/**
+	 * Moves the current position to the coordinate.
+	 * @param coordinate is the position to translate to.
+	 * @see #translate(float, float, float)
+	 */
+	public final void translateTo(Coordinate coordinate) {
+	    this.translate(coordinate.getX() - this.currentPosition.getX(),
+	              coordinate.getY() - this.currentPosition.getY(),
+	              coordinate.getZ() - this.currentPosition.getZ());
+	}
+	
+	/**
+	 * Translate by the specified amount.
+	 * @param x direction
+	 * @param y direction
+	 * @param z direction
+	 */
+	private final void translate(float x, float y, float z) {
+	    this.gl.glTranslatef(x, y, z);
 
-		@Override
-		public void draw() {
-			
-			//Wagon wheels			
-			gl.glLoadIdentity(); // reset the position
-			
-			gl.glTranslatef(-507.08f, -277.04f, DRAWING_DEPTH);
-			this.mediumWheel.draw(gl);
-
-			gl.glTranslatef(167.56f, 0f, 0f);
-			this.mediumWheel.draw(gl);
-			
-			gl.glTranslatef(187.38f, 0f, 0f);
-			this.mediumWheel.draw(gl);
-			
-			gl.glTranslatef(167.56f, 0f, 0f);
-			this.mediumWheel.draw(gl);
-			
-			//Train wheels
-			gl.glLoadIdentity(); // reset the position
-			
-			gl.glTranslatef(191.02f, -250.74f, DRAWING_DEPTH);
-			this.largeWheel.draw(gl);
-			
-			gl.glTranslatef(153.56f, -45.6f, 0f);
-			this.smallWheel.draw(gl);
-		
-			gl.glTranslatef(79.55f, 0f, 0f);
-			this.smallWheel.draw(gl);
-			
-			gl.glTranslatef(-43.17f, -42.48f, 0f);
-			this.wheelShaft.draw(gl);
-			
-			//Ground
-			gl.glLoadIdentity();
-			
-			gl.glTranslatef(-640f, -356f, DRAWING_DEPTH);
-			this.ground.draw(gl);
-		}
-
-		@Override
-		public void loadTexture() {
-			this.mediumWheel.loadTexture(gl, context, R.drawable.texture_wheel_medium, Texture.AspectRatio.BitmapOneToOne);
-			this.largeWheel.loadTexture(gl, context, R.drawable.texture_wheel_large, Texture.AspectRatio.BitmapOneToOne);
-			this.smallWheel.loadTexture(gl, context, R.drawable.texture_wheel_small, Texture.AspectRatio.BitmapOneToOne);
-			this.wheelShaft.loadTexture(gl, context, R.drawable.texture_wheel_shaft, Texture.AspectRatio.BitmapOneToOne);
-			this.ground.loadTexture(gl, context, R.drawable.texture_ground_mini);
-		}
+        this.currentPosition.moveX(x);
+        this.currentPosition.moveY(y);
+        this.currentPosition.moveZ(z);
+	}
+	
+	/** Load identity and reset the current coordinate to 0. */
+	private final void resetPosition() {
+	    this.gl.glLoadIdentity();
+	    this.currentPosition.resetCoordinate();
+	}
+	
+	/**
+	 * Gets a random number between the specified boundaries.
+	 * @param minimum is the minimum value of the random number.
+	 * @param maximum is the maximum value of the random number.
+	 * @return A random floating point number between minimum and maximum.
+	 * @see Random
+	 */
+	public final float getRandomNumber(float minimum, float maximum) {
+	    return minimum + (maximum - minimum) * this.random.nextFloat();
+	}
+	
+	/**
+     * Gets a random number between the specified boundaries.
+     * @param minimum is the minimum value of the random number.
+     * @param maximum is the maximum value of the random number.
+     * @return A random integer between minimum and maximum.
+     * @see Random
+     */
+	public final int getRandomNumber(int minimum, int maximum) {
+	    return this.random.nextInt(maximum - minimum + 1) + minimum;
 	}
 }

@@ -8,16 +8,15 @@ import javax.microedition.khronos.opengles.GL10;
 
 /**
  * An abstract class used for drawing shapes.
- * 
- * @author jerian
- *
+ * @author Jesper
+ * @see Renderable
  */
-public abstract class Shape {
+public abstract class Shape extends Renderable {
     
     /** The width of the shape. */
-    private float width = 0.0f;
+    private float width;
     /** The height of the shape. */
-    private float height = 0.0f;
+    private float height;
     
     /** The buffer holding the vertices. */
     private FloatBuffer vertexBuffer;
@@ -82,18 +81,12 @@ public abstract class Shape {
         return this.vertices;
     }
     
-    /**
-     * Get the width.
-     * @return float width
-     */
+    @Override
     public float getWidth() {
         return this.width;
     }
     
-    /**
-     * Get the height.
-     * @return float height
-     */
+    @Override
     public float getHeight() {
         return this.height;
     }
@@ -118,15 +111,17 @@ public abstract class Shape {
     
     /**
      * Draws the shape with a standard drawing method.
-     * This method calls {@link #draw(GL10, float, float, float, float)} and sets the color to white with no transparency.
+     * This method calls {@link #draw(GL10, Color)} and sets the color to white with no transparency.
      * This should be sufficient to draw squares and triangles,
      * the method should be overridden though.
      * 
-     * @param gl the GL10 instance.
-     * @see #draw(GL10 gl, float red, float green, float blue, float alpha)
+     * @param gl         the {@link GL10} instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
+     * @see #draw(GL10 gl, Color color)
      */
-    public void draw(GL10 gl) {
-        this.draw(gl, new Color()); // white, no tranparency
+    @Override
+    public void draw(GL10 gl, Coordinate coordinate) {
+        this.draw(gl, coordinate, Color.White);
     }
     
     /**
@@ -134,19 +129,18 @@ public abstract class Shape {
      * This should be sufficient to draw squares and triangles,
      * the method should be overridden though.
      * 
-     * @param gl    the GL10 instance.
-     * @param red   a value between 0.0f and 1.0f.
-     * @param green a value between 0.0f and 1.0f.
-     * @param blue  a value between 0.0f and 1.0f.
-     * @param alpha a value between 0.0f and 1.0f.
+     * @param gl         the {@link GL10} instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
+     * @param color      the color overlay for this shape
      * @see #draw(GL10)
      */
-    public void draw(GL10 gl, Color color) {
+    @Override
+    public void draw(GL10 gl, Coordinate coordinate, Color color) {
         //Set the color of the shape
         gl.glColor4f(color.red, color.green, color.blue, color.alpha);
         
         //Set the face rotation
-        gl.glFrontFace(GL10.GL_CW); // TODO further investigation nedded
+        gl.glFrontFace(GL10.GL_CW);
         
         //Point to our vertex buffer
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, this.getVertexBuffer());
@@ -159,5 +153,45 @@ public abstract class Shape {
         
         //Disable the client state before leaving
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+    }
+    
+    /**
+     * Rotate the shape around its center by the specified angle and draw it.
+     * @param gl         the {@link GL10} instance.
+     * @param coordinate where where the {@link Renderable} is being drawn.
+     * @param angle      amount to rotate.
+     */
+    public void rotateCenterAndDraw(GL10 gl, Coordinate coordinate, float angle) {
+        this.rotateCenterAndDraw(gl, coordinate, angle, Color.White);
+    }
+    
+    /**
+     * Rotate the shape around its center by the specified angle and draw it.
+     * @param gl         the the {@link GL10} instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
+     * @param angle      amount to rotate.
+     * @param color      the color overlay for this shape.
+     */
+    public void rotateCenterAndDraw(GL10 gl, Coordinate coordinate, float angle, Color color) {
+        //first move half width/height. This will be the center of the shape
+        gl.glTranslatef(this.getWidth()/2, -this.getHeight()/2, 0f);
+        
+        //create a new drawing matrix at the shape's center
+        gl.glPushMatrix();
+        
+        //then rotate the matrix
+        gl.glRotatef(angle, 0f, 0f, 1f);
+        
+        //then move the shape, in the new matrix, to align the center of the shape with the center of the matrix
+        gl.glTranslatef(-this.getWidth()/2, this.getHeight()/2, 0f);
+        
+        //draw
+        this.draw(gl, coordinate, color);
+        
+        //discard the matrix
+        gl.glPopMatrix();
+        
+        //then move back to where the original matrix were
+        gl.glTranslatef(-this.getWidth()/2, this.getHeight()/2, 0f);
     }
 }

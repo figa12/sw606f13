@@ -12,22 +12,37 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+/**
+ * 
+ * @author figa
+ *
+ */
+public class CustomiseListView extends ListView {
+	
+	ArrayList<Station> stations = new ArrayList<Station>();
+	CustomiseAdapter adapter;
 
-public class CustomiseView extends ListView {
-
-	public CustomiseView(Context context, AttributeSet attrs) {
+	public CustomiseListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 		
 		Station station1 = new Station("STATION 1");
 		Station station2 = new Station("STATION 2");
-		ArrayList<Station> stations = new ArrayList<Station>();
+		Station station3 = new Station("STATION 3");
+		
 		stations.add(station1);
 		stations.add(station2);
+		stations.add(station3);
 		
-		CustomiseAdapter adapter = new CustomiseAdapter(this.getContext(), android.R.layout.simple_list_item_1, stations);
+		this.adapter = new CustomiseAdapter(this.getContext(), android.R.layout.simple_list_item_1, stations);
 		setAdapter(adapter);
+	}
+	
+	public void addStation(Station station) {
+		this.stations.add(station);
+		adapter.setCategories(this);
+		//adapter.notifyDataSetChanged();
 	}
 	
 }
