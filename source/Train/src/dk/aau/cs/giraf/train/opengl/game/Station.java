@@ -38,7 +38,7 @@ public final class Station extends RenderableGroup {
     private Texture yellowTrainStation = new Texture(1.0f, 1.0f);
     private Texture blueTrainStation = new Texture(1.0f, 1.0f);
     private Texture platform = new Texture(1280f, 100f);
-    private Square trainStopper = new Square(150f, 150f);
+    private Texture trainBufferStop = new Texture(1f, 1f);
     
     private RenderableMatrix stationPlatformMatrix = new RenderableMatrix();
     
@@ -53,14 +53,13 @@ public final class Station extends RenderableGroup {
         this.yellowTrainStation.loadTexture(super.gl, super.context, R.drawable.texture_yellow_train_station, Texture.AspectRatio.BitmapOneToOne);
         this.blueTrainStation.loadTexture(super.gl, super.context, R.drawable.texture_blue_train_station, Texture.AspectRatio.BitmapOneToOne);
         this.platform.loadTexture(super.gl, super.context, R.drawable.texture_platform, Texture.AspectRatio.BitmapOneToOne);
+        this.trainBufferStop.loadTexture(super.gl, super.context, R.drawable.texture_train_buffer_stop, Texture.AspectRatio.BitmapOneToOne);
         
         //Add stations to list and randomise
         ArrayList<StationContainer> stations = new ArrayList<StationContainer>();
         stations.add(new StationContainer(redTrainStation, 364f + (640f - 588.64f) - 16f, 583f));  
         stations.add(new StationContainer(blueTrainStation, 364f + (640f - 588.64f) - 16f, 583f));
         stations.add(new StationContainer(yellowTrainStation, 364f + (640f - 588.64f) - 16f, 583f));
-
-
         
         Collections.shuffle(stations);
         LinkedList<StationContainer> stationsQueue = this.getQueue(stations);
@@ -79,7 +78,7 @@ public final class Station extends RenderableGroup {
         
         xPosition -= (GameData.distanceBetweenStations + this.platform.getWidth());
         
-        this.stationPlatformMatrix.addRenderableMatrixItem(this.trainStopper, new Coordinate(xPosition + 1575f, 0f, 0f), Color.Black);
+        this.stationPlatformMatrix.addRenderableMatrixItem(this.trainBufferStop, new Coordinate(xPosition + 1540f, -5f, 0f));
     }
     
     public final void calculateStoppingPositions() {
