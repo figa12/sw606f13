@@ -11,7 +11,6 @@ public class RowButton extends FrameLayout {
 
 	public RowButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

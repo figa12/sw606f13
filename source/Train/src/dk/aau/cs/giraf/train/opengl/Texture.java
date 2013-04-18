@@ -147,7 +147,7 @@ public class Texture extends Square implements Renderable.Texture {
         gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
         
         //Set the face rotation
-        gl.glFrontFace(GL10.GL_CW); // TODO further investigation nedded
+        gl.glFrontFace(GL10.GL_CW);
         
         //Enable the vertex and texture state
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, super.getVertexBuffer());

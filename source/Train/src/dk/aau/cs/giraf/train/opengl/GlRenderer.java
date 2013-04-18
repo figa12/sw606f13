@@ -2,6 +2,8 @@ package dk.aau.cs.giraf.train.opengl;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import dk.aau.cs.giraf.train.opengl.game.GameData;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
@@ -18,8 +20,8 @@ import android.util.TimingLogger;
 public class GlRenderer implements Renderer {
     
     /* Constants */
-    protected static final float NEAR_CLIPPING_PLANE_DEPTH = 907.0f;
-    protected static final float FAR_CLIPPING_PLANE_DEPTH = 5000.0f;
+    protected static final float NEAR_CLIPPING_PLANE_DEPTH = -(GameData.FOREGROUND + 0.1f);
+    protected static final float FAR_CLIPPING_PLANE_DEPTH  = -(GameData.BACKGROUND - 0.1f);
     protected static final float FIELD_OF_VIEW_ANGLE = 45.0f;
     
     /** The width of the GLSurfaceView */
@@ -83,20 +85,23 @@ public class GlRenderer implements Renderer {
         GlRenderer.surfaceWidth = width;
         GlRenderer.surfaceHeight = height;
         
-        gl.glViewport(0, 0, width, height); 	//Reset The Current Viewport
-        gl.glMatrixMode(GL10.GL_PROJECTION); 	//Select The Projection Matrix
-        gl.glLoadIdentity(); 					//Reset The Projection Matrix
+        gl.glViewport(0, 0, width, height);   //Reset The Current Viewport
+        gl.glMatrixMode(GL10.GL_PROJECTION);  //Select The Projection Matrix
+        gl.glLoadIdentity();                  //Reset The Projection Matrix
         
-        //Calculate The Aspect Ratio Of The Window
+        //Create the game perspective
         GLU.gluPerspective(gl, GlRenderer.FIELD_OF_VIEW_ANGLE, (float)width / (float)height, GlRenderer.NEAR_CLIPPING_PLANE_DEPTH, GlRenderer.FAR_CLIPPING_PLANE_DEPTH);
         
-        gl.glMatrixMode(GL10.GL_MODELVIEW); 	//Select The Modelview Matrix
-        gl.glLoadIdentity(); 					//Reset The Modelview Matrix
+        gl.glMatrixMode(GL10.GL_MODELVIEW);   //Select The Modelview Matrix
+        gl.glLoadIdentity();                  //Reset  The Modelview Matrix
         
         TimingLogger timingLogger = new TimingLogger(GlRenderer.class.getSimpleName(), "onSurfaceChanged");
-        this.gameDrawer.loadGame(); //Load all texture
+        this.gameDrawer.initiaslise(context); //(Re)initialise
+        this.gameDrawer.loadGame();           //Load all texture
         timingLogger.addSplit("loaded all textures");
         timingLogger.dumpToLog();
+        
+        //GameData.resetGameData();
     }
     
     /** 
@@ -132,7 +137,7 @@ public class GlRenderer implements Renderer {
         
         gl.glShadeModel(GL10.GL_SMOOTH);                    //Enable Smooth Shading
         
-        gl.glClearColor(1f, 1f, 1f, 1f);            //Set Background color
+        gl.glClearColor(1f, 1f, 1f, 1f);                    //Set Background color
         
         /* Set up the depth buffer */
         gl.glClearDepthf(1.0f);          //Depth Buffer Setup
@@ -148,5 +153,10 @@ public class GlRenderer implements Renderer {
         gl.glCullFace(GL10.GL_BACK);    // specify which faces to not draw
         
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST); // Really Nice Perspective Calculations
+    }
+    
+    /** Free memory when an instance state is saved. */
+    public void onSaveInstanceState() {
+        this.gameDrawer.freeMemory();
     }
 }

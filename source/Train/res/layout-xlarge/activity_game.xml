@@ -3,8 +3,9 @@
     android:id="@+id/RootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_gravity="center">
 
+    
     <FrameLayout
         android:id="@+id/openglframe"
         android:layout_width="match_parent"
@@ -15,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
-
+    
     <!-- Cart1 -->
 
     <LinearLayout
@@ -40,34 +41,6 @@
         android:orientation="horizontal" >
     </LinearLayout>
 
-    <!-- TrainStation -->
-
-    <!-- StationLeft -->
-    <LinearLayout
-        android:id="@+id/StationLeftLinearLayout"
-        android:layout_width="310dp"
-        android:layout_height="150dp"
-        android:layout_above="@id/Cart1LinearLayout"
-        android:layout_marginLeft="75dp"
-        android:layout_marginBottom="15dp"
-        android:orientation="horizontal" >
-     
-    </LinearLayout>
-
-    <!-- StationRight -->
-
-    <LinearLayout
-        android:id="@+id/StationRightLinearLayout"
-        android:layout_width="310dp"
-        android:layout_height="150dp"
-        android:layout_alignBottom="@id/StationLeftLinearLayout"
-        android:layout_marginLeft="100dp"
-        android:layout_toRightOf="@id/StationLeftLinearLayout"
-        android:orientation="horizontal" 
-        android:clipChildren="true">
-
-    </LinearLayout>
-
     <!-- TrainDriver -->
 
     <LinearLayout
@@ -81,6 +54,49 @@
         android:orientation="horizontal" >
     </LinearLayout>
 
+    <!-- TrainStation -->
+
+
+    <!-- StationLeft -->
+
+    <LinearLayout
+        android:id="@+id/StationLeftLinearLayout"
+        android:layout_width="310dp"
+        android:layout_height="150dp"
+        android:layout_above="@id/Cart1LinearLayout"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="40dp"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <!-- StationRight -->
+
+    <LinearLayout
+        android:id="@+id/StationRightLinearLayout"
+        android:layout_width="310dp"
+        android:layout_height="150dp"
+        android:layout_alignBottom="@id/StationLeftLinearLayout"
+        android:layout_marginLeft="140dp"
+        android:layout_toRightOf="@id/StationLeftLinearLayout"
+        android:orientation="horizontal" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/FluteLinearLayout"
+        android:layout_width="100dp"
+        android:layout_height="250dp"
+        android:layout_alignTop="@id/StationRightLinearLayout"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/FluteImageButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/texture_sun" />
+    </LinearLayout>
+
     <!-- StationCategory -->
 
     <LinearLayout
@@ -88,8 +104,8 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="355dp"
         android:layout_marginTop="30dp"
-        android:layout_marginLeft="385dp"
         android:orientation="horizontal" >
     </LinearLayout>
 

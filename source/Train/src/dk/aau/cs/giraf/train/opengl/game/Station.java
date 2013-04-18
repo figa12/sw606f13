@@ -35,6 +35,8 @@ public final class Station extends RenderableGroup {
     }
     
     private Texture redTrainStation = new Texture(1.0f, 1.0f);
+    private Texture yellowTrainStation = new Texture(1.0f, 1.0f);
+    private Texture blueTrainStation = new Texture(1.0f, 1.0f);
     private Texture platform = new Texture(1280f, 100f);
     private Square trainStopper = new Square(150f, 150f);
     
@@ -43,16 +45,22 @@ public final class Station extends RenderableGroup {
     @Override
     public final void load() {
         //Add coordinates to the renderables
-        this.redTrainStation.addCoordinate(-588.64f, 376f, GameData.FOREGROUND);
+        //this.redTrainStation.addCoordinate(-588.64f, 376f, GameData.FOREGROUND);
         this.stationPlatformMatrix.addCoordinate(-640f, -207f, GameData.FOREGROUND);
         
         //Load the textures
-        this.redTrainStation.loadTexture(super.gl, super.context, R.drawable.texture_train_station, Texture.AspectRatio.BitmapOneToOne);
+        this.redTrainStation.loadTexture(super.gl, super.context, R.drawable.texture_red_train_station, Texture.AspectRatio.BitmapOneToOne);
+        this.yellowTrainStation.loadTexture(super.gl, super.context, R.drawable.texture_yellow_train_station, Texture.AspectRatio.BitmapOneToOne);
+        this.blueTrainStation.loadTexture(super.gl, super.context, R.drawable.texture_blue_train_station, Texture.AspectRatio.BitmapOneToOne);
         this.platform.loadTexture(super.gl, super.context, R.drawable.texture_platform, Texture.AspectRatio.BitmapOneToOne);
         
         //Add stations to list and randomise
         ArrayList<StationContainer> stations = new ArrayList<StationContainer>();
-        stations.add(new StationContainer(redTrainStation, 364f + (640f - 588.64f) - 16f, 583f));
+        stations.add(new StationContainer(redTrainStation, 364f + (640f - 588.64f) - 16f, 583f));  
+        stations.add(new StationContainer(blueTrainStation, 364f + (640f - 588.64f) - 16f, 583f));
+        stations.add(new StationContainer(yellowTrainStation, 364f + (640f - 588.64f) - 16f, 583f));
+
+
         
         Collections.shuffle(stations);
         LinkedList<StationContainer> stationsQueue = this.getQueue(stations);
@@ -62,7 +70,7 @@ public final class Station extends RenderableGroup {
         
         for (int i = 0; i < GameData.numberOfStations; i++) {
             StationContainer nextStation = stationsQueue.pop();
-            stationsQueue.push(nextStation);
+            stationsQueue.add(nextStation);
             this.stationPlatformMatrix.addRenderableMatrixItem(nextStation.station, new Coordinate(xPosition + nextStation.xOffset, nextStation.yOffset, 0f));
             this.stationPlatformMatrix.addRenderableMatrixItem(this.platform, new Coordinate(xPosition, 0f, 0f));
             
@@ -77,6 +85,9 @@ public final class Station extends RenderableGroup {
     public final void calculateStoppingPositions() {
         //Unfortunately we need the size of the platform now
         this.platform.loadTexture(super.gl, super.context, R.drawable.texture_platform, Texture.AspectRatio.BitmapOneToOne);
+        
+        //Make new array
+        GameData.nextStoppingPosition = new float[GameData.numberOfStations];
         
         //Calculate all stopping positions
         GameData.nextStoppingPosition[0] = GameData.distanceBetweenStations + this.platform.getWidth();

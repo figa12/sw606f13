@@ -18,12 +18,10 @@ public class PictogramButton extends FrameLayout {
 
 	public PictogramButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public PictogramButton(Context context) { 
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
