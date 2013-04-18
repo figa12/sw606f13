@@ -41,7 +41,8 @@ public class CustomiseListView extends ListView {
 	
 	public void addStation(Station station) {
 		this.stations.add(station);
-		adapter.notifyDataSetChanged();
+		adapter.setCategories(this);
+		//adapter.notifyDataSetChanged();
 	}
 	
 }

@@ -82,10 +82,12 @@ public class CustomiseAdapter extends ArrayAdapter<Station> {
 			if (testTextView != null) {
 				testTextView.setText(station.ID);
 			}
-
+			
+			/*
 			if(parent != null) {
 			setCategories(parent);
 			}
+			*/
 			
 			if (categoryButton.getChildAt(0) != null && categoryButton != null && categoryButton.getChildAt(0) instanceof Pictogram) {
 				categoryButton.removeAllViews();
