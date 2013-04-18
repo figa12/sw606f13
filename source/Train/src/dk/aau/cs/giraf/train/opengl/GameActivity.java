@@ -110,7 +110,6 @@ public class GameActivity extends Activity {
 		linearLayoutParams2.weight = 1;
 
 		FrameLayout frameLayout2 = new FrameLayout(this);
-		frameLayout2.setOnDragListener(new DragListener());
 		frameLayout2.setBackgroundDrawable(normalShape);
 		stationCategoryLinear.addView(frameLayout2, linearLayoutParams2);
 
@@ -121,7 +120,6 @@ public class GameActivity extends Activity {
 		linearLayoutParams.weight = 1;
 
 		FrameLayout frameLayout = new FrameLayout(this);
-		frameLayout.setOnDragListener(new DragListener());
 		frameLayout.setBackgroundDrawable(normalShape);
 		trainDriverLinear.addView(frameLayout, linearLayoutParams);
 
@@ -173,21 +171,22 @@ public class GameActivity extends Activity {
 				Pictogram p = PictoFactory.INSTANCE.getPictogram(this, 1L);
 				p.renderImage();
 				p.renderText();
-				p.setOnTouchListener(new TouchListener());
-				// p.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape));
-				// // to test
+				int test = R.id.TrainDriverLinearLayout;
+				int bla = linearPictograms.get(i).getId();
+				if(bla == test || bla == R.id.StationCategoryLinearLayout){
+					//Do not add TouchListener on Traindriver and StationCategory
+				}
+				else {
+					p.setOnTouchListener(new TouchListener());
+				}
 
 				FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(
 						FrameLayout.LayoutParams.MATCH_PARENT,
 						FrameLayout.LayoutParams.MATCH_PARENT);
-
 				try {
-					((FrameLayout) linearPictograms.get(i).getChildAt(j))
-							.addView(p, frameLayoutParams);
-					((FrameLayout) linearPictograms.get(i).getChildAt(j))
-							.setTag("filled");
-					((FrameLayout) linearPictograms.get(i).getChildAt(j)).setBackgroundDrawable(getResources().getDrawable(
-							R.drawable.shape));
+					((FrameLayout) linearPictograms.get(i).getChildAt(j)).addView(p, frameLayoutParams);
+					((FrameLayout) linearPictograms.get(i).getChildAt(j)).setTag("filled");
+					((FrameLayout) linearPictograms.get(i).getChildAt(j)).setBackgroundDrawable(getResources().getDrawable(R.drawable.shape));
 				} catch (Exception e) {
 					Log.d(GameActivity.class.getSimpleName(),
 							"Null value, when adding pictograms to FrameLayouts");
@@ -211,17 +210,35 @@ public class GameActivity extends Activity {
 	public static void trainDrive(boolean drive){
 		if (drive) {
 			if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations - 1) {
-				for (LinearLayout lin : stationLinear) {
-					lin.setVisibility(View.INVISIBLE);
+				boolean readyToGo = true;
+				if(GameData.numberOfStops == 0){
+					for (LinearLayout lin : stationLinear) {
+						for (int i = 0; i< lin.getChildCount();i++) {
+							FrameLayout frame = (FrameLayout)lin.getChildAt(i);
+							if(frame.getChildAt(0) != null){
+								readyToGo = false;
+							}
+						}
+					}
 				}
-
-				stationCategoryLinear.setVisibility(View.INVISIBLE);
+				else{
+					//check if it is the correct pictogram on the right station.
+				}
 				
-				//check if all stations are empty so train is ready to go.
-				GameData.accelerateTrain();
-				soundPool.play(sound, 1f, 1f, 0, 0, 0.75f);
-                //Make LinearLayouts invisble or animate
-				fluteButton.setVisibility(View.INVISIBLE);
+				if(readyToGo){
+					for (LinearLayout lin : stationLinear) {
+						lin.setVisibility(View.INVISIBLE);
+					}
+	
+					stationCategoryLinear.setVisibility(View.INVISIBLE);
+					
+					//check if all stations are empty so train is ready to go.
+					
+					GameData.accelerateTrain();
+					soundPool.play(sound, 1f, 1f, 0, 0, 0.75f);
+	                //Make LinearLayouts invisble or animate
+					fluteButton.setVisibility(View.INVISIBLE);
+				}
             }
 			
 		} else {
