@@ -25,71 +25,39 @@ import android.widget.TextView;
 public class CustomiseAdapter extends ArrayAdapter<Station> {
 	
 	private ArrayList<Station> items;
+	private CustomiseListView listView;
 
-	public CustomiseAdapter(Context context,	int textViewResourceId, ArrayList<Station> items) {
+	public CustomiseAdapter(Context context,	int textViewResourceId, ArrayList<Station> items, CustomiseListView listView) {
 		super(context, textViewResourceId, items);
 		
 		this.items = items;
+		this.listView = listView;
 	}
-	
-	private static class ViewHolder {
-        int position;
-}
-	
-	private HashMap holders = new HashMap();
+
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
-		if (convertView == null) {
+
 			LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(
 					Context.LAYOUT_INFLATER_SERVICE);
 			convertView = layoutInflater.inflate(R.layout.customise_list, null);
 			
-			holder = new ViewHolder();
-			holder.position = position;
-			
 			final ImageView deleteButton = (ImageView)
 					convertView.findViewById(R.id.deleteRowasdf);
 			
-			deleteButton.setOnClickListener(new ClickListener());
-			
-			convertView.setTag(holder);
-	        deleteButton.setTag(holder);
-	        
-	        
-		} else {
-			holder = (ViewHolder) convertView.getTag();
-		}
-		
-		holder.position = position;
-		holders.put(holder.position, holder);
-		
+			deleteButton.setOnClickListener(new ClickListener(position));		
 		
 		
 		Station station = items.get(position);
-		//if (fl.getChildAt(0) != null) {layout
-		//s.category = (Pictogram) fl.getChildAt(0);
-		//}
 		
 		if (station != null) {
 			/* Find station */
 			PictogramButton categoryButton = (PictogramButton) convertView.findViewById(R.id.list_category);
 			TextView testTextView = (TextView) convertView.findViewById(R.id.testytest);
 			
-			//DeleteRowButton dr = (DeleteRowButton) v.findViewById(R.id.deleteRowasdf);
+			testTextView.setText(station.ID);
 			
-			if (testTextView != null) {
-				testTextView.setText(station.ID);
-			}
-			
-			/*
-			if(parent != null) {
-			setCategories(parent);
-			}
-			*/
-			
-			if (categoryButton.getChildAt(0) != null && categoryButton != null && categoryButton.getChildAt(0) instanceof Pictogram) {
+			if (station.category != null) {
 				categoryButton.removeAllViews();
 				Pictogram tempCategory = station.category;
 				PictogramButton tempParent = (PictogramButton) tempCategory.getParent();
@@ -102,70 +70,21 @@ public class CustomiseAdapter extends ArrayAdapter<Station> {
 		}
 		return convertView;	
 		
-	}
-	
-	public void setCategories(ViewGroup list) {
-		int totalChildren = list.getChildCount();
-		
-		for (int i=0; i<totalChildren; i++) {
-			LinearLayout listItem = (LinearLayout) list.getChildAt(i);
-			LinearLayout categoryLayout = (LinearLayout) listItem.getChildAt(0);
-			PictogramButton button = (PictogramButton) categoryLayout.getChildAt(0);
-			
-			if (button.getChildAt(0) != null) {
-				Pictogram category = (Pictogram) button.getChildAt(0);
-				if(i >= this.items.size()) {
-					return;
-				}
-				Station station = this.items.get(i);
-				station.category = category;
-				this.items.set(i, station);
-				notifyDataSetChanged();
-			}
-		}
-	}
-	
+	}	
 	
 	private final class ClickListener implements OnClickListener {
+		
+		private int position;
+		
+		private ClickListener(int position) {
+			this.position = position;
+		}
 		
 		
 		@Override
 		public void onClick(View view) {
 			
-			View parent = (View) view.getParent();
-			ViewGroup grandparent = (ViewGroup) parent.getParent();
-			CustomiseListView list = (CustomiseListView) grandparent.getParent();
-			CustomiseAdapter.this.setCategories(list);
-			
-			
-			 //LinearLayout firstParentView = (LinearLayout) v.getParent();
-			 //LinearLayout secondParentView = (LinearLayout) firstParentView.getParent();
-			 
-			 //LinearLayout tempview = (LinearLayout) secondParentView.getChildAt(0);
-			 
-			 //for(Station item : items) {
-				//final PictogramButton itemCategory = (PictogramButton) secondParentView.findViewById(R.id.list_category);
-				//holder.pictogram = itemCategory;
-				//item.category = (Pictogram) itemCategory.getChildAt(0);
-				
-			 //}
-			
-		    ViewHolder deleteHolder = (ViewHolder) view.getTag();
-		    
-		    int pos = deleteHolder.position;
-		    CustomiseAdapter.this.holders.remove(pos);
-
-
-		    ViewHolder currentHolder;
-
-		    // Shift 'position' of list items
-		    // down since 'pos' was deleted
-		    for(int i=pos+1; i<getCount(); i++){
-		        currentHolder = (ViewHolder) CustomiseAdapter.this.holders.get(i);
-		        currentHolder.position = i-1;
-		    }
-		    CustomiseAdapter.this.items.remove(pos);
-		    notifyDataSetChanged();
+			listView.removeStation(this.position);
 		}
 	}
 	
