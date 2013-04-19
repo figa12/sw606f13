@@ -53,7 +53,7 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_game);
 		
-		GameActivity.sound = soundPool.load(this, R.raw.koere, 1);
+		GameActivity.sound = soundPool.load(this, R.raw.train_whistle, 1);
 		
 		this.createPictogramLayouts(6);
 		
