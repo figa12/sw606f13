@@ -24,50 +24,40 @@ import android.widget.TextView;
 
 public class CustomiseAdapter extends ArrayAdapter<Station> {
 	
-	private ArrayList<Station> items;
 	private CustomiseListView listView;
 
 	public CustomiseAdapter(Context context,	int textViewResourceId, ArrayList<Station> items, CustomiseListView listView) {
 		super(context, textViewResourceId, items);
 		
-		this.items = items;
 		this.listView = listView;
+		this.setNotifyOnChange(false);
 	}
 
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+	    //Inflate the view every time, because getView behaves weird with the Pictogram view
+        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = layoutInflater.inflate(R.layout.customise_list, null);
+        
+        ImageView deleteButton = (ImageView) convertView.findViewById(R.id.deleteRowasdf);
+        deleteButton.setOnClickListener(new ClickListener(position));
+        
+		Station station = super.getItem(position);
+		
+        /* Find station */
+        PictogramButton categoryButton = (PictogramButton) convertView.findViewById(R.id.list_category);
+        TextView testTextView = (TextView) convertView.findViewById(R.id.testytest);
 
-			LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(
-					Context.LAYOUT_INFLATER_SERVICE);
-			convertView = layoutInflater.inflate(R.layout.customise_list, null);
-			
-			final ImageView deleteButton = (ImageView)
-					convertView.findViewById(R.id.deleteRowasdf);
-			
-			deleteButton.setOnClickListener(new ClickListener(position));		
-		
-		
-		Station station = items.get(position);
-		
-		if (station != null) {
-			/* Find station */
-			PictogramButton categoryButton = (PictogramButton) convertView.findViewById(R.id.list_category);
-			TextView testTextView = (TextView) convertView.findViewById(R.id.testytest);
-			
-			testTextView.setText(station.ID);
-			
-			if (station.category != null) {
-				categoryButton.removeAllViews();
-				Pictogram tempCategory = station.category;
-				PictogramButton tempParent = (PictogramButton) tempCategory.getParent();
-				if (tempParent != null) {
-					tempParent.removeAllViews();
-				}
-				categoryButton.addView(tempCategory);
-			}
-			
-		}
+        testTextView.setText(station.ID);
+
+        if (station.category != null) {
+            PictogramButton tempParent = (PictogramButton) station.category.getParent();
+            if (tempParent != null) {
+                tempParent.removeView(station.category);
+            }
+            categoryButton.addView(station.category);
+        }
 		return convertView;	
 		
 	}	
@@ -76,14 +66,12 @@ public class CustomiseAdapter extends ArrayAdapter<Station> {
 		
 		private int position;
 		
-		private ClickListener(int position) {
+		public ClickListener(int position) {
 			this.position = position;
 		}
 		
-		
 		@Override
 		public void onClick(View view) {
-			
 			listView.removeStation(this.position);
 		}
 	}

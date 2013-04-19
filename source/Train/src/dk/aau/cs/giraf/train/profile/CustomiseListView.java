@@ -46,8 +46,6 @@ public class CustomiseListView extends ListView {
 		this.stations.add(station);
 		this.adapter = new CustomiseAdapter(this.getContext(), android.R.layout.simple_list_item_1, stations, this);
 		this.setAdapter(adapter);
-		
-		//adapter.notifyDataSetChanged();
 	}
 	
 	public void removeStation(int position) {
