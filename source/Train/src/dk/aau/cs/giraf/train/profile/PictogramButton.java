@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 public class PictogramButton extends FrameLayout {
@@ -41,9 +42,7 @@ public class PictogramButton extends FrameLayout {
 			}
 			addView(p);
 
-			return true;
-		} else {
-			return false;
 		}
+		return true;
 	}
 }

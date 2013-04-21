@@ -10,9 +10,12 @@ import dk.aau.cs.giraf.train.R;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
 
 public class ProfileActivity extends Activity {
-	Guardian guardian = null;
+	private Guardian guardian = null;
+	private Intent intent = new Intent(Intent.ACTION_MAIN);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,5 +43,26 @@ public class ProfileActivity extends Activity {
 		listview.guardian = guardian;
 		listview.loadChildren();
 		
+		
+	    intent.setComponent(new ComponentName("dk.aau.cs.giraf.pictoadmin","dk.aau.cs.giraf.pictoadmin.PictoAdminMain"));
+	    
+		
+	}
+	
+	@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        
+        //If we did not receive any data or the result was not OK, abort
+        if(data == null || resultCode != RESULT_OK) {
+            return;
+        }
+        
+        Bundle extras = data.getExtras();
+        long[] checkout = extras.getLongArray("checkoutIds"); //Pictogram IDs
+    }
+	
+	public void startPictoAdmin(int requestCode) {
+		this.startActivityForResult(intent, requestCode);
 	}
 }

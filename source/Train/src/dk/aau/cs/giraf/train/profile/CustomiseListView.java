@@ -3,6 +3,7 @@ package dk.aau.cs.giraf.train.profile;
 import java.util.ArrayList;
 
 import dk.aau.cs.giraf.pictogram.PictoFactory;
+import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 /**
  * 
@@ -35,13 +37,38 @@ public class CustomiseListView extends ListView {
 		stations.add(station2);
 		stations.add(station3);
 		
-		this.adapter = new CustomiseAdapter(this.getContext(), android.R.layout.simple_list_item_1, stations);
-		setAdapter(adapter);
+		this.adapter = new CustomiseAdapter(this.getContext(), android.R.layout.simple_list_item_1, stations, this);
+		this.setAdapter(adapter);
 	}
 	
 	public void addStation(Station station) {
+		this.setCategories();
 		this.stations.add(station);
-		adapter.notifyDataSetChanged();
+		this.adapter = new CustomiseAdapter(this.getContext(), android.R.layout.simple_list_item_1, stations, this);
+		this.setAdapter(adapter);
+	}
+	
+	public void removeStation(int position) {
+		this.setCategories();
+		this.stations.remove(position);
+		this.adapter = new CustomiseAdapter(this.getContext(), android.R.layout.simple_list_item_1, stations, this);
+		this.setAdapter(adapter);
+	}
+	
+	public void setCategories() { 
+		
+		for (int i=0; i<this.getChildCount(); i++) {
+			LinearLayout listItem = (LinearLayout) this.getChildAt(i);
+			LinearLayout categoryLayout = (LinearLayout) listItem.getChildAt(0);
+			PictogramButton button = (PictogramButton) categoryLayout.getChildAt(0);
+			
+			if (button.getChildAt(0) != null) {
+				Pictogram category = (Pictogram) button.getChildAt(0);
+				Station station = this.stations.get(i);
+				station.category = category;
+				this.stations.set(i, station);
+			}
+		}
 	}
 	
 }

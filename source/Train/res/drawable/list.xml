@@ -21,7 +21,7 @@
      	   />
         </shape>
     </item>
-    <item android:state_selected="true" android:drawable="@drawable/list_selected"/>
+    <item android:state_selected="true" android:drawable="@drawable/list_item_selected"/>
     <item android:left="4dp" android:right="4dp" android:top="4dp" android:bottom="4dp">
 		<shape>
             <gradient 
