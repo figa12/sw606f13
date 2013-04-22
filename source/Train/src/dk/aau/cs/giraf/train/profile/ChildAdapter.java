@@ -17,7 +17,6 @@ import android.widget.TextView;
 public class ChildAdapter extends ArrayAdapter<Child> {
 	
 	private ArrayList<Child> children;
-	private Guardian guardian = Guardian.getInstance();
 	private int selectedPosition = 0;
 	private Child selectedChild;
 	
@@ -39,36 +38,28 @@ public class ChildAdapter extends ArrayAdapter<Child> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
 			LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = layoutInflater.inflate(R.layout.profile_list, null);
+			convertView = layoutInflater.inflate(R.layout.profile_list_item, null);
 		}
 		
-		// TODO: Insert pictures from admin
 		Child child = this.children.get(position);
 		
-		if (child != null) {
-			/* Find all the views */
-			ImageView profilePictureImageView = (ImageView) convertView.findViewById(R.id.profilePic);
-			TextView  profileNameTextView = (TextView) convertView.findViewById(R.id.profileName);
-			
-			/* Set the picture */
-			if (profilePictureImageView != null) {
-				//TODO: Insert pictures here
-				profilePictureImageView.setImageResource(R.drawable.default_profile);
-			}
-			
-			/* If this is either last used or predefined, change the name */
-			if (profileNameTextView != null) {
-				if (child.name == "Last Used") {
-					profileNameTextView.setText(R.string.last_used);
-				} else if (child.name == "Predefined Profiles") {
-					profileNameTextView.setText(R.string.predefined);
-				} else {
-					profileNameTextView.setText(child.name);
-				}
-			}
-		}
+        /* Find all the views */
+        ImageView profilePictureImageView = (ImageView) convertView.findViewById(R.id.profilePic);
+        TextView profileNameTextView = (TextView) convertView.findViewById(R.id.profileName);
+
+        //Set the picture 
+        profilePictureImageView.setImageResource(R.drawable.default_profile); //TODO: Insert pictures here
+
+        /* If this is either last used or predefined, change the name */
+        if (child.name == "Last Used") {
+            profileNameTextView.setText(R.string.last_used);
+        } else if (child.name == "Predefined Profiles") {
+            profileNameTextView.setText(R.string.predefined);
+        } else {
+            profileNameTextView.setText(child.name);
+        }
 		
-        /* Is this profile selected, then highlight */
+        //Is this profile selected, then highlight
         if (position == this.selectedPosition) {
             this.selectedChild = child;
             convertView.setBackgroundResource(R.drawable.list_item_selected);

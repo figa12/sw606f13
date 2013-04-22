@@ -30,7 +30,7 @@
           android:layout_height="1dp"
           android:background="@color/white" />
     
-    <dk.aau.cs.giraf.train.profile.CustomListView
+    <dk.aau.cs.giraf.train.profile.ChildrenListView
         android:id="@+id/profilelist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -142,9 +142,9 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="bottom|right">
-
-      <dk.aau.cs.giraf.train.profile.RowButton
-          android:id="@+id/testytestbuttontest"
+      
+      <FrameLayout
+          android:id="@+id/addStationButton"
           android:layout_width="100dp"
           android:layout_height="100dp"
           android:background="@color/green" />

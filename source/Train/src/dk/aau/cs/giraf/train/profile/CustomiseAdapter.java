@@ -38,7 +38,7 @@ public class CustomiseAdapter extends ArrayAdapter<Station> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 	    //Inflate the view every time, because getView behaves weird with the Pictogram view
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = layoutInflater.inflate(R.layout.customise_list, null);
+        convertView = layoutInflater.inflate(R.layout.station_list_item, null);
         
         ImageView deleteButton = (ImageView) convertView.findViewById(R.id.deleteRowButton);
         deleteButton.setOnClickListener(new ClickListener(position));

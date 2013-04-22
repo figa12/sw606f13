@@ -32,7 +32,7 @@ public class CustomiseLinearLayout extends LinearLayout {
         this.stations.add(station);
         
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View customiseItem = layoutInflater.inflate(R.layout.customise_list, null);
+        View customiseItem = layoutInflater.inflate(R.layout.station_list_item, null);
         
         PictogramButton categoryPictogramButton = (PictogramButton) customiseItem.findViewById(R.id.list_category);
         categoryPictogramButton.bindStation(station);
