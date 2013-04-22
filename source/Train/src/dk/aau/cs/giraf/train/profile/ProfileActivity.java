@@ -20,7 +20,7 @@ public class ProfileActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_profile);
+		super.setContentView(R.layout.activity_profile);
 		
 		/* Hardcoded game conficurations */
 		GameConfiguration game1 = new GameConfiguration(this, "Game 1", 0, -3);
@@ -44,9 +44,7 @@ public class ProfileActivity extends Activity {
 		listview.loadChildren();
 		
 		
-	    intent.setComponent(new ComponentName("dk.aau.cs.giraf.pictoadmin","dk.aau.cs.giraf.pictoadmin.PictoAdminMain"));
-	    
-		
+	    this.intent.setComponent(new ComponentName("dk.aau.cs.giraf.pictoadmin","dk.aau.cs.giraf.pictoadmin.PictoAdminMain"));
 	}
 	
 	@Override
@@ -63,6 +61,7 @@ public class ProfileActivity extends Activity {
     }
 	
 	public void startPictoAdmin(int requestCode) {
-		this.startActivityForResult(intent, requestCode);
+	    //this.intent.putExtra("hest", "multi"); //multi or single parameter, defines how many pictograms we are receiving
+		super.startActivityForResult(intent, requestCode);
 	}
 }

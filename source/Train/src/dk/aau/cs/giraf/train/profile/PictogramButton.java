@@ -36,12 +36,11 @@ public class PictogramButton extends FrameLayout {
             Random rand = new Random();
             int min = 1;
             int max = 5;
-            int randomNum = rand.nextInt(max - min + 1) + min;
-            long pictoID = (long) randomNum;
+            long pictoID = rand.nextInt(max - min + 1) + min;
             
-            //List<Pictogram> allPictograms = PictoFactory.INSTANCE.getAllPictograms(getContext());
             Pictogram pictogram = PictoFactory.INSTANCE.getPictogram(getContext(), pictoID);
             pictogram.renderImage();
+            pictogram.renderText();
             PictogramButton.this.removeAllViews();
             PictogramButton.this.addView(pictogram);
             

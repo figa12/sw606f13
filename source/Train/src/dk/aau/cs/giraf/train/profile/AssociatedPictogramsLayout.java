@@ -8,18 +8,31 @@ import android.widget.LinearLayout;
 
 public class AssociatedPictogramsLayout extends LinearLayout {
     
-    private ArrayList<PictogramButton> pictograms = new ArrayList<PictogramButton>();
+    private ArrayList<PictogramButton> pictogramButtons = new ArrayList<PictogramButton>();
+    private LinearLayout associatedPictogramLayout;
     
     public AssociatedPictogramsLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.setOrientation(HORIZONTAL);
+        super.setOrientation(HORIZONTAL);
         
-        this.addPictogram();
+        
     }
     
-    public void addPictogram() {
-        this.pictograms.add(new PictogramButton(this.getContext()));
+    public void addPictogram(PictogramButton pictogramButton) {
+        this.pictogramButtons.add(pictogramButton);
         
-        
+        //TODO 
+    }
+    
+    public void removePictogram(int index) {
+        if(index > this.pictogramButtons.size() - 1) {
+            return;
+        }
+        this.removeViewAt(index);
+        this.pictogramButtons.remove(index);
+    }
+    
+    public void removePictogram(PictogramButton pictogramButton) {
+        this.removePictogram(this.pictogramButtons.indexOf(pictogramButton));
     }
 }

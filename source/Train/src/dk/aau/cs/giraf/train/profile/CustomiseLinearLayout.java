@@ -52,8 +52,7 @@ public class CustomiseLinearLayout extends LinearLayout {
     }
     
     public void removeStation(Station station) {
-        this.removeViewAt(this.stations.indexOf(station));
-        this.stations.remove(station);
+        this.removeStation(this.stations.indexOf(station));
     }
     
     private final class RemoveClickListener implements OnClickListener {
