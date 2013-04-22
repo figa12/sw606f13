@@ -17,7 +17,7 @@ public class RowButton extends FrameLayout {
 	public boolean onTouchEvent(MotionEvent motionEvent) {
 		if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 			View view = (View) getRootView();
-			CustomiseListView list = (CustomiseListView) view.findViewById(R.id.customiseListView);
+			CustomiseLinearLayout list = (CustomiseLinearLayout) view.findViewById(R.id.customiseLinearLayout);
 			Station station = new Station("Newly added station");
 			list.addStation(station);
 

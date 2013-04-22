@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import dk.aau.cs.giraf.TimerLib.Child;
 import dk.aau.cs.giraf.TimerLib.Guardian;
+import dk.aau.cs.giraf.train.R;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -14,7 +15,9 @@ import android.widget.Toast;
 import android.view.View;
 
 public class CustomListView extends ListView {
-	public Guardian guardian;
+    
+	public Guardian guardian = Guardian.getInstance();
+	private ChildAdapter adapter;
 	
 	public CustomListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -25,18 +28,15 @@ public class CustomListView extends ListView {
 	public void loadChildren() {
 		ArrayList<Child> children = guardian.publishList();
 		
-		ChildAdapter adapter = new ChildAdapter(this.getContext(), android.R.layout.simple_list_item_1, children);
+		this.adapter = new ChildAdapter(this.getContext(), R.drawable.list, children);
 		
-		//String myStringArray[] = {"abc", "bcd", "cde", "def", "efg"};
-		//ArrayAdapter adapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, myStringArray);
-		setAdapter(adapter);
+		this.setAdapter(adapter);
 	}
 	
 	private OnItemClickListener messageClickedHandler = new OnItemClickListener() {
-		
-	    public void onItemClick(AdapterView parent, View v, int position, long id) {
-	    	Toast.makeText(getContext(), "Yay", Toast.LENGTH_SHORT).show();
+	    @Override
+	    public void onItemClick(AdapterView parent, View view, int position, long id) {
+	    	CustomListView.this.adapter.setSelectedPosition(position);
 	    }
-	};	
-	
+	};
 }

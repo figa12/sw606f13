@@ -53,7 +53,7 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_game);
 		
-		GameActivity.sound = soundPool.load(this, R.raw.koere, 1);
+		GameActivity.sound = soundPool.load(this, R.raw.train_whistle, 1);
 		
 		this.createPictogramLayouts(6);
 		
@@ -229,14 +229,14 @@ public class GameActivity extends Activity {
 					for (LinearLayout lin : stationLinear) {
 						lin.setVisibility(View.INVISIBLE);
 					}
-	
-					stationCategoryLinear.setVisibility(View.INVISIBLE);
-					
-					//check if all stations are empty so train is ready to go.
-					
 					GameData.accelerateTrain();
+					
 					soundPool.play(sound, 1f, 1f, 0, 0, 0.75f);
-	                //Make LinearLayouts invisble or animate
+	                
+					
+					
+					//Make LinearLayouts invisble or animate
+					stationCategoryLinear.setVisibility(View.INVISIBLE);
 					fluteButton.setVisibility(View.INVISIBLE);
 				}
             }
