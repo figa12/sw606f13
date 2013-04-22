@@ -105,10 +105,11 @@
                     
         </LinearLayout>        
         
-        <dk.aau.cs.giraf.train.profile.CustomiseListView
-            android:id="@+id/customiseListView"
+        <dk.aau.cs.giraf.train.profile.CustomiseLinearLayout
+            android:id="@+id/customiseLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
         
         <dk.aau.cs.giraf.train.profile.RowButton
 				android:id="@+id/testytestbuttontest"
