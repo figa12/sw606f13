@@ -34,8 +34,11 @@ public class CustomiseLinearLayout extends LinearLayout {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View customiseItem = layoutInflater.inflate(R.layout.customise_list, null);
         
+        PictogramButton categoryPictogramButton = (PictogramButton) customiseItem.findViewById(R.id.list_category);
+        categoryPictogramButton.bindStation(station);
+        
         ImageView deleteButton = (ImageView) customiseItem.findViewById(R.id.deleteRowasdf);
-        deleteButton.setOnClickListener(new ClickListener(station));
+        deleteButton.setOnClickListener(new RemoveClickListener(station));
         
         this.addView(customiseItem);
     }
@@ -53,11 +56,11 @@ public class CustomiseLinearLayout extends LinearLayout {
         this.stations.remove(station);
     }
     
-    private final class ClickListener implements OnClickListener {
+    private final class RemoveClickListener implements OnClickListener {
         
         private Station station;
         
-        public ClickListener(Station station) {
+        public RemoveClickListener(Station station) {
             this.station = station;
         }
         
