@@ -7,12 +7,11 @@ import dk.aau.cs.giraf.TimerLib.Guardian;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.train.Data;
 import dk.aau.cs.giraf.train.R;
-import dk.aau.cs.giraf.train.opengl.GameActivity;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -59,11 +58,11 @@ public class ProfileActivity extends Activity {
 	    
 		this.customiseLinearLayout = (CustomiseLinearLayout) super.findViewById(R.id.customiseLinearLayout);
 		
-		FrameLayout addStationButton = (FrameLayout) super.findViewById(R.id.addStationButton);
+		ImageButton addStationButton = (ImageButton) super.findViewById(R.id.addStationButton);
 		addStationButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Station station = new Station("Newly added station");
+                Station station = new Station();
                 ProfileActivity.this.customiseLinearLayout.addStation(station);
             }
         });
@@ -83,7 +82,21 @@ public class ProfileActivity extends Activity {
     }
 	
 	public void startPictoAdmin(int requestCode) {
-	    //this.intent.putExtra("hest", "multi"); //multi or single parameter, defines how many pictograms we are receiving
-		super.startActivityForResult(intent, requestCode);
+	    
+	    
+	    //requestCode defines how many pictograms we want to receive
+	    switch(requestCode) {
+	    case ProfileActivity.RECEIVE_SINGLE:
+	        this.intent.putExtra("hest", "single");
+	        break;
+	    case ProfileActivity.RECEIVE_MULTIPLE:
+	        this.intent.putExtra("hest", "multi");
+	        break;
+	    }
+	    
+		super.startActivityForResult(this.intent, requestCode);
 	}
+	
+	public static final int RECEIVE_SINGLE = 0;
+	public static final int RECEIVE_MULTIPLE = 1;
 }

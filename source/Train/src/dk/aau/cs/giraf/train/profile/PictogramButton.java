@@ -11,6 +11,8 @@ import android.widget.FrameLayout;
 
 public class PictogramButton extends FrameLayout {
     
+    private Station station;
+    
 	public PictogramButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -19,18 +21,25 @@ public class PictogramButton extends FrameLayout {
 		super(context);
 	}
 	
+	public void setPictogram(long pictogramId) {
+	    Pictogram pictogram = PictoFactory.INSTANCE.getPictogram(getContext(), pictogramId);
+        pictogram.renderImage();
+        pictogram.renderText();
+        
+        PictogramButton.this.removeAllViews();
+        PictogramButton.this.addView(pictogram);
+        
+        this.station.category = pictogram; //Save the pictogram inside the station
+	}
+	
 	public void bindStation(Station station) {
-	    this.setOnClickListener(new AddClickListener(station));
+	    this.station = station;
+	    
+	    this.setOnClickListener(new AddClickListener());
 	}
 	
 	private final class AddClickListener implements OnClickListener {
         
-	    private Station station;
-	    
-	    public AddClickListener(Station station) {
-	        this.station = station;
-	    }
-	    
         @Override
         public void onClick(View view) {
             Random rand = new Random();
@@ -44,7 +53,7 @@ public class PictogramButton extends FrameLayout {
             PictogramButton.this.removeAllViews();
             PictogramButton.this.addView(pictogram);
             
-            this.station.category = pictogram;
+            PictogramButton.this.station.category = pictogram;
         }
     }
 }

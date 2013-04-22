@@ -143,11 +143,12 @@
         android:layout_height="fill_parent"
         android:gravity="bottom|right">
       
-      <FrameLayout
+      <ImageButton
           android:id="@+id/addStationButton"
-          android:layout_width="100dp"
-          android:layout_height="100dp"
-          android:background="@color/green" />
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:background="@android:drawable/ic_menu_add"
+          android:contentDescription="@string/add_station" />
 
     </LinearLayout>
     

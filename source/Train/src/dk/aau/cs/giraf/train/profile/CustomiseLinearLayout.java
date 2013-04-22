@@ -18,14 +18,6 @@ public class CustomiseLinearLayout extends LinearLayout {
     
     public CustomiseLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        
-        Station station1 = new Station("STATION 1");
-        Station station2 = new Station("STATION 2");
-        Station station3 = new Station("STATION 3");
-        
-        this.addStation(station1);
-        this.addStation(station2);
-        this.addStation(station3);
     }
     
     public void addStation(Station station) {

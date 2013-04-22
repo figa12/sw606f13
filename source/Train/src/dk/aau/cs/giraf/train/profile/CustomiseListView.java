@@ -29,9 +29,9 @@ public class CustomiseListView extends ListView {
 	public CustomiseListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		
-		Station station1 = new Station("STATION 1");
-		Station station2 = new Station("STATION 2");
-		Station station3 = new Station("STATION 3");
+		Station station1 = new Station();
+		Station station2 = new Station();
+		Station station3 = new Station();
 		
 		stations.add(station1);
 		stations.add(station2);
