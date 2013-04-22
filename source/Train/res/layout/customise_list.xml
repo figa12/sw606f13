@@ -9,18 +9,19 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:orientation="horizontal"
-      android:background="@android:color/white" >
-
+      android:background="@drawable/list" >
+      
     <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="0dp"
-        android:layout_weight=".2" >
+        android:layout_weight=".2"
+        android:layout_marginLeft="-16dp"
+        android:gravity="center_vertical|center_horizontal">
       
       <dk.aau.cs.giraf.train.profile.PictogramButton
           android:id="@+id/list_category"
-          android:layout_width="100dp"
-          android:layout_height="100dp"
-          android:layout_marginLeft="14dp"
+          android:layout_width="75dp"
+          android:layout_height="75dp"
           android:background="@drawable/shape"/>
 
     </LinearLayout>
@@ -34,32 +35,18 @@
         android:layout_height="match_parent"
         android:layout_width="0dp"
         android:layout_weight=".8"
-        android:background="@color/yellow">
-      
-      <TextView
-          android:id="@+id/testytest"
-          android:layout_width="wrap_content"
-          android:layout_height="fill_parent"
-          android:gravity="center_vertical"
-          android:textColor="#000000" />
+        android:gravity="right">
 
       <ImageButton
           android:id="@+id/deleteRowButton"
           android:layout_width="75dp"
           android:layout_height="75dp"
           android:background="@drawable/nej"
-          android:layout_gravity="center_vertical"
-          android:layout_marginLeft="300dp" />
+          android:layout_gravity="center_vertical" />
       
       
     </LinearLayout>
     
   </LinearLayout>
-
-  <LinearLayout
-      android:id="@+id/stroke"
-      android:layout_width="match_parent"
-      android:layout_height="1dp"
-      android:background="@color/black" />
 
 </LinearLayout> 

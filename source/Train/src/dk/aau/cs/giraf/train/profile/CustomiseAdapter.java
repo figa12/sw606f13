@@ -47,9 +47,6 @@ public class CustomiseAdapter extends ArrayAdapter<Station> {
 		
         /* Find station */
         PictogramButton categoryButton = (PictogramButton) convertView.findViewById(R.id.list_category);
-        TextView testTextView = (TextView) convertView.findViewById(R.id.testytest);
-
-        testTextView.setText(station.ID);
 
         if (station.category != null) {
             PictogramButton tempParent = (PictogramButton) station.category.getParent();
