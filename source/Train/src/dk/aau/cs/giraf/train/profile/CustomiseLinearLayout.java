@@ -37,7 +37,7 @@ public class CustomiseLinearLayout extends LinearLayout {
         PictogramButton categoryPictogramButton = (PictogramButton) customiseItem.findViewById(R.id.list_category);
         categoryPictogramButton.bindStation(station);
         
-        ImageView deleteButton = (ImageView) customiseItem.findViewById(R.id.deleteRowasdf);
+        ImageView deleteButton = (ImageView) customiseItem.findViewById(R.id.deleteRowButton);
         deleteButton.setOnClickListener(new RemoveClickListener(station));
         
         this.addView(customiseItem);
