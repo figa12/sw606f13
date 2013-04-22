@@ -40,7 +40,7 @@ public class CustomiseAdapter extends ArrayAdapter<Station> {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = layoutInflater.inflate(R.layout.customise_list, null);
         
-        ImageView deleteButton = (ImageView) convertView.findViewById(R.id.deleteRowasdf);
+        ImageView deleteButton = (ImageView) convertView.findViewById(R.id.deleteRowButton);
         deleteButton.setOnClickListener(new ClickListener(position));
         
 		Station station = super.getItem(position);

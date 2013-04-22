@@ -1,127 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="horizontal"
-    android:baselineAligned="false"
-    android:background="@drawable/background">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="horizontal"
+              android:baselineAligned="false"
+              android:background="@drawable/background">
+
+  <LinearLayout
+      android:layout_width="0dp"
+      android:layout_weight=".25"
+      android:layout_height="match_parent"
+      android:orientation="vertical" >
+    
+    <TextView
+        android:id="@+id/profileListHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/profile_list_header"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+    
+    <dk.aau.cs.giraf.train.profile.CustomListView
+        android:id="@+id/profilelist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:choiceMode="singleChoice"/>
+    
+  </LinearLayout>
+  
+  <LinearLayout
+      android:layout_width="0dp"
+      android:layout_weight=".25"
+      android:layout_height="match_parent"
+      android:orientation="vertical" >
+    
+    <TextView
+        android:id="@+id/gameListHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/game_list_header"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+    
+  </LinearLayout>
+  
+  <LinearLayout
+      android:layout_width="0dp"
+      android:layout_weight=".5"
+      android:layout_height="match_parent"
+      android:orientation="vertical" >
+    
+    <TextView
+        android:id="@+id/customisationHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/customisation_header"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/white"
+        android:textSize="30sp" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+      
+      <TextView
+          android:id="@+id/categoryHeader"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight=".2"
+          android:background="@color/black"
+          android:gravity="center_horizontal|center_vertical"
+          android:text="@string/category"
+          android:textAppearance="?android:attr/textAppearanceLarge"
+          android:textColor="@color/white"
+          android:textSize="15sp" />
+
+      <LinearLayout
+          android:id="@+id/customiseSubheaderStroke"
+          android:layout_width="1dp"
+          android:layout_height="match_parent"
+          android:background="@color/white" />
+      
+      <TextView
+          android:id="@+id/associatedPictogramHeader"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight=".8"
+          android:background="@android:color/black"
+          android:gravity="center_horizontal|center_vertical"
+          android:text="@string/associated_pictograms"
+          android:textAppearance="?android:attr/textAppearanceLarge"
+          android:textColor="@color/white"
+          android:textSize="15sp" />
+      
+    </LinearLayout>        
+    
+    <dk.aau.cs.giraf.train.profile.CustomiseLinearLayout
+        android:id="@+id/customiseLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:orientation="vertical"/>
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight=".25"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-        
-        <TextView
-            android:id="@+id/profileListHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/black"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="@string/profile_list_header"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/white"
-            android:textSize="30sp" />
-        
-        <dk.aau.cs.giraf.train.profile.CustomListView
-            android:id="@+id/profilelist"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:choiceMode="singleChoice"/>
-        
-    </LinearLayout>
-    
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight=".25"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-        
-        <TextView
-            android:id="@+id/gameListHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/black"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="@string/game_list_header"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/white"
-            android:textSize="30sp" />
-        
-    </LinearLayout>
-    
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight=".5"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-        
-        <TextView
-            android:id="@+id/customisationHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/black"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="@string/customisation_header"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/white"
-            android:textSize="30sp" />
-        
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-            
-            <TextView
-                android:id="@+id/categoryHeader"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".2"
-                android:background="@color/black"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="@string/category"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-            <LinearLayout
-                android:id="@+id/customiseSubheaderStroke"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/white" />
-                
-            <TextView
-                android:id="@+id/associatedPictogramHeader"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".8"
-                android:background="@android:color/black"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="@string/associated_pictograms"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
-                    
-        </LinearLayout>        
-        
-        <dk.aau.cs.giraf.train.profile.CustomiseLinearLayout
-            android:id="@+id/customiseLinearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"/>
-        
-        <dk.aau.cs.giraf.train.profile.RowButton
-				android:id="@+id/testytestbuttontest"
-				android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="350dp"
-                android:background="@color/green" />
-        
-        
+      <dk.aau.cs.giraf.train.profile.RowButton
+          android:id="@+id/testytestbuttontest"
+          android:layout_width="100dp"
+          android:layout_height="100dp"
+          android:layout_gravity="bottom|right"
+          android:background="@color/green" />
+
     </LinearLayout>
     
-    
-
+  </LinearLayout>
+  
 </LinearLayout>

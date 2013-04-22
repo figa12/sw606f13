@@ -34,7 +34,7 @@ public class CustomiseLinearLayout extends LinearLayout {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View customiseItem = layoutInflater.inflate(R.layout.customise_list, null);
         
-        ImageView deleteButton = (ImageView) customiseItem.findViewById(R.id.deleteRowasdf);
+        ImageView deleteButton = (ImageView) customiseItem.findViewById(R.id.deleteRowButton);
         deleteButton.setOnClickListener(new ClickListener(station));
         
         this.addView(customiseItem);
