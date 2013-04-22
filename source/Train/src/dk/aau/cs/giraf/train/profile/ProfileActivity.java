@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 
 public class ProfileActivity extends Activity {
 	private Guardian guardian = null;
@@ -45,6 +47,12 @@ public class ProfileActivity extends Activity {
 		
 		
 	    this.intent.setComponent(new ComponentName("dk.aau.cs.giraf.pictoadmin","dk.aau.cs.giraf.pictoadmin.PictoAdminMain"));
+	    
+	    Drawable d = getResources().getDrawable(R.drawable.background);
+		d.setColorFilter(Data.appBackgroundColor, PorterDuff.Mode.OVERLAY);
+		findViewById(R.id.mainProfileLayout).setBackgroundDrawable(d);
+	    
+		
 	}
 	
 	@Override
