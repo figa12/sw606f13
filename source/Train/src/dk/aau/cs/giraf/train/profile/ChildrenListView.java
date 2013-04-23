@@ -14,6 +14,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.view.View;
 
+/**
+ * The ChildrenListView class is a {@link ListView} that lists children with the {@link ChildAdapter}.
+ * @see Child
+ * @see Guardian
+ * @see ChildAdapter
+ * @author Nicklas Andersen
+ */
 public class ChildrenListView extends ListView {
     
 	public Guardian guardian = Guardian.getInstance();
@@ -25,6 +32,12 @@ public class ChildrenListView extends ListView {
 		this.setOnItemClickListener(messageClickedHandler);
 	}
 	
+	/**
+	 * loadChildren() fills the list with children associated to the current guardian.
+	 * @see Guardian
+	 * @see ChildAdapter
+	 * @see Child
+	 */
 	public void loadChildren() {
 		ArrayList<Child> children = guardian.publishList();
 		
