@@ -27,27 +27,38 @@ public class GameConfiguration {
 	public void setStations(ArrayList<Station> stations) {
 		this.stations = stations;
 	}
+	
+	public ArrayList<Station> getStations(){
+		return this.stations;
+	}
+	
+	public Station getStation(int value){
+		return this.stations.get(value);
+	}
 
 	public class Station {
 		
 		Category category;
+		ArrayList<Pictogram> acceptPictograms = new ArrayList<Pictogram>(); 
 		
 		public Station(Category category) {
 			this.category = category;
 		}
 		
+		public void addAcceptPictogram(int id) {
+			acceptPictograms.add(PictoFactory.INSTANCE.getPictogram(context, id));
+		}
+		
+		public ArrayList<Pictogram> getAcceptPictograms(){
+			return this.acceptPictograms;
+		}
 	}
 	
 	public class Category {
 		Pictogram pictogramCategory;
-		ArrayList<Pictogram> pictograms = new ArrayList<Pictogram>(); 
 		
 		public Category(Pictogram pictogramCategory) {
 			this.pictogramCategory = pictogramCategory;
-		}
-		
-		public void addPictogram() {
-			pictograms.add(PictoFactory.INSTANCE.getPictogram(context, 0));
 		}
 		
 		public Pictogram getCategory() {
