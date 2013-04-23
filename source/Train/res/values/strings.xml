@@ -18,5 +18,6 @@
     <string name="delete_row">Slet rækken</string>
     <string name="add_pictogram">Tilføj pictogram</string>
     <string name="add_station">Tilføj station</string>
+    <string name="remove_pictogram">Fjern pictogram</string>
 
 </resources>

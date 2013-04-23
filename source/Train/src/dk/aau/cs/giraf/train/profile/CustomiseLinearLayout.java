@@ -9,6 +9,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -24,15 +26,14 @@ public class CustomiseLinearLayout extends LinearLayout {
         this.stations.add(station);
         
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View customiseItem = layoutInflater.inflate(R.layout.station_list_item, null);
+        View customiseStationItem = layoutInflater.inflate(R.layout.station_list_item, null);
         
-        PictogramButton categoryPictogramButton = (PictogramButton) customiseItem.findViewById(R.id.list_category);
-        categoryPictogramButton.bindStation(station);
+        //PictogramButton categoryPictogramButton = (PictogramButton) customiseStationItem.findViewById(R.id.list_category);
         
-        ImageView deleteButton = (ImageView) customiseItem.findViewById(R.id.deleteRowButton);
+        ImageView deleteButton = (ImageView) customiseStationItem.findViewById(R.id.deleteRowButton);
         deleteButton.setOnClickListener(new RemoveClickListener(station));
         
-        this.addView(customiseItem);
+        this.addView(customiseStationItem);
     }
     
     public void removeStation(int index) {

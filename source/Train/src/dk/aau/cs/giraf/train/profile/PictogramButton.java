@@ -4,56 +4,88 @@ import java.util.Random;
 
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
+import dk.aau.cs.giraf.train.R;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
-public class PictogramButton extends FrameLayout {
+/**
+ * A layout containing a pictogram. Click the button to choose a pictogram.
+ * @author Jesper Riemer Andersen
+ * //TODO
+ */
+public class PictogramButton extends LinearLayout {
     
-    private Station station;
+    private FrameLayout pictogramContainer;
+    private long pictogramId = -1L;
+    private ImageButton removeButton;
     
 	public PictogramButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		super.setBackgroundResource(R.drawable.shape_white);
+		
+		LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View pictogramLayout = layoutInflater.inflate(R.layout.pictogram_layout, null);
+		super.addView(pictogramLayout);
+		
+		this.pictogramContainer = (FrameLayout) pictogramLayout.findViewById(R.id.pictogramContainer);
+		
+		this.removeButton = (ImageButton) pictogramLayout.findViewById(R.id.removeButton);
+		this.removeButton.setVisibility(ImageButton.INVISIBLE);
+		this.removeButton.setOnClickListener(new RemoveClickListener());
+		
+		super.setOnClickListener(new SelectPictogramClickListener());
 	}
 	
-	public PictogramButton(Context context) { 
-		super(context);
+	public void setIsRemovable(boolean isRemovable) {
+	    if(isRemovable) {
+	        this.removeButton.setVisibility(ImageButton.VISIBLE);
+	    }
 	}
 	
 	public void setPictogram(long pictogramId) {
+	    this.pictogramId = pictogramId;
+	    this.pictogramContainer.removeAllViews();
+	    
+	    if(pictogramId == -1L) {
+	        return;
+	    }
+	    
 	    Pictogram pictogram = PictoFactory.INSTANCE.getPictogram(getContext(), pictogramId);
         pictogram.renderImage();
         pictogram.renderText();
         
-        PictogramButton.this.removeAllViews();
-        PictogramButton.this.addView(pictogram);
-        
-        this.station.category = pictogram; //Save the pictogram inside the station
+        this.pictogramContainer.addView(pictogram);
 	}
 	
-	public void bindStation(Station station) {
-	    this.station = station;
+	public long getPictogramId() {
+	    return this.pictogramId;
+	}
+	
+	private final class SelectPictogramClickListener implements OnClickListener {
+	    private Random rand = new Random();
 	    
-	    this.setOnClickListener(new AddClickListener());
-	}
-	
-	private final class AddClickListener implements OnClickListener {
-        
         @Override
         public void onClick(View view) {
-            Random rand = new Random();
             int min = 1;
             int max = 5;
-            long pictoID = rand.nextInt(max - min + 1) + min;
-            
-            Pictogram pictogram = PictoFactory.INSTANCE.getPictogram(getContext(), pictoID);
-            pictogram.renderImage();
-            pictogram.renderText();
-            PictogramButton.this.removeAllViews();
-            PictogramButton.this.addView(pictogram);
-            
-            PictogramButton.this.station.category = pictogram;
+            PictogramButton.this.setPictogram(rand.nextInt(max - min + 1) + min);
         }
     }
+	
+	private final class RemoveClickListener implements OnClickListener {
+	    
+	    @Override
+	    public void onClick(View view) {
+	        if(PictogramButton.this.removeButton.getVisibility() == ImageButton.VISIBLE) {
+	            ((ViewGroup) PictogramButton.this.getParent()).removeView(PictogramButton.this);
+	        }
+	    }
+	}
 }

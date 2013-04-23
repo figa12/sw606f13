@@ -1,19 +1,21 @@
 package dk.aau.cs.giraf.train.profile;
 
-import java.util.ArrayList;
-
+import dk.aau.cs.giraf.train.R;
 import android.content.Context;
+import android.support.v4.widget.SearchViewCompat.OnCloseListenerCompat;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 public class AssociatedPictogramsLayout extends LinearLayout {
     
     private Station station;
-    private ArrayList<PictogramButton> pictogramButtons = new ArrayList<PictogramButton>();
-    private LinearLayout associatedPictogramLayout;
     
     public AssociatedPictogramsLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        //ImageButton addStationButton = (ImageButton) super.findViewById(R.id.addPictogramButton);
+        //addStationButton.setOnClickListener(new AddStationClickListener());
     }
     
     public void bindStation(Station station) {
@@ -21,23 +23,17 @@ public class AssociatedPictogramsLayout extends LinearLayout {
     }
     
     public void addPictogram() {
-        this.addPictogram(new PictogramButton(super.getContext()));
+        
     }
     
-    public void addPictogram(PictogramButton pictogramButton) {
-        this.pictogramButtons.add(pictogramButton);
-        super.addView(pictogramButton);
+    public void removePictogram() {
+        
     }
     
-    public void removePictogram(int index) {
-        if(index > this.pictogramButtons.size() - 1) {
-            return;
+    private class AddStationClickListener implements OnClickListener {
+        @Override
+        public void onClick(View v) {
+            AssociatedPictogramsLayout.this.addPictogram();
         }
-        super.removeViewAt(index);
-        this.pictogramButtons.remove(index);
-    }
-    
-    public void removePictogram(PictogramButton pictogramButton) {
-        this.removePictogram(this.pictogramButtons.indexOf(pictogramButton));
     }
 }

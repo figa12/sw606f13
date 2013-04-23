@@ -10,13 +10,12 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="-16dp"
         android:layout_weight=".2"
-        android:gravity="center_vertical|center_horizontal" >
+        android:gravity="center" >
 
         <dk.aau.cs.giraf.train.profile.PictogramButton
             android:id="@+id/list_category"
             android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:background="@drawable/shape" />
+            android:layout_height="75dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -25,8 +24,9 @@
         android:background="@android:color/black" >
     </LinearLayout>
 
+    
     <dk.aau.cs.giraf.train.profile.AssociatedPictogramsLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginLeft="14dp"
         android:orientation="horizontal" />
