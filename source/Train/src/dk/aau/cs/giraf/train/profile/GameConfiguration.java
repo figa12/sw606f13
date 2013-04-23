@@ -35,6 +35,14 @@ public class GameConfiguration {
 	public Station getStation(int value){
 		return this.stations.get(value);
 	}
+	
+	public int getNumberOfPictogramsOfStations(){
+		int numberOfPictograms = 0;
+		for (Station station : this.stations) {
+			numberOfPictograms += station.acceptPictograms.size();
+		}
+		return numberOfPictograms;
+	}
 
 	public class Station {
 		
@@ -45,7 +53,7 @@ public class GameConfiguration {
 			this.category = category;
 		}
 		
-		public void addAcceptPictogram(int id) {
+		public void addAcceptPictogram(long id) {
 			acceptPictograms.add(PictoFactory.INSTANCE.getPictogram(context, id));
 		}
 		
@@ -59,6 +67,10 @@ public class GameConfiguration {
 		
 		public Category(Pictogram pictogramCategory) {
 			this.pictogramCategory = pictogramCategory;
+		}
+		
+		public void setCategory(Pictogram pic){
+			this.pictogramCategory = pic;
 		}
 		
 		public Pictogram getCategory() {
