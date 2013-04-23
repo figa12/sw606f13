@@ -14,6 +14,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+/**
+ * CustomiseLinearLayout is the class that handles and shows the list of stations ({@link Station}) in the customisation window.
+ * @see ArrayList
+ * @see Station
+ * @author Nicklas Andersen
+ */
 public class CustomiseLinearLayout extends LinearLayout {
     
     private ArrayList<Station> stations = new ArrayList<Station>();
@@ -22,6 +28,10 @@ public class CustomiseLinearLayout extends LinearLayout {
         super(context, attrs);
     }
     
+    /**
+     * Adds a station to the list.
+     * @param station The station to add to the list.
+     */
     public void addStation(Station station) {
         this.stations.add(station);
         
@@ -36,6 +46,10 @@ public class CustomiseLinearLayout extends LinearLayout {
         this.addView(customiseStationItem);
     }
     
+    /**
+     * Removes {@link Station} at the specified index from the list.
+     * @param index The index of the {@link Station} in the list to remove.
+     */
     public void removeStation(int index) {
         if(index > this.stations.size() - 1) {
             return;
@@ -44,6 +58,10 @@ public class CustomiseLinearLayout extends LinearLayout {
         this.stations.remove(index);
     }
     
+    /**
+     * Removes {@link Station} from the list.
+     * @param station The {@link Station} that should be removed from the list.
+     */
     public void removeStation(Station station) {
         this.removeStation(this.stations.indexOf(station));
     }

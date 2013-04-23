@@ -14,6 +14,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * The ChildAdapter class is an adapter for {@link ChildrenListView} that extends {@link ArrayAdapter}.
+ * @see {@link Child}
+ * @see {@link ChildrenListView}
+ * @author Nicklas Andersen
+ */
 public class ChildAdapter extends ArrayAdapter<Child> {
 	
 	private ArrayList<Child> children;
@@ -25,15 +31,30 @@ public class ChildAdapter extends ArrayAdapter<Child> {
 		this.children = items;
 	}
 	
+	/**
+	 * @return The selected child.
+	 * @see {@link Child}
+	 */
 	public Child getSelectedChild() {
 	    return this.selectedChild;
 	}
 	
+	/**
+	 * This method sets the position of the selected item.
+	 * @param position The position of the selected item
+	 */
 	public void setSelectedPosition(int position) {
 	    this.selectedPosition = position;
 	    this.notifyDataSetChanged();
 	}
 	
+	/**
+	 * The getView method is used to inflate an listitem.
+	 * @param position The index of the current list item.
+	 * @param convertView The view of the current list item.
+	 * @param parent The view of the list that is to be inflated.
+	 * @see LayoutInflater
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {

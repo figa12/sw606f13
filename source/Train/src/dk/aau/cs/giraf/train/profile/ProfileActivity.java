@@ -11,6 +11,7 @@ import dk.aau.cs.giraf.train.R;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.app.Activity;
 import android.content.ComponentName;
@@ -58,7 +59,7 @@ public class ProfileActivity extends Activity {
 	    
 		this.customiseLinearLayout = (CustomiseLinearLayout) super.findViewById(R.id.customiseLinearLayout);
 		
-		ImageButton addStationButton = (ImageButton) super.findViewById(R.id.addStationButton);
+		Button addStationButton = (Button) super.findViewById(R.id.addStationButton);
 		addStationButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
