@@ -1,84 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainProfileLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal"
+    android:background="@drawable/background"
     android:baselineAligned="false"
-    android:background="@drawable/background">
+    android:orientation="horizontal" >
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight=".25"
         android:layout_height="match_parent"
+        android:layout_weight=".25"
         android:orientation="vertical" >
-        
+
         <TextView
             android:id="@+id/profileListHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/black"
+            android:background="@drawable/background"
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/profile_list_header"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@android:color/white"
             android:textSize="30sp" />
-        
-        <dk.aau.cs.giraf.train.profile.CustomListView
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white" />
+
+        <dk.aau.cs.giraf.train.profile.ChildrenListView
             android:id="@+id/profilelist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:choiceMode="singleChoice"/>
-        
+            android:choiceMode="singleChoice" />
     </LinearLayout>
-    
+
+    <LinearLayout
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/white" />
+
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight=".25"
         android:layout_height="match_parent"
+        android:layout_weight=".25"
         android:orientation="vertical" >
-        
+
         <TextView
             android:id="@+id/gameListHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/black"
+            android:background="@drawable/background"
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/game_list_header"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@android:color/white"
             android:textSize="30sp" />
-        
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white" />
     </LinearLayout>
-    
+
+    <LinearLayout
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/white" />
+
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight=".5"
         android:layout_height="match_parent"
+        android:layout_weight=".5"
         android:orientation="vertical" >
-        
+
         <TextView
             android:id="@+id/customisationHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black"
+            android:background="@drawable/background"
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/customisation_header"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/white"
             android:textSize="30sp" />
-        
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-            
+
             <TextView
                 android:id="@+id/categoryHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".2"
-                android:background="@color/black"
+                android:background="@drawable/background"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="@string/category"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -90,37 +114,63 @@
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/white" />
-                
+
             <TextView
                 android:id="@+id/associatedPictogramHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".8"
-                android:background="@android:color/black"
+                android:background="@drawable/background"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="@string/associated_pictograms"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/white"
                 android:textSize="15sp" />
-                    
-        </LinearLayout>        
-        
-        <dk.aau.cs.giraf.train.profile.CustomiseListView
-            android:id="@+id/customiseListView"
+        </LinearLayout>
+
+        <dk.aau.cs.giraf.train.profile.CustomiseLinearLayout
+            android:id="@+id/customiseLinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        
-        <dk.aau.cs.giraf.train.profile.RowButton
-				android:id="@+id/testytestbuttontest"
-				android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="350dp"
-                android:background="@color/green" />
-        
-        
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="bottom|right"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/addStationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_button"
+                android:contentDescription="@string/add_station"
+                android:drawableRight="@android:drawable/ic_menu_add"
+                android:text="@string/add_station"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/saveGameButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_button"
+                android:contentDescription="save game"
+                android:drawableRight="@android:drawable/ic_menu_save"
+                android:text="Gem spil"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/startGameFromProfileButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_button"
+                android:contentDescription="start game"
+                android:drawableRight="@android:drawable/ic_media_play"
+                android:text="Start spil"
+                android:textColor="@color/black" />
+        </LinearLayout>
     </LinearLayout>
-    
-    
 
 </LinearLayout>

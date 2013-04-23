@@ -9,20 +9,27 @@ import dk.aau.cs.giraf.train.Data;
 import dk.aau.cs.giraf.train.R;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 
 public class ProfileActivity extends Activity {
 	private Guardian guardian = null;
 	private Intent intent = new Intent(Intent.ACTION_MAIN);
-
+	private CustomiseLinearLayout customiseLinearLayout;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_profile);
+		super.setContentView(R.layout.activity_profile);
 		
-		/* Hardcoded game conficurations */
+		/* Hardcoded game configurations */
 		GameConfiguration game1 = new GameConfiguration(this, "Game 1", 0, -3);
 		game1.addStation(game1.new Station(game1.new Category(PictoFactory.INSTANCE.getPictogram(this, 0))));
 		
@@ -36,17 +43,30 @@ public class ProfileActivity extends Activity {
 		ArrayList<Art> artList = new ArrayList<Art>();//FIXME Is never used.
 		
 		/* Initialize the guardian object */
-    	guardian = Guardian.getInstance(Data.currentChildID, Data.currentGuardianID, getApplicationContext(), artList);    	
-    	guardian.backgroundColor = Data.appBackgroundColor;
+    	this.guardian = Guardian.getInstance(Data.currentChildID, Data.currentGuardianID, getApplicationContext(), artList);    	
+    	this.guardian.backgroundColor = Data.appBackgroundColor;
 
-		CustomListView listview = (CustomListView) findViewById(R.id.profilelist);
-		listview.guardian = guardian;
+		ChildrenListView listview = (ChildrenListView) super.findViewById(R.id.profilelist);
+		listview.guardian = this.guardian;
 		listview.loadChildren();
 		
 		
-	    intent.setComponent(new ComponentName("dk.aau.cs.giraf.pictoadmin","dk.aau.cs.giraf.pictoadmin.PictoAdminMain"));
+	    this.intent.setComponent(new ComponentName("dk.aau.cs.giraf.pictoadmin","dk.aau.cs.giraf.pictoadmin.PictoAdminMain"));
 	    
+	    Drawable d = getResources().getDrawable(R.drawable.background);
+		d.setColorFilter(Data.appBackgroundColor, PorterDuff.Mode.OVERLAY);
+		super.findViewById(R.id.mainProfileLayout).setBackgroundDrawable(d);
+	    
+		this.customiseLinearLayout = (CustomiseLinearLayout) super.findViewById(R.id.customiseLinearLayout);
 		
+		Button addStationButton = (Button) super.findViewById(R.id.addStationButton);
+		addStationButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Station station = new Station();
+                ProfileActivity.this.customiseLinearLayout.addStation(station);
+            }
+        });
 	}
 	
 	@Override
@@ -63,6 +83,21 @@ public class ProfileActivity extends Activity {
     }
 	
 	public void startPictoAdmin(int requestCode) {
-		this.startActivityForResult(intent, requestCode);
+	    
+	    
+	    //requestCode defines how many pictograms we want to receive
+	    switch(requestCode) {
+	    case ProfileActivity.RECEIVE_SINGLE:
+	        this.intent.putExtra("hest", "single");
+	        break;
+	    case ProfileActivity.RECEIVE_MULTIPLE:
+	        this.intent.putExtra("hest", "multi");
+	        break;
+	    }
+	    
+		super.startActivityForResult(this.intent, requestCode);
 	}
+	
+	public static final int RECEIVE_SINGLE = 0;
+	public static final int RECEIVE_MULTIPLE = 1;
 }

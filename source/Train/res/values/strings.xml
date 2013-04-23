@@ -3,7 +3,6 @@
 
     <string name="app_name">Train</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_game">GameActivity</string>
     
     <!-- PROFILE ACTIVITY -->
@@ -16,6 +15,9 @@
     <string name="predefined">Predefineret</string>
     <string name="category">Kategori</string>
     <string name="associated_pictograms">Pictogrammer</string>
-
+    <string name="delete_row">Slet rækken</string>
+    <string name="add_pictogram">Tilføj pictogram</string>
+    <string name="add_station">Tilføj station</string>
+    <string name="remove_pictogram">Fjern pictogram</string>
 
 </resources>
