@@ -43,14 +43,22 @@ public class GameConfiguration {
 		}
 		return numberOfPictograms;
 	}
+	
+	public void setContext(Context con){
+		this.context = con;
+	}
+	
+	public Context getContext(){
+		return this.context;
+	}
 
 	public class Station {
 		
-		Category category;
+		Pictogram category;
 		ArrayList<Pictogram> acceptPictograms = new ArrayList<Pictogram>(); 
 		
-		public Station(Category category) {
-			this.category = category;
+		public Station(long CategoryPictogramId) {
+			this.category = PictoFactory.INSTANCE.getPictogram(context, CategoryPictogramId);
 		}
 		
 		public void addAcceptPictogram(long id) {
@@ -60,22 +68,13 @@ public class GameConfiguration {
 		public ArrayList<Pictogram> getAcceptPictograms(){
 			return this.acceptPictograms;
 		}
-	}
-	
-	public class Category {
-		Pictogram pictogramCategory;
 		
-		public Category(Pictogram pictogramCategory) {
-			this.pictogramCategory = pictogramCategory;
+		public void setCategory(Pictogram category){
+			this.category = category;
 		}
 		
-		public void setCategory(Pictogram pic){
-			this.pictogramCategory = pic;
-		}
-		
-		public Pictogram getCategory() {
-			return pictogramCategory;
+		public Pictogram getCategory(){
+			return this.category;
 		}
 	}
-	
 }
