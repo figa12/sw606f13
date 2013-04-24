@@ -8,6 +8,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +22,8 @@ import android.widget.LinearLayout;
 public class CustomiseLinearLayout extends LinearLayout {
     
     private ArrayList<Station> stations = new ArrayList<Station>();
+    private ArrayList<ImageButton> addPictogramButtons = new ArrayList<ImageButton>();
+    private int totaleStationPictograms = 0;
     
     public CustomiseLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -32,6 +35,7 @@ public class CustomiseLinearLayout extends LinearLayout {
      */
     public void addStation(Station station) {
         this.stations.add(station);
+        this.preventStationOverflow();
         
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View stationListItem = layoutInflater.inflate(R.layout.station_list_item, null);
@@ -44,11 +48,32 @@ public class CustomiseLinearLayout extends LinearLayout {
         
         ImageButton addPictogramsButton = (ImageButton) stationListItem.findViewById(R.id.addPictogramButton);
         addPictogramsButton.setOnClickListener(new AddPictogramsClickListener(associatedPictogramsLayout));
+        this.addPictogramButtons.add(addPictogramsButton);
         
         ImageView deleteButton = (ImageView) stationListItem.findViewById(R.id.deleteRowButton);
         deleteButton.setOnClickListener(new RemoveClickListener(station));
         
         this.addView(stationListItem);
+    }
+    
+    private void preventStationOverflow() {
+        Button addStationButton = (Button) ((ProfileActivity) super.getContext()).findViewById(R.id.addStationButton);
+        if(this.stations.size() >= 6) {
+            addStationButton.setEnabled(false);
+        } else {
+            addStationButton.setEnabled(true);
+        }
+    }
+    
+    private void setVisibilityPictogramButtons(boolean visible) {
+        for (ImageButton imageButton : this.addPictogramButtons) {
+            if(visible) {
+                imageButton.setVisibility(ImageButton.VISIBLE);
+            } else {
+                imageButton.setVisibility(ImageButton.INVISIBLE);
+            }
+            imageButton.setEnabled(visible);
+        }
     }
     
     /**
@@ -61,6 +86,7 @@ public class CustomiseLinearLayout extends LinearLayout {
         }
         this.removeViewAt(index);
         this.stations.remove(index);
+        this.preventStationOverflow();
     }
     
     /**

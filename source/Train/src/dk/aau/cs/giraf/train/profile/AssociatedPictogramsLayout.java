@@ -21,6 +21,10 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
         super(context, attrs);
     }
     
+    public int getPictogramLength() {
+        return this.pictogramButtons.size();
+    }
+    
     public void bindStation(Station station) {
         this.station = station;
     }
@@ -29,6 +33,9 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
         PictogramButton pictogramButton = new PictogramButton(this.getContext());
         pictogramButton.setPictogram(pictogramId);
         pictogramButton.setRemovable(true);
+        LayoutParams params = new LayoutParams(75, 75);
+        params.setMargins(0, 0, 1, 0);
+        pictogramButton.setLayoutParams(params);
         
         this.pictogramButtons.add(pictogramButton);
         super.addView(pictogramButton);
