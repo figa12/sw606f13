@@ -31,12 +31,10 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.game.GameData;
 import dk.aau.cs.giraf.train.profile.GameConfiguration;
-import dk.aau.cs.giraf.train.profile.GameConfiguration.Category;
 import dk.aau.cs.giraf.train.profile.GameConfiguration.Station;
 
 public class GameActivity extends Activity {
@@ -60,12 +58,11 @@ public class GameActivity extends Activity {
 		GameActivity.sound = soundPool.load(this, R.raw.train_whistle, 1);
 		this.openGLView = (GlView) findViewById(R.id.openglview);
 		gameConf = new GameConfiguration(this, "Game 3", 2, -3);
-		gameConf.addStation(gameConf.new Station(gameConf.new Category(PictoFactory.INSTANCE.getPictogram(this, 2L))));
-		gameConf.addStation(gameConf.new Station(gameConf.new Category(PictoFactory.INSTANCE.getPictogram(this, 4L))));
-		gameConf.addStation(gameConf.new Station(gameConf.new Category(PictoFactory.INSTANCE.getPictogram(this, 3L))));
+		gameConf.addStation(gameConf.new Station(2L));
+		gameConf.addStation(gameConf.new Station(4L));
+		gameConf.addStation(gameConf.new Station(3L));
 		gameConf.getStation(0).addAcceptPictogram(2L);
-		gameConf.getStation(0).addAcceptPictogram(4L);
-		gameConf.getStation(1).addAcceptPictogram(2L);
+		gameConf.getStation(1).addAcceptPictogram(4L);
 		gameConf.getStation(2).addAcceptPictogram(3L);
 		
 		
@@ -153,6 +150,17 @@ public class GameActivity extends Activity {
 
 		// add pictograms to the frames
 		this.addPictogramsToFrames();
+		/*
+		ArrayList<LinearLayout> test = new ArrayList<LinearLayout>();
+		test.addAll(cartsLinear);
+		test.addAll(stationLinear);
+		test.add(stationCategoryLinear);
+		test.add(trainDriverLinear);
+		for (LinearLayout lin : test) {
+			for (int i = 0; i < lin.getChildCount(); i++) {
+				lin.getChildAt(i).setBackgroundDrawable(normalShape);
+			}
+		}*/
 	}
 
 	/**
@@ -256,7 +264,7 @@ public class GameActivity extends Activity {
 				}
 				else{
 					//check if it is the correct pictogram on the right station.
-					if(checkPictogramsOnStaion(gameConf.getStation(GameData.numberOfStops-1)) ==  false){
+					if(checkPictogramsOnStaion(gameConf.getStation(GameData.numberOfStops - 1)) ==  false){
 						readyToGo = false;
 					}
 				}
@@ -272,6 +280,8 @@ public class GameActivity extends Activity {
 					fluteButton.setVisibility(View.INVISIBLE);
 					
 					deletePictogramsFromStation();
+					
+					setCategoryForNextStation(gameConf.getStation(GameData.numberOfStops));
 					
 					GameData.accelerateTrain();
 					
@@ -292,6 +302,12 @@ public class GameActivity extends Activity {
 		}
 	}
 	
+	private static void setCategoryForNextStation(Station station) {
+		Pictogram cat = station.getCategory();
+		cat.renderAll();
+		((FrameLayout)stationCategoryLinear.getChildAt(0)).addView(cat, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+	}
+
 	private static void deletePictogramsFromStation() {
 		((FrameLayout)stationCategoryLinear.getChildAt(0)).removeAllViews();
 		for (LinearLayout lin : stationLinear) {
