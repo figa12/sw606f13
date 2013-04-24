@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 /**
  * This class holds static data relevant for the game.
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see GameDrawer
  */
 public class GameData {

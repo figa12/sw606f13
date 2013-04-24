@@ -19,7 +19,7 @@ import android.util.Log;
  * Use {@link #loadTexture} to load the texture into OpenGL.
  * Use {@link #draw} to draw the texture at the current position.
  * 
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see Square
  * @see Shape
  */

@@ -1,10 +1,7 @@
 package dk.aau.cs.giraf.train.opengl;
 
-import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.game.GameData;
 import android.content.Context;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.opengl.GLSurfaceView;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -14,7 +11,7 @@ import android.view.MotionEvent;
 /**
  * This class ({@code GlView}) extends {@link GLSurfaceView}.
  * Touch events for this surface is created here.
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see GlRenderer
  */
 public class GlView extends GLSurfaceView {
@@ -69,18 +66,11 @@ public class GlView extends GLSurfaceView {
         
         //float x = event.getX();
         //float y = event.getY();
-        //Log.d(GlView.class.getSimpleName(), "Touched: " + Float.toString(x) + " x " + Float.toString(y));
         
         //If the game is paused, then resume on click
         if(event.getAction() == MotionEvent.ACTION_DOWN && GameData.isPaused) {
             GameData.onResume();
         }
-        /*else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations - 1) {
-                GameData.accelerateTrain();
-                this.soundPool.play(sound, 1f, 1f, 0, 0, 0.75f);
-            }
-        }*///Is managed by the flute button now
         return true;
     }
 

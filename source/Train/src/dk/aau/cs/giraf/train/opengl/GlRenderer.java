@@ -14,7 +14,7 @@ import android.util.TimingLogger;
 /** 
  * The renderer which draws on {@link GLSurfaceView}.
  * 
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see Renderer
  */
 public class GlRenderer implements Renderer {

@@ -9,7 +9,7 @@ import android.content.Context;
 /**
  * An abstract class for objects that can be rendered in OpenGL.
  * Renderables must implement a draw method. The draw method should draw the Renderable at the {@link #coordinates}
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see #draw(GL10)
  * @see #draw(GL10, Color)
  */

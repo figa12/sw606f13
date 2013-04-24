@@ -3,7 +3,7 @@ package dk.aau.cs.giraf.train.opengl;
 /**
  * A simple color class that holds RGBA values.
  * This is designed for OpenGL, which uses values ranging between 0f and 1f.
- * @author Jesper
+ * @author Jesper Riemer Andersen
  */
 public class Color {
     /* Already created color objects. */

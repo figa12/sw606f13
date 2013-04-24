@@ -11,7 +11,7 @@ import android.content.Context;
 /**
  * This class handles all game drawing.
  * 
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see GameDrawer#drawGame()
  * @see GameDrawer#loadGame()
  */
