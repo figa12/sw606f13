@@ -4,21 +4,16 @@ import java.util.ArrayList;
 
 import dk.aau.cs.giraf.TimerLib.Art;
 import dk.aau.cs.giraf.TimerLib.Guardian;
-import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.train.Data;
 import dk.aau.cs.giraf.train.R;
-import dk.aau.cs.giraf.train.opengl.game.GameData;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;

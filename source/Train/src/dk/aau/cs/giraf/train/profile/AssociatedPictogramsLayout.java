@@ -2,11 +2,9 @@ package dk.aau.cs.giraf.train.profile;
 
 import java.util.ArrayList;
 
-import dk.aau.cs.giraf.train.R;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 /**
