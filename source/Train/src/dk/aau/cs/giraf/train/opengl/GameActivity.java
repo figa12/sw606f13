@@ -156,7 +156,7 @@ public class GameActivity extends Activity {
 	}
 
 	/**
-	 * Find the LinearLayouts sepcified in activti_game.xml and stores the ref
+	 * Find the LinearLayouts sepcified in activty_game.xml and stores the ref
 	 * in different lists.
 	 */
 	private void initLayouts() {
@@ -234,7 +234,12 @@ public class GameActivity extends Activity {
 		super.onResume();
 		this.openGLView.onResume();
 	}
-	
+	/**
+	 * The method checks wether the pictograms on the station is the correct pictograms that are suppose to be dropped
+	 * the method draws the selected pictograms on to OpenGL surface
+	 * and makes the layouts invisble or visble depending on @param drive.
+	 * @param drive
+	 */
 	public static void trainDrive(boolean drive){
 		if (drive) {
 			if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations - 1) {
@@ -251,7 +256,7 @@ public class GameActivity extends Activity {
 				}
 				else{
 					//check if it is the correct pictogram on the right station.
-					if(checkpictograms(gameConf.getStation(GameData.numberOfStops-1)) ==  false){
+					if(checkPictogramsOnStaion(gameConf.getStation(GameData.numberOfStops-1)) ==  false){
 						readyToGo = false;
 					}
 				}
@@ -266,7 +271,7 @@ public class GameActivity extends Activity {
 					}
 					fluteButton.setVisibility(View.INVISIBLE);
 					
-					//deletePictogramsFromThisStation(GameData.numberOfStops);
+					deletePictogramsFromStation();
 					
 					GameData.accelerateTrain();
 					
@@ -287,7 +292,16 @@ public class GameActivity extends Activity {
 		}
 	}
 	
-	private static boolean checkpictograms(Station station){
+	private static void deletePictogramsFromStation() {
+		((FrameLayout)stationCategoryLinear.getChildAt(0)).removeAllViews();
+		for (LinearLayout lin : stationLinear) {
+			for (int i = 0; i < lin.getChildCount(); i++) {
+				((FrameLayout)lin.getChildAt(i)).removeAllViews();
+			}
+		}
+	}
+
+	private static boolean checkPictogramsOnStaion(Station station){
 		boolean answer = false;
 		int acceptedPics = 0;
 		for (LinearLayout lin : stationLinear) {
