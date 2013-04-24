@@ -42,6 +42,7 @@ import dk.aau.cs.giraf.train.profile.GameConfiguration.Station;
 public class GameActivity extends Activity {
 
 	private GlView openGLView;
+	
 	private static ArrayList<LinearLayout> stationLinear;
 	private ArrayList<LinearLayout> cartsLinear;
 	public static LinearLayout stationCategoryLinear;
@@ -51,7 +52,9 @@ public class GameActivity extends Activity {
 	
 	private final static SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
     private static int sound;
-
+    
+    private AlertDialog alertDialog;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,9 +76,31 @@ public class GameActivity extends Activity {
 		
 		GameData.resetGameData();
 		
+		this.alertDialog = this.createAlertDialog();
+		
 		this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 	}
-
+	
+	private AlertDialog createAlertDialog() {
+	    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        //myAlertDialog.setTitle("Title");
+        alertDialogBuilder.setCancelable(false);
+        alertDialogBuilder.setMessage("Er du sikker på at du vil afslutte?");
+        alertDialogBuilder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                //'Ja' button is clicked
+                finish();
+            }
+        });
+        alertDialogBuilder.setNegativeButton("Annuller", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                //'Annuller' button is clicked
+                GameData.onResume();
+            }
+        });
+        return alertDialogBuilder.create();
+	}
+	
 	private int getNumberOfFrameLayouts(int numberOfPictogramsOfStations) {
 		int numberOfFrames = 0;
 		switch (numberOfPictogramsOfStations) {
@@ -425,24 +450,7 @@ public class GameActivity extends Activity {
 	    if (keyCode == KeyEvent.KEYCODE_BACK) {
 	        GameData.onPause();
 	        
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-            //myAlertDialog.setTitle("Title");
-            alertDialog.setCancelable(false);
-            alertDialog.setMessage("Er du sikker på at du vil afslutte?");
-            alertDialog.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface arg0, int arg1) {
-                    //'Ja' button is clicked
-                    finish();
-                }
-            });
-            alertDialog.setNegativeButton("Annuller", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface arg0, int arg1) {
-                    //'Annuller' button is clicked
-                    GameData.onResume();
-                }
-            });
-            
-            alertDialog.show();
+            this.alertDialog.show();
 	        return true;
         }
         return super.onKeyDown(keyCode, event);

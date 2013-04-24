@@ -24,17 +24,19 @@
         android:background="@android:color/black" >
     </LinearLayout>
 
-    
-    <dk.aau.cs.giraf.train.profile.AssociatedPictogramsLayout
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginLeft="14dp"
-        android:orientation="horizontal" />
+        android:layout_weight="0.7"
+        android:orientation="horizontal"
+        android:layout_gravity="left" >
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="left" >
+        <dk.aau.cs.giraf.train.profile.AssociatedPictogramsLayout
+            android:id="@+id/associatedPictograms"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="14dp"
+            android:orientation="horizontal" />
 
         <ImageButton
             android:id="@+id/addPictogramButton"
@@ -48,8 +50,8 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight=".8"
-        android:gravity="right" >
+        android:layout_weight="0.1"
+        android:layout_gravity="right" >
 
         <ImageButton
             android:id="@+id/deleteRowButton"
