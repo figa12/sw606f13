@@ -10,7 +10,7 @@ import dk.aau.cs.giraf.train.opengl.GlRenderer;
 import dk.aau.cs.giraf.train.opengl.RenderableMatrix;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
-public final class Middleground extends RenderableGroup {
+public final class Middleground extends GameDrawable {
     
     public Middleground(GL10 gl, Context context, GameDrawer gameDrawer) {
         super(gl, context, gameDrawer);

@@ -8,7 +8,7 @@ import dk.aau.cs.giraf.train.opengl.GameDrawer;
 import dk.aau.cs.giraf.train.opengl.GlRenderer;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
-public final class Wheels extends RenderableGroup {
+public final class Wheels extends GameDrawable {
     
     public Wheels(GL10 gl, Context context, GameDrawer gameDrawer) {
         super(gl, context, gameDrawer);

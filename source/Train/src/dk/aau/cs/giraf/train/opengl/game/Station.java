@@ -16,7 +16,7 @@ import dk.aau.cs.giraf.train.opengl.RenderableMatrix;
 import dk.aau.cs.giraf.train.opengl.Square;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
-public final class Station extends RenderableGroup {
+public final class Station extends GameDrawable {
     
     public Station(GL10 gl, Context context, GameDrawer gameDrawer) {
         super(gl, context, gameDrawer);

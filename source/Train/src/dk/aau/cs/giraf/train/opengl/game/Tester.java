@@ -7,7 +7,7 @@ import dk.aau.cs.giraf.train.opengl.Color;
 import dk.aau.cs.giraf.train.opengl.GameDrawer;
 import dk.aau.cs.giraf.train.opengl.Square;
 
-public final class Tester extends RenderableGroup {
+public final class Tester extends GameDrawable {
     
     public Tester(GL10 gl, Context context, GameDrawer gameDrawer) {
         super(gl, context, gameDrawer);

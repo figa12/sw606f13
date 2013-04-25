@@ -5,7 +5,7 @@ import java.util.Random;
 import javax.microedition.khronos.opengles.GL10;
 
 import dk.aau.cs.giraf.train.opengl.game.GameData;
-import dk.aau.cs.giraf.train.opengl.game.RenderableGroup;
+import dk.aau.cs.giraf.train.opengl.game.GameDrawable;
 import android.content.Context;
 
 /**
@@ -21,11 +21,11 @@ public final class GameDrawer {
 	public Coordinate currentPosition = new Coordinate(0f, 0f, 0f);
 	private Random random = new Random();
 	
-	/** The list of {@link RenderableGroup}s. */
-	private ArrayList<RenderableGroup> renderableGroups;
+	/** The list of {@link GameDrawable}s. */
+	private ArrayList<GameDrawable> renderableGroups;
 	
 	/**
-	 * Create the {@link GameDrawer}. All {@link RenderableGroup}s are created here.
+	 * Create the {@link GameDrawer}. All {@link GameDrawable}s are created here.
 	 * @param gl the {@link GL10} instance.
 	 * @param context
 	 */
@@ -35,7 +35,7 @@ public final class GameDrawer {
 	
 	/** Initialises the list of renderable groups. */
 	public final void initiaslise(Context context) {
-	    this.renderableGroups = new ArrayList<RenderableGroup>();
+	    this.renderableGroups = new ArrayList<GameDrawable>();
 	    
 	    //Start by creating the stations object, and calculate the stopping positions
         dk.aau.cs.giraf.train.opengl.game.Station station = new dk.aau.cs.giraf.train.opengl.game.Station(gl, context, this);
@@ -74,9 +74,9 @@ public final class GameDrawer {
 		GameData.systemTimeLast = GameData.systemTimeNow;
 	}
 
-	/** Call all {@link RenderableGroup#load()} from {@link GameDrawer#renderableGroups}. */
+	/** Call all {@link GameDrawable#load()} from {@link GameDrawer#renderableGroups}. */
 	public final void loadGame() {
-		for (RenderableGroup renderableGroup : this.renderableGroups) {
+		for (GameDrawable renderableGroup : this.renderableGroups) {
 			renderableGroup.load();
 		}
 	}
