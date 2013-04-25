@@ -11,8 +11,8 @@
     
     <ImageButton
         android:id="@+id/removeButton"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:contentDescription="@string/remove_pictogram"

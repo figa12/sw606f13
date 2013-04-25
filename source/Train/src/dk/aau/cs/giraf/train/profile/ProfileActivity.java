@@ -29,6 +29,10 @@ public class ProfileActivity extends Activity {
 	private CustomiseLinearLayout customiseLinearLayout;
 	private ProgressDialog progressDialog;
 	private AlertDialog errorDialog;
+	public static final int ALLOWED_PICTOGRAMS = 6;
+	public static final int ALLOWED_STATIONS   = 6;
+	
+	private GameConfiguration gameConfiguration;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

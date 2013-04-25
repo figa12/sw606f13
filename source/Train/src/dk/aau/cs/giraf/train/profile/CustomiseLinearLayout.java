@@ -23,7 +23,7 @@ public class CustomiseLinearLayout extends LinearLayout {
     
     private ArrayList<Station> stations = new ArrayList<Station>();
     private ArrayList<ImageButton> addPictogramButtons = new ArrayList<ImageButton>();
-    private int totaleStationPictograms = 0;
+    private ArrayList<AssociatedPictogramsLayout> associatedPictogramsLayouts = new ArrayList<AssociatedPictogramsLayout>();
     
     public CustomiseLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -45,6 +45,7 @@ public class CustomiseLinearLayout extends LinearLayout {
         
         AssociatedPictogramsLayout associatedPictogramsLayout = (AssociatedPictogramsLayout) stationListItem.findViewById(R.id.associatedPictograms);
         associatedPictogramsLayout.bindStation(station);
+        this.associatedPictogramsLayouts.add(associatedPictogramsLayout);
         
         ImageButton addPictogramsButton = (ImageButton) stationListItem.findViewById(R.id.addPictogramButton);
         addPictogramsButton.setOnClickListener(new AddPictogramsClickListener(associatedPictogramsLayout));
@@ -58,14 +59,22 @@ public class CustomiseLinearLayout extends LinearLayout {
     
     private void preventStationOverflow() {
         Button addStationButton = (Button) ((ProfileActivity) super.getContext()).findViewById(R.id.addStationButton);
-        if(this.stations.size() >= 6) {
+        if(this.stations.size() >= ProfileActivity.ALLOWED_STATIONS) {
             addStationButton.setEnabled(false);
         } else {
             addStationButton.setEnabled(true);
         }
     }
     
-    private void setVisibilityPictogramButtons(boolean visible) {
+    public int getTotalPictogramSize() {
+        int result = 0;
+        for (AssociatedPictogramsLayout pictogramLayout : this.associatedPictogramsLayouts) {
+            result += pictogramLayout.getPictogramCount();
+        }
+        return result;
+    }
+    
+    public void setVisibilityPictogramButtons(boolean visible) {
         for (ImageButton imageButton : this.addPictogramButtons) {
             if(visible) {
                 imageButton.setVisibility(ImageButton.VISIBLE);
@@ -121,6 +130,9 @@ public class CustomiseLinearLayout extends LinearLayout {
         @Override
         public void onClick(View view) {
             CustomiseLinearLayout.this.removeStation(this.station);
+            if(CustomiseLinearLayout.this.getTotalPictogramSize() < ProfileActivity.ALLOWED_PICTOGRAMS) {
+                CustomiseLinearLayout.this.setVisibilityPictogramButtons(true);
+            }
         }
     }
 }
