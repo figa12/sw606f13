@@ -62,7 +62,7 @@ public class GameActivity extends Activity {
 		context = this;
 		GameActivity.sound = soundPool.load(this, R.raw.train_whistle, 1);
 		this.openGLView = (GlView) findViewById(R.id.openglview);
-		gameConf = new GameConfiguration(this, "Game 3", 2, -3);
+		gameConf = new GameConfiguration("Game 3", 2, -3);
 		gameConf.addStation(gameConf.new Station(2L));
 		gameConf.addStation(gameConf.new Station(4L));
 		gameConf.addStation(gameConf.new Station(3L));
@@ -365,6 +365,7 @@ public class GameActivity extends Activity {
 		boolean answer = false;
 		int acceptedPics = 0;
 		ArrayList<Pictogram> stationPictograms = new ArrayList<Pictogram>();
+		
 		for (int i = 0; i < station.getAcceptPictograms().size(); i++) {
 			stationPictograms.add(PictoFactory.INSTANCE.getPictogram(context, station.getAcceptPictogram(i)));
 		}
@@ -373,8 +374,8 @@ public class GameActivity extends Activity {
 			for (int i = 0; i < lin.getChildCount(); i++) {
 				if(((FrameLayout)lin.getChildAt(i)).getChildCount() > 0){
 					boolean foundAccPic = false;
-					for (Pictogram accPictogram : stationPictograms) {
-						if(accPictogram == ((FrameLayout)lin.getChildAt(i)).getChildAt(0)){
+					for (Pictogram pictogram : stationPictograms) {
+						if(pictogram.getPictogramID() == ((Pictogram)((FrameLayout)lin.getChildAt(i)).getChildAt(0)).getPictogramID() ){
 							foundAccPic = true;
 							acceptedPics++;
 						}
