@@ -35,8 +35,8 @@ public class DB {
 			Set<String> keys = settings.keySet();
 
 			for (String key : keys) {
-				GameConfiguration game = getSubProfile(settings.get(key));
-				mSubs.add(sub);
+				GameConfiguration game = getGameConfiguration(settings.get(key));
+				gameConfigurations.add(game);
 			}	
 		}
 		return gameConfigurations;
@@ -48,8 +48,7 @@ public class DB {
 		int childID = Integer.valueOf((String)map.get("childID"));
 		GameConfiguration game = new GameConfiguration(name, gameID, childID);
 		
-		ArrayList<Station> stations = new ArrayList<Station>();
-		game.stations = stations.
+		return game;
 	}
 
 	public boolean saveChild(Child child, GameConfiguration game) {
