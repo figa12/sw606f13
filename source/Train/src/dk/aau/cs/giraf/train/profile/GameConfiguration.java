@@ -1,12 +1,16 @@
 package dk.aau.cs.giraf.train.profile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.content.Context;
+import dk.aau.cs.giraf.TimerLib.*;
 import dk.aau.cs.giraf.pictogram.*;
+import dk.aau.cs.giraf.train.Data;
 
 public class GameConfiguration {
-	
+
+	public long guardianID;
 	public String 	gameName;
 	public int		childID;
 	public int		gameID;
@@ -18,6 +22,7 @@ public class GameConfiguration {
 		this.childID = childID;
 		this.gameID = gameID;
 		this.context = context;
+		this.guardianID = Data.currentGuardianID;
 	}
     
 	public void addStation(Station station) {
@@ -44,8 +49,8 @@ public class GameConfiguration {
 		return numberOfPictograms;
 	}
 	
-	public void setContext(Context con){
-		this.context = con;
+	public void setContext(Context context){
+		this.context = context;
 	}
 	
 	public Context getContext(){
@@ -76,5 +81,17 @@ public class GameConfiguration {
 		public Pictogram getCategory(){
 			return this.category;
 		}
+	}
+	
+	public HashMap<String, String> getHashMap() {
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		map.put("gameName", this.gameName);
+		map.put("childID", String.valueOf(this.childID));
+		map.put("stations", String.valueOf(this.stations));
+		map.put("guardianID", String.valueOf(this.guardianID));
+		
+		return map;
 	}
 }

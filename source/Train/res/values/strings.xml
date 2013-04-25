@@ -9,7 +9,7 @@
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="profile_list_header">Profiler</string>
     <string name="game_list_header">Gemte Spil</string>
-    <string name="customisation_header">Tilpas Spil</string>
+    <string name="customisation_header">Tilpas Stationer</string>
     <string name="profile_pic_description">Profil Billede</string>
     <string name="last_used">Sidst Brugt</string>
     <string name="predefined">Predefineret</string>
@@ -19,5 +19,7 @@
     <string name="add_pictogram">Tilføj pictogram</string>
     <string name="add_station">Tilføj station</string>
     <string name="remove_pictogram">Fjern pictogram</string>
+    <string name="save_game">Gem spil</string>
+    <string name="start_game">Start spil</string>
 
 </resources>
