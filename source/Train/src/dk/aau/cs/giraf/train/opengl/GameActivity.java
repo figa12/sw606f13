@@ -9,6 +9,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -30,6 +31,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.game.GameData;
@@ -46,6 +48,7 @@ public class GameActivity extends Activity {
 	private LinearLayout trainDriverLinear;
 	private static GameConfiguration gameConf;
 	public static ImageButton fluteButton;
+	private static Context context;
 	
 	private final static SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
     private static int sound;
@@ -56,7 +59,7 @@ public class GameActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_game);
-		
+		context = this;
 		GameActivity.sound = soundPool.load(this, R.raw.train_whistle, 1);
 		this.openGLView = (GlView) findViewById(R.id.openglview);
 		gameConf = new GameConfiguration(this, "Game 3", 2, -3);
@@ -217,11 +220,13 @@ public class GameActivity extends Activity {
 	 * Adds pictograms to Station, StationCategory and TrainDriver
 	 */
 	private void addPictogramsToFrames() {
-		List<Pictogram> pictogramsToAdd = new ArrayList<Pictogram>();
 		
+		List<Pictogram> pictogramsToAdd = new ArrayList<Pictogram>();
 		if(GameData.numberOfStops == 0){
 			for (Station station : gameConf.getStations()) {
-				pictogramsToAdd.addAll(station.getAcceptPictograms());
+				for (int i = 0; i < station.getAcceptPictograms().size(); i++) {
+					pictogramsToAdd.add(PictoFactory.INSTANCE.getPictogram(this, station.getAcceptPictogram(i)));
+				}
 			}
 		}
 		
@@ -339,7 +344,7 @@ public class GameActivity extends Activity {
 	}
 	
 	private static void setCategoryForNextStation(Station station) {
-		Pictogram cat = station.getCategory();
+		Pictogram cat = PictoFactory.INSTANCE.getPictogram(context, station.getCategory());
 		cat.renderAll();
 		((FrameLayout)stationCategoryLinear.getChildAt(0)).addView(cat, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 	}
@@ -359,11 +364,16 @@ public class GameActivity extends Activity {
 	private static boolean checkPictogramsOnStaion(Station station){
 		boolean answer = false;
 		int acceptedPics = 0;
+		ArrayList<Pictogram> stationPictograms = new ArrayList<Pictogram>();
+		for (int i = 0; i < station.getAcceptPictograms().size(); i++) {
+			stationPictograms.add(PictoFactory.INSTANCE.getPictogram(context, station.getAcceptPictogram(i)));
+		}
+		
 		for (LinearLayout lin : stationLinear) {
 			for (int i = 0; i < lin.getChildCount(); i++) {
 				if(((FrameLayout)lin.getChildAt(i)).getChildCount() > 0){
 					boolean foundAccPic = false;
-					for (Pictogram accPictogram : station.getAcceptPictograms()) {
+					for (Pictogram accPictogram : stationPictograms) {
 						if(accPictogram == ((FrameLayout)lin.getChildAt(i)).getChildAt(0)){
 							foundAccPic = true;
 							acceptedPics++;
