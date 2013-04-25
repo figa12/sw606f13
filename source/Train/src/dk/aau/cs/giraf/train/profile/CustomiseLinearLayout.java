@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -36,14 +37,21 @@ public class CustomiseLinearLayout extends LinearLayout {
         this.stations.add(station);
         
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View customiseStationItem = layoutInflater.inflate(R.layout.station_list_item, null);
+        View stationListItem = layoutInflater.inflate(R.layout.station_list_item, null);
         
-        //PictogramButton categoryPictogramButton = (PictogramButton) customiseStationItem.findViewById(R.id.list_category);
+        PictogramButton categoryPictogramButton = (PictogramButton) stationListItem.findViewById(R.id.list_category);
+        station.category = categoryPictogramButton.getPictogram(); //Bind to station
         
-        ImageView deleteButton = (ImageView) customiseStationItem.findViewById(R.id.deleteRowButton);
+        AssociatedPictogramsLayout associatedPictogramsLayout = (AssociatedPictogramsLayout) stationListItem.findViewById(R.id.associatedPictograms);
+        associatedPictogramsLayout.bindStation(station);
+        
+        ImageButton addPictogramsButton = (ImageButton) stationListItem.findViewById(R.id.addPictogramButton);
+        addPictogramsButton.setOnClickListener(new AddPictogramsClickListener(associatedPictogramsLayout));
+        
+        ImageView deleteButton = (ImageView) stationListItem.findViewById(R.id.deleteRowButton);
         deleteButton.setOnClickListener(new RemoveClickListener(station));
         
-        this.addView(customiseStationItem);
+        this.addView(stationListItem);
     }
     
     /**
@@ -64,6 +72,19 @@ public class CustomiseLinearLayout extends LinearLayout {
      */
     public void removeStation(Station station) {
         this.removeStation(this.stations.indexOf(station));
+    }
+    
+    private final class AddPictogramsClickListener implements OnClickListener {
+        private AssociatedPictogramsLayout associatedPictogramsLayout;
+        
+        public AddPictogramsClickListener(AssociatedPictogramsLayout associatedPictogramsLayout) {
+            this.associatedPictogramsLayout = associatedPictogramsLayout;
+        }
+        
+        @Override
+        public void onClick(View v) {
+            ((ProfileActivity) CustomiseLinearLayout.this.getContext()).startPictoAdmin(ProfileActivity.RECEIVE_SINGLE, this.associatedPictogramsLayout);
+        }
     }
     
     private final class RemoveClickListener implements OnClickListener {

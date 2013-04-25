@@ -156,9 +156,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_button"
-                android:contentDescription="save game"
+                android:contentDescription="@string/save_game"
                 android:drawableRight="@android:drawable/ic_menu_save"
-                android:text="Gem spil"
+                android:text="@string/save_game"
                 android:textColor="@color/black" />
 
             <Button
@@ -166,9 +166,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_button"
-                android:contentDescription="start game"
+                android:contentDescription="@string/start_game"
                 android:drawableRight="@android:drawable/ic_media_play"
-                android:text="Start spil"
+                android:text="@string/start_game"
                 android:textColor="@color/black" />
         </LinearLayout>
     </LinearLayout>
