@@ -19,9 +19,11 @@ public class DB {
 	private long appId;
 
 	public DB(Context context) {
-		this.appId = getAppId();
 		this.context = context;
 		this.helper = new Helper(context);
+		this.appId = getAppId();
+		
+		
 
 	}
 	

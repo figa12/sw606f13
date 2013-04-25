@@ -73,7 +73,7 @@ public class ProfileActivity extends Activity {
 			public void onClick(View v) {
 				 Child selectedChild = ProfileActivity.this.listView.getSelectedChild();
 				 GameConfiguration game = new GameConfiguration("testGame", 1, 1);
-				 DB db = new DB(ProfileActivity.this.getApplicationContext());
+				 DB db = new DB(ProfileActivity.this);
 				 db.saveChild(selectedChild, game);
 			}
 		});
