@@ -86,7 +86,7 @@ public final class Station extends GameDrawable {
         this.platform.loadTexture(super.gl, super.context, R.drawable.texture_platform, Texture.AspectRatio.BitmapOneToOne);
         
         //Make new array
-        GameData.nextStoppingPosition = new float[GameData.numberOfStations];
+        GameData.nextStoppingPosition = new float[GameData.numberOfStations + 1];
         
         //Calculate all stopping positions
         GameData.nextStoppingPosition[0] = GameData.distanceBetweenStations + this.platform.getWidth();

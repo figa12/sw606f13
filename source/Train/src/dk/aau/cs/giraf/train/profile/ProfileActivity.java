@@ -122,5 +122,5 @@ public class ProfileActivity extends Activity {
 	private boolean isCallable(Intent intent) {
         List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
-}
+	}
 }

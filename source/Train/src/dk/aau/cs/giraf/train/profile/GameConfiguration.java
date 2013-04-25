@@ -59,26 +59,26 @@ public class GameConfiguration {
 
 	public class Station {
 		
-		Pictogram category;
-		ArrayList<Pictogram> acceptPictograms = new ArrayList<Pictogram>(); 
+		long category;
+		ArrayList<Long> acceptPictograms = new ArrayList<Long>(); 
 		
 		public Station(long CategoryPictogramId) {
-			this.category = PictoFactory.INSTANCE.getPictogram(context, CategoryPictogramId);
+			this.category = CategoryPictogramId;
 		}
 		
 		public void addAcceptPictogram(long id) {
-			acceptPictograms.add(PictoFactory.INSTANCE.getPictogram(context, id));
+			acceptPictograms.add(id);
 		}
 		
-		public ArrayList<Pictogram> getAcceptPictograms(){
+		public ArrayList<Long> getAcceptPictograms(){
 			return this.acceptPictograms;
 		}
 		
-		public void setCategory(Pictogram category){
+		public void setCategory(long category){
 			this.category = category;
 		}
 		
-		public Pictogram getCategory(){
+		public long getCategory(){
 			return this.category;
 		}
 	}
