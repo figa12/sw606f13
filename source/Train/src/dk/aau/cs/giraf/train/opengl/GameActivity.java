@@ -337,9 +337,12 @@ public class GameActivity extends Activity {
 
 	private static void deletePictogramsFromStation() {
 		((FrameLayout)stationCategoryLinear.getChildAt(0)).removeAllViews();
+		((FrameLayout)stationCategoryLinear.getChildAt(0)).setTag(null);
+		
 		for (LinearLayout lin : stationLinear) {
 			for (int i = 0; i < lin.getChildCount(); i++) {
 				((FrameLayout)lin.getChildAt(i)).removeAllViews();
+				((FrameLayout)lin.getChildAt(i)).setTag(null);
 			}
 		}
 	}
