@@ -209,9 +209,9 @@ public class GameActivity extends Activity {
 	
 	public static void trainDrive(boolean drive){
 		if (drive) {
-			if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations - 1) {
+			if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations) {
 				boolean readyToGo = true;
-				if(GameData.numberOfStops == 0){
+		/*		if(GameData.numberOfStops == 0){
 					for (LinearLayout lin : stationLinear) {
 						for (int i = 0; i< lin.getChildCount();i++) {
 							FrameLayout frame = (FrameLayout)lin.getChildAt(i);
@@ -223,7 +223,7 @@ public class GameActivity extends Activity {
 				}
 				else{
 					//check if it is the correct pictogram on the right station.
-				}
+				}*/
 				
 				if(readyToGo){
 					for (LinearLayout lin : stationLinear) {
