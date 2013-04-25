@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import java.util.List;
 
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
@@ -271,7 +270,7 @@ public class GameActivity extends Activity {
 	 */
 	public static void trainDrive(boolean drive){
 		if (drive) {
-			if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations - 1) {
+			if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations) {
 				boolean readyToGo = true;
 				if(GameData.numberOfStops == 0){
 					for (LinearLayout lin : stationLinear) {
