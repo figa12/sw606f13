@@ -71,6 +71,10 @@ public class GameConfiguration {
 		public long getCategory(){
 			return this.category;
 		}
+		
+		public long getAcceptPictogram(int id){
+			return this.acceptPictograms.get(id);
+		}
 	}
 	
 	public HashMap<String, String> getHashMap() {
