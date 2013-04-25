@@ -106,27 +106,25 @@ public class GameActivity extends Activity {
 		
 		for (LinearLayout stationlinear : stationLinear) {
 			for (int j = 0; j < (numbersOfFrameLayouts / 2); j++) {
-				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(height,height,1.0f);
-				linearLayoutParams.gravity = Gravity.CENTER;
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0,height,1.0f);
 				
 				FrameLayout frameLayout = new FrameLayout(this);
 				frameLayout.setOnDragListener(new DragListener());
-				frameLayout.setBackgroundDrawable(normalShape);
+				frameLayout.setLayoutParams(linearLayoutParams);
 				
-				stationlinear.addView(frameLayout, linearLayoutParams);
+				stationlinear.addView(frameLayout,j);
 			}
 		}
 
 		for (LinearLayout cartlinear : cartsLinear) {
 			for (int j = 0; j < (numbersOfFrameLayouts / 2); j++) {
-				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(height,height,1.0f);
-				linearLayoutParams.gravity = Gravity.CENTER;
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0,height,1.0f);
 				
 				FrameLayout frameLayout = new FrameLayout(this);
 				frameLayout.setOnDragListener(new DragListener());
-				frameLayout.setBackgroundDrawable(normalShape);
+				frameLayout.setLayoutParams(linearLayoutParams);
 
-				cartlinear.addView(frameLayout, linearLayoutParams);
+				cartlinear.addView(frameLayout,j);
 			}
 		}
 
@@ -150,17 +148,15 @@ public class GameActivity extends Activity {
 
 		// add pictograms to the frames
 		this.addPictogramsToFrames();
-		/*
+		
 		ArrayList<LinearLayout> test = new ArrayList<LinearLayout>();
 		test.addAll(cartsLinear);
 		test.addAll(stationLinear);
-		test.add(stationCategoryLinear);
-		test.add(trainDriverLinear);
 		for (LinearLayout lin : test) {
 			for (int i = 0; i < lin.getChildCount(); i++) {
 				lin.getChildAt(i).setBackgroundDrawable(normalShape);
 			}
-		}*/
+		}
 	}
 
 	/**
@@ -272,12 +268,17 @@ public class GameActivity extends Activity {
 				if(readyToGo){
 					//Draw pictograms with opengl
 					
-					stationCategoryLinear.setVisibility(View.INVISIBLE);
+					
+					
+					stationCategoryLinear.setVisibility(View.GONE);
+					stationCategoryLinear.dispatchDisplayHint(View.VISIBLE);
 					
 					for (LinearLayout lin : stationLinear) {
 						lin.setVisibility(View.INVISIBLE);
+						lin.dispatchDisplayHint(View.INVISIBLE);
 					}
-					fluteButton.setVisibility(View.INVISIBLE);
+					fluteButton.setVisibility(View.GONE);
+					fluteButton.dispatchDisplayHint(View.VISIBLE);
 					
 					deletePictogramsFromStation();
 					
@@ -293,9 +294,11 @@ public class GameActivity extends Activity {
 		else {
 			for (LinearLayout lin : stationLinear) {
 				lin.setVisibility(View.VISIBLE);
+				lin.dispatchDisplayHint(View.VISIBLE);
 			}
 
 			stationCategoryLinear.setVisibility(View.VISIBLE);
+			stationCategoryLinear.dispatchDisplayHint(View.VISIBLE);
 			if(GameData.numberOfStops + 1 != GameData.numberOfStations){
 				fluteButton.setVisibility(View.VISIBLE);
 			}
