@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package dk.aau.cs.giraf.train.profile;
 
 import java.util.ArrayList;
@@ -99,10 +98,3 @@ public class DB {
 	}
 
 }
-=======
-package dk.aau.cs.giraf.train.profile;
-
-public class DB {
-
-}
->>>>>>> d27a23799c1637ef4ccd21b43430dc97ef434f22
