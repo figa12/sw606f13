@@ -66,7 +66,8 @@ public class GameActivity extends Activity {
 		gameConf.getStation(0).addAcceptPictogram(2L);
 		gameConf.getStation(1).addAcceptPictogram(4L);
 		gameConf.getStation(2).addAcceptPictogram(3L);
-		
+
+		GameData.numberOfStations = gameConf.getStations().size() + 1;
 		
 		this.addFrameLayoutsAndPictograms(getNumberOfFrameLayouts(gameConf.getNumberOfPictogramsOfStations()));
 		
@@ -274,9 +275,9 @@ public class GameActivity extends Activity {
 	 */
 	public static void trainDrive(boolean drive){
 		if (drive) {
-			if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations) {
+			if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations + 1) {//pga. remise
 				boolean readyToGo = true;
-				if(GameData.numberOfStops == 0){
+				if(GameData.numberOfStops + 1 == 1){
 					for (LinearLayout lin : stationLinear) {
 						for (int i = 0; i< lin.getChildCount();i++) {
 							FrameLayout frame = (FrameLayout)lin.getChildAt(i);
@@ -286,12 +287,18 @@ public class GameActivity extends Activity {
 						}
 					}
 				}
-				else{
+
+				else if(GameData.numberOfStops + 1 == GameData.numberOfStations) {
+					readyToGo = true;	
+				}
+				
+				else {
 					//check if it is the correct pictogram on the right station.
 					if(checkPictogramsOnStaion(gameConf.getStation(GameData.numberOfStops - 1)) ==  false){
 						readyToGo = false;
 					}
 				}
+				
 				
 				if(readyToGo){
 					//Draw pictograms with opengl
@@ -305,14 +312,16 @@ public class GameActivity extends Activity {
 					
 					deletePictogramsFromStation();
 					
-					setCategoryForNextStation(gameConf.getStation(GameData.numberOfStops));
+					if(GameData.numberOfStops + 1 != GameData.numberOfStations) {	
+						setCategoryForNextStation(gameConf.getStation(GameData.numberOfStops));
+					}
 					
 					GameData.accelerateTrain();
 					
 					soundPool.play(sound, 1f, 1f, 0, 0, 0.5f);
 				}
             }
-			
+						
 		} 
 		else {
 			for (LinearLayout lin : stationLinear) {
@@ -320,7 +329,7 @@ public class GameActivity extends Activity {
 			}
 
 			stationCategoryLinear.setVisibility(View.VISIBLE);
-			if(GameData.numberOfStops + 1 != GameData.numberOfStations){
+			if(GameData.numberOfStops != GameData.numberOfStations){
 				fluteButton.setVisibility(View.VISIBLE);
 			}
 		}
