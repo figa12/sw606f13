@@ -3,10 +3,10 @@ package dk.aau.cs.giraf.train.profile;
 import java.util.ArrayList;
 
 import dk.aau.cs.giraf.train.R;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 /**
@@ -18,9 +18,16 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
     
     private Station station;
     private ArrayList<PictogramButton> pictogramButtons = new ArrayList<PictogramButton>();
+    private CustomiseLinearLayout customiseLinearLayout;
+    
     
     public AssociatedPictogramsLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.customiseLinearLayout = (CustomiseLinearLayout) ((ProfileActivity) super.getContext()).findViewById(R.id.customiseLinearLayout);
+    }
+    
+    public int getPictogramCount() {
+        return this.pictogramButtons.size();
     }
     
     public void bindStation(Station station) {
@@ -31,6 +38,9 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
         PictogramButton pictogramButton = new PictogramButton(this.getContext());
         pictogramButton.setPictogram(pictogramId);
         pictogramButton.setRemovable(true);
+        LayoutParams params = new LayoutParams(75, 75);
+        params.setMargins(0, 0, 1, 0);
+        pictogramButton.setLayoutParams(params);
         
         this.pictogramButtons.add(pictogramButton);
         super.addView(pictogramButton);
@@ -50,12 +60,20 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
     public void removeView(View view) {
         super.removeView(view);
         this.pictogramButtons.remove(view);
+        
+        if(this.customiseLinearLayout.getTotalPictogramSize() < ProfileActivity.ALLOWED_PICTOGRAMS) {
+            this.customiseLinearLayout.setVisibilityPictogramButtons(true);
+        }
     }
     
     @Override
     public void receivePictograms(long[] pictogramIds, int requestCode) {
         for (long id : pictogramIds) {
             this.addPictogram(id);
+            if(this.customiseLinearLayout.getTotalPictogramSize() >= ProfileActivity.ALLOWED_PICTOGRAMS) {
+                this.customiseLinearLayout.setVisibilityPictogramButtons(false);
+                break;
+            }
         }
     }
 }

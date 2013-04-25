@@ -3,12 +3,10 @@ package dk.aau.cs.giraf.train.opengl;
 import java.util.ArrayList;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.graphics.Point;
-
 /**
  * A matrix of renderables.
  * Use of the z-axis in this matrix is disabled.
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see Renderable
  */
 public class RenderableMatrix extends Renderable {

@@ -2,15 +2,14 @@ package dk.aau.cs.giraf.train.opengl;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import dk.aau.cs.giraf.train.opengl.Texture.AspectRatio;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 /**
  * The class extends {@link Texture}. The given texture is repeated relative to the repeat-style.
- * This class has compatibility issues.
- * @author Jesper
+ * This class has compatibility issues!
+ * @author Jesper Riemer Andersen
  * @see Texture
  */
 public class RepeatableTexture extends Texture {

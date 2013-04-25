@@ -1,34 +1,38 @@
 package dk.aau.cs.giraf.train.profile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import dk.aau.cs.giraf.TimerLib.Art;
 import dk.aau.cs.giraf.TimerLib.Guardian;
-import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.train.Data;
 import dk.aau.cs.giraf.train.R;
-import dk.aau.cs.giraf.train.opengl.game.GameData;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.content.pm.ResolveInfo;
 
 public class ProfileActivity extends Activity {
 	
     private Guardian guardian = null;
-	private Intent intent = new Intent();
+	private Intent pictoAdminIntent = new Intent();
 	private CustomiseLinearLayout customiseLinearLayout;
 	private ProgressDialog progressDialog;
+	private AlertDialog errorDialog;
+	public static final int ALLOWED_PICTOGRAMS = 6;
+	public static final int ALLOWED_STATIONS   = 6;
+	
+	private GameConfiguration gameConfiguration;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,7 @@ public class ProfileActivity extends Activity {
 		
 		ArrayList<Art> artList = new ArrayList<Art>();//FIXME Is never used.
 		
-		/* Initialize the guardian object */
+		/* Initialize the guardian object. */
     	this.guardian = Guardian.getInstance(Data.currentChildID, Data.currentGuardianID, getApplicationContext(), artList);    	
     	this.guardian.backgroundColor = Data.appBackgroundColor;
 
@@ -60,10 +64,16 @@ public class ProfileActivity extends Activity {
             }
         });
 		
-		this.intent.setComponent(new ComponentName("dk.aau.cs.giraf.pictoadmin","dk.aau.cs.giraf.pictoadmin.PictoAdminMain"));
+		this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.pictoadmin","dk.aau.cs.giraf.pictoadmin.PictoAdminMain"));
 		
 		this.progressDialog = new ProgressDialog(this);
 		this.progressDialog.setMessage("Vent venligst");
+		
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Fejl");
+        alertDialogBuilder.setMessage("PictoAdmin er ikke installeret på denne enhed");
+        alertDialogBuilder.setNegativeButton("Okay", null);
+        this.errorDialog = alertDialogBuilder.create();
 	}
 	
 	@Override
@@ -88,6 +98,10 @@ public class ProfileActivity extends Activity {
 	private PictogramReceiver pictogramReceiver;
     
 	public void startPictoAdmin(int requestCode, PictogramReceiver pictogramRequester) {
+	    if(this.isCallable(this.pictoAdminIntent) == false) {
+	        this.errorDialog.show();
+	        return;
+	    }
 	    this.progressDialog.show();
 	    
 	    this.pictogramReceiver = pictogramRequester;
@@ -95,13 +109,18 @@ public class ProfileActivity extends Activity {
 	    //requestCode defines how many pictograms we want to receive
 	    switch(requestCode) {
 	    case ProfileActivity.RECEIVE_SINGLE:
-	        this.intent.putExtra("purpose", "single");
+	        this.pictoAdminIntent.putExtra("purpose", "single");
 	        break;
 	    case ProfileActivity.RECEIVE_MULTIPLE:
-	        this.intent.putExtra("purpose", "multi");
+	        this.pictoAdminIntent.putExtra("purpose", "multi");
 	        break;
 	    } //TODO Investigate whether our intent gets cleared of these 'extra' objects on return
 	    
-		super.startActivityForResult(this.intent, requestCode);
+		super.startActivityForResult(this.pictoAdminIntent, requestCode);
+	}
+	
+	private boolean isCallable(Intent intent) {
+        List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return list.size() > 0;
 	}
 }

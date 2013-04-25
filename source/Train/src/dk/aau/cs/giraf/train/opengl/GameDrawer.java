@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.microedition.khronos.opengles.GL10;
 
-import dk.aau.cs.giraf.train.opengl.game.GameData;
-import dk.aau.cs.giraf.train.opengl.game.RenderableGroup;
 import android.content.Context;
+import dk.aau.cs.giraf.train.opengl.game.*;
 
 /**
  * This class handles all game drawing.
  * 
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see GameDrawer#drawGame()
  * @see GameDrawer#loadGame()
  */
@@ -21,11 +20,11 @@ public final class GameDrawer {
 	public Coordinate currentPosition = new Coordinate(0f, 0f, 0f);
 	private Random random = new Random();
 	
-	/** The list of {@link RenderableGroup}s. */
-	private ArrayList<RenderableGroup> renderableGroups;
+	/** The list of {@link GameDrawable}s. */
+	private ArrayList<GameDrawable> renderableGroups;
 	
 	/**
-	 * Create the {@link GameDrawer}. All {@link RenderableGroup}s are created here.
+	 * Create the {@link GameDrawer}. All {@link GameDrawable}s are created here.
 	 * @param gl the {@link GL10} instance.
 	 * @param context
 	 */
@@ -35,21 +34,23 @@ public final class GameDrawer {
 	
 	/** Initialises the list of renderable groups. */
 	public final void initiaslise(Context context) {
-	    this.renderableGroups = new ArrayList<RenderableGroup>();
+	    this.renderableGroups = new ArrayList<GameDrawable>();
 	    
 	    //Start by creating the stations object, and calculate the stopping positions
-        dk.aau.cs.giraf.train.opengl.game.Station station = new dk.aau.cs.giraf.train.opengl.game.Station(gl, context, this);
+        Station station = new Station(gl, context, this);
         station.calculateStoppingPositions();
         
         // add RenderableGroups to the list in the order they should be drawn
-        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Weather(gl, context, this));
-        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Middleground(gl, context, this));
+        this.renderableGroups.add(new Weather(gl, context, this));
+        this.renderableGroups.add(new Middleground(gl, context, this));
         this.renderableGroups.add(station);
-        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Train(gl, context, this));
-        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.TrainSmoke(gl, context, this));
-        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Wheels(gl, context, this));
-        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Overlay(gl, context, this));
-        
+        this.renderableGroups.add(new TrainDepot(gl,context, this, TrainDepot.BEFORE_TRAIN));
+        this.renderableGroups.add(new Train(gl, context, this));
+        this.renderableGroups.add(new TrainSmoke(gl, context, this));
+        this.renderableGroups.add(new Clouds(gl, context, this));
+        this.renderableGroups.add(new Wheels(gl, context, this));              
+        this.renderableGroups.add(new TrainDepot(gl,context, this, TrainDepot.AFTER_TRAIN));
+        this.renderableGroups.add(new Overlay(gl, context, this));               
         this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Tester(gl, context, this)); // Always draw last
 	}
 	
@@ -74,9 +75,9 @@ public final class GameDrawer {
 		GameData.systemTimeLast = GameData.systemTimeNow;
 	}
 
-	/** Call all {@link RenderableGroup#load()} from {@link GameDrawer#renderableGroups}. */
+	/** Call all {@link GameDrawable#load()} from {@link GameDrawer#renderableGroups}. */
 	public final void loadGame() {
-		for (RenderableGroup renderableGroup : this.renderableGroups) {
+		for (GameDrawable renderableGroup : this.renderableGroups) {
 			renderableGroup.load();
 		}
 	}

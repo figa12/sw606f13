@@ -9,7 +9,7 @@ import dk.aau.cs.giraf.train.opengl.GameDrawer;
 import dk.aau.cs.giraf.train.opengl.Square;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
-public final class Train extends RenderableGroup {
+public final class Train extends GameDrawable {
 
     public Train(GL10 gl, Context context, GameDrawer gameDrawer) {
         super(gl, context, gameDrawer);

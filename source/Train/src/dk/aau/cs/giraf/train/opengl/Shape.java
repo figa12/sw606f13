@@ -8,7 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 /**
  * An abstract class used for drawing shapes.
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see Renderable
  */
 public abstract class Shape extends Renderable {

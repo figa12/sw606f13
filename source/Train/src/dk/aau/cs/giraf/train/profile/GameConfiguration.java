@@ -14,14 +14,12 @@ public class GameConfiguration {
 	public String 	gameName;
 	public int		childID;
 	public int		gameID;
-	private Context context;
 	ArrayList<Station> stations = new ArrayList<Station>();
 	
-	public GameConfiguration(Context context, String gameName, int gameID, int childID) {
+	public GameConfiguration(String gameName, int gameID, int childID) {
 		this.gameName = gameName;
 		this.childID = childID;
 		this.gameID = gameID;
-		this.context = context;
 		this.guardianID = Data.currentGuardianID;
 	}
     
@@ -47,14 +45,6 @@ public class GameConfiguration {
 			numberOfPictograms += station.acceptPictograms.size();
 		}
 		return numberOfPictograms;
-	}
-	
-	public void setContext(Context context){
-		this.context = context;
-	}
-	
-	public Context getContext(){
-		return this.context;
 	}
 
 	public class Station {

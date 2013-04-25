@@ -16,7 +16,7 @@ import dk.aau.cs.giraf.train.opengl.RenderableMatrix;
 import dk.aau.cs.giraf.train.opengl.Square;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
-public final class Station extends RenderableGroup {
+public final class Station extends GameDrawable {
     
     public Station(GL10 gl, Context context, GameDrawer gameDrawer) {
         super(gl, context, gameDrawer);
@@ -86,7 +86,7 @@ public final class Station extends RenderableGroup {
         this.platform.loadTexture(super.gl, super.context, R.drawable.texture_platform, Texture.AspectRatio.BitmapOneToOne);
         
         //Make new array
-        GameData.nextStoppingPosition = new float[GameData.numberOfStations];
+        GameData.nextStoppingPosition = new float[GameData.numberOfStations + 1];
         
         //Calculate all stopping positions
         GameData.nextStoppingPosition[0] = GameData.distanceBetweenStations + this.platform.getWidth();

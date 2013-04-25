@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 /**
  * This class holds static data relevant for the game.
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see GameDrawer
  */
 public class GameData {
@@ -17,14 +17,15 @@ public class GameData {
     
     public static boolean isPaused = false;
     
-    public static final float maxTrainSpeed = 0.35f; // pixels per ms // 0.35 is nice
+    public static final float maxTrainSpeed = 1.5f; // pixels per ms // 0.35 is nice
     public static float currentTrainVelocity = 0f; // pixels per ms
     
     public static float pixelMovementForThisFrame = 0f; // pixels
     public static float totalDistanceTraveled = 0f;
     
-    public static int numberOfStations = 4;
-    public static float distanceBetweenStations = 10000f; // pixel
+    public static int numberOfStations;
+    public static final float distanceBetweenStations = 10000f; // pixel
+    public static final float distanceToDepot = 5000f; // pixel 
     public static int numberOfStops = 0;
     
     public static float timeDifference; // ms
@@ -102,9 +103,9 @@ public class GameData {
         if(GameData.totalDistanceTraveled + (-GameData.pixelMovementForThisFrame) >= GameData.nextStoppingPosition[GameData.numberOfStops]) {
             GameData.pixelMovementForThisFrame = -(GameData.nextStoppingPosition[GameData.numberOfStops] - GameData.totalDistanceTraveled);
             GameData.currentTrainVelocity = 0f;
-            GameData.changingVelocity = false;
             GameData.numberOfStops++;
-            //make flute visble
+            GameData.changingVelocity = false;
+                        //make flute visble
             GameActivity.fluteButton.post(new Runnable() { 
 				
 				@Override
@@ -123,7 +124,7 @@ public class GameData {
      * @return Visible travel distance.
      */
     public static final float getTotalTravelDistance(float depth) {
-        return GameData.nextStoppingPosition[GameData.numberOfStations-2] + GlRenderer.getActualWidth(GlRenderer.getActualHeight(depth));
+        return GameData.nextStoppingPosition[GameData.numberOfStations-1] + GlRenderer.getActualWidth(GlRenderer.getActualHeight(depth));
     }
     
     private static final String CURRENT_TRAIN_VELOCITY  = "currentTrainCelocity";

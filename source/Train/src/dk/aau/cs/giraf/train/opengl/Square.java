@@ -7,7 +7,7 @@ package dk.aau.cs.giraf.train.opengl;
  * Initialise the Square with a size {@link #Square(float width, float height)}
  * The Square is drawn with the standard method {@link Shape#draw(GL10)}
  * 
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see Shape
  * @see Shape#draw(GL10, float, float, float, float)
  */

@@ -8,9 +8,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +22,8 @@ import android.widget.LinearLayout;
 public class CustomiseLinearLayout extends LinearLayout {
     
     private ArrayList<Station> stations = new ArrayList<Station>();
+    private ArrayList<ImageButton> addPictogramButtons = new ArrayList<ImageButton>();
+    private ArrayList<AssociatedPictogramsLayout> associatedPictogramsLayouts = new ArrayList<AssociatedPictogramsLayout>();
     
     public CustomiseLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -35,6 +35,7 @@ public class CustomiseLinearLayout extends LinearLayout {
      */
     public void addStation(Station station) {
         this.stations.add(station);
+        this.preventStationOverflow();
         
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View stationListItem = layoutInflater.inflate(R.layout.station_list_item, null);
@@ -44,14 +45,44 @@ public class CustomiseLinearLayout extends LinearLayout {
         
         AssociatedPictogramsLayout associatedPictogramsLayout = (AssociatedPictogramsLayout) stationListItem.findViewById(R.id.associatedPictograms);
         associatedPictogramsLayout.bindStation(station);
+        this.associatedPictogramsLayouts.add(associatedPictogramsLayout);
         
         ImageButton addPictogramsButton = (ImageButton) stationListItem.findViewById(R.id.addPictogramButton);
         addPictogramsButton.setOnClickListener(new AddPictogramsClickListener(associatedPictogramsLayout));
+        this.addPictogramButtons.add(addPictogramsButton);
         
         ImageView deleteButton = (ImageView) stationListItem.findViewById(R.id.deleteRowButton);
         deleteButton.setOnClickListener(new RemoveClickListener(station));
         
         this.addView(stationListItem);
+    }
+    
+    private void preventStationOverflow() {
+        Button addStationButton = (Button) ((ProfileActivity) super.getContext()).findViewById(R.id.addStationButton);
+        if(this.stations.size() >= ProfileActivity.ALLOWED_STATIONS) {
+            addStationButton.setEnabled(false);
+        } else {
+            addStationButton.setEnabled(true);
+        }
+    }
+    
+    public int getTotalPictogramSize() {
+        int result = 0;
+        for (AssociatedPictogramsLayout pictogramLayout : this.associatedPictogramsLayouts) {
+            result += pictogramLayout.getPictogramCount();
+        }
+        return result;
+    }
+    
+    public void setVisibilityPictogramButtons(boolean visible) {
+        for (ImageButton imageButton : this.addPictogramButtons) {
+            if(visible) {
+                imageButton.setVisibility(ImageButton.VISIBLE);
+            } else {
+                imageButton.setVisibility(ImageButton.INVISIBLE);
+            }
+            imageButton.setEnabled(visible);
+        }
     }
     
     /**
@@ -64,6 +95,7 @@ public class CustomiseLinearLayout extends LinearLayout {
         }
         this.removeViewAt(index);
         this.stations.remove(index);
+        this.preventStationOverflow();
     }
     
     /**
@@ -98,6 +130,9 @@ public class CustomiseLinearLayout extends LinearLayout {
         @Override
         public void onClick(View view) {
             CustomiseLinearLayout.this.removeStation(this.station);
+            if(CustomiseLinearLayout.this.getTotalPictogramSize() < ProfileActivity.ALLOWED_PICTOGRAMS) {
+                CustomiseLinearLayout.this.setVisibilityPictogramButtons(true);
+            }
         }
     }
 }

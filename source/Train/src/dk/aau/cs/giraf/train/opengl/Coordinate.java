@@ -2,7 +2,7 @@ package dk.aau.cs.giraf.train.opengl;
 
 /**
  * Simple class holding a {@code x}, {@code y}, and {@code z} coordinate.
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see #Coordinate(float, float, float)
  */
 public class Coordinate {

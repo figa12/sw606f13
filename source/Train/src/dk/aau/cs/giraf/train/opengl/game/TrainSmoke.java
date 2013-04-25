@@ -8,9 +8,9 @@ import dk.aau.cs.giraf.train.opengl.Color;
 import dk.aau.cs.giraf.train.opengl.Coordinate;
 import dk.aau.cs.giraf.train.opengl.GameDrawer;
 import dk.aau.cs.giraf.train.opengl.Texture;
-import dk.aau.cs.giraf.train.opengl.game.RenderableGroup;
+import dk.aau.cs.giraf.train.opengl.game.GameDrawable;
 
-public final class TrainSmoke extends RenderableGroup {
+public final class TrainSmoke extends GameDrawable {
     
     public TrainSmoke(GL10 gl, Context context, GameDrawer gameDrawer) {
         super(gl, context, gameDrawer);
