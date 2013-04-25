@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import java.util.List;
 
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
@@ -67,7 +66,8 @@ public class GameActivity extends Activity {
 		gameConf.getStation(0).addAcceptPictogram(2L);
 		gameConf.getStation(1).addAcceptPictogram(4L);
 		gameConf.getStation(2).addAcceptPictogram(3L);
-		
+
+		GameData.numberOfStations = gameConf.getStations().size() + 1;
 		
 		this.addFrameLayoutsAndPictograms(getNumberOfFrameLayouts(gameConf.getNumberOfPictogramsOfStations()));
 		
@@ -131,27 +131,25 @@ public class GameActivity extends Activity {
 		
 		for (LinearLayout stationlinear : stationLinear) {
 			for (int j = 0; j < (numbersOfFrameLayouts / 2); j++) {
-				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(height,height,1.0f);
-				linearLayoutParams.gravity = Gravity.CENTER;
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0,height,1.0f);
 				
 				FrameLayout frameLayout = new FrameLayout(this);
 				frameLayout.setOnDragListener(new DragListener());
-				frameLayout.setBackgroundDrawable(normalShape);
+				frameLayout.setLayoutParams(linearLayoutParams);
 				
-				stationlinear.addView(frameLayout, linearLayoutParams);
+				stationlinear.addView(frameLayout,j);
 			}
 		}
 
 		for (LinearLayout cartlinear : cartsLinear) {
 			for (int j = 0; j < (numbersOfFrameLayouts / 2); j++) {
-				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(height,height,1.0f);
-				linearLayoutParams.gravity = Gravity.CENTER;
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0,height,1.0f);
 				
 				FrameLayout frameLayout = new FrameLayout(this);
 				frameLayout.setOnDragListener(new DragListener());
-				frameLayout.setBackgroundDrawable(normalShape);
+				frameLayout.setLayoutParams(linearLayoutParams);
 
-				cartlinear.addView(frameLayout, linearLayoutParams);
+				cartlinear.addView(frameLayout,j);
 			}
 		}
 
@@ -175,17 +173,15 @@ public class GameActivity extends Activity {
 
 		// add pictograms to the frames
 		this.addPictogramsToFrames();
-		/*
+		
 		ArrayList<LinearLayout> test = new ArrayList<LinearLayout>();
 		test.addAll(cartsLinear);
 		test.addAll(stationLinear);
-		test.add(stationCategoryLinear);
-		test.add(trainDriverLinear);
 		for (LinearLayout lin : test) {
 			for (int i = 0; i < lin.getChildCount(); i++) {
 				lin.getChildAt(i).setBackgroundDrawable(normalShape);
 			}
-		}*/
+		}
 	}
 
 	/**
@@ -275,9 +271,9 @@ public class GameActivity extends Activity {
 	 */
 	public static void trainDrive(boolean drive){
 		if (drive) {
-			if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations - 1) {
+			if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations + 1) {//pga. remise
 				boolean readyToGo = true;
-				if(GameData.numberOfStops == 0){
+				if(GameData.numberOfStops + 1 == 1){
 					for (LinearLayout lin : stationLinear) {
 						for (int i = 0; i< lin.getChildCount();i++) {
 							FrameLayout frame = (FrameLayout)lin.getChildAt(i);
@@ -287,41 +283,56 @@ public class GameActivity extends Activity {
 						}
 					}
 				}
-				else{
+
+				else if(GameData.numberOfStops + 1 == GameData.numberOfStations) {
+					readyToGo = true;	
+				}
+				
+				else {
 					//check if it is the correct pictogram on the right station.
 					if(checkPictogramsOnStaion(gameConf.getStation(GameData.numberOfStops - 1)) ==  false){
 						readyToGo = false;
 					}
 				}
 				
+				
 				if(readyToGo){
 					//Draw pictograms with opengl
 					
-					stationCategoryLinear.setVisibility(View.INVISIBLE);
+					
+					
+					stationCategoryLinear.setVisibility(View.GONE);
+					stationCategoryLinear.dispatchDisplayHint(View.VISIBLE);
 					
 					for (LinearLayout lin : stationLinear) {
 						lin.setVisibility(View.INVISIBLE);
+						lin.dispatchDisplayHint(View.INVISIBLE);
 					}
-					fluteButton.setVisibility(View.INVISIBLE);
+					fluteButton.setVisibility(View.GONE);
+					fluteButton.dispatchDisplayHint(View.VISIBLE);
 					
 					deletePictogramsFromStation();
 					
-					setCategoryForNextStation(gameConf.getStation(GameData.numberOfStops));
+					if(GameData.numberOfStops + 1 != GameData.numberOfStations) {	
+						setCategoryForNextStation(gameConf.getStation(GameData.numberOfStops));
+					}
 					
 					GameData.accelerateTrain();
 					
 					soundPool.play(sound, 1f, 1f, 0, 0, 0.5f);
 				}
             }
-			
+						
 		} 
 		else {
 			for (LinearLayout lin : stationLinear) {
 				lin.setVisibility(View.VISIBLE);
+				lin.dispatchDisplayHint(View.VISIBLE);
 			}
 
 			stationCategoryLinear.setVisibility(View.VISIBLE);
-			if(GameData.numberOfStops + 1 != GameData.numberOfStations){
+			stationCategoryLinear.dispatchDisplayHint(View.VISIBLE);
+			if(GameData.numberOfStops != GameData.numberOfStations){
 				fluteButton.setVisibility(View.VISIBLE);
 			}
 		}
@@ -335,9 +346,12 @@ public class GameActivity extends Activity {
 
 	private static void deletePictogramsFromStation() {
 		((FrameLayout)stationCategoryLinear.getChildAt(0)).removeAllViews();
+		((FrameLayout)stationCategoryLinear.getChildAt(0)).setTag(null);
+		
 		for (LinearLayout lin : stationLinear) {
 			for (int i = 0; i < lin.getChildCount(); i++) {
 				((FrameLayout)lin.getChildAt(i)).removeAllViews();
+				((FrameLayout)lin.getChildAt(i)).setTag(null);
 			}
 		}
 	}

@@ -14,12 +14,14 @@ public class GameConfiguration {
 	public String 	gameName;
 	public int		childID;
 	public int		gameID;
+	private Context context;
 	ArrayList<Station> stations = new ArrayList<Station>();
 	
-	public GameConfiguration(String gameName, int gameID, int childID) {
+	public GameConfiguration(Context context, String gameName, int gameID, int childID) {
 		this.gameName = gameName;
 		this.childID = childID;
 		this.gameID = gameID;
+		this.context = context;
 		this.guardianID = Data.currentGuardianID;
 	}
     
@@ -46,29 +48,37 @@ public class GameConfiguration {
 		}
 		return numberOfPictograms;
 	}
+	
+	public void setContext(Context context){
+		this.context = context;
+	}
+	
+	public Context getContext(){
+		return this.context;
+	}
 
 	public class Station {
 		
-		Pictogram category;
-		ArrayList<Pictogram> acceptPictograms = new ArrayList<Pictogram>(); 
+		long category;
+		ArrayList<Long> acceptPictograms = new ArrayList<Long>(); 
 		
 		public Station(long CategoryPictogramId) {
-			this.category = PictoFactory.INSTANCE.getPictogram(context, CategoryPictogramId);
+			this.category = CategoryPictogramId;
 		}
 		
 		public void addAcceptPictogram(long id) {
-			acceptPictograms.add(PictoFactory.INSTANCE.getPictogram(context, id));
+			acceptPictograms.add(id);
 		}
 		
-		public ArrayList<Pictogram> getAcceptPictograms(){
+		public ArrayList<Long> getAcceptPictograms(){
 			return this.acceptPictograms;
 		}
 		
-		public void setCategory(Pictogram category){
+		public void setCategory(long category){
 			this.category = category;
 		}
 		
-		public Pictogram getCategory(){
+		public long getCategory(){
 			return this.category;
 		}
 	}
@@ -81,7 +91,6 @@ public class GameConfiguration {
 		map.put("childID", String.valueOf(this.childID));
 		map.put("stations", String.valueOf(this.stations));
 		map.put("guardianID", String.valueOf(this.guardianID));
-		map.put("gameID", String.valueOf(this.gameID));
 		
 		return map;
 	}
