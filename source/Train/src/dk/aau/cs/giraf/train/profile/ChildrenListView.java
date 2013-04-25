@@ -14,17 +14,30 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.view.View;
 
-public class CustomListView extends ListView {
+/**
+ * The ChildrenListView class is a {@link ListView} that lists children with the {@link ChildAdapter}.
+ * @see Child
+ * @see Guardian
+ * @see ChildAdapter
+ * @author Nicklas Andersen
+ */
+public class ChildrenListView extends ListView {
     
 	public Guardian guardian = Guardian.getInstance();
 	private ChildAdapter adapter;
 	
-	public CustomListView(Context context, AttributeSet attrs) {
+	public ChildrenListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		
 		this.setOnItemClickListener(messageClickedHandler);
 	}
 	
+	/**
+	 * loadChildren() fills the list with children associated to the current guardian.
+	 * @see Guardian
+	 * @see ChildAdapter
+	 * @see Child
+	 */
 	public void loadChildren() {
 		ArrayList<Child> children = guardian.publishList();
 		
@@ -36,7 +49,7 @@ public class CustomListView extends ListView {
 	private OnItemClickListener messageClickedHandler = new OnItemClickListener() {
 	    @Override
 	    public void onItemClick(AdapterView parent, View view, int position, long id) {
-	    	CustomListView.this.adapter.setSelectedPosition(position);
+	    	ChildrenListView.this.adapter.setSelectedPosition(position);
 	    }
 	};
 }

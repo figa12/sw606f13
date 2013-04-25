@@ -1,19 +1,19 @@
 package dk.aau.cs.giraf.train.opengl;
 
+import java.awt.font.NumericShaper;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
-import android.content.res.Configuration;
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.graphics.LinearGradient;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
@@ -26,60 +26,112 @@ import android.view.View.OnClickListener;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.game.GameData;
 import dk.aau.cs.giraf.train.profile.GameConfiguration;
+import dk.aau.cs.giraf.train.profile.GameConfiguration.Station;
 
 public class GameActivity extends Activity {
 
 	private GlView openGLView;
+	
 	private static ArrayList<LinearLayout> stationLinear;
 	private ArrayList<LinearLayout> cartsLinear;
-	private static LinearLayout stationCategoryLinear;
+	public static LinearLayout stationCategoryLinear;
 	private LinearLayout trainDriverLinear;
+	private static GameConfiguration gameConf;
 	public static ImageButton fluteButton;
+	
 	private final static SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
     private static int sound;
-
+    
+    private AlertDialog alertDialog;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_game);
 		
 		GameActivity.sound = soundPool.load(this, R.raw.train_whistle, 1);
+		this.openGLView = (GlView) findViewById(R.id.openglview);
+		gameConf = new GameConfiguration(this, "Game 3", 2, -3);
+		gameConf.addStation(gameConf.new Station(2L));
+		gameConf.addStation(gameConf.new Station(4L));
+		gameConf.addStation(gameConf.new Station(3L));
+		gameConf.getStation(0).addAcceptPictogram(2L);
+		gameConf.getStation(1).addAcceptPictogram(4L);
+		gameConf.getStation(2).addAcceptPictogram(3L);
 		
-		this.createPictogramLayouts(6);
+		
+		this.addFrameLayoutsAndPictograms(getNumberOfFrameLayouts(gameConf.getNumberOfPictogramsOfStations()));
 		
 		GameData.resetGameData();
-		this.openGLView = (GlView) findViewById(R.id.openglview);
-
+		
+		this.alertDialog = this.createAlertDialog();
+		
 		this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+	}
+	
+	private AlertDialog createAlertDialog() {
+	    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        //myAlertDialog.setTitle("Title");
+        alertDialogBuilder.setCancelable(false);
+        alertDialogBuilder.setMessage("Er du sikker på at du vil afslutte?");
+        alertDialogBuilder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                //'Ja' button is clicked
+                finish();
+            }
+        });
+        alertDialogBuilder.setNegativeButton("Annuller", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                //'Annuller' button is clicked
+                GameData.onResume();
+            }
+        });
+        return alertDialogBuilder.create();
+	}
+	
+	private int getNumberOfFrameLayouts(int numberOfPictogramsOfStations) {
+		int numberOfFrames = 0;
+		switch (numberOfPictogramsOfStations) {
+			case 5: case 6:
+				numberOfFrames = 6;
+				break;
+
+			case 3: case 4:
+				numberOfFrames = 4;
+				break;
+				
+			case 1: case 2:
+				numberOfFrames = 2;
+				break;
+			default:
+				break;
+			}
+		return numberOfFrames;
 	}
 
 	/**
 	 * Dynamically adds FrameLayout defined by numbersOfPictograms, The
 	 * Framelayout is then filled with pictograms.
 	 * 
-	 * @param numbersOfPictograms
+	 * @param numbersOfFrameLayouts
 	 */
-	private void createPictogramLayouts(int numbersOfPictograms) {
-		findandSetLayouts();
+	private void addFrameLayoutsAndPictograms(int numbersOfFrameLayouts) {
+		initLayouts();
 		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
-		int height = 300/(numbersOfPictograms/2);
+		int height = 300/(numbersOfFrameLayouts/2);
 		
 		for (LinearLayout stationlinear : stationLinear) {
-			for (int j = 0; j < (numbersOfPictograms / 2); j++) {
-				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0,height);
-				
+			for (int j = 0; j < (numbersOfFrameLayouts / 2); j++) {
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(height,height,1.0f);
 				linearLayoutParams.gravity = Gravity.CENTER;
-				linearLayoutParams.weight = 1.0f;
 				
 				FrameLayout frameLayout = new FrameLayout(this);
 				frameLayout.setOnDragListener(new DragListener());
@@ -90,9 +142,8 @@ public class GameActivity extends Activity {
 		}
 
 		for (LinearLayout cartlinear : cartsLinear) {
-			for (int j = 0; j < (numbersOfPictograms / 2); j++) {
-				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0,height);
-				linearLayoutParams.weight = 1.0f;
+			for (int j = 0; j < (numbersOfFrameLayouts / 2); j++) {
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(height,height,1.0f);
 				linearLayoutParams.gravity = Gravity.CENTER;
 				
 				FrameLayout frameLayout = new FrameLayout(this);
@@ -104,34 +155,43 @@ public class GameActivity extends Activity {
 		}
 
 		// frame settings for StationCategory
-		LinearLayout.LayoutParams linearLayoutParams2 = new LinearLayout.LayoutParams(
+		LayoutParams categoryParams = new LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.MATCH_PARENT);
-		linearLayoutParams2.weight = 1;
-
-		FrameLayout frameLayout2 = new FrameLayout(this);
-		frameLayout2.setBackgroundDrawable(normalShape);
-		stationCategoryLinear.addView(frameLayout2, linearLayoutParams2);
+		
+		FrameLayout categoryFrame = new FrameLayout(this);
+		categoryFrame.setBackgroundDrawable(normalShape);
+		stationCategoryLinear.addView(categoryFrame, categoryParams);
 
 		// frame setttings for TrainDriver
-		LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(
+		LayoutParams trainDriverParams = new LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.MATCH_PARENT);
-		linearLayoutParams.weight = 1;
 
-		FrameLayout frameLayout = new FrameLayout(this);
-		frameLayout.setBackgroundDrawable(normalShape);
-		trainDriverLinear.addView(frameLayout, linearLayoutParams);
+		FrameLayout trainDriverFrame = new FrameLayout(this);
+		trainDriverFrame.setBackgroundDrawable(normalShape);
+		trainDriverLinear.addView(trainDriverFrame, trainDriverParams);
 
 		// add pictograms to the frames
-		addPictograms();
+		this.addPictogramsToFrames();
+		/*
+		ArrayList<LinearLayout> test = new ArrayList<LinearLayout>();
+		test.addAll(cartsLinear);
+		test.addAll(stationLinear);
+		test.add(stationCategoryLinear);
+		test.add(trainDriverLinear);
+		for (LinearLayout lin : test) {
+			for (int i = 0; i < lin.getChildCount(); i++) {
+				lin.getChildAt(i).setBackgroundDrawable(normalShape);
+			}
+		}*/
 	}
 
 	/**
-	 * Find the LinearLayouts sepcified in activti_game.xml and stores the ref
+	 * Find the LinearLayouts sepcified in activty_game.xml and stores the ref
 	 * in different lists.
 	 */
-	private void findandSetLayouts() {
+	private void initLayouts() {
 		// StationLeft and Right
 		stationLinear = new ArrayList<LinearLayout>();
 		stationLinear.add((LinearLayout) findViewById(R.id.StationLeftLinearLayout));
@@ -154,42 +214,42 @@ public class GameActivity extends Activity {
 
 		// TrainDriver
 		trainDriverLinear = (LinearLayout) findViewById(R.id.TrainDriverLinearLayout);
-
 	}
 	
 	/**
 	 * Adds pictograms to Station, StationCategory and TrainDriver
 	 */
-	private void addPictograms() {
-		List<LinearLayout> linearPictograms = new ArrayList<LinearLayout>();
-		linearPictograms.addAll(stationLinear);
-		linearPictograms.add(stationCategoryLinear);
-		linearPictograms.add(trainDriverLinear);
-
-		for (int i = 0; i < linearPictograms.size(); i++) {
-			for (int j = 0; j < linearPictograms.get(i).getChildCount(); j++) {
-				Pictogram p = PictoFactory.INSTANCE.getPictogram(this, 1L);
-				p.renderImage();
-				p.renderText();
-				int test = R.id.TrainDriverLinearLayout;
-				int bla = linearPictograms.get(i).getId();
-				if(bla == test || bla == R.id.StationCategoryLinearLayout){
-					//Do not add TouchListener on Traindriver and StationCategory
-				}
-				else {
-					p.setOnTouchListener(new TouchListener());
-				}
-
-				FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(
-						FrameLayout.LayoutParams.MATCH_PARENT,
-						FrameLayout.LayoutParams.MATCH_PARENT);
-				try {
-					((FrameLayout) linearPictograms.get(i).getChildAt(j)).addView(p, frameLayoutParams);
-					((FrameLayout) linearPictograms.get(i).getChildAt(j)).setTag("filled");
-					((FrameLayout) linearPictograms.get(i).getChildAt(j)).setBackgroundDrawable(getResources().getDrawable(R.drawable.shape));
-				} catch (Exception e) {
-					Log.d(GameActivity.class.getSimpleName(),
-							"Null value, when adding pictograms to FrameLayouts");
+	private void addPictogramsToFrames() {
+		List<Pictogram> pictogramsToAdd = new ArrayList<Pictogram>();
+		
+		if(GameData.numberOfStops == 0){
+			for (Station station : gameConf.getStations()) {
+				pictogramsToAdd.addAll(station.getAcceptPictograms());
+			}
+		}
+		
+		int nextpic = 0;
+		for (LinearLayout lin : stationLinear) {
+			for (int i = 0; i < lin.getChildCount(); i++) {
+				if(nextpic < pictogramsToAdd.size()){
+					Pictogram pic = pictogramsToAdd.get(nextpic);
+					nextpic++;
+					
+					pic.setOnTouchListener(new TouchListener());
+					
+					FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(
+							FrameLayout.LayoutParams.MATCH_PARENT,
+							FrameLayout.LayoutParams.MATCH_PARENT);
+					try {
+						((FrameLayout) lin.getChildAt(i)).addView(pic, frameLayoutParams);
+						((FrameLayout) lin.getChildAt(i)).setTag("filled");
+					} 
+					catch (Exception e) {
+						Log.d(GameActivity.class.getSimpleName(),
+								"Null value, when adding pictograms to FrameLayouts");
+					}
+					
+					pic.renderAll();
 				}
 			}
 		}
@@ -206,12 +266,17 @@ public class GameActivity extends Activity {
 		super.onResume();
 		this.openGLView.onResume();
 	}
-	
+	/**
+	 * The method checks wether the pictograms on the station is the correct pictograms that are suppose to be dropped
+	 * the method draws the selected pictograms on to OpenGL surface
+	 * and makes the layouts invisble or visble depending on @param drive.
+	 * @param drive
+	 */
 	public static void trainDrive(boolean drive){
 		if (drive) {
 			if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations) {
 				boolean readyToGo = true;
-		/*		if(GameData.numberOfStops == 0){
+				if(GameData.numberOfStops == 0){
 					for (LinearLayout lin : stationLinear) {
 						for (int i = 0; i< lin.getChildCount();i++) {
 							FrameLayout frame = (FrameLayout)lin.getChildAt(i);
@@ -223,32 +288,84 @@ public class GameActivity extends Activity {
 				}
 				else{
 					//check if it is the correct pictogram on the right station.
-				}*/
+					if(checkPictogramsOnStaion(gameConf.getStation(GameData.numberOfStops - 1)) ==  false){
+						readyToGo = false;
+					}
+				}
 				
 				if(readyToGo){
+					//Draw pictograms with opengl
+					
+					stationCategoryLinear.setVisibility(View.INVISIBLE);
+					
 					for (LinearLayout lin : stationLinear) {
 						lin.setVisibility(View.INVISIBLE);
 					}
+					fluteButton.setVisibility(View.INVISIBLE);
+					
+					deletePictogramsFromStation();
+					
+					setCategoryForNextStation(gameConf.getStation(GameData.numberOfStops));
+					
 					GameData.accelerateTrain();
 					
-					soundPool.play(sound, 1f, 1f, 0, 0, 0.75f);
-	                
-					
-					
-					//Make LinearLayouts invisble or animate
-					stationCategoryLinear.setVisibility(View.INVISIBLE);
-					fluteButton.setVisibility(View.INVISIBLE);
+					soundPool.play(sound, 1f, 1f, 0, 0, 0.5f);
 				}
             }
 			
-		} else {
+		} 
+		else {
 			for (LinearLayout lin : stationLinear) {
 				lin.setVisibility(View.VISIBLE);
 			}
 
 			stationCategoryLinear.setVisibility(View.VISIBLE);
-			fluteButton.setVisibility(View.VISIBLE);
+			if(GameData.numberOfStops + 1 != GameData.numberOfStations){
+				fluteButton.setVisibility(View.VISIBLE);
+			}
 		}
+	}
+	
+	private static void setCategoryForNextStation(Station station) {
+		Pictogram cat = station.getCategory();
+		cat.renderAll();
+		((FrameLayout)stationCategoryLinear.getChildAt(0)).addView(cat, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+	}
+
+	private static void deletePictogramsFromStation() {
+		((FrameLayout)stationCategoryLinear.getChildAt(0)).removeAllViews();
+		for (LinearLayout lin : stationLinear) {
+			for (int i = 0; i < lin.getChildCount(); i++) {
+				((FrameLayout)lin.getChildAt(i)).removeAllViews();
+			}
+		}
+	}
+
+	private static boolean checkPictogramsOnStaion(Station station){
+		boolean answer = false;
+		int acceptedPics = 0;
+		for (LinearLayout lin : stationLinear) {
+			for (int i = 0; i < lin.getChildCount(); i++) {
+				if(((FrameLayout)lin.getChildAt(i)).getChildCount() > 0){
+					boolean foundAccPic = false;
+					for (Pictogram accPictogram : station.getAcceptPictograms()) {
+						if(accPictogram == ((FrameLayout)lin.getChildAt(i)).getChildAt(0)){
+							foundAccPic = true;
+							acceptedPics++;
+						}
+					}
+					
+					if(foundAccPic == false){
+						answer = false;
+						return answer;
+					}
+				}
+			}
+		}
+		if(acceptedPics == station.getAcceptPictograms().size()){
+			answer = true;
+		}
+		return answer;
 	}
 
 
@@ -263,8 +380,7 @@ public class GameActivity extends Activity {
 		public boolean onTouch(View view, MotionEvent motionEvent) {
 			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 				ClipData data = ClipData.newPlainText("", "");
-				DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
-						view);
+				DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
 				view.startDrag(data, shadowBuilder, view, 0);
 				return true;
 			} else {
@@ -272,6 +388,7 @@ public class GameActivity extends Activity {
 			}
 		}
 	}
+	
 
 	/**
 	 * A drag listner implementing an onDrag() method that runs when something
@@ -314,8 +431,7 @@ public class GameActivity extends Activity {
 				case DragEvent.ACTION_DROP:
 					// Dropped, assigns the draggedview to the dropcontainer if
 					// the container does not already contain a view.
-					ViewGroup ownerContainer = (ViewGroup) draggedView
-							.getParent();
+					ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
 
 					FrameLayout dropContainer = (FrameLayout) v;
 					Object tag = dropContainer.getTag();
@@ -344,7 +460,8 @@ public class GameActivity extends Activity {
 
 				}
 				return true;
-			} else {
+			} 
+			else {
 				return false;
 			}
 		}
@@ -362,24 +479,7 @@ public class GameActivity extends Activity {
 	    if (keyCode == KeyEvent.KEYCODE_BACK) {
 	        GameData.onPause();
 	        
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-            //myAlertDialog.setTitle("Title");
-            alertDialog.setCancelable(false);
-            alertDialog.setMessage("Er du sikker på at du vil afslutte?");
-            alertDialog.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface arg0, int arg1) {
-                    //'Ja' button is clicked
-                    finish();
-                }
-            });
-            alertDialog.setNegativeButton("Annuller", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface arg0, int arg1) {
-                    //'Annuller' button is clicked
-                    GameData.onResume();
-                }
-            });
-            
-            alertDialog.show();
+            this.alertDialog.show();
 	        return true;
         }
         return super.onKeyDown(keyCode, event);
