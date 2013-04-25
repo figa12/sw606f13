@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.aau.cs.giraf.TimerLib.Art;
+import dk.aau.cs.giraf.TimerLib.Child;
 import dk.aau.cs.giraf.TimerLib.Guardian;
 import dk.aau.cs.giraf.train.Data;
 import dk.aau.cs.giraf.train.R;
@@ -24,6 +25,7 @@ import android.content.pm.ResolveInfo;
 
 public class ProfileActivity extends Activity {
 	
+	private ChildrenListView listView;
     private Guardian guardian = null;
 	private Intent pictoAdminIntent = new Intent();
 	private CustomiseLinearLayout customiseLinearLayout;
@@ -45,13 +47,14 @@ public class ProfileActivity extends Activity {
     	this.guardian = Guardian.getInstance(Data.currentChildID, Data.currentGuardianID, getApplicationContext(), artList);    	
     	this.guardian.backgroundColor = Data.appBackgroundColor;
 
-		ChildrenListView listview = (ChildrenListView) super.findViewById(R.id.profilelist);
-		listview.guardian = this.guardian;
-		listview.loadChildren();
+		ChildrenListView listView = (ChildrenListView) super.findViewById(R.id.profilelist);
+		this.listView = listView;
+		listView.guardian = this.guardian;
+		listView.loadChildren();
 		
-	    Drawable d = getResources().getDrawable(R.drawable.background);
-		d.setColorFilter(Data.appBackgroundColor, PorterDuff.Mode.OVERLAY);
-		super.findViewById(R.id.mainProfileLayout).setBackgroundDrawable(d);
+	    Drawable backgroundDrawable = getResources().getDrawable(R.drawable.background);
+	    backgroundDrawable.setColorFilter(Data.appBackgroundColor, PorterDuff.Mode.OVERLAY);
+		super.findViewById(R.id.mainProfileLayout).setBackgroundDrawable(backgroundDrawable);
 	    
 		this.customiseLinearLayout = (CustomiseLinearLayout) super.findViewById(R.id.customiseLinearLayout);
 		
@@ -64,6 +67,17 @@ public class ProfileActivity extends Activity {
             }
         });
 		
+		Button saveGameButton = (Button) super.findViewById(R.id.saveGameButton);
+		saveGameButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				 Child selectedChild = ProfileActivity.this.listView.getSelectedChild();
+				 GameConfiguration game = new GameConfiguration("testGame", 1, 1);
+				 DB db = new DB(ProfileActivity.this.getApplicationContext());
+				 db.saveChild(selectedChild, game);
+			}
+		});
+		
 		this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.pictoadmin","dk.aau.cs.giraf.pictoadmin.PictoAdminMain"));
 		
 		this.progressDialog = new ProgressDialog(this);
@@ -71,7 +85,7 @@ public class ProfileActivity extends Activity {
 		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Fejl");
-        alertDialogBuilder.setMessage("PictoAdmin er ikke installeret på denne enhed");
+        alertDialogBuilder.setMessage("PictoAdmin er ikke installeret pï¿½ denne enhed");
         alertDialogBuilder.setNegativeButton("Okay", null);
         this.errorDialog = alertDialogBuilder.create();
 	}

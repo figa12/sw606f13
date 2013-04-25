@@ -46,6 +46,10 @@ public class ChildrenListView extends ListView {
 		this.setAdapter(adapter);
 	}
 	
+	public Child getSelectedChild() {
+		return this.adapter.getSelectedChild();
+	}
+	
 	private OnItemClickListener messageClickedHandler = new OnItemClickListener() {
 	    @Override
 	    public void onItemClick(AdapterView parent, View view, int position, long id) {
