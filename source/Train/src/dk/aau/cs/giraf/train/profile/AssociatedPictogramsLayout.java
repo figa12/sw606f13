@@ -1,39 +1,61 @@
 package dk.aau.cs.giraf.train.profile;
 
+import java.util.ArrayList;
+
 import dk.aau.cs.giraf.train.R;
 import android.content.Context;
-import android.support.v4.widget.SearchViewCompat.OnCloseListenerCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-public class AssociatedPictogramsLayout extends LinearLayout {
+/**
+ * A layout containing the pictograms associated to the station.
+ * @author Jesper Riemer Andersen
+ *
+ */
+public class AssociatedPictogramsLayout extends LinearLayout implements PictogramReceiver {
     
     private Station station;
+    private ArrayList<PictogramButton> pictogramButtons = new ArrayList<PictogramButton>();
     
     public AssociatedPictogramsLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        //ImageButton addStationButton = (ImageButton) super.findViewById(R.id.addPictogramButton);
-        //addStationButton.setOnClickListener(new AddStationClickListener());
     }
     
     public void bindStation(Station station) {
         this.station = station;
     }
     
-    public void addPictogram() {
+    public void addPictogram(long pictogramId) {
+        PictogramButton pictogramButton = new PictogramButton(this.getContext());
+        pictogramButton.setPictogram(pictogramId);
+        pictogramButton.setRemovable(true);
         
+        this.pictogramButtons.add(pictogramButton);
+        super.addView(pictogramButton);
+        
+        this.bindPictograms(); //Update the station with the new pictogram
     }
     
-    public void removePictogram() {
+    private void bindPictograms() {
+        this.station.pictograms.clear();
         
+        for (PictogramButton pictogramButton : this.pictogramButtons) {
+            this.station.pictograms.add(pictogramButton.getPictogram());
+        }
     }
     
-    private class AddStationClickListener implements OnClickListener {
-        @Override
-        public void onClick(View v) {
-            AssociatedPictogramsLayout.this.addPictogram();
+    @Override
+    public void removeView(View view) {
+        super.removeView(view);
+        this.pictogramButtons.remove(view);
+    }
+    
+    @Override
+    public void receivePictograms(long[] pictogramIds, int requestCode) {
+        for (long id : pictogramIds) {
+            this.addPictogram(id);
         }
     }
 }

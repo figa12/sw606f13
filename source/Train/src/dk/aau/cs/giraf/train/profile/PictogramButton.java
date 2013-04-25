@@ -20,32 +20,53 @@ import android.widget.LinearLayout;
  * @author Jesper Riemer Andersen
  * //TODO
  */
-public class PictogramButton extends LinearLayout {
+public class PictogramButton extends LinearLayout implements PictogramReceiver {
     
     private FrameLayout pictogramContainer;
     private long pictogramId = -1L;
     private ImageButton removeButton;
     
+    private void setup() {
+        LayoutParams layoutParams = new LayoutParams(75, 75);
+        super.setLayoutParams(layoutParams);
+        super.setBackgroundResource(R.drawable.shape_white);
+        
+        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View pictogramLayout = layoutInflater.inflate(R.layout.pictogram_layout, null);
+        super.addView(pictogramLayout);
+        
+        this.pictogramContainer = (FrameLayout) pictogramLayout.findViewById(R.id.pictogramContainer);
+        
+        this.removeButton = (ImageButton) pictogramLayout.findViewById(R.id.removeButton);
+        this.removeButton.setVisibility(ImageButton.INVISIBLE);
+        this.removeButton.setOnClickListener(new RemoveClickListener());
+        
+        super.setOnClickListener(new PictogramClickListener());
+    }
+    
+    public PictogramButton(Context context) {
+        super(context);
+        this.setup();
+    }
+    
 	public PictogramButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		super.setBackgroundResource(R.drawable.shape_white);
-		
-		LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View pictogramLayout = layoutInflater.inflate(R.layout.pictogram_layout, null);
-		super.addView(pictogramLayout);
-		
-		this.pictogramContainer = (FrameLayout) pictogramLayout.findViewById(R.id.pictogramContainer);
-		
-		this.removeButton = (ImageButton) pictogramLayout.findViewById(R.id.removeButton);
-		this.removeButton.setVisibility(ImageButton.INVISIBLE);
-		this.removeButton.setOnClickListener(new RemoveClickListener());
-		
-		super.setOnClickListener(new SelectPictogramClickListener());
+		this.setup();
 	}
 	
-	public void setIsRemovable(boolean isRemovable) {
+	public long getPictogramId() {
+        return this.pictogramId;
+    }
+	
+    public Pictogram getPictogram() {
+        return (Pictogram) this.pictogramContainer.getChildAt(0); //Returns null if non-existent
+    }
+	
+	public void setRemovable(boolean isRemovable) {
 	    if(isRemovable) {
-	        this.removeButton.setVisibility(ImageButton.VISIBLE);
+	        this.removeButton.setVisibility(ImageButton.VISIBLE);   //Show remove button
+	    } else {
+	        this.removeButton.setVisibility(ImageButton.INVISIBLE); //Hide remove button
 	    }
 	}
 	
@@ -64,23 +85,15 @@ public class PictogramButton extends LinearLayout {
         this.pictogramContainer.addView(pictogram);
 	}
 	
-	public long getPictogramId() {
-	    return this.pictogramId;
-	}
-	
-	private final class SelectPictogramClickListener implements OnClickListener {
-	    private Random rand = new Random();
-	    
+	private final class PictogramClickListener implements OnClickListener {
         @Override
         public void onClick(View view) {
-            int min = 1;
-            int max = 5;
-            PictogramButton.this.setPictogram(rand.nextInt(max - min + 1) + min);
+            //TODO Create loading picture
+            ((ProfileActivity) PictogramButton.this.getContext()).startPictoAdmin(ProfileActivity.RECEIVE_SINGLE, PictogramButton.this);
         }
     }
 	
 	private final class RemoveClickListener implements OnClickListener {
-	    
 	    @Override
 	    public void onClick(View view) {
 	        if(PictogramButton.this.removeButton.getVisibility() == ImageButton.VISIBLE) {
@@ -88,4 +101,9 @@ public class PictogramButton extends LinearLayout {
 	        }
 	    }
 	}
+
+    @Override
+    public void receivePictograms(long[] pictogramIds, int requestCode) {
+        this.setPictogram(pictogramIds[0]); //Only receive one pictogram
+    }
 }
