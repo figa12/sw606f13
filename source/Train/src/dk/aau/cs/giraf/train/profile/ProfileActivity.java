@@ -34,8 +34,6 @@ public class ProfileActivity extends Activity {
 	public static final int ALLOWED_PICTOGRAMS = 6;
 	public static final int ALLOWED_STATIONS   = 6;
 	
-	private GameConfiguration gameConfiguration;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -62,8 +60,7 @@ public class ProfileActivity extends Activity {
 		addStationButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Station station = new Station();
-                ProfileActivity.this.customiseLinearLayout.addStation(station);
+                ProfileActivity.this.customiseLinearLayout.addStation(new StationConfiguration());
             }
         });
 		
@@ -81,13 +78,37 @@ public class ProfileActivity extends Activity {
 		this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.pictoadmin","dk.aau.cs.giraf.pictoadmin.PictoAdminMain"));
 		
 		this.progressDialog = new ProgressDialog(this);
-		this.progressDialog.setMessage("Vent venligst");
+		this.progressDialog.setMessage(super.getResources().getString(R.string.loading));
 		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle("Fejl");
-        alertDialogBuilder.setMessage("PictoAdmin er ikke installeret p� denne enhed");
+        alertDialogBuilder.setTitle(R.string.error);
+        alertDialogBuilder.setMessage(R.string.picto_error);
         alertDialogBuilder.setNegativeButton("Okay", null);
         this.errorDialog = alertDialogBuilder.create();
+        
+        
+        
+        
+        /* TEST */
+        GameConfiguration gameConfiguration = new GameConfiguration("THE game", 2, -3);
+        gameConfiguration.addStation(new StationConfiguration(2L));
+        gameConfiguration.addStation(new StationConfiguration(4L));
+        gameConfiguration.addStation(new StationConfiguration(3L));
+        gameConfiguration.getStation(0).addAcceptPictogram(2L);
+        gameConfiguration.getStation(1).addAcceptPictogram(4L);
+        gameConfiguration.getStation(2).addAcceptPictogram(3L);
+        
+        this.setGameConfiguration(gameConfiguration);
+	}
+	
+	private GameConfiguration getGameConfiguration() {
+	    GameConfiguration gameConfiguration = new GameConfiguration("the new game", 1337L, 1337L); //TODO Set appropriate IDs
+	    gameConfiguration.setStations(this.customiseLinearLayout.getStations());
+	    return gameConfiguration;
+	}
+	
+	private void setGameConfiguration(GameConfiguration gameConfiguration) {
+	    this.customiseLinearLayout.setStationConfigurations(gameConfiguration.getStations());
 	}
 	
 	@Override

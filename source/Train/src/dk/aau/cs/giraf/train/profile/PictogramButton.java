@@ -22,6 +22,7 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
     private FrameLayout pictogramContainer;
     private long pictogramId = -1L;
     private ImageButton removeButton;
+    private StationConfiguration station = null;
     
     private void setup() {
         LayoutParams layoutParams = new LayoutParams(75, 75);
@@ -51,6 +52,11 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
 		this.setup();
 	}
 	
+	public void bindStationAsCategory(StationConfiguration station) {
+	    this.station = station;
+	    this.setPictogram(station.getCategory());
+	}
+	
 	public long getPictogramId() {
         return this.pictogramId;
     }
@@ -71,9 +77,9 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
 	    this.pictogramId = pictogramId;
 	    this.pictogramContainer.removeAllViews();
 	    
-	    if(pictogramId == -1L) {
-	        return;
-	    }
+	    if(pictogramId == -1L) { return; }
+	    
+	    if(this.station != null) { this.station.setCategory(pictogramId); } //If this is a category, save it
 	    
 	    Pictogram pictogram = PictoFactory.INSTANCE.getPictogram(getContext(), pictogramId);
         pictogram.renderImage();

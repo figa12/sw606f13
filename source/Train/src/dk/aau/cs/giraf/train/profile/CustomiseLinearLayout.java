@@ -21,7 +21,7 @@ import android.widget.LinearLayout;
  */
 public class CustomiseLinearLayout extends LinearLayout {
     
-    private ArrayList<Station> stations = new ArrayList<Station>();
+    private ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
     private ArrayList<ImageButton> addPictogramButtons = new ArrayList<ImageButton>();
     private ArrayList<AssociatedPictogramsLayout> associatedPictogramsLayouts = new ArrayList<AssociatedPictogramsLayout>();
     
@@ -33,7 +33,7 @@ public class CustomiseLinearLayout extends LinearLayout {
      * Adds a station to the list.
      * @param station The station to add to the list.
      */
-    public void addStation(Station station) {
+    public void addStation(StationConfiguration station) {
         this.stations.add(station);
         this.preventStationOverflow();
         
@@ -41,7 +41,7 @@ public class CustomiseLinearLayout extends LinearLayout {
         View stationListItem = layoutInflater.inflate(R.layout.station_list_item, null);
         
         PictogramButton categoryPictogramButton = (PictogramButton) stationListItem.findViewById(R.id.list_category);
-        station.category = categoryPictogramButton.getPictogram(); //Bind to station
+        categoryPictogramButton.bindStationAsCategory(station);
         
         AssociatedPictogramsLayout associatedPictogramsLayout = (AssociatedPictogramsLayout) stationListItem.findViewById(R.id.associatedPictograms);
         associatedPictogramsLayout.bindStation(station);
@@ -54,7 +54,20 @@ public class CustomiseLinearLayout extends LinearLayout {
         ImageView deleteButton = (ImageView) stationListItem.findViewById(R.id.deleteRowButton);
         deleteButton.setOnClickListener(new RemoveClickListener(station));
         
-        this.addView(stationListItem);
+        super.addView(stationListItem);
+    }
+    
+    public ArrayList<StationConfiguration> getStations() {
+        return this.stations;
+    }
+    
+    public void setStationConfigurations(ArrayList<StationConfiguration> stationConfigurations) {
+        this.stations = new ArrayList<StationConfiguration>();
+        super.removeAllViews();
+        
+        for (StationConfiguration station : stationConfigurations) {
+            this.addStation(station);
+        }
     }
     
     private void preventStationOverflow() {
@@ -102,7 +115,7 @@ public class CustomiseLinearLayout extends LinearLayout {
      * Removes {@link Station} from the list.
      * @param station The {@link Station} that should be removed from the list.
      */
-    public void removeStation(Station station) {
+    public void removeStation(StationConfiguration station) {
         this.removeStation(this.stations.indexOf(station));
     }
     
@@ -121,9 +134,9 @@ public class CustomiseLinearLayout extends LinearLayout {
     
     private final class RemoveClickListener implements OnClickListener {
         
-        private Station station;
+        private StationConfiguration station;
         
-        public RemoveClickListener(Station station) {
+        public RemoveClickListener(StationConfiguration station) {
             this.station = station;
         }
         

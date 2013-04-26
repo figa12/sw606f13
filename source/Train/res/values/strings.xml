@@ -21,5 +21,10 @@
     <string name="remove_pictogram">Fjern pictogram</string>
     <string name="save_game">Gem spil</string>
     <string name="start_game">Start spil</string>
+    <string name="error">Fejl</string>
+    <string name="picto_error">PictoAdmin er ikke installeret på denne enhed</string>
+    <string name="loading">Vent venligst</string>
+    <string name="close_dialog">Er du sikker på at du vil afslutte?</string>
+    
 
 </resources>

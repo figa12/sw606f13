@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
  */
 public class AssociatedPictogramsLayout extends LinearLayout implements PictogramReceiver {
     
-    private Station station;
+    private StationConfiguration station;
     private ArrayList<PictogramButton> pictogramButtons = new ArrayList<PictogramButton>();
     private CustomiseLinearLayout customiseLinearLayout;
     
@@ -30,8 +30,11 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
         return this.pictogramButtons.size();
     }
     
-    public void bindStation(Station station) {
+    public void bindStation(StationConfiguration station) {
         this.station = station;
+        for (long id : station.getAcceptPictograms()) {
+            this.addPictogram(id);
+        }
     }
     
     public void addPictogram(long pictogramId) {
@@ -49,10 +52,10 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
     }
     
     private void bindPictograms() {
-        this.station.pictograms.clear();
+        this.station.clearAcceptPictograms();
         
         for (PictogramButton pictogramButton : this.pictogramButtons) {
-            this.station.pictograms.add(pictogramButton.getPictogram());
+            this.station.addAcceptPictogram(pictogramButton.getPictogram().getPictogramID());
         }
     }
     

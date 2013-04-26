@@ -36,7 +36,7 @@ import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.game.GameData;
 import dk.aau.cs.giraf.train.profile.GameConfiguration;
-import dk.aau.cs.giraf.train.profile.GameConfiguration.Station;
+import dk.aau.cs.giraf.train.profile.StationConfiguration;
 
 public class GameActivity extends Activity {
 
@@ -63,9 +63,9 @@ public class GameActivity extends Activity {
 		GameActivity.sound = soundPool.load(this, R.raw.train_whistle, 1);
 		this.openGLView = (GlView) findViewById(R.id.openglview);
 		gameConf = new GameConfiguration("Game 3", 2, -3);
-		gameConf.addStation(gameConf.new Station(2L));
-		gameConf.addStation(gameConf.new Station(4L));
-		gameConf.addStation(gameConf.new Station(3L));
+		gameConf.addStation(new StationConfiguration(2L));
+		gameConf.addStation(new StationConfiguration(4L));
+		gameConf.addStation(new StationConfiguration(3L));
 		gameConf.getStation(0).addAcceptPictogram(2L);
 		gameConf.getStation(1).addAcceptPictogram(4L);
 		gameConf.getStation(2).addAcceptPictogram(3L);
@@ -85,7 +85,7 @@ public class GameActivity extends Activity {
 	    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         //myAlertDialog.setTitle("Title");
         alertDialogBuilder.setCancelable(false);
-        alertDialogBuilder.setMessage("Er du sikker på at du vil afslutte?");
+        alertDialogBuilder.setMessage(R.string.close_dialog);
         alertDialogBuilder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 //'Ja' button is clicked
@@ -223,7 +223,7 @@ public class GameActivity extends Activity {
 		
 		List<Pictogram> pictogramsToAdd = new ArrayList<Pictogram>();
 		if(GameData.numberOfStops == 0){
-			for (Station station : gameConf.getStations()) {
+			for (StationConfiguration station : gameConf.getStations()) {
 				for (int i = 0; i < station.getAcceptPictograms().size(); i++) {
 					pictogramsToAdd.add(PictoFactory.INSTANCE.getPictogram(this, station.getAcceptPictogram(i)));
 				}
@@ -343,7 +343,7 @@ public class GameActivity extends Activity {
 		}
 	}
 	
-	private static void setCategoryForNextStation(Station station) {
+	private static void setCategoryForNextStation(StationConfiguration station) {
 		Pictogram cat = PictoFactory.INSTANCE.getPictogram(context, station.getCategory());
 		cat.renderAll();
 		((FrameLayout)stationCategoryLinear.getChildAt(0)).addView(cat, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -361,7 +361,7 @@ public class GameActivity extends Activity {
 		}
 	}
 
-	private static boolean checkPictogramsOnStaion(Station station){
+	private static boolean checkPictogramsOnStaion(StationConfiguration station){
 		boolean answer = false;
 		int acceptedPics = 0;
 		ArrayList<Pictogram> stationPictograms = new ArrayList<Pictogram>();
