@@ -12,8 +12,8 @@ import dk.aau.cs.giraf.train.opengl.Texture;
 
 public final class Middleground extends GameDrawable {
     
-    public Middleground(GL10 gl, Context context, GameDrawer gameDrawer) {
-        super(gl, context, gameDrawer);
+    public Middleground(GL10 gl, Context context, GameDrawer gameDrawer, GameData gameData) {
+        super(gl, context, gameDrawer, gameData);
     }
     
     private final class HillItem {
@@ -86,7 +86,7 @@ public final class Middleground extends GameDrawable {
         this.sequence.addCoordinate(-screenWidth/2, (-screenHeight/2)+39.75f, GameData.MIDDLEGROUND);
     	  
         
-        for (float i = 0f; i <= GameData.getTotalTravelDistance(GameData.MIDDLEGROUND); i += getSequenceWidth(hillSequences[f]) - 100f) {  
+        for (float i = 0f; i <= super.gameData.getTotalTravelDistance(GameData.MIDDLEGROUND); i += getSequenceWidth(hillSequences[f]) - 100f) {  
         	f = super.gameDrawer.getRandomNumber(0, hillSequences.length-1);
         	
         	for (HillItem hillItem : hillSequences[f]){
@@ -109,9 +109,8 @@ public final class Middleground extends GameDrawable {
 
     @Override
     public void draw() {
-        //super.translateAndDraw(this.sequence);
+        this.sequence.move(super.gameData.pixelMovementForThisFrame, 0f);
         super.translateAndDraw(this.sequence);
-        this.sequence.move(GameData.pixelMovementForThisFrame, 0f);
     }
 }
 

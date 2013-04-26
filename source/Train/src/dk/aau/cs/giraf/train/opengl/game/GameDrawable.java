@@ -19,11 +19,13 @@ public abstract class GameDrawable {
     protected GL10 gl;
     protected Context context;
     protected GameDrawer gameDrawer;
+    protected GameData gameData;
     
-    public GameDrawable(GL10 gl, Context context, GameDrawer gameDrawer) {
+    public GameDrawable(GL10 gl, Context context, GameDrawer gameDrawer, GameData gameData) {
         this.gl = gl;
         this.context = context;
         this.gameDrawer = gameDrawer;
+        this.gameData = gameData;
     }
     
     /** Load everything up. Loading happens one time, before drawing. */

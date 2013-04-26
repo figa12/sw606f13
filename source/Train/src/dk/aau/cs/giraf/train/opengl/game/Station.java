@@ -18,8 +18,8 @@ import dk.aau.cs.giraf.train.opengl.Texture;
 
 public final class Station extends GameDrawable {
     
-    public Station(GL10 gl, Context context, GameDrawer gameDrawer) {
-        super(gl, context, gameDrawer);
+    public Station(GL10 gl, Context context, GameDrawer gameDrawer, GameData gameData) {
+        super(gl, context, gameDrawer, gameData);
     }
     
     private class StationContainer {
@@ -73,10 +73,10 @@ public final class Station extends GameDrawable {
             this.stationPlatformMatrix.addRenderableMatrixItem(nextStation.station, new Coordinate(xPosition + nextStation.xOffset, nextStation.yOffset, 0f));
             this.stationPlatformMatrix.addRenderableMatrixItem(this.platform, new Coordinate(xPosition, 0f, 0f));
             
-            xPosition += GameData.distanceBetweenStations + this.platform.getWidth();
+            xPosition += GameData.DISTANCE_BETWEEN_STATIONS + this.platform.getWidth();
         }
         
-        xPosition -= (GameData.distanceBetweenStations + this.platform.getWidth());
+        xPosition -= (GameData.DISTANCE_BETWEEN_STATIONS + this.platform.getWidth());
         
         this.stationPlatformMatrix.addRenderableMatrixItem(this.trainBufferStop, new Coordinate(xPosition + 1540f, -5f, 0f));
     }
@@ -86,12 +86,12 @@ public final class Station extends GameDrawable {
         this.platform.loadTexture(super.gl, super.context, R.drawable.texture_platform, Texture.AspectRatio.BitmapOneToOne);
         
         //Make new array
-        GameData.nextStoppingPosition = new float[GameData.numberOfStations + 1];
+        super.gameData.nextStoppingPosition = new float[GameData.numberOfStations + 1];
         
         //Calculate all stopping positions
-        GameData.nextStoppingPosition[0] = GameData.distanceBetweenStations + this.platform.getWidth();
+        super.gameData.nextStoppingPosition[0] = GameData.DISTANCE_BETWEEN_STATIONS + this.platform.getWidth();
         for (int i = 1; i < GameData.numberOfStations; i++) {
-            GameData.nextStoppingPosition[i] += GameData.nextStoppingPosition[i-1] + GameData.distanceBetweenStations + this.platform.getWidth();
+            super.gameData.nextStoppingPosition[i] += super.gameData.nextStoppingPosition[i-1] + GameData.DISTANCE_BETWEEN_STATIONS + this.platform.getWidth();
         }
     }
     
@@ -106,7 +106,7 @@ public final class Station extends GameDrawable {
     @Override
     public final void draw() {
         //Move
-        this.stationPlatformMatrix.move(GameData.pixelMovementForThisFrame, 0f);
+        this.stationPlatformMatrix.move(super.gameData.pixelMovementForThisFrame, 0f);
         
         //Draw
         super.translateAndDraw(this.stationPlatformMatrix);

@@ -16,23 +16,19 @@ import android.view.MotionEvent;
  */
 public class GlView extends GLSurfaceView {
     
-  
-    
     private GlRenderer glRenderer;
+    private GameData gameData;
     
     /**
      * Set {@link GLSurfaceView} settings.
      * @param context send to renderer
      */
-    private void setup(Context context) {
+    private void setup() {
         this.setEGLContextClientVersion(1); // Pick an OpenGL ES 1 context. Going old school because its easier
         
         this.setEGLConfigChooser(true);
         
         this.setPreserveEGLContextOnPause(false); //When false: onSurfaceCreated is called when app is restored
-        
-        this.glRenderer = new GlRenderer(context);
-        this.setRenderer(this.glRenderer);
     }
     
     /**
@@ -41,7 +37,7 @@ public class GlView extends GLSurfaceView {
      */
     public GlView(Context context) {
         super(context);
-        this.setup(context);
+        this.setup();
     }
     
     /**
@@ -51,7 +47,13 @@ public class GlView extends GLSurfaceView {
      */
     public GlView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.setup(context);
+        this.setup();
+    }
+    
+    public void bindGameData(GameData gameData) {
+        this.gameData = gameData;
+        this.glRenderer = new GlRenderer(super.getContext(), this.gameData);
+        super.setRenderer(this.glRenderer); //First start rendering when we have a GameData object
     }
     
     @Override
@@ -67,11 +69,7 @@ public class GlView extends GLSurfaceView {
         //float x = event.getX();
         //float y = event.getY();
         
-        //If the game is paused, then resume on click
-        if(event.getAction() == MotionEvent.ACTION_DOWN && GameData.isPaused) {
-            GameData.onResume();
-        }
-        return true;
+        return super.onTouchEvent(event);
     }
 
 }

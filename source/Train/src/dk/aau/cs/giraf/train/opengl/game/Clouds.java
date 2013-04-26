@@ -11,8 +11,8 @@ import dk.aau.cs.giraf.train.opengl.Texture;
 
 public final class Clouds extends GameDrawable {
     
-    public Clouds(GL10 gl, Context context, GameDrawer gameDrawer) {
-        super(gl, context, gameDrawer);
+    public Clouds(GL10 gl, Context context, GameDrawer gameDrawer, GameData gameData) {
+        super(gl, context, gameDrawer, gameData);
     }
 
     private final int numberOfClouds = 5;
@@ -70,15 +70,17 @@ public final class Clouds extends GameDrawable {
     @Override
     public final void draw() {
         //Reset one smoke cloud at the given interval
-    
+        
+        if(!super.gameData.isPaused) {
+            //Update position and alpha channels
+            this.updateClouds();
+        }
+        
         //Draw all smoke clouds.
         for (int i = 0; i < this.numberOfClouds; i++) {
             super.translateAndDraw(this.cloudArray[0], this.coordinates[i], this.colors[i]);
         }
         
-        if(!GameData.isPaused) {
-            //Update position and alpha channels
-            this.updateClouds();
-        }
+        
     }
 }

@@ -41,6 +41,7 @@ import dk.aau.cs.giraf.train.profile.StationConfiguration;
 public class GameActivity extends Activity {
 
 	private GlView openGLView;
+	private GameData gameData;
 	
 	private static ArrayList<LinearLayout> stationLinear;
 	private ArrayList<LinearLayout> cartsLinear;
@@ -52,6 +53,7 @@ public class GameActivity extends Activity {
 	
 	private final static SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
     private static int sound;
+    private static int streamId;
     
     private AlertDialog alertDialog;
     
@@ -61,7 +63,7 @@ public class GameActivity extends Activity {
 		this.setContentView(R.layout.activity_game);
 		context = this;
 		GameActivity.sound = soundPool.load(this, R.raw.train_whistle, 1);
-		this.openGLView = (GlView) findViewById(R.id.openglview);
+		
 		gameConf = new GameConfiguration("Game 3", 2, -3);
 		gameConf.addStation(new StationConfiguration(2L));
 		gameConf.addStation(new StationConfiguration(4L));
@@ -70,11 +72,13 @@ public class GameActivity extends Activity {
 		gameConf.getStation(1).addAcceptPictogram(4L);
 		gameConf.getStation(2).addAcceptPictogram(3L);
 
-		GameData.numberOfStations = gameConf.getStations().size() + 1;
+		this.gameData = new GameData(gameConf.getStations().size() + 1);
+        this.openGLView = (GlView) findViewById(R.id.openglview);
+        this.openGLView.bindGameData(this.gameData);
 		
 		this.addFrameLayoutsAndPictograms(getNumberOfFrameLayouts(gameConf.getNumberOfPictogramsOfStations()));
 		
-		GameData.resetGameData();
+		this.gameData.resetGameData();
 		
 		this.alertDialog = this.createAlertDialog();
 		
@@ -95,7 +99,8 @@ public class GameActivity extends Activity {
         alertDialogBuilder.setNegativeButton("Annuller", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 //'Annuller' button is clicked
-                GameData.onResume();
+                GameActivity.this.gameData.onResume();
+                GameActivity.soundPool.resume(GameActivity.streamId);
             }
         });
         return alertDialogBuilder.create();
@@ -222,7 +227,7 @@ public class GameActivity extends Activity {
 	private void addPictogramsToFrames() {
 		
 		List<Pictogram> pictogramsToAdd = new ArrayList<Pictogram>();
-		if(GameData.numberOfStops == 0){
+		if(this.gameData.numberOfStops == 0){
 			for (StationConfiguration station : gameConf.getStations()) {
 				for (int i = 0; i < station.getAcceptPictograms().size(); i++) {
 					pictogramsToAdd.add(PictoFactory.INSTANCE.getPictogram(this, station.getAcceptPictogram(i)));
@@ -324,7 +329,7 @@ public class GameActivity extends Activity {
 					
 					GameData.accelerateTrain();
 					
-					soundPool.play(sound, 1f, 1f, 0, 0, 0.5f);
+					GameActivity.streamId = GameActivity.soundPool.play(GameActivity.sound, 1f, 1f, 0, 0, 0.5f);
 				}
             }
 						
@@ -496,14 +501,15 @@ public class GameActivity extends Activity {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 	    super.onSaveInstanceState(outState);
-	    GameData.resetGameData();
+	    this.gameData.resetGameData();
 	}
 
 	
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //Stop the user from unexpected back presses
 	    if (keyCode == KeyEvent.KEYCODE_BACK) {
-	        GameData.onPause();
+	        this.gameData.onPause();
+	        GameActivity.soundPool.pause(GameActivity.streamId);
 	        
             this.alertDialog.show();
 	        return true;

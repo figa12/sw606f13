@@ -12,8 +12,8 @@ import dk.aau.cs.giraf.train.opengl.game.GameDrawable;
 
 public final class TrainSmoke extends GameDrawable {
     
-    public TrainSmoke(GL10 gl, Context context, GameDrawer gameDrawer) {
-        super(gl, context, gameDrawer);
+    public TrainSmoke(GL10 gl, Context context, GameDrawer gameDrawer, GameData gameData) {
+        super(gl, context, gameDrawer, gameData);
     }
 
     private final int numberOfSmokeClouds = 5;
@@ -42,11 +42,11 @@ public final class TrainSmoke extends GameDrawable {
         //Updates position and alpha channels
         for (int i = 0; i < this.numberOfSmokeClouds; i++) {
             //Always move smoke vertically, move smoke horizontally relative to the train speed.
-            this.coordinates[i].moveX(GameData.pixelMovementForThisFrame);
-            this.coordinates[i].moveY(this.ySpeed * GameData.timeDifference);
+            this.coordinates[i].moveX(super.gameData.pixelMovementForThisFrame);
+            this.coordinates[i].moveY(this.ySpeed * super.gameData.timeDifference);
             
             //Fade the smoke
-            this.colors[i].alpha -= (1f / (this.timeBetweenSmokeClouds * this.numberOfSmokeClouds)) * GameData.timeDifference;
+            this.colors[i].alpha -= (1f / (this.timeBetweenSmokeClouds * this.numberOfSmokeClouds)) * super.gameData.timeDifference;
         }
     }
     
@@ -65,23 +65,23 @@ public final class TrainSmoke extends GameDrawable {
     @Override
     public final void draw() {
         //Reset one smoke cloud at the given interval
-        this.timeSinceLastReset += GameData.timeDifference;
+        this.timeSinceLastReset += super.gameData.timeDifference;
         if(this.timeSinceLastReset >= this.timeBetweenSmokeClouds) {
             this.timeSinceLastReset = 0f;
             
-            if(!GameData.isPaused) {
+            if(!super.gameData.isPaused) {
                 this.resetOneSmokeCloud();
             }
+        }
+        
+        if(!super.gameData.isPaused) {
+            //Update position and alpha channels
+            this.updateSmokeClouds();
         }
         
         //Draw all smoke clouds.
         for (int i = 0; i < this.numberOfSmokeClouds; i++) {
             super.translateAndDraw(this.smokeCloud, this.coordinates[i], this.colors[i]);
-        }
-        
-        if(!GameData.isPaused) {
-            //Update position and alpha channels
-            this.updateSmokeClouds();
         }
     }
 }

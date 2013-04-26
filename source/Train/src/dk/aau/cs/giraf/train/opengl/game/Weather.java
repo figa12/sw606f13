@@ -16,8 +16,8 @@ public final class Weather extends GameDrawable {
         Sunny, Cloudy
     }
     
-    public Weather(GL10 gl, Context context, GameDrawer gameDrawer) {
-        super(gl, context, gameDrawer);
+    public Weather(GL10 gl, Context context, GameDrawer gameDrawer, GameData gameData) {
+        super(gl, context, gameDrawer, gameData);
     }
     
     private final Texture sun = new Texture(250f, 250f);

@@ -32,11 +32,15 @@ public class GlRenderer implements Renderer {
     /** The class that does all the drawing */
     private GameDrawer gameDrawer;
     
+    /** The game data. Contains current velocity, distance traveled, velocity handlers, etc. */
+    private GameData gameData;
+    
     /** Apllication context, used to get resources */
     private Context context;
     
-    public GlRenderer(Context context) {
+    public GlRenderer(Context context, GameData gameData) {
         this.context = context;
+        this.gameData = gameData;
     }
     
     /** 
@@ -100,8 +104,6 @@ public class GlRenderer implements Renderer {
         this.gameDrawer.loadGame();           //Load all texture
         timingLogger.addSplit("loaded all textures");
         timingLogger.dumpToLog();
-        
-        //GameData.resetGameData();
     }
     
     /** 
@@ -133,7 +135,7 @@ public class GlRenderer implements Renderer {
      * @see Renderer#onSurfaceCreated(GL10, EGLConfig)
      */
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        this.gameDrawer = new GameDrawer(gl, this.context); //Create the game drawer instance
+        this.gameDrawer = new GameDrawer(this.context, gl, this.gameData); //Create the game drawer instance
         
         gl.glShadeModel(GL10.GL_SMOOTH);                    //Enable Smooth Shading
         

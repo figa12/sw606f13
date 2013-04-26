@@ -10,8 +10,8 @@ import dk.aau.cs.giraf.train.opengl.Texture;
 
 public final class Wheels extends GameDrawable {
     
-    public Wheels(GL10 gl, Context context, GameDrawer gameDrawer) {
-        super(gl, context, gameDrawer);
+    public Wheels(GL10 gl, Context context, GameDrawer gameDrawer, GameData gameData) {
+        super(gl, context, gameDrawer, gameData);
     }
 
     private final Texture largeWheel = new Texture(1.0f, 1.0f); // wheel diameter 106.39
@@ -37,7 +37,7 @@ public final class Wheels extends GameDrawable {
         
         double circumference = this.wheelDiameter[wheelIndex] * Math.PI;
         double degreePerPixel = 360.0 / circumference;
-        this.rotation[wheelIndex] += (float) degreePerPixel * GameData.pixelMovementForThisFrame;
+        this.rotation[wheelIndex] += (float) degreePerPixel * super.gameData.pixelMovementForThisFrame;
         return this.rotation[wheelIndex];
     }
     

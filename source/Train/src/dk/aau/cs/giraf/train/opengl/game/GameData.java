@@ -3,59 +3,63 @@ package dk.aau.cs.giraf.train.opengl.game;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 import dk.aau.cs.giraf.train.opengl.GlRenderer;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
- * This class holds static data relevant for the game.
+ * Data relevant for the game.
  * @author Jesper Riemer Andersen
- * @see GameDrawer
  */
 public class GameData {
     
-    public static final float FOREGROUND = -907.7443f;
+    public static final float FOREGROUND   = -907.7443f;
     public static final float MIDDLEGROUND = -1800f;
-    public static final float BACKGROUND = -3000f;
+    public static final float BACKGROUND   = -3000f;
     
-    public static boolean isPaused = false;
+    public boolean isPaused = false;
     
-    public static final float maxTrainSpeed = 1.5f; // pixels per ms // 0.35 is nice
+    public static final float MAX_TRAIN_SPEED = 1.5f; // pixels per ms // 0.35 is nice
     public static float currentTrainVelocity = 0f; // pixels per ms
     
-    public static float pixelMovementForThisFrame = 0f; // pixels
-    public static float totalDistanceTraveled = 0f;
+    public float pixelMovementForThisFrame = 0f; // pixels
+    public float totalDistanceTraveled = 0f;
     
     public static int numberOfStations;
-    public static final float distanceBetweenStations = 10000f; // pixel
-    public static final float distanceToDepot = 5000f; // pixel 
+    public static final float DISTANCE_BETWEEN_STATIONS = 10000f; // pixel
+    public static final float DISTANCE_TO_DEPOT = 5000f; // pixel 
     public static int numberOfStops = 0;
     
-    public static float timeDifference; // ms
-    public static long systemTimeLast = System.nanoTime(); // ns
-    public static long systemTimeNow = 1; // ns
+    public float timeDifference; // ms
+    public long systemTimeLast = System.nanoTime(); // ns
+    public long systemTimeNow = 1; // ns
     
     private static boolean changingVelocity = false;
-    private static final float accelerationTime = 5000f; // ms
-    private static float deltaVelocity = GameData.maxTrainSpeed / GameData.accelerationTime; // pixels per ms^2
-    public static float[] nextStoppingPosition;
+    private static final float ACCELERATION_TIME = 5000f; // ms
+    private static float deltaVelocity = GameData.MAX_TRAIN_SPEED / GameData.ACCELERATION_TIME; // pixels per ms^2
+    public float[] nextStoppingPosition;
+    
+    public GameData(int numberOfStation) {
+        GameData.numberOfStations = numberOfStation;
+    }
     
     /** Updates all game data. */
-    public synchronized static final void updateData() {
-        GameData.timeDifference = (GameData.systemTimeNow - GameData.systemTimeLast)/1000000.0f;
+    public synchronized final void updateData() {
+        this.timeDifference = (this.systemTimeNow - this.systemTimeLast)/1000000.0f;
         
         //Limit timeDifference from game freezes
-        if(GameData.timeDifference > 500f) {
-            GameData.timeDifference = 500f;
+        if(this.timeDifference > 500f) {
+            this.timeDifference = 500f;
         }
-        
+        float brakingDistance = this.brakingDistance();
         //if we are within braking distance of our next stop, then start braking
-        if(!GameData.changingVelocity && GameData.nextStoppingPosition[GameData.numberOfStops] - GameData.brakingDistance() <= GameData.totalDistanceTraveled && !GameData.isPaused) {
-            GameData.decelerateTrain();
+        if(!GameData.changingVelocity && this.nextStoppingPosition[GameData.numberOfStops] - this.brakingDistance() <= this.totalDistanceTraveled && !this.isPaused) {
+            this.decelerateTrain();
         }
         
-        GameData.updateVelocity();
+        this.updateVelocity();
     }
     
     /** Initiate train acceleration. */
-    public static final void accelerateTrain() {
+    public synchronized static final void accelerateTrain() {
         if(!GameData.changingVelocity) {
             GameData.changingVelocity = true;
             GameData.deltaVelocity = Math.abs(GameData.deltaVelocity);
@@ -63,45 +67,25 @@ public class GameData {
     }
     
     /** Initiate train deceleration. */
-    private static final void decelerateTrain() {
+    private synchronized final void decelerateTrain() {
         if(!GameData.changingVelocity) {
             GameData.changingVelocity = true;
             GameData.deltaVelocity = -Math.abs(GameData.deltaVelocity);
         }
     }
     
-    private static final float brakingDistance() {
-        return (float) (-Math.pow(GameData.maxTrainSpeed, 2.0)) / (2 * -Math.abs(GameData.deltaVelocity));
+    private synchronized final float brakingDistance() {
+        return (float) (-Math.pow(GameData.MAX_TRAIN_SPEED, 2.0)) / (2 * -Math.abs(GameData.deltaVelocity));
     }
     
-    private synchronized static final void updateVelocity() {
-        if(GameData.changingVelocity) {
-            
-            // if accelerating
-            if (GameData.deltaVelocity > 0) {
-                GameData.currentTrainVelocity += GameData.deltaVelocity * GameData.timeDifference;
-                
-                if(GameData.currentTrainVelocity >= GameData.maxTrainSpeed) {
-                    GameData.currentTrainVelocity = GameData.maxTrainSpeed;
-                    GameData.changingVelocity = false;
-                }
-            }
-            // if decelerating
-            else if (GameData.deltaVelocity < 0) {
-                GameData.currentTrainVelocity += GameData.deltaVelocity * GameData.timeDifference;
-                
-                //minimum reachable velocity. We need a little velocity to get to the nextStoppingPosition
-                if(GameData.currentTrainVelocity <= 0.01f) {
-                    GameData.currentTrainVelocity = 0.01f;
-                }
-            }
-        }
+    private synchronized final void updateVelocity() {
+        this.performAcceleration();
         
-        GameData.pixelMovementForThisFrame = -GameData.currentTrainVelocity * GameData.timeDifference;
+        this.pixelMovementForThisFrame = -GameData.currentTrainVelocity * this.timeDifference;
         
         //if we have reached our next stop or are about to go too far, then make sure the train stops at the exact position
-        if(GameData.totalDistanceTraveled + (-GameData.pixelMovementForThisFrame) >= GameData.nextStoppingPosition[GameData.numberOfStops]) {
-            GameData.pixelMovementForThisFrame = -(GameData.nextStoppingPosition[GameData.numberOfStops] - GameData.totalDistanceTraveled);
+        if(this.totalDistanceTraveled + (-this.pixelMovementForThisFrame) >= this.nextStoppingPosition[GameData.numberOfStops]) {
+            this.pixelMovementForThisFrame = -(this.nextStoppingPosition[GameData.numberOfStops] - this.totalDistanceTraveled);
             GameData.currentTrainVelocity = 0f;
             GameData.numberOfStops++;
             GameData.changingVelocity = false;
@@ -115,7 +99,30 @@ public class GameData {
 			});//TODO investigate if this is the right to do it.
         }
         
-        GameData.totalDistanceTraveled -= GameData.pixelMovementForThisFrame;
+        this.totalDistanceTraveled -= this.pixelMovementForThisFrame;
+    }
+    
+    private synchronized final void performAcceleration() {
+        if(GameData.changingVelocity) {
+            // if accelerating
+            if (GameData.deltaVelocity > 0) {
+                GameData.currentTrainVelocity += GameData.deltaVelocity * this.timeDifference;
+                
+                if(GameData.currentTrainVelocity >= GameData.MAX_TRAIN_SPEED) {
+                    GameData.currentTrainVelocity = GameData.MAX_TRAIN_SPEED;
+                    GameData.changingVelocity = false;
+                }
+            }
+            // if decelerating
+            else if (GameData.deltaVelocity < 0) {
+                GameData.currentTrainVelocity += GameData.deltaVelocity * this.timeDifference;
+                
+                //minimum reachable velocity. We need a little velocity to get to the nextStoppingPosition
+                if(GameData.currentTrainVelocity <= 0.01f) {
+                    GameData.currentTrainVelocity = 0.01f;
+                }
+            }
+        }
     }
     
     /**
@@ -123,8 +130,8 @@ public class GameData {
      * @param depth to calculate in.
      * @return Visible travel distance.
      */
-    public static final float getTotalTravelDistance(float depth) {
-        return GameData.nextStoppingPosition[GameData.numberOfStations-1] + GlRenderer.getActualWidth(GlRenderer.getActualHeight(depth));
+    public final float getTotalTravelDistance(float depth) {
+        return this.nextStoppingPosition[GameData.numberOfStations-1] + GlRenderer.getActualWidth(GlRenderer.getActualHeight(depth));
     }
     
     private static final String CURRENT_TRAIN_VELOCITY  = "currentTrainCelocity";
@@ -136,8 +143,8 @@ public class GameData {
     private static Bundle bundle;
     
     /** Pause the game. */
-    public synchronized static final void onPause() {
-        GameData.isPaused = true;
+    public synchronized final void onPause() {
+        this.isPaused = true;
         
         //Save the current instance state
         GameData.bundle = new Bundle();
@@ -150,26 +157,42 @@ public class GameData {
     }
     
     /** Resume the game. */
-    public synchronized static final void onResume() {
+    public synchronized final void onResume() {
         if(GameData.bundle != null) {
             //Restore instance state
             GameData.changingVelocity     = GameData.bundle.getBoolean(GameData.CHANGING_VELOCITY);
             GameData.currentTrainVelocity = GameData.bundle.getFloat(GameData.CURRENT_TRAIN_VELOCITY);
         }
         
-        GameData.isPaused = false;
+        this.isPaused = false;
         GameData.bundle   = null; //Free memory
     }
     
     /** Reset all game data to its start conditions. */
-    public static final void resetGameData() {
+    public synchronized final void resetGameData() {
         GameData.currentTrainVelocity = 0f;
-        GameData.pixelMovementForThisFrame = 0f;
-        GameData.totalDistanceTraveled = 0f;
-        GameData.systemTimeLast = System.nanoTime();
-        GameData.systemTimeNow = 1;
+        this.pixelMovementForThisFrame = 0f;
+        this.totalDistanceTraveled = 0f;
+        this.systemTimeLast = System.nanoTime();
+        this.systemTimeNow = 1;
         GameData.changingVelocity = false;
         GameData.numberOfStops = 0;
-        GameData.isPaused = false;
+        this.isPaused = false;
+    }
+    
+    /** 
+     * Output warning if we are sure that the stopping positions are too close to each other.
+     * It will cause the train to perform sudden stops rather than smooth ones. */
+    public synchronized final void performStoppingPositionsCheck() {
+        /* The braking distance is also the distance traveled to perform full acceleration
+         * There need to be at least brakingDistance()*2 between stops to perform full smooth acceleration
+         * Even if we do not get a warning here, there is still no guarantee that we will get smooth stops,
+         * since everything is based on time. */
+        for (int i = 1; i < this.nextStoppingPosition.length; i++) {
+            if(this.nextStoppingPosition[i] - this.nextStoppingPosition[i-1] < this.brakingDistance()*2) {
+                Log.w(GameData.class.getSimpleName(), "Stopping positions are too close together, train will perform sudden stop(s).");
+                break;
+            }
+        }
     }
 }

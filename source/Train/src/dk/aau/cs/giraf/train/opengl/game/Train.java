@@ -11,8 +11,8 @@ import dk.aau.cs.giraf.train.opengl.Texture;
 
 public final class Train extends GameDrawable {
 
-    public Train(GL10 gl, Context context, GameDrawer gameDrawer) {
-        super(gl, context, gameDrawer);
+    public Train(GL10 gl, Context context, GameDrawer gameDrawer, GameData gameData) {
+        super(gl, context, gameDrawer, gameData);
     }
 
     private final Texture train = new Texture(1.0f, 1.0f);

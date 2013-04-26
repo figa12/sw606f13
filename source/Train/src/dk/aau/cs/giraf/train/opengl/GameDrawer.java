@@ -17,69 +17,73 @@ import dk.aau.cs.giraf.train.opengl.game.*;
 public final class GameDrawer {
     
 	private GL10 gl;
+	private GameData gameData;
 	public Coordinate currentPosition = new Coordinate(0f, 0f, 0f);
 	private Random random = new Random();
 	
 	/** The list of {@link GameDrawable}s. */
-	private ArrayList<GameDrawable> renderableGroups;
+	private ArrayList<GameDrawable> gameDrawables;
 	
 	/**
 	 * Create the {@link GameDrawer}. All {@link GameDrawable}s are created here.
 	 * @param gl the {@link GL10} instance.
 	 * @param context
 	 */
-	public GameDrawer(GL10 gl, Context context) {
+	public GameDrawer(Context context, GL10 gl, GameData gameData) {
 		this.gl = gl;
+		this.gameData = gameData;
 	}
 	
-	/** Initialises the list of renderable groups. */
+	/** Initialises the list of game drawables. */
 	public final void initiaslise(Context context) {
-	    this.renderableGroups = new ArrayList<GameDrawable>();
+	    this.gameDrawables = new ArrayList<GameDrawable>();
 	    
 	    //Start by creating the stations object, and calculate the stopping positions
-        Station station = new Station(gl, context, this);
+        Station station = new Station(gl, context, this, this.gameData);
         station.calculateStoppingPositions();
         
-        // add RenderableGroups to the list in the order they should be drawn
-        this.renderableGroups.add(new Weather(gl, context, this));
-        this.renderableGroups.add(new Middleground(gl, context, this));
-        this.renderableGroups.add(station);
-        this.renderableGroups.add(new TrainDepot(gl,context, this, TrainDepot.BEFORE_TRAIN));
-        this.renderableGroups.add(new Train(gl, context, this));
-        this.renderableGroups.add(new TrainSmoke(gl, context, this));
-        this.renderableGroups.add(new Clouds(gl, context, this));
-        this.renderableGroups.add(new Wheels(gl, context, this));              
-        this.renderableGroups.add(new TrainDepot(gl,context, this, TrainDepot.AFTER_TRAIN));
-        this.renderableGroups.add(new Overlay(gl, context, this));               
-        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Tester(gl, context, this)); // Always draw last
+        // add GameDrawables to the list in the order they should be drawn
+        this.gameDrawables.add(new Weather(gl, context, this, this.gameData));
+        this.gameDrawables.add(new Middleground(gl, context, this, this.gameData));
+        this.gameDrawables.add(station);
+        this.gameDrawables.add(new TrainDepot(gl,context, this, this.gameData, TrainDepot.BEFORE_TRAIN));
+        this.gameDrawables.add(new Train(gl, context, this, this.gameData));
+        this.gameDrawables.add(new TrainSmoke(gl, context, this, this.gameData));
+        this.gameDrawables.add(new Clouds(gl, context, this, this.gameData));
+        this.gameDrawables.add(new Wheels(gl, context, this, this.gameData));              
+        this.gameDrawables.add(new TrainDepot(gl,context, this, this.gameData, TrainDepot.AFTER_TRAIN));
+        this.gameDrawables.add(new Overlay(gl, context, this, this.gameData));
 	}
 	
-	/** Destroys all the renderable groups. Must be initialised again.
+	/** Destroys all the game drawables. Must be initialised again.
 	 *  @see GameDrawer#initiaslise(Context) */
 	public void freeMemory() {
-	    this.renderableGroups = null;
+	    this.gameDrawables = null;
 	}
 	
 	/** Draw everything on screen. */
 	public synchronized final void drawGame() {
 	    this.resetPosition();
 	    
-	    GameData.systemTimeNow = System.nanoTime();
+	    this.gameData.systemTimeNow = System.nanoTime();
 	    
-	    GameData.updateData();
+	    this.gameData.updateData();
 	    
-		for (int i = 0; i < this.renderableGroups.size(); i++) {
-		    this.renderableGroups.get(i).draw();
+		for (int i = 0; i < this.gameDrawables.size(); i++) {
+		    this.gameDrawables.get(i).draw();
         }
 		
-		GameData.systemTimeLast = GameData.systemTimeNow;
+		this.gameData.systemTimeLast = this.gameData.systemTimeNow;
 	}
 
-	/** Call all {@link GameDrawable#load()} from {@link GameDrawer#renderableGroups}. */
+	/** Call all {@link GameDrawable#load()} from {@link GameDrawer#gameDrawables}. */
 	public final void loadGame() {
-		for (GameDrawable renderableGroup : this.renderableGroups) {
-			renderableGroup.load();
+		for (GameDrawable gameDrawable : this.gameDrawables) {
+			gameDrawable.load();
 		}
+		
+		//Perform debug 'safety' check:
+        this.gameData.performStoppingPositionsCheck();
 	}
 	
 	/**
