@@ -8,6 +8,7 @@ import dk.aau.cs.giraf.TimerLib.Child;
 import dk.aau.cs.giraf.TimerLib.Guardian;
 import dk.aau.cs.giraf.train.Data;
 import dk.aau.cs.giraf.train.R;
+import dk.aau.cs.giraf.train.opengl.GameActivity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -25,12 +26,18 @@ import android.content.pm.ResolveInfo;
 
 public class ProfileActivity extends Activity {
 	
-	private ChildrenListView listView;
+    public static final String GAME_CONFIGURATION = "GameConfiguration";
+    
+    private Intent gameIntent;
+    private Intent pictoAdminIntent = new Intent();
+    
     private Guardian guardian = null;
-	private Intent pictoAdminIntent = new Intent();
+	private ChildrenListView childrenListView;
 	private CustomiseLinearLayout customiseLinearLayout;
+	
 	private ProgressDialog progressDialog;
 	private AlertDialog errorDialog;
+	
 	public static final int ALLOWED_PICTOGRAMS = 6;
 	public static final int ALLOWED_STATIONS   = 6;
 	
@@ -45,10 +52,10 @@ public class ProfileActivity extends Activity {
     	this.guardian = Guardian.getInstance(Data.currentChildID, Data.currentGuardianID, getApplicationContext(), artList);    	
     	this.guardian.backgroundColor = Data.appBackgroundColor;
 
-		ChildrenListView listView = (ChildrenListView) super.findViewById(R.id.profilelist);
-		this.listView = listView;
-		listView.guardian = this.guardian;
-		listView.loadChildren();
+		ChildrenListView childrenListView = (ChildrenListView) super.findViewById(R.id.profilelist);
+		this.childrenListView = childrenListView;
+		this.childrenListView.guardian = this.guardian;
+		this.childrenListView.loadChildren();
 		
 	    Drawable backgroundDrawable = getResources().getDrawable(R.drawable.background);
 	    backgroundDrawable.setColorFilter(Data.appBackgroundColor, PorterDuff.Mode.OVERLAY);
@@ -68,12 +75,23 @@ public class ProfileActivity extends Activity {
 		saveGameButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				 Child selectedChild = ProfileActivity.this.listView.getSelectedChild();
+				 Child selectedChild = ProfileActivity.this.childrenListView.getSelectedChild();
 				 GameConfiguration game = new GameConfiguration("testGame", 1, 1);
 				 DB db = new DB(ProfileActivity.this);
 				 db.saveChild(selectedChild, game);
 			}
 		});
+		
+		this.gameIntent = new Intent(this, GameActivity.class);
+		
+		Button startGameButton = (Button) super.findViewById(R.id.startGameFromProfileButton);
+		startGameButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileActivity.this.gameIntent.putExtra(ProfileActivity.GAME_CONFIGURATION, ProfileActivity.this.getGameConfiguration());
+                ProfileActivity.this.startActivity(ProfileActivity.this.gameIntent);
+            }
+        });
 		
 		this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.pictoadmin","dk.aau.cs.giraf.pictoadmin.PictoAdminMain"));
 		

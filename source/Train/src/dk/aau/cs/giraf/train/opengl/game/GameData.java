@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 /**
- * Data relevant for the game.
+ * Data relevant for the game. Everything is synchronized and volatile since the GameData can be accessed from OpenGL thread and GUI thread.
  * @author Jesper Riemer Andersen
  */
 public class GameData {
@@ -53,7 +53,7 @@ public class GameData {
     }
     
     public synchronized final void bindGameDrawables(Station station, Train train) {
-        //Bind reference to GameData to allow protected access to station and train
+        //Bind references to GameData to allow protected access to station and train
         this.station = station;
         this.train = train;
     }
@@ -78,7 +78,7 @@ public class GameData {
         if(this.timeDifference > 500f) {
             this.timeDifference = 500f;
         }
-        float brakingDistance = this.brakingDistance();
+        
         //if we are within braking distance of our next stop, then start braking
         if(!GameData.changingVelocity && this.nextStoppingPosition[GameData.numberOfStops] - this.brakingDistance() <= this.totalDistanceTraveled && !this.isPaused) {
             this.decelerateTrain();

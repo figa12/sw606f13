@@ -36,6 +36,7 @@ import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.game.GameData;
 import dk.aau.cs.giraf.train.profile.GameConfiguration;
+import dk.aau.cs.giraf.train.profile.ProfileActivity;
 import dk.aau.cs.giraf.train.profile.StationConfiguration;
 
 public class GameActivity extends Activity {
@@ -64,14 +65,19 @@ public class GameActivity extends Activity {
 		context = this;
 		GameActivity.sound = soundPool.load(this, R.raw.train_whistle, 1);
 		
-		gameConf = new GameConfiguration("Game 3", 2, -3);
-		gameConf.addStation(new StationConfiguration(2L));
-		gameConf.addStation(new StationConfiguration(4L));
-		gameConf.addStation(new StationConfiguration(3L));
-		gameConf.getStation(0).addAcceptPictogram(2L);
-		gameConf.getStation(1).addAcceptPictogram(4L);
-		gameConf.getStation(2).addAcceptPictogram(3L);
-
+		Bundle configurationBundle = super.getIntent().getExtras();
+		if(configurationBundle != null) {
+		    this.gameConf = configurationBundle.getParcelable(ProfileActivity.GAME_CONFIGURATION);
+		} else {
+            gameConf = new GameConfiguration("Game 3", 2, -3);
+            gameConf.addStation(new StationConfiguration(2L));
+            gameConf.addStation(new StationConfiguration(4L));
+            gameConf.addStation(new StationConfiguration(3L));
+            gameConf.getStation(0).addAcceptPictogram(2L);
+            gameConf.getStation(1).addAcceptPictogram(4L);
+            gameConf.getStation(2).addAcceptPictogram(3L);
+		}
+		
 		this.gameData = new GameData(gameConf);
         this.openGLView = (GlView) findViewById(R.id.openglview);
         this.openGLView.bindGameData(this.gameData);

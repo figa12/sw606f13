@@ -2,7 +2,10 @@ package dk.aau.cs.giraf.train.profile;
 
 import java.util.ArrayList;
 
-public class StationConfiguration {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class StationConfiguration implements Parcelable {
     private long category = -1L;
     private ArrayList<Long> acceptPictograms = new ArrayList<Long>(); 
     
@@ -36,5 +39,33 @@ public class StationConfiguration {
     
     public long getAcceptPictogram(int id) {
         return this.acceptPictograms.get(id);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeLong(this.category);
+        out.writeList(this.acceptPictograms);
+    }
+    
+    public static final Parcelable.Creator<StationConfiguration> CREATOR = new Parcelable.Creator<StationConfiguration>() {
+        @Override
+        public StationConfiguration createFromParcel(Parcel in) {
+            return new StationConfiguration(in);
+        }
+        
+        @Override
+        public StationConfiguration[] newArray(int size) {
+            return new StationConfiguration[size];
+        }
+    };
+    
+    private StationConfiguration(Parcel in) {
+        this.category = in.readLong();
+        in.readList(this.acceptPictograms, null);
     }
 }

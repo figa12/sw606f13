@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import dk.aau.cs.giraf.TimerLib.*;
 import dk.aau.cs.giraf.pictogram.*;
 import dk.aau.cs.giraf.train.Data;
 
-public class GameConfiguration {
+public class GameConfiguration implements Parcelable {
 
     private long   guardianID;
 	private String gameName;
@@ -58,4 +60,38 @@ public class GameConfiguration {
 		
 		return map;
 	}
+	
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeLong(this.guardianID);
+        out.writeString(this.gameName);
+        out.writeLong(this.childID);
+        out.writeLong(this.gameID);
+        out.writeList(this.stations);
+    }
+    
+    public static final Parcelable.Creator<GameConfiguration> CREATOR = new Parcelable.Creator<GameConfiguration>() {
+        @Override
+        public GameConfiguration createFromParcel(Parcel in) {
+            return new GameConfiguration(in);
+        }
+        
+        @Override
+        public GameConfiguration[] newArray(int size) {
+            return new GameConfiguration[size];
+        }
+    };
+    
+    private GameConfiguration(Parcel in) {
+        this.guardianID = in.readLong();
+        this.gameName = in.readString();
+        this.childID = in.readLong();
+        this.gameID = in.readLong();
+        in.readList(this.stations, StationConfiguration.class.getClassLoader());
+    }
 }
