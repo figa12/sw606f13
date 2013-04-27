@@ -5,6 +5,7 @@ import javax.microedition.khronos.opengles.GL10;
 import dk.aau.cs.giraf.train.opengl.Color;
 import dk.aau.cs.giraf.train.opengl.Coordinate;
 import dk.aau.cs.giraf.train.opengl.GameDrawer;
+import dk.aau.cs.giraf.train.opengl.GlRenderer;
 import dk.aau.cs.giraf.train.opengl.RenderableMatrix;
 import dk.aau.cs.giraf.train.opengl.Square;
 import dk.aau.cs.giraf.train.opengl.Texture;
@@ -27,6 +28,7 @@ public final class TrainDepot extends GameDrawable {
     
 	private final Texture trainDepot = new Texture(1.0f , 1.0f);
 	private final Square trainDepotBackside = new Square(1178f, 440f);
+	private Square tracksEnd;
 	private final RenderableMatrix trainDepotMatrix = new RenderableMatrix();
 
 	@Override
@@ -35,16 +37,24 @@ public final class TrainDepot extends GameDrawable {
 		this.trainDepotMatrix.addCoordinate(-640f, 305.38f, GameData.FOREGROUND);
 		
 		super.gameData.nextStoppingPosition[GameData.numberOfStations - 1] = super.gameData.nextStoppingPosition[GameData.numberOfStations - 2] + GameData.DISTANCE_TO_DEPOT;	
-		super.gameData.nextStoppingPosition[GameData.numberOfStations] = super.gameData.nextStoppingPosition[GameData.numberOfStations - 1] + GameData.DISTANCE_BETWEEN_STATIONS; // Have to give the last index a value equal or greater than the last index.
+		super.gameData.nextStoppingPosition[GameData.numberOfStations] = Float.MAX_VALUE; //Have to give the last index a value equal or greater than the last index.
+		
+		float offset = 0f; //TODO Simon har offset i illustrator
 		
 		switch(this.depth) {
 		case TrainDepot.BEFORE_TRAIN:
-			this.trainDepotMatrix.addRenderableMatrixItem(this.trainDepotBackside, new Coordinate(super.gameData.nextStoppingPosition[GameData.numberOfStations], -220.168f, 0f), Color.DepotBackside);
+			this.trainDepotMatrix.addRenderableMatrixItem(this.trainDepotBackside, new Coordinate(super.gameData.nextStoppingPosition[GameData.numberOfStations - 1] + offset, -220.168f, 0f), Color.DepotBackside);
 			break;
 		
 		case TrainDepot.AFTER_TRAIN:
 		    this.trainDepot.loadTexture(super.gl, super.context, R.drawable.texture_train_depot, Texture.AspectRatio.BitmapOneToOne);
-			this.trainDepotMatrix.addRenderableMatrixItem(this.trainDepot, new Coordinate(super.gameData.nextStoppingPosition[GameData.numberOfStations], 0f, 0f));
+			this.trainDepotMatrix.addRenderableMatrixItem(this.trainDepot, new Coordinate(super.gameData.nextStoppingPosition[GameData.numberOfStations - 1] + offset, 0f, 0f));
+			
+			float height = GlRenderer.getActualHeight(GameData.FOREGROUND);
+			float width = GlRenderer.getActualWidth(height);
+			this.tracksEnd = new Square(width - offset, 21f);
+			this.trainDepotMatrix.addRenderableMatrixItem(this.tracksEnd, new Coordinate(super.gameData.nextStoppingPosition[GameData.numberOfStations - 1] + offset, -660.38f, 0f), Color.EndOfTrack);
+            
 			break;
 		}
 	}
@@ -55,7 +65,6 @@ public final class TrainDepot extends GameDrawable {
 		this.trainDepotMatrix.move(super.gameData.pixelMovementForThisFrame, 0f);
 		
 		//Draw
-		super.translateAndDraw(this.trainDepotMatrix);		
-		
+		super.translateAndDraw(this.trainDepotMatrix);	
 	} 
 }

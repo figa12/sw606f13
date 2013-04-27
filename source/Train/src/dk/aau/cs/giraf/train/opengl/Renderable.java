@@ -15,14 +15,6 @@ import android.content.Context;
  */
 public abstract class Renderable {
     
-    /**
-     * {@link Renderable}s that have texture should implement this interface.
-     * @author Jesper
-     */
-    protected interface Texture {
-        public void loadTexture(GL10 gl, Context context, int resourcePointer);
-    }
-    
     /** The coordinates where this {@link Renderable} should be drawn. */
     private ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
     

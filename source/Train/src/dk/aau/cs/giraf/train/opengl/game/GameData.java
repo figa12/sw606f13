@@ -1,7 +1,9 @@
 package dk.aau.cs.giraf.train.opengl.game;
 
+import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 import dk.aau.cs.giraf.train.opengl.GlRenderer;
+import dk.aau.cs.giraf.train.profile.GameConfiguration;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -18,27 +20,50 @@ public class GameData {
     public boolean isPaused = false;
     
     public static final float MAX_TRAIN_SPEED = 1.5f; // pixels per ms // 0.35 is nice
-    public static float currentTrainVelocity = 0f; // pixels per ms
+    public volatile static float currentTrainVelocity = 0f; // pixels per ms
     
-    public float pixelMovementForThisFrame = 0f; // pixels
-    public float totalDistanceTraveled = 0f;
+    public volatile float pixelMovementForThisFrame = 0f; // pixels
+    public volatile float totalDistanceTraveled = 0f;
     
-    public static int numberOfStations;
-    public static final float DISTANCE_BETWEEN_STATIONS = 10000f; // pixel
+    public volatile static int numberOfStations;
+    public static final float DISTANCE_BETWEEN_STATIONS = 12000f; // pixel
     public static final float DISTANCE_TO_DEPOT = 5000f; // pixel 
-    public static int numberOfStops = 0;
+    public volatile static int numberOfStops = 0;
     
-    public float timeDifference; // ms
-    public long systemTimeLast = System.nanoTime(); // ns
-    public long systemTimeNow = 1; // ns
+    public volatile float timeDifference; // ms
+    public volatile long systemTimeLast = System.nanoTime(); // ns
+    public volatile long systemTimeNow = 1; // ns
     
-    private static boolean changingVelocity = false;
+    private volatile static boolean changingVelocity = false;
     private static final float ACCELERATION_TIME = 5000f; // ms
-    private static float deltaVelocity = GameData.MAX_TRAIN_SPEED / GameData.ACCELERATION_TIME; // pixels per ms^2
-    public float[] nextStoppingPosition;
+    private volatile static float deltaVelocity = GameData.MAX_TRAIN_SPEED / GameData.ACCELERATION_TIME; // pixels per ms^2
+    public volatile float[] nextStoppingPosition;
     
-    public GameData(int numberOfStation) {
-        GameData.numberOfStations = numberOfStation;
+    private GameConfiguration gameConfiguration;
+    private Station station;
+    private Train train;
+    
+    public GameData(GameConfiguration gameConfiguration) {
+        this.gameConfiguration = gameConfiguration;
+        GameData.numberOfStations = gameConfiguration.getStations().size() + 1;
+    }
+    
+    public GameConfiguration getGameConfiguration() {
+        return this.gameConfiguration;
+    }
+    
+    public synchronized final void bindGameDrawables(Station station, Train train) {
+        //Bind reference to GameData to allow protected access to station and train
+        this.station = station;
+        this.train = train;
+    }
+    
+    public synchronized final void setStationPictograms(int stationIndex, Pictogram[] pictograms) {
+        this.station.setPictograms(stationIndex, pictograms);
+    }
+    
+    public synchronized final void setWagonPictograms(Pictogram[] pictograms) {
+        this.train.setWagonPictograms(pictograms);
     }
     
     /** Updates all game data. */

@@ -72,7 +72,7 @@ public class GameActivity extends Activity {
 		gameConf.getStation(1).addAcceptPictogram(4L);
 		gameConf.getStation(2).addAcceptPictogram(3L);
 
-		this.gameData = new GameData(gameConf.getStations().size() + 1);
+		this.gameData = new GameData(gameConf);
         this.openGLView = (GlView) findViewById(R.id.openglview);
         this.openGLView.bindGameData(this.gameData);
 		

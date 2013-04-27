@@ -18,7 +18,8 @@ public class Color {
     public final static Color BackgroundTopColor = new Color(130, 147, 255, 255);
     public final static Color BackgroundBottomColor = new Color(1f, 1f, 1f, 1f);
     public final static Color PausedOverlay = new Color(0f, 0f, 0f, 0.5f);
-    public final static Color DepotBackside = new Color(53, 58, 50, 1f);
+    public final static Color DepotBackside = new Color(53, 58, 50, 255);
+    public final static Color EndOfTrack = new Color(0.8f, 0.8f, 0.8f, 1f);
     
     /* The color values. */
     public float red;
