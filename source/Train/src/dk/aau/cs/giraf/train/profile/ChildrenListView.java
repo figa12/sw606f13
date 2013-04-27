@@ -41,7 +41,7 @@ public class ChildrenListView extends ListView {
 	public void loadChildren() {
 		ArrayList<Child> children = guardian.publishList();
 		
-		this.adapter = new ChildAdapter(this.getContext(), R.drawable.list, children);
+		this.adapter = new ChildAdapter(this.getContext(), R.drawable.list_item, children);
 		
 		this.setAdapter(adapter);
 	}
