@@ -34,9 +34,9 @@ public class GameData {
     public volatile long systemTimeLast = System.nanoTime(); // ns
     public volatile long systemTimeNow = 1; // ns
     
-    private volatile static boolean changingVelocity = false;
+    private static boolean changingVelocity = false;
     private static final float ACCELERATION_TIME = 5000f; // ms
-    private volatile static float deltaVelocity = GameData.MAX_TRAIN_SPEED / GameData.ACCELERATION_TIME; // pixels per ms^2
+    private static float deltaVelocity = GameData.MAX_TRAIN_SPEED / GameData.ACCELERATION_TIME; // pixels per ms^2
     public volatile float[] nextStoppingPosition;
     
     private GameConfiguration gameConfiguration;
@@ -64,6 +64,10 @@ public class GameData {
     
     public synchronized final void setWagonPictograms(Pictogram[] pictograms) {
         this.train.setWagonPictograms(pictograms);
+    }
+    
+    public synchronized final void setDriverPictogram(Pictogram pictogram) {
+        this.train.setDriverPictogram(pictogram);
     }
     
     /** Updates all game data. */

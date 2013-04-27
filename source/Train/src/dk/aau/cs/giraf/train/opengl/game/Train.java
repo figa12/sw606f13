@@ -41,6 +41,40 @@ public final class Train extends GameDrawable {
         this.trainWindow.addCoordinate(198.92f, -87f, GameData.FOREGROUND);
     }
     
+    private Texture driverPictogram;
+    
+    public final void setDriverPictogram(Pictogram pictogram) {
+        if(pictogram == null) {
+            this.driverPictogram = null;
+            return;
+        }
+        
+        final float xPosition = 197f;
+        final float yPosition = -84f;
+        
+        final float pictogramWidth = 100f;
+        final float pictogramHeight = pictogramWidth;
+        
+        Bitmap pictogramBitmap = BitmapFactory.decodeFile(pictogram.getImagePath());
+        
+        this.driverPictogram = new Texture(pictogramWidth, pictogramHeight);
+        
+        //Load texture relative to pictogram size. We need to maintain the aspect ratio relative to the greatest side.
+        if(pictogramBitmap.getWidth() >= pictogramBitmap.getHeight()) {
+            this.driverPictogram.loadTexture(super.gl, super.context, pictogramBitmap, Texture.AspectRatio.KeepWidth);
+        } else {
+            this.driverPictogram.loadTexture(super.gl, super.context, pictogramBitmap, Texture.AspectRatio.KeepHeight);
+        }
+        
+        //Center image in the available space
+        float xOffset = (pictogramWidth - this.driverPictogram.getWidth()) / 2;
+        float yOffset = (pictogramHeight - this.driverPictogram.getHeight()) / 2;
+        
+        this.driverPictogram.addCoordinate(xPosition + xOffset, yPosition - yOffset, GameData.FOREGROUND);
+        
+        pictogramBitmap.recycle();
+    }
+    
     private Texture[] pictogramTexture = new Texture[6]; //No more than 6 pictograms can be present
     
     public final void setWagonPictograms(Pictogram[] pictograms) {
@@ -73,14 +107,14 @@ public final class Train extends GameDrawable {
             
             //Load texture relative to pictogram size. We need to maintain the aspect ratio relative to the greatest side.
             if(pictogramBitmap.getWidth() >= pictogramBitmap.getHeight()) {
-                pictogramTexture[i].loadTexture(super.gl, super.context, pictogramBitmap, Texture.AspectRatio.KeepWidth);
+                this.pictogramTexture[i].loadTexture(super.gl, super.context, pictogramBitmap, Texture.AspectRatio.KeepWidth);
             } else {
-                pictogramTexture[i].loadTexture(super.gl, super.context, pictogramBitmap, Texture.AspectRatio.KeepHeight);
+                this.pictogramTexture[i].loadTexture(super.gl, super.context, pictogramBitmap, Texture.AspectRatio.KeepHeight);
             }
             
             //Center image in the available space
-            float xOffset = (pictogramWidthSpace - pictogramTexture[i].getWidth()) / 2;
-            float yOffset = (pictogramHeightSpace - pictogramTexture[i].getHeight()) / 2;
+            float xOffset = (pictogramWidthSpace - this.pictogramTexture[i].getWidth()) / 2;
+            float yOffset = (pictogramHeightSpace - this.pictogramTexture[i].getHeight()) / 2;
             
             this.pictogramTexture[i].addCoordinate(xPosition + xOffset, yPosition - yOffset, GameData.FOREGROUND);
             
@@ -94,6 +128,10 @@ public final class Train extends GameDrawable {
         super.translateAndDraw(this.wagon);
         super.translateAndDraw(this.trainWindow, Color.Window);
         super.translateAndDraw(this.train);
+        
+        if(this.driverPictogram != null) {
+            super.translateAndDraw(this.driverPictogram);
+        }
         
         //Only draw while train is driving or if we are at the last stop
         if(GameData.currentTrainVelocity != 0f || GameData.numberOfStops == GameData.numberOfStations) {
