@@ -15,8 +15,7 @@ import android.widget.LinearLayout;
 
 /**
  * CustomiseLinearLayout is the class that handles and shows the list of stations ({@link Station}) in the customisation window.
- * @see ArrayList
- * @see Station
+ * @see StationConfiguration
  * @author Nicklas Andersen
  */
 public class CustomiseLinearLayout extends LinearLayout {
@@ -99,8 +98,8 @@ public class CustomiseLinearLayout extends LinearLayout {
     }
     
     /**
-     * Removes {@link Station} at the specified index from the list.
-     * @param index The index of the {@link Station} in the list to remove.
+     * Removes {@link StationConfiguration} at the specified index from the list.
+     * @param index The index of the {@link StationConfiguration} in the list to remove.
      */
     public void removeStation(int index) {
         if(index > this.stations.size() - 1) {
@@ -108,6 +107,8 @@ public class CustomiseLinearLayout extends LinearLayout {
         }
         this.removeViewAt(index);
         this.stations.remove(index);
+        this.addPictogramButtons.remove(index);
+        this.associatedPictogramsLayouts.remove(index);
         this.preventStationOverflow();
     }
     

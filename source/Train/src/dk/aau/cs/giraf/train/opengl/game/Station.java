@@ -19,7 +19,6 @@ import dk.aau.cs.giraf.train.opengl.Renderable;
 import dk.aau.cs.giraf.train.opengl.RenderableMatrix;
 import dk.aau.cs.giraf.train.opengl.Square;
 import dk.aau.cs.giraf.train.opengl.Texture;
-import dk.aau.cs.giraf.train.profile.GameConfiguration;
 
 public final class Station extends GameDrawable {
     
@@ -89,6 +88,7 @@ public final class Station extends GameDrawable {
             float categoryWidth = 100f;
             float categoryHeight = 100f;
             
+            @SuppressWarnings("static-access")
             Pictogram category = PictoFactory.INSTANCE.getPictogram(super.context, super.gameData.getGameConfiguration().getStation(i - 1).getCategory());
             Bitmap categoryBitmap = BitmapFactory.decodeFile(category.getImagePath());
             Texture categoryTexture = new Texture(categoryWidth, categoryHeight);
@@ -144,6 +144,7 @@ public final class Station extends GameDrawable {
         pictogramHeightSpace = pictogramWidthSpace; //Same height as width
         
         float xPosition = (stationIndex == 0) ? 0f : super.gameData.nextStoppingPosition[stationIndex - 1];
+        final float yPosition = 0f; //TODO change according to number of pictograms
         
         for (int i = 0; i < pictograms.length; i++, xPosition += pictogramWidthSpace) {
             if(pictograms[i] != null) {
@@ -163,8 +164,8 @@ public final class Station extends GameDrawable {
                 float xOffset = (pictogramWidthSpace - pictogramTexture.getWidth()) / 2;
                 float yOffset = (pictogramHeightSpace - pictogramTexture.getHeight()) / 2;
                 
-                this.stationPictogramMatrix.addRenderableMatrixItem(new Square(pictogramWidthSpace, pictogramHeightSpace), new Coordinate(xPosition, 0f, 0f), Color.White);
-                //this.stationPictogramMatrix.addRenderableMatrixItem(pictogramTexture, new Coordinate(xPosition + xOffset, 0f - yOffset, 0f));
+                //this.stationPictogramMatrix.addRenderableMatrixItem(new Square(pictogramWidthSpace, pictogramHeightSpace), new Coordinate(xPosition, 0f, 0f), Color.White);
+                this.stationPictogramMatrix.addRenderableMatrixItem(pictogramTexture, new Coordinate(xPosition + xOffset, yPosition - yOffset, 0f));
                 
                 pictogramBitmap.recycle();
             }

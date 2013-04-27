@@ -8,6 +8,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -57,10 +58,17 @@ public class GameActivity extends Activity {
     private static int streamId;
     
     private AlertDialog alertDialog;
+    public ProgressDialog progressDialog;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		this.progressDialog = new ProgressDialog(this);
+        this.progressDialog.setMessage(super.getResources().getString(R.string.loading));
+        this.progressDialog.setCancelable(true);
+        this.progressDialog.show();
+		
 		this.setContentView(R.layout.activity_game);
 		context = this;
 		GameActivity.sound = soundPool.load(this, R.raw.train_whistle, 1);

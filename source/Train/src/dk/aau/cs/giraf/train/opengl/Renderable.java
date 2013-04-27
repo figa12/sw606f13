@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.content.Context;
-
 /**
  * An abstract class for objects that can be rendered in OpenGL.
  * Renderables must implement a draw method. The draw method should draw the Renderable at the {@link #coordinates}

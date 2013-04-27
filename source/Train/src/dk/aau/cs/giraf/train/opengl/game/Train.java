@@ -1,7 +1,5 @@
 package dk.aau.cs.giraf.train.opengl.game;
 
-import java.util.ArrayList;
-
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
@@ -10,7 +8,6 @@ import android.graphics.BitmapFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.Color;
-import dk.aau.cs.giraf.train.opengl.Coordinate;
 import dk.aau.cs.giraf.train.opengl.GameDrawer;
 import dk.aau.cs.giraf.train.opengl.Square;
 import dk.aau.cs.giraf.train.opengl.Texture;

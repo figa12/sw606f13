@@ -97,6 +97,7 @@ public class ProfileActivity extends Activity {
 		
 		this.progressDialog = new ProgressDialog(this);
 		this.progressDialog.setMessage(super.getResources().getString(R.string.loading));
+		this.progressDialog.setCancelable(true);
 		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle(R.string.error);
@@ -167,7 +168,7 @@ public class ProfileActivity extends Activity {
 	    case ProfileActivity.RECEIVE_MULTIPLE:
 	        this.pictoAdminIntent.putExtra("purpose", "multi");
 	        break;
-	    } //TODO Investigate whether our intent gets cleared of these 'extra' objects on return
+	    }
 	    
 		super.startActivityForResult(this.pictoAdminIntent, requestCode);
 	}
