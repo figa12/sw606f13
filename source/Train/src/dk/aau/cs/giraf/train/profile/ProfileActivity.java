@@ -71,16 +71,18 @@ public class ProfileActivity extends Activity {
             }
         });
 		
-		Button saveGameButton = (Button) super.findViewById(R.id.saveGameButton);
-		saveGameButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				 Child selectedChild = ProfileActivity.this.childrenListView.getSelectedChild();
-				 GameConfiguration game = new GameConfiguration("testGame", 1, 1);
-				 DB db = new DB(ProfileActivity.this);
-				 db.saveChild(selectedChild, game);
-			}
-		});
+        Button saveGameButton = (Button) super.findViewById(R.id.saveGameButton);
+        saveGameButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ProfileActivity.this.isValidConfiguration()) {
+                    Child selectedChild = ProfileActivity.this.childrenListView.getSelectedChild();
+                    GameConfiguration game = new GameConfiguration("testGame", 1L, 1L);
+                    DB db = new DB(ProfileActivity.this);
+                    db.saveChild(selectedChild, game);
+                }
+            }
+        });
 		
 		this.gameIntent = new Intent(this, GameActivity.class);
 		
@@ -88,8 +90,10 @@ public class ProfileActivity extends Activity {
 		startGameButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProfileActivity.this.gameIntent.putExtra(ProfileActivity.GAME_CONFIGURATION, ProfileActivity.this.getGameConfiguration());
-                ProfileActivity.this.startActivity(ProfileActivity.this.gameIntent);
+                if(ProfileActivity.this.isValidConfiguration()) {
+                    ProfileActivity.this.gameIntent.putExtra(ProfileActivity.GAME_CONFIGURATION, ProfileActivity.this.getGameConfiguration());
+                    ProfileActivity.this.startActivity(ProfileActivity.this.gameIntent);
+                }
             }
         });
 		
@@ -100,12 +104,8 @@ public class ProfileActivity extends Activity {
 		this.progressDialog.setCancelable(true);
 		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle(R.string.error);
-        alertDialogBuilder.setMessage(R.string.picto_error);
         alertDialogBuilder.setNegativeButton("Okay", null);
         this.errorDialog = alertDialogBuilder.create();
-        
-        
         
         
         /* TEST */
@@ -118,6 +118,35 @@ public class ProfileActivity extends Activity {
         gameConfiguration.getStation(2).addAcceptPictogram(3L);
         
         this.setGameConfiguration(gameConfiguration);
+	}
+	
+	private void showAlertMessage(String title, String message) {
+	    this.errorDialog.setTitle(title);
+        this.errorDialog.setMessage(message);
+        
+        this.errorDialog.show();
+	}
+	
+	private boolean isValidConfiguration() {
+	    GameConfiguration currentGameConfiguration = this.getGameConfiguration();
+	    
+	    //There needs to be at least one station
+	    if(currentGameConfiguration.getStations().size() < 1) {
+	        this.showAlertMessage(null, super.getResources().getString(R.string.station_error));
+            return false;
+        }
+	    
+	    for (int i = 0; i < currentGameConfiguration.getStations().size(); i++) {
+	        if(currentGameConfiguration.getStations().get(i).getCategory() == -1L) {
+                this.showAlertMessage(null, super.getResources().getString(R.string.category_error));
+                return false;
+            } else if (currentGameConfiguration.getStations().get(i).getAcceptPictograms().size() < 1) {
+	            this.showAlertMessage(null, super.getResources().getString(R.string.pictogram_error));
+	            return false;
+	        }
+	    }
+	    //If we have come this far, then the configuration is valid
+	    return true;
 	}
 	
 	private GameConfiguration getGameConfiguration() {
@@ -153,7 +182,7 @@ public class ProfileActivity extends Activity {
     
 	public void startPictoAdmin(int requestCode, PictogramReceiver pictogramRequester) {
 	    if(this.isCallable(this.pictoAdminIntent) == false) {
-	        this.errorDialog.show();
+	        this.showAlertMessage(super.getResources().getString(R.string.error), super.getResources().getString(R.string.picto_error));
 	        return;
 	    }
 	    this.progressDialog.show();
