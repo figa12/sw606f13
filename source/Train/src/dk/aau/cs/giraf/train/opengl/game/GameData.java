@@ -43,29 +43,58 @@ public class GameData {
     private Station station;
     private Train train;
     
+    /**
+     * Set up game data for the game.
+     * @param gameConfiguration is the current game configurations.
+     * @see GameConfiguration
+     */
     public GameData(GameConfiguration gameConfiguration) {
         this.gameConfiguration = gameConfiguration;
         GameData.numberOfStations = gameConfiguration.getStations().size() + 1;
     }
     
+    /** Get this game's configuration.
+     * @see GameConfiguration */
     public GameConfiguration getGameConfiguration() {
         return this.gameConfiguration;
     }
     
+    /**
+     * Save the reference of the station and train {@link GameDrawable}s.
+     * @param station 
+     * @param train
+     * @see GameDrawer
+     */
     public synchronized final void bindGameDrawables(Station station, Train train) {
         //Bind references to GameData to allow protected access to station and train
         this.station = station;
         this.train = train;
     }
     
+    /**
+     * Set the pictograms to be drawn on the station.
+     * The size of the input array should be either 4 or 6 as a one-to-one correspondence between the slots available.
+     * Pictogram indexes where there shouldn't be a pictogram should have null values.
+     * @param pictograms the array of pictograms.
+     */
     public synchronized final void setStationPictograms(int stationIndex, Pictogram[] pictograms) {
         this.station.setPictograms(stationIndex, pictograms);
     }
     
+    /**
+     * Set the pictograms to be drawn on the wagon.
+     * The size of the input array should be either 4 or 6 as a one-to-one correspondence between the slots available.
+     * Pictogram indexes where there shouldn't be a pictogram should have null values.
+     * @param pictograms the array of pictograms.
+     */
     public synchronized final void setWagonPictograms(Pictogram[] pictograms) {
         this.train.setWagonPictograms(pictograms);
     }
     
+    /**
+     * Set the pictogram to be used as the driver.
+     * @param pictogram is the driver pictogram.
+     */
     public synchronized final void setDriverPictogram(Pictogram pictogram) {
         this.train.setDriverPictogram(pictogram);
     }
@@ -103,10 +132,12 @@ public class GameData {
         }
     }
     
+    /** Get the braking distance for the train at max velocity. */
     private synchronized final float brakingDistance() {
         return (float) (-Math.pow(GameData.MAX_TRAIN_SPEED, 2.0)) / (2 * -Math.abs(GameData.deltaVelocity));
     }
     
+    /** Change the velocity, and update data accordingly. */
     private synchronized final void updateVelocity() {
         this.performAcceleration();
         
@@ -131,6 +162,7 @@ public class GameData {
         this.totalDistanceTraveled -= this.pixelMovementForThisFrame;
     }
     
+    /** If we are currently chaing velocity, then either accelerate or decelerate the velocity. */
     private synchronized final void performAcceleration() {
         if(GameData.changingVelocity) {
             // if accelerating
