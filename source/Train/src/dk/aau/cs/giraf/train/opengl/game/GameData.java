@@ -4,6 +4,7 @@ import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 import dk.aau.cs.giraf.train.opengl.GlRenderer;
 import dk.aau.cs.giraf.train.profile.GameConfiguration;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -40,6 +41,7 @@ public class GameData {
     public volatile float[] nextStoppingPosition;
     
     private GameConfiguration gameConfiguration;
+    private GameActivity gameActivity;
     private Station station;
     private Train train;
     
@@ -48,9 +50,10 @@ public class GameData {
      * @param gameConfiguration is the current game configurations.
      * @see GameConfiguration
      */
-    public GameData(GameConfiguration gameConfiguration) {
+    public GameData(GameConfiguration gameConfiguration, Context gameActivityContext) {
         this.gameConfiguration = gameConfiguration;
         GameData.numberOfStations = gameConfiguration.getStations().size() + 1;
+        this.gameActivity = (GameActivity)gameActivityContext;
     }
     
     /** Get this game's configuration.
@@ -153,8 +156,8 @@ public class GameData {
             GameActivity.fluteButton.post(new Runnable() { 
 				
 				@Override
-				public void run() {
-					GameActivity.trainDrive(false);
+				public void run() {	
+					gameActivity.trainDrive(false);
 				}
 			});//TODO investigate if this is the right to do it.
         }

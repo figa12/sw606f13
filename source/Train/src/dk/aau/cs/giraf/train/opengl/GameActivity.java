@@ -86,7 +86,7 @@ public class GameActivity extends Activity {
             gameConf.getStation(2).addAcceptPictogram(3L);
 		}
 		
-		this.gameData = new GameData(gameConf);
+		this.gameData = new GameData(gameConf, this);
         this.openGLView = (GlView) findViewById(R.id.openglview);
         this.openGLView.bindGameData(this.gameData);
 		
@@ -139,7 +139,39 @@ public class GameActivity extends Activity {
 			}
 		return numberOfFrames;
 	}
+	
+	private ArrayList<LinearLayout> addFramesToLinearLayouts(ArrayList<LinearLayout> linearLayouts, int numbersOfFrameLayouts){
+		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
+		int height = 300/(numbersOfFrameLayouts/2);
+		
+		for (LinearLayout stationlinear : linearLayouts) {
+			for (int j = 0; j < (numbersOfFrameLayouts / 2); j++) {
+				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0,height,1.0f);
+				
+				FrameLayout frameLayout = new FrameLayout(this);
+				frameLayout.setOnDragListener(new DragListener());
+				frameLayout.setLayoutParams(linearLayoutParams);
+				frameLayout.setBackgroundDrawable(normalShape);
+				
+				stationlinear.addView(frameLayout,j);
+			}
+		}
+		return linearLayouts;
+	}
+	
 
+	private LinearLayout addSingleFrameToLinearLayout(LinearLayout linearLayout){
+		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
+				LayoutParams categoryParams = new LayoutParams(
+						LinearLayout.LayoutParams.MATCH_PARENT,
+						LinearLayout.LayoutParams.MATCH_PARENT);
+				
+				FrameLayout frame = new FrameLayout(this);
+				frame.setBackgroundDrawable(normalShape);
+				linearLayout.addView(frame, categoryParams);
+		return linearLayout;
+	}
+	
 	/**
 	 * Dynamically adds FrameLayout defined by numbersOfPictograms, The
 	 * Framelayout is then filled with pictograms.
@@ -148,62 +180,14 @@ public class GameActivity extends Activity {
 	 */
 	private void addFrameLayoutsAndPictograms(int numbersOfFrameLayouts) {
 		initLayouts();
-		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
-		int height = 300/(numbersOfFrameLayouts/2);
 		
-		for (LinearLayout stationlinear : stationLinear) {
-			for (int j = 0; j < (numbersOfFrameLayouts / 2); j++) {
-				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0,height,1.0f);
-				
-				FrameLayout frameLayout = new FrameLayout(this);
-				frameLayout.setOnDragListener(new DragListener());
-				frameLayout.setLayoutParams(linearLayoutParams);
-				
-				stationlinear.addView(frameLayout,j);
-			}
-		}
-
-		for (LinearLayout cartlinear : cartsLinear) {
-			for (int j = 0; j < (numbersOfFrameLayouts / 2); j++) {
-				LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0,height,1.0f);
-				
-				FrameLayout frameLayout = new FrameLayout(this);
-				frameLayout.setOnDragListener(new DragListener());
-				frameLayout.setLayoutParams(linearLayoutParams);
-
-				cartlinear.addView(frameLayout,j);
-			}
-		}
-
-		// frame settings for StationCategory
-		LayoutParams categoryParams = new LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.MATCH_PARENT);
+		stationLinear = addFramesToLinearLayouts(stationLinear, numbersOfFrameLayouts);
+		cartsLinear = addFramesToLinearLayouts(cartsLinear, numbersOfFrameLayouts);
 		
-		FrameLayout categoryFrame = new FrameLayout(this);
-		categoryFrame.setBackgroundDrawable(normalShape);
-		stationCategoryLinear.addView(categoryFrame, categoryParams);
-
-		// frame setttings for TrainDriver
-		LayoutParams trainDriverParams = new LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.MATCH_PARENT);
-
-		FrameLayout trainDriverFrame = new FrameLayout(this);
-		trainDriverFrame.setBackgroundDrawable(normalShape);
-		trainDriverLinear.addView(trainDriverFrame, trainDriverParams);
-
-		// add pictograms to the frames
-		this.addPictogramsToFrames();
+		stationCategoryLinear = addSingleFrameToLinearLayout(stationCategoryLinear);
+		trainDriverLinear = addSingleFrameToLinearLayout(trainDriverLinear);
 		
-		ArrayList<LinearLayout> test = new ArrayList<LinearLayout>();
-		test.addAll(cartsLinear);
-		test.addAll(stationLinear);
-		for (LinearLayout lin : test) {
-			for (int i = 0; i < lin.getChildCount(); i++) {
-				lin.getChildAt(i).setBackgroundDrawable(normalShape);
-			}
-		}
+		addPictogramsToFrames();
 	}
 
 	/**
@@ -363,9 +347,9 @@ public class GameActivity extends Activity {
 	}
 	
 	private static void setCategoryForNextStation(StationConfiguration station) {
-		Pictogram cat = PictoFactory.INSTANCE.getPictogram(context, station.getCategory());
-		cat.renderAll();
-		((FrameLayout)stationCategoryLinear.getChildAt(0)).addView(cat, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		Pictogram categoryPic = PictoFactory.INSTANCE.getPictogram(context, station.getCategory());
+		categoryPic.renderAll();
+		((FrameLayout)stationCategoryLinear.getChildAt(0)).addView(categoryPic, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 	}
 
 	private static void deletePictogramsFromStation() {
@@ -383,18 +367,13 @@ public class GameActivity extends Activity {
 	private static boolean checkPictogramsOnStaion(StationConfiguration station){
 		boolean answer = false;
 		int acceptedPics = 0;
-		ArrayList<Pictogram> stationPictograms = new ArrayList<Pictogram>();
-		
-		for (int i = 0; i < station.getAcceptPictograms().size(); i++) {
-			stationPictograms.add(PictoFactory.INSTANCE.getPictogram(context, station.getAcceptPictogram(i)));
-		}
 		
 		for (LinearLayout lin : stationLinear) {
 			for (int i = 0; i < lin.getChildCount(); i++) {
 				if(((FrameLayout)lin.getChildAt(i)).getChildCount() > 0){
 					boolean foundAccPic = false;
-					for (Pictogram pictogram : stationPictograms) {
-						if(pictogram.getPictogramID() == ((Pictogram)((FrameLayout)lin.getChildAt(i)).getChildAt(0)).getPictogramID() ){
+					for (Long pictogramId : station.getAcceptPictograms()) {
+						if(pictogramId == ((Pictogram)((FrameLayout)lin.getChildAt(i)).getChildAt(0)).getPictogramID() ){
 							foundAccPic = true;
 							acceptedPics++;
 						}
