@@ -82,16 +82,6 @@ public class GameData {
     }
     
     /**
-     * Set the pictograms to be drawn on the wagon.
-     * The size of the input array should be either 4 or 6 as a one-to-one correspondence between the slots available.
-     * Pictogram indexes where there shouldn't be a pictogram should have null values.
-     * @param pictograms the array of pictograms.
-     */
-    public synchronized final void setWagonPictograms(Pictogram[] pictograms) {
-        this.train.setWagonPictograms(pictograms);
-    }
-    
-    /**
      * Set the pictogram to be used as the driver.
      * @param pictogram is the driver pictogram.
      */
