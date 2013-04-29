@@ -63,6 +63,7 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
     public void removeView(View view) {
         super.removeView(view);
         this.pictogramButtons.remove(view);
+        this.station.removeAccepPictogram(((PictogramButton) view).getPictogramId());
         
         if(this.customiseLinearLayout.getTotalPictogramSize() < ProfileActivity.ALLOWED_PICTOGRAMS) {
             this.customiseLinearLayout.setVisibilityPictogramButtons(true);

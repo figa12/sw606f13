@@ -21,6 +21,10 @@ public class StationConfiguration implements Parcelable {
         acceptPictograms.add(id);
     }
     
+    public void removeAccepPictogram(long id) {
+        this.acceptPictograms.remove(id);
+    }
+    
     public void clearAcceptPictograms() {
         this.acceptPictograms.clear();
     }
