@@ -11,22 +11,43 @@ import android.graphics.Paint.Align;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 
 
+/**
+ * An OpenGL {@link Renderable} pictogram.
+ * @author Jesper Riemer Andersen
+ * @see Texture
+ */
 public class GlPictogram extends Texture {
     
+    /** Use 150x150 as the resolution of the pictogram. */
+    protected int pictogramSize = 150;
+    
+    /** The text associated to the pictogram. */
     private Text pictogramText;
+    /** True if the pictogram contains an image. */
     private boolean containsImage = false;
     
+    /**
+     * Creates a new {@link GlPictogram}.
+     * @param width  of the pictogram.
+     * @param height of the pictogram.
+     */
     public GlPictogram(float width, float height) {
         super(width, height);
     }
     
+    /**
+     * Creates a {@link Texture} instance of the specified pictogram.
+     * The pictogram uses a resolution of {@link #pictogramSize}.
+     * @param gl        the {@link GL10} instance.
+     * @param context   the current activity context.
+     * @param pictogram the pictogram to load.
+     */
     public void loadPictogram(GL10 gl, Context context, Pictogram pictogram) {
         Bitmap canvasBitmap = null;
         Canvas canvas = null;
         
         if(pictogram.getImagePath() != null) {
             this.containsImage = true;
-            int pictogramSize = 150; //150x150 pixels used for one pictogram
             
             //Create bitmap from pictogram image path
             Bitmap originalBitmap = BitmapFactory.decodeFile(pictogram.getImagePath());
@@ -34,17 +55,17 @@ public class GlPictogram extends Texture {
             
             //Scale the bitmap where the biggest side equal to #pictogramSize. Maintian aspect ratio
             if(originalBitmap.getWidth() <= originalBitmap.getHeight()) {
-                pictogramBitmap = Bitmap.createScaledBitmap(originalBitmap, pictogramSize * originalBitmap.getWidth() / originalBitmap.getHeight(), pictogramSize, true);
+                pictogramBitmap = Bitmap.createScaledBitmap(originalBitmap, this.pictogramSize * originalBitmap.getWidth() / originalBitmap.getHeight(), this.pictogramSize, true);
             } else {
-                pictogramBitmap = Bitmap.createScaledBitmap(originalBitmap, pictogramSize, pictogramSize * originalBitmap.getHeight() / originalBitmap.getWidth(), true);
+                pictogramBitmap = Bitmap.createScaledBitmap(originalBitmap, this.pictogramSize, this.pictogramSize * originalBitmap.getHeight() / originalBitmap.getWidth(), true);
             }
             
-            canvasBitmap = Bitmap.createBitmap(pictogramSize, pictogramSize, Bitmap.Config.ARGB_8888);
+            canvasBitmap = Bitmap.createBitmap(this.pictogramSize, this.pictogramSize, Bitmap.Config.ARGB_8888);
             canvas = new Canvas(canvasBitmap);
             
             //Offset image to center in the available space
-            float xOffset = (pictogramSize - pictogramBitmap.getWidth())  / 2f;
-            float yOffset = (pictogramSize - pictogramBitmap.getHeight()) / 2f;
+            float xOffset = (this.pictogramSize - pictogramBitmap.getWidth())  / 2f;
+            float yOffset = (this.pictogramSize - pictogramBitmap.getHeight()) / 2f;
             
             //Then draw the pictogram image
             canvas.drawBitmap(pictogramBitmap, xOffset, yOffset, null);
@@ -66,11 +87,22 @@ public class GlPictogram extends Texture {
         canvasBitmap.recycle();
     }
     
+    /** 
+     * Draw the pictogram.
+     * @param gl         the {@link GL10} instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
+     */
     @Override
     public void draw(GL10 gl, Coordinate coordinate) {
         this.draw(gl, coordinate, Color.White);
     }
     
+    /** 
+     * Draw the pictogram with the specified RGBA color.
+     * @param gl         the {@link GL10} instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
+     * @param color      a color overlay.
+     */
     @Override
     public void draw(GL10 gl, Coordinate coordinate, Color color) {
         if (this.containsImage) {

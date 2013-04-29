@@ -8,21 +8,49 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 
+/**
+ * Possibility to write text in OpenGL.
+ * The class is made to show constant text, not to change the text all the time.
+ * Text is created by creating texture with text.
+ * @author Jesper Riemer Andersen
+ * @see Texture
+ */
 public class Text extends Texture {
     
     private float textSize;
     private Align align;
     
+    /**
+     * Creates {@link Text} instance, with a default left alignment.
+     * @param width    initial width of the object. The width is changed by {@link Text#loadText(GL10, Context, String)}.
+     * @param height   initial height of the object. The height is changed by {@link Text#loadText(GL10, Context, String)}.
+     * @param textSize is the size of the text.
+     * @see Align
+     */
     public Text(float width, float height, float textSize) {
-        this(width, height, textSize, Align.CENTER);
+        this(width, height, textSize, Align.LEFT);
     }
     
+    /**
+     * Creates {@link Text} instance.
+     * @param width    initial width of the object. The width is changed by {@link Text#loadText(GL10, Context, String)}.
+     * @param height   initial height of the object. The height is changed by {@link Text#loadText(GL10, Context, String)}.
+     * @param textSize is the size of the text.
+     * @param align    is the text alignment.
+     * @see Align
+     */
     public Text(float width, float height, float textSize, Align align) {
         super(width, height);
         this.textSize = textSize;
         this.align = align;
     }
     
+    /**
+     * Load the specified text to a texture.
+     * @param gl      the {@link GL10} instance.
+     * @param context the current activity context.
+     * @param text    the text to generate texture of.
+     */
     public void loadText(GL10 gl, Context context, String text) {
         //Create paint for drawing text
         Paint textPaint = new Paint();
@@ -44,11 +72,24 @@ public class Text extends Texture {
         textBitmap.recycle();
     }
     
+    /** 
+     * Draw the text.
+     * @param gl    the {@link GL10} instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
+     * @see #draw(GL10, Coordinate, Color)
+     */
     @Override
     public void draw(GL10 gl, Coordinate coordinate) {
         this.draw(gl, coordinate, Color.White);
     }
     
+    /** 
+     * Draw the text with the specified RGBA color.
+     * The text is drawn according to the alignment option specified in {@link Text#Text(float, float, float, Align)}.
+     * @param gl    the {@link GL10} instance.
+     * @param coordinate where the {@link Renderable} is being drawn.
+     * @param color a color overlay.
+     */
     @Override
     public void draw(GL10 gl, Coordinate coordinate, Color color) {
         //Draw according to alignment option. Do a temporary alignment here.
