@@ -45,26 +45,22 @@ public class ProfileActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		super.setContentView(R.layout.activity_profile);
 		
 		this.progressDialog = new ProgressDialog(this);
         this.progressDialog.setMessage(super.getResources().getString(R.string.loading));
         this.progressDialog.setCancelable(true);
+        
+        //Show progressDialog while loading activity. Set the color to white only one time
         this.progressDialog.show();
-        //Show progressDialog while loading activity. Set the color to white only one time.
         ((TextView) this.progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
         
-		super.setContentView(R.layout.activity_profile);
-		
-		ArrayList<Art> artList = new ArrayList<Art>();//FIXME Is never used.
-		
 		/* Initialize the guardian object. */
-    	this.guardian = Guardian.getInstance(Data.currentChildID, Data.currentGuardianID, getApplicationContext(), artList);    	
+    	this.guardian = Guardian.getInstance(Data.currentChildID, Data.currentGuardianID, getApplicationContext(), new ArrayList<Art>());    	
     	this.guardian.backgroundColor = Data.appBackgroundColor;
-
-		ChildrenListView childrenListView = (ChildrenListView) super.findViewById(R.id.profilelist);
-		this.childrenListView = childrenListView;
-		this.childrenListView.guardian = this.guardian;
-		this.childrenListView.loadChildren();
+    	
+    	this.childrenListView = (ChildrenListView) super.findViewById(R.id.profilelist);
+		this.childrenListView.loadChildren(this.guardian);
 		
 	    Drawable backgroundDrawable = getResources().getDrawable(R.drawable.background);
 	    backgroundDrawable.setColorFilter(Data.appBackgroundColor, PorterDuff.Mode.OVERLAY);
@@ -72,40 +68,7 @@ public class ProfileActivity extends Activity {
 	    
 		this.customiseLinearLayout = (CustomiseLinearLayout) super.findViewById(R.id.customiseLinearLayout);
 		
-		Button addStationButton = (Button) super.findViewById(R.id.addStationButton);
-		addStationButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ProfileActivity.this.customiseLinearLayout.addStation(new StationConfiguration());
-            }
-        });
-		
-        Button saveGameButton = (Button) super.findViewById(R.id.saveGameButton);
-        saveGameButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ProfileActivity.this.isValidConfiguration()) {
-                    Child selectedChild = ProfileActivity.this.childrenListView.getSelectedChild();
-                    GameConfiguration game = new GameConfiguration("testGame", 1L, 1L);
-                    DB db = new DB(ProfileActivity.this);
-                    db.saveChild(selectedChild, game);
-                }
-            }
-        });
-		
 		this.gameIntent = new Intent(this, GameActivity.class);
-		
-		Button startGameButton = (Button) super.findViewById(R.id.startGameFromProfileButton);
-		startGameButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(ProfileActivity.this.isValidConfiguration()) {
-                    ProfileActivity.this.gameIntent.putExtra(ProfileActivity.GAME_CONFIGURATION, ProfileActivity.this.getGameConfiguration());
-                    ProfileActivity.this.startActivity(ProfileActivity.this.gameIntent);
-                }
-            }
-        });
-		
 		this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.pictoadmin","dk.aau.cs.giraf.pictoadmin.PictoAdminMain"));
 		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -124,8 +87,28 @@ public class ProfileActivity extends Activity {
         
         this.setGameConfiguration(gameConfiguration);
         
-        //Hide progressDialog after creation is done
-        this.progressDialog.dismiss();
+        
+        this.progressDialog.dismiss(); //Hide progressDialog after creation is done
+	}
+	
+	public void onClickAddStation(View view) {
+	    this.customiseLinearLayout.addStation(new StationConfiguration());
+	}
+	
+	public void onClickSaveGame(View view) {
+	    if (this.isValidConfiguration()) {
+            Child selectedChild = this.childrenListView.getSelectedChild();
+            GameConfiguration game = new GameConfiguration("testGame", 1L, 1L);
+            DB db = new DB(this);
+            db.saveChild(selectedChild, game);
+        }
+	}
+	
+	public void onClickStartGame(View view) {
+	    if(ProfileActivity.this.isValidConfiguration()) {
+            ProfileActivity.this.gameIntent.putExtra(ProfileActivity.GAME_CONFIGURATION, ProfileActivity.this.getGameConfiguration());
+            ProfileActivity.this.startActivity(ProfileActivity.this.gameIntent);
+        }
 	}
 	
 	private void showAlertMessage(String title, String message) {

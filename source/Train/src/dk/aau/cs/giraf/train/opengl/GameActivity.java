@@ -518,6 +518,8 @@ public class GameActivity extends Activity {
 	public void onSaveInstanceState(Bundle outState) {
 	    super.onSaveInstanceState(outState);
 	    this.gameData.resetGameData();
+	    GameActivity.soundPool.stop(GameActivity.streamId);
+	    super.finish();
 	}
 
 	

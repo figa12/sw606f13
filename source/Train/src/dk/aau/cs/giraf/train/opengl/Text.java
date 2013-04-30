@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.widget.TextView;
 
 /**
  * Possibility to write text in OpenGL.
@@ -58,6 +59,7 @@ public class Text extends Texture {
         textPaint.setARGB(255, 255, 255, 255); //White. Set text color in draw method
         textPaint.setTextSize(this.textSize);
         textPaint.setTextAlign(Align.CENTER); //Note: We do not use this.align here
+        textPaint.setTypeface((new TextView(context)).getTypeface()); //Use default font
         
         super.setSize(textPaint.measureText(text), this.textSize);
         

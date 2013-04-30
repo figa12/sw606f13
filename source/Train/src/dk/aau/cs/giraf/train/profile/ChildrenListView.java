@@ -23,7 +23,6 @@ import android.view.View;
  */
 public class ChildrenListView extends ListView {
     
-	public Guardian guardian = Guardian.getInstance();
 	private ChildAdapter adapter;
 	
 	public ChildrenListView(Context context, AttributeSet attrs) {
@@ -38,11 +37,19 @@ public class ChildrenListView extends ListView {
 	 * @see ChildAdapter
 	 * @see Child
 	 */
-	public void loadChildren() {
+	public void loadChildren(Guardian guardian) {
 		ArrayList<Child> children = guardian.publishList();
 		
-		this.adapter = new ChildAdapter(this.getContext(), R.drawable.list_item, children);
+		//We want to remove the children with the names "Last Used" and "Predefined Profiles".
+		//This is a terrible solution to remove them, but java does not have built-in support for this.
+		for (int i = 0; i < children.size(); i++) {
+		    if (children.get(i).name == "Last Used" || children.get(i).name == "Predefined Profiles") {
+		        children.remove(i);
+		        i--; //Removed an item, then go back one index
+		    }
+		}
 		
+		this.adapter = new ChildAdapter(this.getContext(), R.drawable.list_item, children);
 		this.setAdapter(adapter);
 	}
 	

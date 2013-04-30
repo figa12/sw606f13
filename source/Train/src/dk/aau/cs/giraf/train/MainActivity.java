@@ -7,6 +7,8 @@ import dk.aau.cs.giraf.train.profile.ProfileActivity;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 
 
@@ -28,6 +30,10 @@ public class MainActivity extends Activity {
         	Data.currentChildID = -3;
         	Data.appBackgroundColor = 0xFFFFBB55;
         }
+		
+		Drawable backgroundDrawable = getResources().getDrawable(R.drawable.background);
+        backgroundDrawable.setColorFilter(Data.appBackgroundColor, PorterDuff.Mode.OVERLAY);
+        super.findViewById(R.id.mainActivity).setBackgroundDrawable(backgroundDrawable);
 	}
 
 	public void startGame(View view) {

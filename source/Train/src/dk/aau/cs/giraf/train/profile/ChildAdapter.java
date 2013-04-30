@@ -71,14 +71,7 @@ public class ChildAdapter extends ArrayAdapter<Child> {
         //Set the picture 
         profilePictureImageView.setImageResource(R.drawable.default_profile); //TODO: Insert pictures here
 
-        /* If this is either last used or predefined, change the name */
-        if (child.name == "Last Used") {
-            profileNameTextView.setText(R.string.last_used);
-        } else if (child.name == "Predefined Profiles") {
-            profileNameTextView.setText(R.string.predefined);
-        } else {
-            profileNameTextView.setText(child.name);
-        }
+        profileNameTextView.setText(child.name);
 		
         //Is this profile selected, then highlight
         if (position == this.selectedPosition) {

@@ -149,7 +149,8 @@
                 android:contentDescription="@string/add_station"
                 android:drawableRight="@android:drawable/ic_menu_add"
                 android:text="@string/add_station"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:onClick="onClickAddStation" />
 
             <Button
                 android:id="@+id/saveGameButton"
@@ -159,7 +160,8 @@
                 android:contentDescription="@string/save_game"
                 android:drawableRight="@android:drawable/ic_menu_save"
                 android:text="@string/save_game"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:onClick="onClickSaveGame" />
 
             <Button
                 android:id="@+id/startGameFromProfileButton"
@@ -169,7 +171,8 @@
                 android:contentDescription="@string/start_game"
                 android:drawableRight="@android:drawable/ic_media_play"
                 android:text="@string/start_game"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:onClick="onClickStartGame" />
         </LinearLayout>
     </LinearLayout>
 
