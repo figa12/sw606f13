@@ -110,6 +110,17 @@ public abstract class Shape extends Renderable {
     }
     
     /**
+     * The the size of the shape.
+     * @param width  new value
+     * @param height new value
+     */
+    protected void setSize(float width, float height) {
+        this.width = width;
+        this.height = height;
+        this.initialiseVertexBuffer(); // recreate vertices
+    }
+    
+    /**
      * Draws the shape with a standard drawing method.
      * This method calls {@link #draw(GL10, Color)} and sets the color to white with no transparency.
      * This should be sufficient to draw squares and triangles,

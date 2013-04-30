@@ -59,8 +59,7 @@ public class Text extends Texture {
         textPaint.setTextSize(this.textSize);
         textPaint.setTextAlign(Align.CENTER); //Note: We do not use this.align here
         
-        super.setHeight(this.textSize);
-        super.setWidth(textPaint.measureText(text));
+        super.setSize(textPaint.measureText(text), this.textSize);
         
         Bitmap textBitmap = Bitmap.createBitmap((int) textPaint.measureText(text), (int) this.textSize, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(textBitmap);
