@@ -116,14 +116,14 @@ public class GlPictogram extends Texture {
                 float y = -(super.getHeight() - this.pictogramText.getHeight());
                 
                 gl.glTranslatef(x, y, 0f);
-                this.pictogramText.draw(gl, coordinate, Color.Black); //FIXME why gray?
+                this.pictogramText.draw(gl, coordinate, Color.Black);
                 gl.glTranslatef(-x, -y, 0f);
             } else {
                 float x = super.getWidth() / 2f;
                 float y = -((super.getHeight() / 2f) - this.pictogramText.getHeight() / 2f);
                 
                 gl.glTranslatef(x, y, 0f);
-                this.pictogramText.draw(gl, coordinate, Color.Black); //FIXME why gray?
+                this.pictogramText.draw(gl, coordinate, Color.Black);
                 gl.glTranslatef(-x, -y, 0f);
             }
         }

@@ -18,7 +18,13 @@ import android.widget.TextView;
  */
 public class Text extends Texture {
     
+    /** A padding constant. The pixel height of text is textSize*paddingConstant.
+     *  (At least with the font in use while writing this) */
+    protected final float paddingConstant = 1.18f;
+    
+    /** The size of the text. */
     private float textSize;
+    /** The alignment option of the text. */
     private Align align;
     
     /**
@@ -61,13 +67,13 @@ public class Text extends Texture {
         textPaint.setTextAlign(Align.CENTER); //Note: We do not use this.align here
         textPaint.setTypeface((new TextView(context)).getTypeface()); //Use default font
         
-        super.setSize(textPaint.measureText(text), this.textSize);
+        super.setSize(textPaint.measureText(text), this.textSize * this.paddingConstant);
         
-        Bitmap textBitmap = Bitmap.createBitmap((int) textPaint.measureText(text), (int) this.textSize, Bitmap.Config.ARGB_8888);
+        Bitmap textBitmap = Bitmap.createBitmap((int) textPaint.measureText(text), (int) (this.textSize), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(textBitmap);
         
-        //Draw the text. The y-coordinate specifies the vertical bottom of the text
-        canvas.drawText(text, textBitmap.getWidth()/2f, textBitmap.getHeight()-1, textPaint); //Minus 1 because implementation is wierd
+        //Draw the text. The y-coordinate specifies the bottom of the text
+        canvas.drawText(text, textBitmap.getWidth()/2f, textBitmap.getHeight() * (2f - this.paddingConstant)-1, textPaint); //Minus 1 because implementation is weird
         
         super.loadTexture(gl, context, textBitmap);
         textBitmap.recycle();
