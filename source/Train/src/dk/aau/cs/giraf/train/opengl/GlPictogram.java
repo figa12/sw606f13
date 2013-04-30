@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint.Align;
+import android.widget.TextView;
 
 import dk.aau.cs.giraf.pictogram.Pictogram;
 
@@ -74,7 +75,7 @@ public class GlPictogram extends Texture {
         
         if (pictogram.getTextLabel() != null) {
             //If the pictogram contains text
-            this.pictogramText = new Text(1f, 1f, 14f, Align.CENTER);
+            this.pictogramText = new Text(1f, 1f, new TextView(context).getTextSize(), Align.CENTER); //A new TextView can give us the default text size
             this.pictogramText.loadText(gl, context, pictogram.getTextLabel());
         } 
         
@@ -115,14 +116,14 @@ public class GlPictogram extends Texture {
                 float y = -(super.getHeight() - this.pictogramText.getHeight());
                 
                 gl.glTranslatef(x, y, 0f);
-                this.pictogramText.draw(gl, coordinate, Color.Gray); //FIXME why gray?
+                this.pictogramText.draw(gl, coordinate, Color.Black); //FIXME why gray?
                 gl.glTranslatef(-x, -y, 0f);
             } else {
                 float x = super.getWidth() / 2f;
                 float y = -((super.getHeight() / 2f) - this.pictogramText.getHeight() / 2f);
                 
                 gl.glTranslatef(x, y, 0f);
-                this.pictogramText.draw(gl, coordinate, Color.Gray); //FIXME why gray?
+                this.pictogramText.draw(gl, coordinate, Color.Black); //FIXME why gray?
                 gl.glTranslatef(-x, -y, 0f);
             }
         }

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -44,6 +45,14 @@ public class ProfileActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		this.progressDialog = new ProgressDialog(this);
+        this.progressDialog.setMessage(super.getResources().getString(R.string.loading));
+        this.progressDialog.setCancelable(true);
+        this.progressDialog.show();
+        //Show progressDialog while loading activity. Set the color to white only one time.
+        ((TextView) this.progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
+        
 		super.setContentView(R.layout.activity_profile);
 		
 		ArrayList<Art> artList = new ArrayList<Art>();//FIXME Is never used.
@@ -99,10 +108,6 @@ public class ProfileActivity extends Activity {
 		
 		this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.pictoadmin","dk.aau.cs.giraf.pictoadmin.PictoAdminMain"));
 		
-		this.progressDialog = new ProgressDialog(this);
-		this.progressDialog.setMessage(super.getResources().getString(R.string.loading));
-		this.progressDialog.setCancelable(true);
-		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setNegativeButton("Okay", null);
         this.errorDialog = alertDialogBuilder.create();
@@ -118,6 +123,9 @@ public class ProfileActivity extends Activity {
         gameConfiguration.getStation(2).addAcceptPictogram(3L);
         
         this.setGameConfiguration(gameConfiguration);
+        
+        //Hide progressDialog after creation is done
+        this.progressDialog.dismiss();
 	}
 	
 	private void showAlertMessage(String title, String message) {
@@ -180,6 +188,8 @@ public class ProfileActivity extends Activity {
     public static final int RECEIVE_MULTIPLE = 1;
 	private PictogramReceiver pictogramReceiver;
     
+	boolean testHest = true;
+	
 	public void startPictoAdmin(int requestCode, PictogramReceiver pictogramRequester) {
 	    if(this.isCallable(this.pictoAdminIntent) == false) {
 	        this.showAlertMessage(super.getResources().getString(R.string.error), super.getResources().getString(R.string.picto_error));
