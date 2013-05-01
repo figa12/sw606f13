@@ -20,7 +20,7 @@ public class Text extends Texture {
     
     /** A padding constant. The pixel height of text is textSize*paddingConstant.
      *  (At least with the font in use while writing this) */
-    protected final float paddingConstant = 1.18f;
+    protected final float paddingConstant = 1.25f;
     
     /** The size of the text. */
     private float textSize;
@@ -67,13 +67,14 @@ public class Text extends Texture {
         textPaint.setTextAlign(Align.CENTER); //Note: We do not use this.align here
         textPaint.setTypeface((new TextView(context)).getTypeface()); //Use default font
         
-        super.setSize(textPaint.measureText(text), this.textSize * this.paddingConstant);
+        super.setSize(textPaint.measureText(text), this.textSize);
         
-        Bitmap textBitmap = Bitmap.createBitmap((int) textPaint.measureText(text), (int) (this.textSize), Bitmap.Config.ARGB_8888);
+        Bitmap textBitmap = Bitmap.createBitmap((int) textPaint.measureText(text), (int) this.textSize, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(textBitmap);
+        //canvas.drawARGB(255, 0, 0, 0);
         
         //Draw the text. The y-coordinate specifies the bottom of the text
-        canvas.drawText(text, textBitmap.getWidth()/2f, textBitmap.getHeight() * (2f - this.paddingConstant)-1, textPaint); //Minus 1 because implementation is weird
+        canvas.drawText(text, textBitmap.getWidth()/2f, textBitmap.getHeight() * (2f - this.paddingConstant), textPaint); //Minus 1 because implementation is weird
         
         super.loadTexture(gl, context, textBitmap);
         textBitmap.recycle();
@@ -81,7 +82,7 @@ public class Text extends Texture {
     
     /** 
      * Draw the text.
-     * @param gl    the {@link GL10} instance.
+     * @param gl         the {@link GL10} instance.
      * @param coordinate where the {@link Renderable} is being drawn.
      * @see #draw(GL10, Coordinate, Color)
      */
@@ -100,6 +101,7 @@ public class Text extends Texture {
     @Override
     public void draw(GL10 gl, Coordinate coordinate, Color color) {
         //Draw according to alignment option. Do a temporary alignment here.
+        //TODO This does not work in a moving RenderableMatrix, since it assumes the LEFT alignment case.
         switch(this.align) {
         case CENTER:
             gl.glTranslatef(-super.getWidth()/2f, 0f, 0f);

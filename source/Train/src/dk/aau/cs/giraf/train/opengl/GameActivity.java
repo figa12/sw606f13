@@ -43,9 +43,9 @@ public class GameActivity extends Activity {
 	
 	public ImageButton fluteButton;
 	
-	public static SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-    public static int sound;
-    public static int streamId;
+	public SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+    public int sound;
+    public int streamId;
     
     private AlertDialog alertDialog;
     private ProgressDialog progressDialog;
@@ -69,7 +69,7 @@ public class GameActivity extends Activity {
 		
 		this.setContentView(R.layout.activity_game);
 		
-		GameActivity.sound = soundPool.load(this, R.raw.train_whistle, 1);
+		this.sound = soundPool.load(this, R.raw.train_whistle, 1);
 		
 		Bundle configurationBundle = super.getIntent().getExtras();
 		if(configurationBundle != null) {
@@ -85,15 +85,14 @@ public class GameActivity extends Activity {
             gameConfiguration.getStation(2).addAcceptPictogram(3L);
             gameConfiguration.getStation(2).addAcceptPictogram(2L);
 		}
-		gameController = new GameController(this, gameConfiguration);
 		
-		this.gameData = new GameData(gameConfiguration, gameController);
+		this.gameData = new GameData(this, gameConfiguration);
         this.openGLView = (GlView) findViewById(R.id.openglview);
-        this.openGLView.bindGameData(this.gameData);
+        this.openGLView.bindGameData(this.gameData); //The GlView is instantiated by the system, bind here instead of through constructor.
 		
+        this.gameController = new GameController(this, gameConfiguration, this.gameData);
+        
 		this.addFrameLayoutsAndPictograms(gameConfiguration.getNumberOfPictogramsOfStations());
-		
-		this.gameData.resetGameData();
 		
 		this.alertDialog = this.createAlertDialog();
 		
@@ -115,7 +114,7 @@ public class GameActivity extends Activity {
             public void onClick(DialogInterface arg0, int arg1) {
                 //'Annuller' button is clicked
                 GameActivity.this.gameData.onResume();
-                GameActivity.soundPool.resume(GameActivity.streamId);
+                GameActivity.this.soundPool.resume(GameActivity.this.streamId);
             }
         });
         return alertDialogBuilder.create();
@@ -128,7 +127,12 @@ public class GameActivity extends Activity {
 	public void dismissProgressDialog(){
 		this.progressDialog.dismiss();
 	}
-
+	
+	public void onTrainStopEvent() {
+	    //This is an event/interface from gameData
+	    this.gameController.TrainIsStopping();
+	}
+	
 	private LinearLayout addSingleFrameToLinearLayout(LinearLayout linearLayout){
 		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
 				LayoutParams categoryParams = new LayoutParams(
@@ -252,8 +256,7 @@ public class GameActivity extends Activity {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 	    super.onSaveInstanceState(outState);
-	    this.gameData.resetGameData();
-	    GameActivity.soundPool.stop(GameActivity.streamId);
+	    GameActivity.this.soundPool.stop(GameActivity.this.streamId);
 	    super.finish();
 	}
 
@@ -262,7 +265,7 @@ public class GameActivity extends Activity {
         //Stop the user from unexpected back presses
 	    if (keyCode == KeyEvent.KEYCODE_BACK) {
 	        this.gameData.onPause();
-	        GameActivity.soundPool.pause(GameActivity.streamId);
+	        GameActivity.this.soundPool.pause(GameActivity.this.streamId);
 	        
             this.alertDialog.show();
 	        return true;
@@ -271,7 +274,7 @@ public class GameActivity extends Activity {
     }
 
 	public void ShowLinearLayouts() {
-		if(GameData.numberOfStops != GameData.numberOfStations){
+		if(this.gameData.numberOfStops != this.gameData.numberOfStations){
 			for (LinearLayout lin : stationLinear) {
 				lin.setVisibility(View.VISIBLE);
 				lin.dispatchDisplayHint(View.VISIBLE);

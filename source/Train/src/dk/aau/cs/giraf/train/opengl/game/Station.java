@@ -7,18 +7,14 @@ import java.util.LinkedList;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
-import dk.aau.cs.giraf.train.opengl.Color;
 import dk.aau.cs.giraf.train.opengl.Coordinate;
 import dk.aau.cs.giraf.train.opengl.GameDrawer;
 import dk.aau.cs.giraf.train.opengl.GlPictogram;
 import dk.aau.cs.giraf.train.opengl.Renderable;
 import dk.aau.cs.giraf.train.opengl.RenderableMatrix;
-import dk.aau.cs.giraf.train.opengl.Square;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
 public final class Station extends GameDrawable {
@@ -74,7 +70,7 @@ public final class Station extends GameDrawable {
         //Add stations to the matrix in the randomised order
         float xPosition = -364f; // first platform position
         
-        for (int i = 0; i < GameData.numberOfStations; i++) {
+        for (int i = 0; i < super.gameData.numberOfStations; i++) {
             StationContainer nextStation = stationsQueue.pop();
             stationsQueue.add(nextStation);
             this.stationPlatformMatrix.addRenderableMatrixItem(nextStation.station, new Coordinate(xPosition + nextStation.xOffset, nextStation.yOffset, 0f));
@@ -105,11 +101,11 @@ public final class Station extends GameDrawable {
         this.platform.loadTexture(super.gl, super.context, R.drawable.texture_platform, Texture.AspectRatio.BitmapOneToOne);
         
         //Make new array
-        super.gameData.nextStoppingPosition = new float[GameData.numberOfStations + 1];
+        super.gameData.nextStoppingPosition = new float[super.gameData.numberOfStations + 1];
         
         //Calculate all stopping positions
         super.gameData.nextStoppingPosition[0] = GameData.DISTANCE_BETWEEN_STATIONS;
-        for (int i = 1; i < GameData.numberOfStations; i++) {
+        for (int i = 1; i < super.gameData.numberOfStations; i++) {
             super.gameData.nextStoppingPosition[i] += super.gameData.nextStoppingPosition[i-1] + GameData.DISTANCE_BETWEEN_STATIONS;
         }
     }

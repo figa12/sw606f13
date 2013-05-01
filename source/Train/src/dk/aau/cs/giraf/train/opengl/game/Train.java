@@ -3,15 +3,12 @@ package dk.aau.cs.giraf.train.opengl.game;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.Color;
 import dk.aau.cs.giraf.train.opengl.GameDrawer;
 import dk.aau.cs.giraf.train.opengl.GlPictogram;
 import dk.aau.cs.giraf.train.opengl.Square;
-import dk.aau.cs.giraf.train.opengl.Text;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
 public final class Train extends GameDrawable {

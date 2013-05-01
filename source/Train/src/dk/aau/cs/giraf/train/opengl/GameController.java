@@ -16,14 +16,14 @@ public class GameController {
 
 	public GameActivity gameActivity;
 	private GameConfiguration gameConfiguration;
+	private GameData gameData;
 	public boolean IsTrainStopped;
 	
-	public GameController(GameActivity gameActivity, GameConfiguration gameConfiguration){
+	public GameController(GameActivity gameActivity, GameConfiguration gameConfiguration, GameData gameData) {
 		this.gameActivity = gameActivity;
 		this.gameConfiguration = gameConfiguration;
+		this.gameData = gameData;
 	}
-	
-	
 	
 	private boolean checkPictogramsIsOnStation(StationConfiguration station, ArrayList<StationLinearLayout> stationLinear){
 		boolean answer = false;
@@ -70,9 +70,9 @@ public class GameController {
 	}
 	
 	public void trainDrive(ArrayList<StationLinearLayout> stationLinear){
-		if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations + 1) {//pga. remise
+		if(this.gameData.currentTrainVelocity == 0f && this.gameData.numberOfStops < this.gameData.numberOfStations + 1) {//pga. remise
 			boolean readyToGo = true;
-			if(GameData.numberOfStops + 1 == 1){
+			if(this.gameData.numberOfStops + 1 == 1){
 				for (LinearLayout lin : stationLinear) {
 					for (int i = 0; i< lin.getChildCount();i++) {
 						FrameLayout frame = (FrameLayout)lin.getChildAt(i);
@@ -84,7 +84,7 @@ public class GameController {
 			}
 			else {
 				//check if it is the correct pictogram on the right station.
-				if(checkPictogramsIsOnStation(gameConfiguration.getStation(GameData.numberOfStops - 1), stationLinear) ==  false){
+				if(checkPictogramsIsOnStation(gameConfiguration.getStation(this.gameData.numberOfStops - 1), stationLinear) ==  false){
 					readyToGo = false;
 				}
 			}
@@ -96,8 +96,9 @@ public class GameController {
 				gameActivity.deletePictogramsFromStation();
 				
 				gameActivity.getGameData().accelerateTrain();
+				gameActivity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 				
-				GameActivity.streamId = GameActivity.soundPool.play(GameActivity.sound, 1f, 1f, 0, 0, 0.5f);
+				this.gameActivity.streamId = this.gameActivity.soundPool.play(this.gameActivity.sound, 1f, 1f, 0, 0, 0.5f);
 			}
         }
 	}
