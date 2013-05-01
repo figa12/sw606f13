@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <string name="app_name">TRAIN</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_game">GameActivity</string>
     <string name="loading">Vent venligst</string>
-    
+
     <!-- GAME ACTIVTY -->
+    <string name="title_activity_game">GameActivity</string>
     <string name="close_dialog">Er du sikker på at du vil afslutte?</string>
-    
+
     <!-- PROFILE ACTIVITY -->
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="profile_list_header">Profiler</string>
@@ -30,5 +30,8 @@
     <string name="station_error">Der skal være mindst en station.</string>
     <string name="category_error">Du mangler at vælge en kategori.</string>
     <string name="pictogram_error">Der skal være mindst et pictogram per station.</string>
+    
+    <!-- SAVE DIALOG ACTIVITY -->
+    <string name="title_activity_save_dialog">SaveDialogActivity</string>
     
 </resources>
