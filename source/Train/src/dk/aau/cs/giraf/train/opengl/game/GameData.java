@@ -1,7 +1,7 @@
 package dk.aau.cs.giraf.train.opengl.game;
 
 import dk.aau.cs.giraf.pictogram.Pictogram;
-import dk.aau.cs.giraf.train.opengl.GameActivity;
+import dk.aau.cs.giraf.train.opengl.GameController;
 import dk.aau.cs.giraf.train.opengl.GlRenderer;
 import dk.aau.cs.giraf.train.profile.GameConfiguration;
 import android.os.Bundle;
@@ -40,6 +40,7 @@ public class GameData {
     public volatile float[] nextStoppingPosition;
     
     private GameConfiguration gameConfiguration;
+    private GameController gameController;
     private Station station;
     private Train train;
     
@@ -48,9 +49,10 @@ public class GameData {
      * @param gameConfiguration is the current game configurations.
      * @see GameConfiguration
      */
-    public GameData(GameConfiguration gameConfiguration) {
+    public GameData(GameConfiguration gameConfiguration, GameController gameController) {
         this.gameConfiguration = gameConfiguration;
         GameData.numberOfStations = gameConfiguration.getStations().size() + 1;
+        this.gameController = gameController;
     }
     
     /** Get this game's configuration.
@@ -111,7 +113,7 @@ public class GameData {
     }
     
     /** Initiate train acceleration. */
-    public synchronized static final void accelerateTrain() {
+    public synchronized final void accelerateTrain() {
         if(!GameData.changingVelocity) {
             GameData.changingVelocity = true;
             GameData.deltaVelocity = Math.abs(GameData.deltaVelocity);
@@ -143,14 +145,13 @@ public class GameData {
             GameData.currentTrainVelocity = 0f;
             GameData.numberOfStops++;
             GameData.changingVelocity = false;
-                        //make flute visble
-            GameActivity.fluteButton.post(new Runnable() { 
-				
-				@Override
+            gameController.gameActivity.fluteButton.post(new Runnable() {
 				public void run() {
-					GameActivity.trainDrive(false);
+					gameController.TrainIsStopping();
 				}
-			});//TODO investigate if this is the right to do it.
+			});
+            
+            //TODO investigate if this is the right to do it.
         }
         
         this.totalDistanceTraveled -= this.pixelMovementForThisFrame;
