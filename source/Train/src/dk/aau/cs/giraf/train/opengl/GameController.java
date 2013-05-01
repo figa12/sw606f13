@@ -96,7 +96,8 @@ public class GameController {
 				gameActivity.deletePictogramsFromStation();
 				
 				gameActivity.getGameData().accelerateTrain();
-				gameActivity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+				
+				gameActivity.hideSystemUI();
 				
 				this.gameActivity.streamId = this.gameActivity.soundPool.play(this.gameActivity.sound, 1f, 1f, 0, 0, 0.5f);
 			}

@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.train.opengl;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -96,7 +97,12 @@ public class GameActivity extends Activity {
 		
 		this.alertDialog = this.createAlertDialog();
 		
-		this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+		this.hideSystemUI();
+	}
+	
+	@SuppressLint("InlinedApi")
+    public void hideSystemUI() {
+	    this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 	}
 	
 	private AlertDialog createAlertDialog() {
@@ -133,7 +139,8 @@ public class GameActivity extends Activity {
 	    this.gameController.TrainIsStopping();
 	}
 	
-	private LinearLayout addSingleFrameToLinearLayout(LinearLayout linearLayout){
+	@SuppressWarnings("deprecation")
+    private LinearLayout addSingleFrameToLinearLayout(LinearLayout linearLayout){
 		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
 				LayoutParams categoryParams = new LayoutParams(
 						LinearLayout.LayoutParams.MATCH_PARENT,
@@ -226,27 +233,6 @@ public class GameActivity extends Activity {
 			}
 		}
 	}
-
-	/**
-	 * A touch listener that starts a drag event. There should also be a
-	 * receiver implementing {@link OnDragListener}.
-	 * 
-	 * @see DragListener
-	 */
-	private final class TouchListener implements OnTouchListener {
-		@Override
-		public boolean onTouch(View view, MotionEvent motionEvent) {
-			if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-				ClipData data = ClipData.newPlainText("", "");
-				DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-				view.startDrag(data, shadowBuilder, view, 0);
-				return true;
-			} else {
-				return false;
-			}
-		}
-	}
-	
 
 	/**
 	 * A drag listner implementing an onDrag() method that runs when something
