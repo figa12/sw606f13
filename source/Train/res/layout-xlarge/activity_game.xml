@@ -94,6 +94,18 @@
             android:id="@+id/FluteImageButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/texture_sun" />
+            android:src="@drawable/texture_station_whistle" />
     </LinearLayout>
+    
+       <!-- StationCategory -->
+
+    <LinearLayout
+        android:id="@+id/StationCategoryLinearLayout"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="370dp"
+        android:layout_marginTop="35dp"
+        android:orientation="horizontal" >
+    </LinearLayout> 
 </RelativeLayout>

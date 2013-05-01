@@ -23,6 +23,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.game.GameData;
 import dk.aau.cs.giraf.train.profile.GameConfiguration;
@@ -64,6 +65,7 @@ public class GameActivity extends Activity {
 			}
 		});
         this.progressDialog.show();
+        ((TextView) progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
 		
 		this.setContentView(R.layout.activity_game);
 		
@@ -251,6 +253,8 @@ public class GameActivity extends Activity {
 	public void onSaveInstanceState(Bundle outState) {
 	    super.onSaveInstanceState(outState);
 	    this.gameData.resetGameData();
+	    GameActivity.soundPool.stop(GameActivity.streamId);
+	    super.finish();
 	}
 
 	

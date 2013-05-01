@@ -16,6 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:contentDescription="@string/remove_pictogram"
-        android:background="@android:drawable/ic_delete" />
+        android:src="@android:drawable/ic_delete"
+        android:background="@drawable/transparent_button" />
     
 </RelativeLayout>
