@@ -17,7 +17,7 @@ public class GameData {
     public static final float MIDDLEGROUND = -1800f;
     public static final float BACKGROUND   = -3000f;
     
-    public boolean isPaused = false;
+    public volatile boolean isPaused = false;
     
     public static final float MAX_TRAIN_SPEED = 0.35f; // pixels per ms // 0.35 is nice
     public volatile float currentTrainVelocity = 0f; // pixels per ms
