@@ -80,7 +80,7 @@ public class GlRenderer implements Renderer {
      * @see Renderer#onSurfaceChanged(GL10, int, int)
      */
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        ((GameActivity) this.context).progressDialog.show();
+        ((GameActivity) this.context).showProgressDialog();
         if(height == 0) { 						//Prevent A Divide By Zero By
             height = 1; 						//Making Height Equal One
         }
@@ -106,7 +106,7 @@ public class GlRenderer implements Renderer {
         timingLogger.addSplit("loaded all textures");
         timingLogger.dumpToLog();
         
-        ((GameActivity) this.context).progressDialog.dismiss();
+        ((GameActivity) this.context).dismissProgressDialog();
     }
     
     /** 

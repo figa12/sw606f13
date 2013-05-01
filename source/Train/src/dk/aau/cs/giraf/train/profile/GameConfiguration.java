@@ -49,6 +49,15 @@ public class GameConfiguration implements Parcelable {
 		return numberOfPictograms;
 	}
 	
+	public ArrayList<Long> getIdOfAllPictograms(){
+		ArrayList<Long> pictogramIds =new ArrayList<Long>();
+		
+		for (StationConfiguration station : this.stations) {
+			pictogramIds.addAll(station.getAcceptPictograms());
+		}
+		return pictogramIds;
+	}
+	
 	public HashMap<String, String> getHashMap() {
 		
 		HashMap<String, String> map = new HashMap<String, String>();

@@ -19,7 +19,7 @@
     
     <!-- Cart1 -->
 
-    <LinearLayout
+    <dk.aau.cs.giraf.train.opengl.WagonLinearLayout
         android:id="@+id/Cart1LinearLayout"
         android:layout_width="310dp"
         android:layout_height="150dp"
@@ -27,11 +27,11 @@
         android:layout_marginBottom="75dp"
         android:layout_marginLeft="105dp"
         android:orientation="horizontal" >
-    </LinearLayout>
+    </dk.aau.cs.giraf.train.opengl.WagonLinearLayout>
 
     <!-- Cart2 -->
 
-    <LinearLayout
+    <dk.aau.cs.giraf.train.opengl.WagonLinearLayout
         android:id="@+id/Cart2LinearLayout"
         android:layout_width="310dp"
         android:layout_height="150dp"
@@ -39,7 +39,7 @@
         android:layout_marginLeft="45dp"
         android:layout_toRightOf="@id/Cart1LinearLayout"
         android:orientation="horizontal" >
-    </LinearLayout>
+    </dk.aau.cs.giraf.train.opengl.WagonLinearLayout>
 
     <!-- TrainDriver -->
 
@@ -59,7 +59,7 @@
 
     <!-- StationLeft -->
 
-    <LinearLayout
+    <dk.aau.cs.giraf.train.opengl.StationLinearLayout
         android:id="@+id/StationLeftLinearLayout"
         android:layout_width="310dp"
         android:layout_height="150dp"
@@ -67,11 +67,11 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="43dp"
         android:orientation="horizontal">
-    </LinearLayout>
+    </dk.aau.cs.giraf.train.opengl.StationLinearLayout>
 
     <!-- StationRight -->
 
-    <LinearLayout
+    <dk.aau.cs.giraf.train.opengl.StationLinearLayout
         android:id="@+id/StationRightLinearLayout"
         android:layout_width="310dp"
         android:layout_height="150dp"
@@ -79,7 +79,7 @@
         android:layout_marginLeft="138dp"
         android:layout_toRightOf="@id/StationLeftLinearLayout"
         android:orientation="horizontal" >
-    </LinearLayout>
+    </dk.aau.cs.giraf.train.opengl.StationLinearLayout>
 
     <LinearLayout
         android:id="@+id/FluteLinearLayout"
@@ -96,17 +96,4 @@
             android:layout_height="match_parent"
             android:src="@drawable/texture_sun" />
     </LinearLayout>
-
-    <!-- StationCategory -->
-
-    <LinearLayout
-        android:id="@+id/StationCategoryLinearLayout"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="370dp"
-        android:layout_marginTop="35dp"
-        android:orientation="horizontal" >
-    </LinearLayout>
-
 </RelativeLayout>
