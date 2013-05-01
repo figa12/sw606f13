@@ -110,13 +110,13 @@ public class GameActivity extends Activity {
         //myAlertDialog.setTitle("Title");
         alertDialogBuilder.setCancelable(false);
         alertDialogBuilder.setMessage(R.string.close_dialog);
-        alertDialogBuilder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setPositiveButton(super.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 //'Ja' button is clicked
                 finish();
             }
         });
-        alertDialogBuilder.setNegativeButton("Annuller", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton(super.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 //'Annuller' button is clicked
                 GameActivity.this.gameData.onResume();

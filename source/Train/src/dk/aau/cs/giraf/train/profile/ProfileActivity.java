@@ -28,6 +28,7 @@ public class ProfileActivity extends Activity {
     public static final String GAME_CONFIGURATION = "GameConfiguration";
     
     private Intent gameIntent;
+    private Intent saveIntent;
     private Intent pictoAdminIntent = new Intent();
     
     private Guardian guardian = null;
@@ -67,10 +68,11 @@ public class ProfileActivity extends Activity {
 		this.customiseLinearLayout = (CustomiseLinearLayout) super.findViewById(R.id.customiseLinearLayout);
 		
 		this.gameIntent = new Intent(this, GameActivity.class);
+		this.saveIntent = new Intent(this, SaveDialogActivity.class);
 		this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.pictoadmin","dk.aau.cs.giraf.pictoadmin.PictoAdminMain"));
 		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setNegativeButton("Okay", null);
+        alertDialogBuilder.setNegativeButton(super.getResources().getString(R.string.okay), null);
         this.errorDialog = alertDialogBuilder.create();
         
         
@@ -99,6 +101,8 @@ public class ProfileActivity extends Activity {
             GameConfiguration game = new GameConfiguration("testGame", 1L, 1L);
             DB db = new DB(this);
             db.saveChild(selectedChild, game);
+            
+            super.startActivity(this.saveIntent);
         }
 	}
 	

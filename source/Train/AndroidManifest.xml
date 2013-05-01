@@ -27,7 +27,6 @@
             android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -36,23 +35,19 @@
             android:label="@string/title_activity_game"
             android:parentActivityName="dk.aau.cs.giraf.train.MainActivity"
             android:screenOrientation="landscape" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="dk.aau.cs.giraf.train.MainActivity" />
         </activity>
         <activity
             android:name="dk.aau.cs.giraf.train.profile.ProfileActivity"
             android:label="@string/title_activity_profile"
             android:parentActivityName="dk.aau.cs.giraf.train.MainActivity"
             android:screenOrientation="landscape" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="dk.aau.cs.giraf.train.MainActivity" />
         </activity>
         <activity
-            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"
             android:name="dk.aau.cs.giraf.train.profile.SaveDialogActivity"
-            android:label="@string/title_activity_save_dialog" >
+            android:label="@string/title_activity_save_dialog"
+            android:parentActivityName="dk.aau.cs.giraf.train.ProfileActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
         </activity>
     </application>
 
