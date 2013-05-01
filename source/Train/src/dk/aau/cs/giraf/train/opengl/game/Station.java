@@ -151,9 +151,9 @@ public final class Station extends GameDrawable {
     @Override
     public final void draw() {
         //Move
-        this.stationPlatformMatrix.move(super.gameData.pixelMovementForThisFrame, 0f);
-        this.stationPictogramMatrix.move(super.gameData.pixelMovementForThisFrame, 0f);
-        this.categoryMatrix.move(super.gameData.pixelMovementForThisFrame, 0f);
+        this.stationPlatformMatrix.move(super.gameData.getPixelMovement(), 0f);
+        this.stationPictogramMatrix.move(super.gameData.getPixelMovement(), 0f);
+        this.categoryMatrix.move(super.gameData.getPixelMovement(), 0f);
         
         //Draw
         super.translateAndDraw(this.stationPlatformMatrix);

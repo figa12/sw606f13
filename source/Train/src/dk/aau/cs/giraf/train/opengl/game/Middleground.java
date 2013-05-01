@@ -109,7 +109,7 @@ public final class Middleground extends GameDrawable {
 
     @Override
     public void draw() {
-        this.sequence.move(super.gameData.pixelMovementForThisFrame, 0f);
+        this.sequence.move(super.gameData.getPixelMovement(), 0f);
         super.translateAndDraw(this.sequence);
     }
 }

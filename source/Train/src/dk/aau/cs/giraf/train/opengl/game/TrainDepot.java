@@ -62,7 +62,7 @@ public final class TrainDepot extends GameDrawable {
 	@Override
 	public final void draw() {
 		//Move
-		this.trainDepotMatrix.move(super.gameData.pixelMovementForThisFrame, 0f);
+		this.trainDepotMatrix.move(super.gameData.getPixelMovement(), 0f);
 		
 		//Draw
 		super.translateAndDraw(this.trainDepotMatrix);	

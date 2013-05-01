@@ -11,6 +11,7 @@ import dk.aau.cs.giraf.train.opengl.Color;
 import dk.aau.cs.giraf.train.opengl.GameDrawer;
 import dk.aau.cs.giraf.train.opengl.GlPictogram;
 import dk.aau.cs.giraf.train.opengl.Square;
+import dk.aau.cs.giraf.train.opengl.Text;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
 public final class Train extends GameDrawable {

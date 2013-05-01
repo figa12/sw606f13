@@ -42,7 +42,7 @@ public final class TrainSmoke extends GameDrawable {
         //Updates position and alpha channels
         for (int i = 0; i < this.numberOfSmokeClouds; i++) {
             //Always move smoke vertically, move smoke horizontally relative to the train speed.
-            this.coordinates[i].moveX(super.gameData.pixelMovementForThisFrame);
+            this.coordinates[i].moveX(super.gameData.getPixelMovement());
             this.coordinates[i].moveY(this.ySpeed * super.gameData.timeDifference);
             
             //Fade the smoke

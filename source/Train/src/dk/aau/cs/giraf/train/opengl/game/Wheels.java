@@ -37,7 +37,7 @@ public final class Wheels extends GameDrawable {
         
         double circumference = this.wheelDiameter[wheelIndex] * Math.PI;
         double degreePerPixel = 360.0 / circumference;
-        this.rotation[wheelIndex] += (float) degreePerPixel * super.gameData.pixelMovementForThisFrame;
+        this.rotation[wheelIndex] += (float) degreePerPixel * super.gameData.getPixelMovement();
         return this.rotation[wheelIndex];
     }
     

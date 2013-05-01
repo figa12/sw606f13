@@ -13,16 +13,16 @@ import android.util.Log;
  */
 public class GameData {
     
-    public static final float FOREGROUND   = -907.7443f;
+    public static final float FOREGROUND   = -907.7442994522836f; //Magic number
     public static final float MIDDLEGROUND = -1800f;
     public static final float BACKGROUND   = -3000f;
     
     public boolean isPaused = false;
     
-    public static final float MAX_TRAIN_SPEED = 1.5f; // pixels per ms // 0.35 is nice
+    public static final float MAX_TRAIN_SPEED = 0.35f; // pixels per ms // 0.35 is nice
     public volatile static float currentTrainVelocity = 0f; // pixels per ms
     
-    public volatile float pixelMovementForThisFrame = 0f; // pixels
+    private float pixelMovementForThisFrame = 0f; // pixels
     public volatile float totalDistanceTraveled = 0f;
     
     public volatile static int numberOfStations;
@@ -89,6 +89,10 @@ public class GameData {
         this.train.setDriverPictogram(pictogram);
     }
     
+    public synchronized final float getPixelMovement() {
+        return this.pixelMovementForThisFrame;
+    }
+    
     /** Updates all game data. */
     public synchronized final void updateData() {
         this.timeDifference = (this.systemTimeNow - this.systemTimeLast)/1000000.0f;
@@ -115,7 +119,7 @@ public class GameData {
     }
     
     /** Initiate train deceleration. */
-    private synchronized final void decelerateTrain() {
+    public synchronized final void decelerateTrain() {
         if(!GameData.changingVelocity) {
             GameData.changingVelocity = true;
             GameData.deltaVelocity = -Math.abs(GameData.deltaVelocity);
@@ -181,7 +185,7 @@ public class GameData {
      * @param depth to calculate in.
      * @return Visible travel distance.
      */
-    public final float getTotalTravelDistance(float depth) {
+    public synchronized final float getTotalTravelDistance(float depth) {
         return this.nextStoppingPosition[GameData.numberOfStations-1] + GlRenderer.getActualWidth(GlRenderer.getActualHeight(depth));
     }
     
