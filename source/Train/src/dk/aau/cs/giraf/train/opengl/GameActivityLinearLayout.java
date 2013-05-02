@@ -55,7 +55,7 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 		public boolean onDrag(View v, DragEvent event) {
 			if (event.getLocalState() != null) {
 				// do nothing, maybe return false..
-				
+				View draggedView = (View) event.getLocalState();
 
 				switch (event.getAction()) {
 					case DragEvent.ACTION_DRAG_STARTED:
@@ -76,7 +76,6 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 					case DragEvent.ACTION_DROP:
 						// Dropped, assigns the draggedview to the dropcontainer if
 						// the container does not already contain a view.
-						View draggedView = (View) event.getLocalState();
 						ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
 	
 						PictoFrameLayout dropContainer = (PictoFrameLayout) v;
@@ -94,9 +93,8 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 					case DragEvent.ACTION_DRAG_ENDED:
 						// Makes the draggedview visible again after the view has
 						// been moved or the drop wasn't valid.
-						View view = (View) event.getLocalState();
 						v.setBackgroundDrawable(normalShape);
-						view.setVisibility(View.VISIBLE);
+						draggedView.setVisibility(View.VISIBLE);
 						break;
 				}
 				return true;
