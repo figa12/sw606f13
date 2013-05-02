@@ -1,5 +1,8 @@
 package dk.aau.cs.giraf.train.profile;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,6 +26,13 @@ public class GameConfiguration implements Parcelable {
 		this.childID = childID;
 		this.gameID = gameID;
 		this.guardianID = Data.currentGuardianID;
+	}
+	
+	public GameConfiguration(String gameName, long gameID, long childID, long guardianID) {
+		this.gameName = gameName;
+		this.childID = childID;
+		this.gameID = gameID;
+		this.guardianID = guardianID;
 	}
     
 	public void addStation(StationConfiguration station) {
@@ -102,5 +112,34 @@ public class GameConfiguration implements Parcelable {
         this.childID = in.readLong();
         this.gameID = in.readLong();
         in.readList(this.stations, StationConfiguration.class.getClassLoader());
+    }
+    
+    public String writeConfiguration() throws IOException {
+    	StringWriter sWriter = new StringWriter(1024);
+    	
+    	sWriter.write(String.valueOf(this.gameID));
+    	sWriter.append(",");
+    	sWriter.write(String.valueOf(this.guardianID));
+    	sWriter.append(",");
+    	sWriter.write(String.valueOf(this.childID));
+    	sWriter.append(",");
+    	sWriter.write(this.gameName);
+    	
+    	for(StationConfiguration station : stations) {
+    		sWriter.append(";");
+    		sWriter.write(station.writeStation());
+    	}
+    	
+    	sWriter.append("\n");
+    	
+    	String result = sWriter.toString();
+    	sWriter.close();
+    	
+    	return result;
+    }
+    
+    public boolean readConfiguration(long gameID) {
+    	
+    	return true;
     }
 }
