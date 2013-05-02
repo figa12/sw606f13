@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.train.profile;
 
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import dk.aau.cs.giraf.train.opengl.GameActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -193,7 +195,13 @@ public class ProfileActivity extends Activity {
         case ProfileActivity.RECEIVE_GAME_NAME:
         	String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
         	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337L, childrenListView.getSelectedChild().getProfileId());
-        	((GameListView)findViewById(R.id.gamelist)).addGameConfiguration(gameConfiguration);
+        	this.gameListView.addGameConfiguration(gameConfiguration);
+			try {
+				this.saveAllConfigurations(this.gameListView.getGameConfigurations());
+			} catch (IOException e) {
+				e.printStackTrace();
+				Toast.makeText(this, "Kan ikke gemme", Toast.LENGTH_SHORT).show();
+			}
         	break;
         }
         
@@ -236,6 +244,8 @@ public class ProfileActivity extends Activity {
 			for (GameConfiguration game : gameConfigurations) {
 				fos.write(game.writeConfiguration().getBytes());
 			}
+		} catch(FileNotFoundException e) {
+		    return;
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
