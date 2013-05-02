@@ -94,15 +94,9 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 					case DragEvent.ACTION_DRAG_ENDED:
 						// Makes the draggedview visible again after the view has
 						// been moved or the drop wasn't valid.
+						View view = (View) event.getLocalState();
 						v.setBackgroundDrawable(normalShape);
-	
-						// The weird bug is solves by this.
-						/*draggedView.post(new Runnable() {
-							@Override
-							public void run() {
-								draggedView.setVisibility(View.VISIBLE);
-							}
-						});*/
+						view.setVisibility(View.VISIBLE);
 						break;
 				}
 				return true;
