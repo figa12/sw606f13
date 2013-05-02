@@ -41,6 +41,10 @@ public class GameConfiguration implements Parcelable {
 		return this.stations.get(value);
 	}
 	
+	public String getGameName() {
+	    return this.gameName;
+	}
+	
 	public int getNumberOfPictogramsOfStations(){
 		int numberOfPictograms = 0;
 		for (StationConfiguration station : this.stations) {
