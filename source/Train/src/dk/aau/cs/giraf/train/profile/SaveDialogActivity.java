@@ -1,17 +1,24 @@
 package dk.aau.cs.giraf.train.profile;
 
+import java.util.ArrayList;
+
 import dk.aau.cs.giraf.train.Data;
 import dk.aau.cs.giraf.train.R;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 
 public class SaveDialogActivity extends Activity {
     
+    public static final String GAME_NAME = "gameName";
+    private Intent resultIntent = new Intent();
     private EditText editText;
+    
+    private ArrayList<GameConfiguration> currentGameConfigurations;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,26 +30,39 @@ public class SaveDialogActivity extends Activity {
         super.findViewById(R.id.profileSaveDialog).setBackgroundDrawable(backgroundDrawable);
         
         this.editText = (EditText) super.findViewById(R.id.editText);
+        
+        Bundle configurationBundle = super.getIntent().getExtras();
+        if(configurationBundle != null) {
+            this.currentGameConfigurations = configurationBundle.getParcelableArrayList("gameConfiguration"); //FIXME USE STATIC KEY FROM PROFILE
+        }
     }
     
     public void onClickSave(View view) {
         if (this.isValidFileName()) {
+            String gameName = this.editText.getText().toString();
+
+            this.resultIntent.putExtra(SaveDialogActivity.GAME_NAME, gameName);
             
+            super.setResult(Activity.RESULT_OK, this.resultIntent);
+            super.finish();
         }
     }
     
     public void onClickCancel(View view) {
+        super.setResult(Activity.RESULT_CANCELED, this.resultIntent);
         super.finish();
     }
     
     private boolean isValidFileName() {
         //TODO check for valid file name
-        return false;
+        //TODO check if game name already exist in this.currentGameConfigurations
+        return true;
     }
     
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        super.setResult(Activity.RESULT_CANCELED, this.resultIntent);
         super.finish();
     }
 }
