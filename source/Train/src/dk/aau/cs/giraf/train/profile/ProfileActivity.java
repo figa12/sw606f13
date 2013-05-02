@@ -111,7 +111,7 @@ public class ProfileActivity extends Activity {
 	public void onClickSaveGame(View view) throws IOException {
 	    if (this.isValidConfiguration()) {
 	    	this.saveIntent.putExtra(ProfileActivity.GAME_CONFIGURATIONS, ((GameListView)findViewById(R.id.gamelist)).getGameConfigurations());
-            super.startActivity(this.saveIntent);
+            super.startActivityForResult(this.saveIntent, ProfileActivity.RECEIVE_GAME_NAME);
         }
 	}
 	
@@ -172,6 +172,7 @@ public class ProfileActivity extends Activity {
         }
         
         long[] checkout;
+        
         switch(requestCode) {
         case ProfileActivity.RECEIVE_SINGLE:
         	checkout = data.getExtras().getLongArray("checkoutIds"); //Pictogram IDs
@@ -188,7 +189,9 @@ public class ProfileActivity extends Activity {
             }
         	break;
         case ProfileActivity.RECEIVE_GAME_NAME:
-        	// do whatever
+        	String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
+        	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337L, childrenListView.getSelectedChild().getProfileId());
+        	((GameListView)findViewById(R.id.gamelist)).addGameConfiguration(gameConfiguration);
         	break;
         }
         

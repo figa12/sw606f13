@@ -33,6 +33,10 @@ public class GameListView extends ListView {
     	return this.gameConfigurations;
     }
     
+    public void addGameConfiguration(GameConfiguration gameConfiguration) {
+    	this.adapter.add(gameConfiguration);
+    }
+    
     public void loadGames() {
         this.gameConfigurations = loadAllConfigurations();
         
