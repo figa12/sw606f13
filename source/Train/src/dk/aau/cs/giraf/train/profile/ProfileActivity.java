@@ -34,6 +34,11 @@ public class ProfileActivity extends Activity {
 	
     public static final String GAME_CONFIGURATION = "GameConfiguration";
     public static final String SAVEFILE_PATH = "game_configurations.txt";
+    public static final String GAME_CONFIGURATIONS = "GameConfigurations";
+    
+	public static final int RECEIVE_SINGLE = 0;
+    public static final int RECEIVE_MULTIPLE = 1;
+    public static final int RECEIVE_GAME_NAME = 2;
     
     private Intent gameIntent;
     private Intent saveIntent;
@@ -104,15 +109,16 @@ public class ProfileActivity extends Activity {
 	}
 	
 	public void onClickSaveGame(View view) throws IOException {
-	    if (this.isValidConfiguration()) {            
+	    if (this.isValidConfiguration()) {
+	    	this.saveIntent.putExtra(ProfileActivity.GAME_CONFIGURATIONS, ((GameListView)findViewById(R.id.gamelist)).getGameConfigurations());
             super.startActivity(this.saveIntent);
         }
 	}
 	
 	public void onClickStartGame(View view) {
-	    if(ProfileActivity.this.isValidConfiguration()) {
-            ProfileActivity.this.gameIntent.putExtra(ProfileActivity.GAME_CONFIGURATION, ProfileActivity.this.getGameConfiguration());
-            ProfileActivity.this.startActivity(ProfileActivity.this.gameIntent);
+	    if(this.isValidConfiguration()) {
+            this.gameIntent.putExtra(ProfileActivity.GAME_CONFIGURATION, this.getGameConfiguration("the new game", 1337L, 1337L));
+            this.startActivity(this.gameIntent);
         }
 	}
 	
@@ -124,7 +130,7 @@ public class ProfileActivity extends Activity {
 	}
 	
 	private boolean isValidConfiguration() {
-	    GameConfiguration currentGameConfiguration = this.getGameConfiguration();
+	    GameConfiguration currentGameConfiguration = this.getGameConfiguration("the new game", 1337L, 1337L);
 	    
 	    //There needs to be at least one station
 	    if(currentGameConfiguration.getStations().size() < 1) {
@@ -145,8 +151,8 @@ public class ProfileActivity extends Activity {
 	    return true;
 	}
 	
-	private GameConfiguration getGameConfiguration() {
-	    GameConfiguration gameConfiguration = new GameConfiguration("the new game", 1337L, 1337L); //TODO Set appropriate IDs
+	private GameConfiguration getGameConfiguration(String gameName, long gameID, long childID) {
+	    GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID); //TODO Set appropriate IDs
 	    gameConfiguration.setStations(this.customiseLinearLayout.getStations());
 	    return gameConfiguration;
 	}
@@ -165,18 +171,30 @@ public class ProfileActivity extends Activity {
             return;
         }
         
-        long[] checkout = data.getExtras().getLongArray("checkoutIds"); //Pictogram IDs
-        
-        if(checkout.length > 0) {
-            this.pictogramReceiver.receivePictograms(checkout, requestCode);
+        long[] checkout;
+        switch(requestCode) {
+        case ProfileActivity.RECEIVE_SINGLE:
+        	checkout = data.getExtras().getLongArray("checkoutIds"); //Pictogram IDs
+            
+            if(checkout.length > 0) {
+                this.pictogramReceiver.receivePictograms(checkout, requestCode);
+            }
+        	break;
+        case ProfileActivity.RECEIVE_MULTIPLE:
+        	checkout = data.getExtras().getLongArray("checkoutIds"); //Pictogram IDs
+            
+            if(checkout.length > 0) {
+                this.pictogramReceiver.receivePictograms(checkout, requestCode);
+            }
+        	break;
+        case ProfileActivity.RECEIVE_GAME_NAME:
+        	// do whatever
+        	break;
         }
+        
     }
 	
-	public static final int RECEIVE_SINGLE = 0;
-    public static final int RECEIVE_MULTIPLE = 1;
 	private PictogramReceiver pictogramReceiver;
-    
-	boolean testHest = true;
 	
 	public void startPictoAdmin(int requestCode, PictogramReceiver pictogramRequester) {
 	    if(this.isCallable(this.pictoAdminIntent) == false) {
@@ -205,9 +223,27 @@ public class ProfileActivity extends Activity {
         return list.size() > 0;
 	}
 	
+	public void saveAllConfigurations(ArrayList<GameConfiguration> gameConfigurations) throws IOException {
+		FileOutputStream fos = null;
+		
+		try {
+			fos = this.openFileOutput(SAVEFILE_PATH, Context.MODE_PRIVATE);
+			for (GameConfiguration game : gameConfigurations) {
+				fos.write(game.writeConfiguration().getBytes());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (fos != null) {
+				fos.flush();
+				fos.close();
+			}
+		}
+	}
+	
 	public boolean saveConfiguration() throws IOException {
 		FileOutputStream fos = null; 
-		GameConfiguration game = getGameConfiguration();
+		GameConfiguration game = getGameConfiguration("the new game", 1337L, 1337L);
 		
 		try {
 			fos = this.openFileOutput(SAVEFILE_PATH, Context.MODE_PRIVATE);
@@ -222,74 +258,5 @@ public class ProfileActivity extends Activity {
 		}
 		
 		return true;
-	}
-	
-	public ArrayList<GameConfiguration> loadAllConfigurations() throws IOException {
-		FileInputStream fis = null;
-		StringWriter sWriter = new StringWriter(1024);
-		
-		try {
-			fis = this.openFileInput(SAVEFILE_PATH);
-
-			int content;
-			while ((content = fis.read()) != -1) {
-				// convert to char and append to string
-				sWriter.append((char) content);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (fis != null)
-					fis.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-		
-		sWriter.close();
-		
-		ArrayList<GameConfiguration> gameConfigurations = splitConfigurations(sWriter.toString());
-		
-		return gameConfigurations;
-	}
-	
-	private ArrayList<GameConfiguration> splitConfigurations(String data) {
-		ArrayList<GameConfiguration> gameConfigurations = new ArrayList<GameConfiguration>();
-		String[] configurations = data.split("\n");
-		
-		// For each configuration
-		for (int i = 0; i < configurations.length; i++) {
-			
-			String[] parts = configurations[i].split(";");
-			String[] game = parts[0].split(",");
-			
-			long gameID = Long.valueOf(game[0]).longValue();
-			long guardianID = Long.valueOf(game[1]).longValue();
-			long childID = Long.valueOf(game[2]).longValue();
-			String gameName = game[3];
-			ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
-			
-			// For each station
-			for (int k = 1; k < parts.length; k++) {
-				StationConfiguration station = new StationConfiguration();
-				String[] stationParts = parts[k].split(",");
-				
-				station.setCategory(Long.valueOf(stationParts[0]).longValue());
-				
-				// For each accept pictogram of station
-				for (int n = 1; n < stationParts.length; n++) {
-					station.addAcceptPictogram(Long.valueOf(stationParts[n]).longValue());
-				}
-				
-			}
-			
-			GameConfiguration gameConf = new GameConfiguration(gameName, gameID, childID, guardianID);
-			gameConf.setStations(stations);
-			
-			gameConfigurations.add(gameConf);
-		}
-		
-		return gameConfigurations;
 	}
 }
