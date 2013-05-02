@@ -26,6 +26,8 @@ public class GameListView extends ListView {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 GameListView.this.adapter.setSelectedPosition(position);
+                
+                ((ProfileActivity) GameListView.this.getContext()).setGameConfiguration(GameListView.this.adapter.getSelectedGameConfiguration());
             }
         });
     }
@@ -103,7 +105,7 @@ public class GameListView extends ListView {
 				for (int n = 1; n < stationParts.length; n++) {
 					station.addAcceptPictogram(Long.valueOf(stationParts[n]).longValue());
 				}
-				
+				stations.add(station);
 			}
 			
 			GameConfiguration gameConf = new GameConfiguration(gameName, gameID, childID, guardianID);
