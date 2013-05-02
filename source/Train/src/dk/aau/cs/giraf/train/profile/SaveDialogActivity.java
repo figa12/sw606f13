@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -17,6 +18,7 @@ public class SaveDialogActivity extends Activity {
     public static final String GAME_NAME = "gameName";
     private Intent resultIntent = new Intent();
     private EditText editText;
+    private AlertDialog errorDialog;
     
     private ArrayList<GameConfiguration> currentGameConfigurations;
     
@@ -31,16 +33,25 @@ public class SaveDialogActivity extends Activity {
         
         this.editText = (EditText) super.findViewById(R.id.editText);
         
-        Bundle configurationBundle = super.getIntent().getExtras();
-        if(configurationBundle != null) {
-            this.currentGameConfigurations = configurationBundle.getParcelableArrayList("gameConfiguration"); //FIXME USE STATIC KEY FROM PROFILE
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setNegativeButton(super.getResources().getString(R.string.okay), null);
+        this.errorDialog = alertDialogBuilder.create();
+        
+        Bundle extras = super.getIntent().getExtras();
+        if(extras != null) {
+            this.currentGameConfigurations = extras.getParcelableArrayList("gameConfiguration"); //FIXME USE STATIC KEY FROM PROFILE
         }
     }
     
+    private void showAlertMessage(String message) {
+        this.errorDialog.setMessage(message);
+        this.errorDialog.show();
+    }
+    
     public void onClickSave(View view) {
-        if (this.isValidFileName()) {
-            String gameName = this.editText.getText().toString();
-
+        String gameName = this.editText.getText().toString();
+        
+        if (this.isValidGameName(gameName)) {
             this.resultIntent.putExtra(SaveDialogActivity.GAME_NAME, gameName);
             
             super.setResult(Activity.RESULT_OK, this.resultIntent);
@@ -53,9 +64,21 @@ public class SaveDialogActivity extends Activity {
         super.finish();
     }
     
-    private boolean isValidFileName() {
-        //TODO check for valid file name
-        //TODO check if game name already exist in this.currentGameConfigurations
+    private boolean isValidGameName(String gameName) {
+        //Make sure game name doesn't already exist
+        for (GameConfiguration configuration : this.currentGameConfigurations) {
+            if (configuration.getGameName().equals(gameName)) {
+                this.showAlertMessage(super.getResources().getString(R.string.name_exists));
+                return false;
+            }
+        }
+        
+        //Check for illegal symbols
+        if (gameName.contains(",") || gameName.contains(";")) {
+            this.showAlertMessage(super.getResources().getString(R.string.invalid_symbols));
+            return false;
+        }
+        
         return true;
     }
     

@@ -38,5 +38,7 @@
     <string name="title_activity_save_dialog">SaveDialogActivity</string>
     <string name="type_name">Indtast Navn</string>
     <string name="textHint">Indtast navn her</string>
+    <string name="invalid_symbols">De følgende symboler må ikke bruges:\n, ;</string>
+    <string name="name_exists">Det indtastede navn findes allerede.</string>
     
 </resources>
