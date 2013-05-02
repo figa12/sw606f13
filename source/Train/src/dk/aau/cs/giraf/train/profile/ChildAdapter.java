@@ -22,13 +22,11 @@ import android.widget.TextView;
  */
 public class ChildAdapter extends ArrayAdapter<Child> {
 	
-	private ArrayList<Child> children;
 	private int selectedPosition = 0;
 	private Child selectedChild;
 	
 	public ChildAdapter(Context context, int textViewResourceId, ArrayList<Child> items) {
 		super(context, textViewResourceId, items);
-		this.children = items;
 	}
 	
 	/**
@@ -45,7 +43,7 @@ public class ChildAdapter extends ArrayAdapter<Child> {
 	 */
 	public void setSelectedPosition(int position) {
 	    this.selectedPosition = position;
-	    this.notifyDataSetChanged();
+	    super.notifyDataSetChanged();
 	}
 	
 	/**
@@ -62,7 +60,8 @@ public class ChildAdapter extends ArrayAdapter<Child> {
 			convertView = layoutInflater.inflate(R.layout.profile_list_item, null);
 		}
 		
-		Child child = this.children.get(position);
+		//Child child = this.children.get(position);
+		Child child = super.getItem(position);
 		
         /* Find all the views */
         ImageView profilePictureImageView = (ImageView) convertView.findViewById(R.id.profilePic);
@@ -71,14 +70,7 @@ public class ChildAdapter extends ArrayAdapter<Child> {
         //Set the picture 
         profilePictureImageView.setImageResource(R.drawable.default_profile); //TODO: Insert pictures here
 
-        /* If this is either last used or predefined, change the name */
-        if (child.name == "Last Used") {
-            profileNameTextView.setText(R.string.last_used);
-        } else if (child.name == "Predefined Profiles") {
-            profileNameTextView.setText(R.string.predefined);
-        } else {
-            profileNameTextView.setText(child.name);
-        }
+        profileNameTextView.setText(child.name);
 		
         //Is this profile selected, then highlight
         if (position == this.selectedPosition) {

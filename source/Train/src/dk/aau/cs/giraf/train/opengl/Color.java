@@ -20,6 +20,7 @@ public class Color {
     public final static Color PausedOverlay = new Color(0f, 0f, 0f, 0.5f);
     public final static Color DepotBackside = new Color(53, 58, 50, 255);
     public final static Color EndOfTrack = new Color(0.8f, 0.8f, 0.8f, 1f);
+    public final static Color Gray = new Color(128, 128, 128, 255);
     
     /* The color values. */
     public float red;
@@ -69,5 +70,37 @@ public class Color {
         this.green = green;
         this.blue = blue;
         this.alpha = alpha;
+    }
+    
+    /**
+     * Get the integer representation of the red component.
+     * @return The red integer component.
+     */
+    public int getRedComponent() {
+        return (int) this.red * 255;
+    }
+    
+    /**
+     * Get the integer representation of the green component.
+     * @return The green integer component.
+     */
+    public int getGreenComponent() {
+        return (int) this.green * 255;
+    }
+    
+    /**
+     * Get the integer representation of the blue component.
+     * @return The blue integer component.
+     */
+    public int getBlueComponent() {
+        return (int) this.blue * 255;
+    }
+    
+    /**
+     * Get the integer representation of the alpha component.
+     * @return The alpha integer component.
+     */
+    public int getAlphaComponent() {
+        return (int) this.alpha * 255;
     }
 }

@@ -9,9 +9,7 @@ import dk.aau.cs.giraf.train.R;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.view.View;
 
 /**
@@ -23,13 +21,17 @@ import android.view.View;
  */
 public class ChildrenListView extends ListView {
     
-	public Guardian guardian = Guardian.getInstance();
 	private ChildAdapter adapter;
 	
 	public ChildrenListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		
-		this.setOnItemClickListener(messageClickedHandler);
+		super.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+                ChildrenListView.this.adapter.setSelectedPosition(position);
+            }
+        });
 	}
 	
 	/**
@@ -38,22 +40,23 @@ public class ChildrenListView extends ListView {
 	 * @see ChildAdapter
 	 * @see Child
 	 */
-	public void loadChildren() {
+	public void loadChildren(Guardian guardian) {
 		ArrayList<Child> children = guardian.publishList();
 		
-		this.adapter = new ChildAdapter(this.getContext(), R.drawable.list_item, children);
+		//We want to remove the children with the names "Last Used" and "Predefined Profiles".
+		//This is a terrible solution to remove them, but java does not have built-in support for this.
+		for (int i = 0; i < children.size(); i++) {
+		    if (children.get(i).name == "Last Used" || children.get(i).name == "Predefined Profiles") {
+		        children.remove(i);
+		        i--; //Removed an item, then go back one index
+		    }
+		}
 		
-		this.setAdapter(adapter);
+		this.adapter = new ChildAdapter(super.getContext(), R.drawable.list_item, children);
+		super.setAdapter(this.adapter);
 	}
 	
 	public Child getSelectedChild() {
 		return this.adapter.getSelectedChild();
 	}
-	
-	private OnItemClickListener messageClickedHandler = new OnItemClickListener() {
-	    @Override
-	    public void onItemClick(AdapterView parent, View view, int position, long id) {
-	    	ChildrenListView.this.adapter.setSelectedPosition(position);
-	    }
-	};
 }

@@ -1,5 +1,7 @@
 package dk.aau.cs.giraf.train.profile;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
 import android.os.Parcel;
@@ -19,6 +21,10 @@ public class StationConfiguration implements Parcelable {
     
     public void addAcceptPictogram(long id) {
         acceptPictograms.add(id);
+    }
+    
+    public void removeAccepPictogram(long id) {
+        this.acceptPictograms.remove(id);
     }
     
     public void clearAcceptPictograms() {
@@ -67,5 +73,21 @@ public class StationConfiguration implements Parcelable {
     private StationConfiguration(Parcel in) {
         this.category = in.readLong();
         in.readList(this.acceptPictograms, null);
+    }
+    
+    public String writeStation() throws IOException {
+    	StringWriter sWriter = new StringWriter(1024);
+    	
+    	sWriter.write(String.valueOf(this.category));
+    	
+    	for(Long pictogram : acceptPictograms) {
+    		sWriter.append(",");
+    		sWriter.write(String.valueOf(pictogram));
+    	}
+    	
+    	String result = sWriter.toString();
+    	sWriter.close();
+    	
+    	return result;
     }
 }

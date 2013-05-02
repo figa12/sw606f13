@@ -47,6 +47,7 @@
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/add_pictogram"
             android:src="@android:drawable/ic_input_add"
+            android:background="@drawable/transparent_button"
             android:layout_marginLeft="20.5dp" />
     </LinearLayout>
 
@@ -62,7 +63,8 @@
             android:layout_height="35dp"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/delete_row"
-            android:src="@android:drawable/ic_delete" />
+            android:src="@android:drawable/ic_delete"
+            android:background="@drawable/transparent_button" />
     </LinearLayout>
 
 </LinearLayout>

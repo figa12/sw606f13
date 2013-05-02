@@ -1,5 +1,8 @@
 package dk.aau.cs.giraf.train.profile;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -24,6 +27,13 @@ public class GameConfiguration implements Parcelable {
 		this.gameID = gameID;
 		this.guardianID = Data.currentGuardianID;
 	}
+	
+	public GameConfiguration(String gameName, long gameID, long childID, long guardianID) {
+		this.gameName = gameName;
+		this.childID = childID;
+		this.gameID = gameID;
+		this.guardianID = guardianID;
+	}
     
 	public void addStation(StationConfiguration station) {
 		this.stations.add(station);
@@ -41,12 +51,25 @@ public class GameConfiguration implements Parcelable {
 		return this.stations.get(value);
 	}
 	
+	public String getGameName() {
+	    return this.gameName;
+	}
+	
 	public int getNumberOfPictogramsOfStations(){
 		int numberOfPictograms = 0;
 		for (StationConfiguration station : this.stations) {
 			numberOfPictograms += station.getAcceptPictograms().size();
 		}
 		return numberOfPictograms;
+	}
+	
+	public ArrayList<Long> getIdOfAllPictograms(){
+		ArrayList<Long> pictogramIds =new ArrayList<Long>();
+		
+		for (StationConfiguration station : this.stations) {
+			pictogramIds.addAll(station.getAcceptPictograms());
+		}
+		return pictogramIds;
 	}
 	
 	public HashMap<String, String> getHashMap() {
@@ -93,5 +116,34 @@ public class GameConfiguration implements Parcelable {
         this.childID = in.readLong();
         this.gameID = in.readLong();
         in.readList(this.stations, StationConfiguration.class.getClassLoader());
+    }
+    
+    public String writeConfiguration() throws IOException {
+    	StringWriter sWriter = new StringWriter(1024);
+    	
+    	sWriter.write(String.valueOf(this.gameID));
+    	sWriter.append(",");
+    	sWriter.write(String.valueOf(this.guardianID));
+    	sWriter.append(",");
+    	sWriter.write(String.valueOf(this.childID));
+    	sWriter.append(",");
+    	sWriter.write(this.gameName);
+    	
+    	for(StationConfiguration station : stations) {
+    		sWriter.append(";");
+    		sWriter.write(station.writeStation());
+    	}
+    	
+    	sWriter.append("\n");
+    	
+    	String result = sWriter.toString();
+    	sWriter.close();
+    	
+    	return result;
+    }
+    
+    public boolean readConfiguration(long gameID) {
+    	
+    	return true;
     }
 }

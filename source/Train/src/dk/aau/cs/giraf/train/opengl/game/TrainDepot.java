@@ -36,24 +36,24 @@ public final class TrainDepot extends GameDrawable {
 		
 		this.trainDepotMatrix.addCoordinate(-640f, 305.38f, GameData.FOREGROUND);
 		
-		super.gameData.nextStoppingPosition[GameData.numberOfStations - 1] = super.gameData.nextStoppingPosition[GameData.numberOfStations - 2] + GameData.DISTANCE_TO_DEPOT;	
-		super.gameData.nextStoppingPosition[GameData.numberOfStations] = Float.MAX_VALUE; //Have to give the last index a value equal or greater than the last index.
+		super.gameData.nextStoppingPosition[super.gameData.numberOfStations - 1] = super.gameData.nextStoppingPosition[super.gameData.numberOfStations - 2] + GameData.DISTANCE_TO_DEPOT;	
+		super.gameData.nextStoppingPosition[super.gameData.numberOfStations] = Float.MAX_VALUE; //Have to give the last index a value equal or greater than the last index.
 		
 		float offset = 45.79f; 
 		
 		switch(this.depth) {
 		case TrainDepot.BEFORE_TRAIN:
-			this.trainDepotMatrix.addRenderableMatrixItem(this.trainDepotBackside, new Coordinate(super.gameData.nextStoppingPosition[GameData.numberOfStations - 1] + offset, -220.168f, 0f), Color.DepotBackside);
+			this.trainDepotMatrix.addRenderableMatrixItem(this.trainDepotBackside, new Coordinate(super.gameData.nextStoppingPosition[super.gameData.numberOfStations - 1] + offset, -220.168f, 0f), Color.DepotBackside);
 			break;
 		
 		case TrainDepot.AFTER_TRAIN:
 		    this.trainDepot.loadTexture(super.gl, super.context, R.drawable.texture_train_depot, Texture.AspectRatio.BitmapOneToOne);
-			this.trainDepotMatrix.addRenderableMatrixItem(this.trainDepot, new Coordinate(super.gameData.nextStoppingPosition[GameData.numberOfStations - 1] + offset, 0f, 0f));
+			this.trainDepotMatrix.addRenderableMatrixItem(this.trainDepot, new Coordinate(super.gameData.nextStoppingPosition[super.gameData.numberOfStations - 1] + offset, 0f, 0f));
 			
 			float height = GlRenderer.getActualHeight(GameData.FOREGROUND);
 			float width = GlRenderer.getActualWidth(height);
 			this.tracksEnd = new Square(width - offset, 21f);
-			this.trainDepotMatrix.addRenderableMatrixItem(this.tracksEnd, new Coordinate(super.gameData.nextStoppingPosition[GameData.numberOfStations - 1] + offset, -660.38f, 0f), Color.EndOfTrack);
+			this.trainDepotMatrix.addRenderableMatrixItem(this.tracksEnd, new Coordinate(super.gameData.nextStoppingPosition[super.gameData.numberOfStations - 1] + offset, -660.38f, 0f), Color.EndOfTrack);
             
 			break;
 		}
@@ -62,7 +62,7 @@ public final class TrainDepot extends GameDrawable {
 	@Override
 	public final void draw() {
 		//Move
-		this.trainDepotMatrix.move(super.gameData.pixelMovementForThisFrame, 0f);
+		this.trainDepotMatrix.move(super.gameData.getPixelMovement(), 0f);
 		
 		//Draw
 		super.translateAndDraw(this.trainDepotMatrix);	
