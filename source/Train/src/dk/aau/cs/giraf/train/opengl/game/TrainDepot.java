@@ -39,7 +39,7 @@ public final class TrainDepot extends GameDrawable {
 		super.gameData.nextStoppingPosition[GameData.numberOfStations - 1] = super.gameData.nextStoppingPosition[GameData.numberOfStations - 2] + GameData.DISTANCE_TO_DEPOT;	
 		super.gameData.nextStoppingPosition[GameData.numberOfStations] = Float.MAX_VALUE; //Have to give the last index a value equal or greater than the last index.
 		
-		float offset = 0f; //TODO Simon har offset i illustrator
+		float offset = 45.79f; 
 		
 		switch(this.depth) {
 		case TrainDepot.BEFORE_TRAIN:
