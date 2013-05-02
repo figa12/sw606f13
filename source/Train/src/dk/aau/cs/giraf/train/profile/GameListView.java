@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.train.profile;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class GameListView extends ListView {
         super.setAdapter(this.adapter);
     }
     
-    public ArrayList<GameConfiguration> loadAllConfigurations() {
+    private ArrayList<GameConfiguration> loadAllConfigurations() {
 		FileInputStream fis = null;
 		StringWriter sWriter = new StringWriter(1024);
 		
@@ -56,7 +57,9 @@ public class GameListView extends ListView {
 				// convert to char and append to string
 				sWriter.append((char) content);
 			}
-		} catch (IOException e) {
+		} catch(FileNotFoundException e) {
+		    return new ArrayList<GameConfiguration>();
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {

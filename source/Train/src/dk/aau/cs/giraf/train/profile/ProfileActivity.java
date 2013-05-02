@@ -42,6 +42,7 @@ public class ProfileActivity extends Activity {
     
     private Guardian guardian = null;
 	private ChildrenListView childrenListView;
+	private GameListView gameListView;
 	private CustomiseLinearLayout customiseLinearLayout;
 	
 	private ProgressDialog progressDialog;
@@ -63,12 +64,17 @@ public class ProfileActivity extends Activity {
         this.progressDialog.show();
         ((TextView) this.progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
         
+        this.gameListView = ((GameListView)findViewById(R.id.gamelist));
+        this.gameListView.loadGames();
+        
 		/* Initialize the guardian object. */
-    	this.guardian = Guardian.getInstance(Data.currentChildID, Data.currentGuardianID, this, new ArrayList<Art>());    	
+    	this.guardian = Guardian.getInstance(Data.currentChildID, Data.currentGuardianID, getApplicationContext(), new ArrayList<Art>());    	
     	this.guardian.backgroundColor = Data.appBackgroundColor;
     	
     	this.childrenListView = (ChildrenListView) super.findViewById(R.id.profilelist);
 		this.childrenListView.loadChildren(this.guardian);
+		
+		//TODO gameListView here
 		
 	    Drawable backgroundDrawable = getResources().getDrawable(R.drawable.background);
 	    backgroundDrawable.setColorFilter(Data.appBackgroundColor, PorterDuff.Mode.OVERLAY);
@@ -106,7 +112,7 @@ public class ProfileActivity extends Activity {
 	
 	public void onClickSaveGame(View view) throws IOException {
 	    if (this.isValidConfiguration()) {
-	    	this.saveIntent.putExtra(ProfileActivity.GAME_CONFIGURATIONS, ((GameListView)findViewById(R.id.gamelist)).getGameConfigurations());
+	    	this.saveIntent.putExtra(ProfileActivity.GAME_CONFIGURATIONS, this.gameListView.getGameConfigurations());
             super.startActivityForResult(this.saveIntent, ProfileActivity.RECEIVE_GAME_NAME);
         }
 	}
