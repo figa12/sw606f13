@@ -55,7 +55,7 @@ public class ProfileActivity extends Activity {
         ((TextView) this.progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
         
 		/* Initialize the guardian object. */
-    	this.guardian = Guardian.getInstance(Data.currentChildID, Data.currentGuardianID, getApplicationContext(), new ArrayList<Art>());    	
+    	this.guardian = Guardian.getInstance(Data.currentChildID, Data.currentGuardianID, this, new ArrayList<Art>());    	
     	this.guardian.backgroundColor = Data.appBackgroundColor;
     	
     	this.childrenListView = (ChildrenListView) super.findViewById(R.id.profilelist);

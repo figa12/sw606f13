@@ -63,6 +63,13 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/white" />
+        
+        <dk.aau.cs.giraf.train.profile.GameListView
+            android:id="@+id/gamelist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:choiceMode="singleChoice" />
+        
     </LinearLayout>
 
     <LinearLayout
