@@ -39,7 +39,8 @@
             android:hint="@string/textHint"
             android:inputType="textCapSentences"
             android:padding="10dp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:maxLength="32" />
     </LinearLayout>
 
     <LinearLayout
