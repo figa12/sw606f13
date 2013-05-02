@@ -161,7 +161,7 @@ public class ProfileActivity extends Activity {
 	    return gameConfiguration;
 	}
 	
-	private void setGameConfiguration(GameConfiguration gameConfiguration) {
+	public void setGameConfiguration(GameConfiguration gameConfiguration) {
 	    this.customiseLinearLayout.setStationConfigurations(gameConfiguration.getStations());
 	}
 	
