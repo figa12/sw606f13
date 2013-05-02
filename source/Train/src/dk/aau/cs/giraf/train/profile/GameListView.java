@@ -92,7 +92,7 @@ public class GameListView extends ListView {
 			long guardianID = Long.valueOf(game[1]).longValue();
 			long childID = Long.valueOf(game[2]).longValue();
 			String gameName = game[3];
-			ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
+			ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>(); 
 			
 			// For each station
 			for (int k = 1; k < parts.length; k++) {
