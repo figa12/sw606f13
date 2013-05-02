@@ -56,7 +56,7 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 			if (event.getLocalState() != null) {
 				// do nothing, maybe return false..
 				View draggedView = (View) event.getLocalState();
-
+				
 				switch (event.getAction()) {
 					case DragEvent.ACTION_DRAG_STARTED:
 						// makes the draggedview invisible in ownerContainer
@@ -70,7 +70,7 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 					case DragEvent.ACTION_DRAG_EXITED:
 						// Change the background back when exiting droplayout(purely
 						// style)
-						v.setBackgroundDrawable(normalShape);					
+						v.setBackgroundDrawable(normalShape);
 						break;
 	
 					case DragEvent.ACTION_DROP:
@@ -79,9 +79,9 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 						ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
 	
 						PictoFrameLayout dropContainer = (PictoFrameLayout) v;
-						Object tag = dropContainer.getTag();
+						Object dropContainerTag = dropContainer.getTag();
 	
-						if (tag == null) {
+						if (dropContainerTag == null) {
 							ownerContainer.removeView(draggedView);
 							ownerContainer.setTag(null);
 							dropContainer.addView(draggedView);
@@ -98,12 +98,8 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 						break;
 				}
 				return true;
-			} 
-			else {
-				return false;
 			}
+			return false;
 		}
 	}
-
-
 }

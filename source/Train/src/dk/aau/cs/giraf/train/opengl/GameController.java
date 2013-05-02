@@ -70,7 +70,7 @@ public class GameController {
 	}
 	
 	public void trainDrive(ArrayList<StationLinearLayout> stationLinear){
-		if(this.gameData.currentTrainVelocity == 0f && this.gameData.numberOfStops < this.gameData.numberOfStations + 1) {//pga. remise
+		if(this.gameData.currentTrainVelocity == 0f && this.gameData.numberOfStops < this.gameData.numberOfStations) {//pga. remise
 			boolean readyToGo = true;
 			if(this.gameData.numberOfStops + 1 == 1){
 				for (LinearLayout lin : stationLinear) {
@@ -91,7 +91,11 @@ public class GameController {
 			
 			if(readyToGo){
 				//Draw pictograms with opengl
-				gameActivity.HideLinearLayouts();
+				if(this.gameData.numberOfStops + 1 == this.gameData.numberOfStations ){ //last station
+					gameActivity.hideAllLinearLayouts();
+				}else{
+					gameActivity.hideStationLinearLayouts();
+				}
 				
 				gameActivity.deletePictogramsFromStation();
 				
@@ -106,7 +110,9 @@ public class GameController {
 
 	
 	public void TrainIsStopping(){
-		gameActivity.ShowLinearLayouts();
+		if(this.gameData.numberOfStops != this.gameData.numberOfStations ){ //remise
+			gameActivity.showStationLinearLayouts();
+		}
 		IsTrainStopped = true;
 	}
 	

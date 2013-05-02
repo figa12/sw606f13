@@ -62,7 +62,7 @@ public class GameActivity extends Activity {
 			
 			@Override
 			public void onDismiss(DialogInterface dialog) {
-				ShowLinearLayouts();
+				showStationLinearLayouts();
 			}
 		});
         this.progressDialog.show();
@@ -209,7 +209,7 @@ public class GameActivity extends Activity {
 
 		// TrainDriver
 		trainDriverLinear = (LinearLayout) findViewById(R.id.TrainDriverLinearLayout);
-		HideLinearLayouts();
+		hideStationLinearLayouts();
 	}
 
 	@Override
@@ -254,7 +254,7 @@ public class GameActivity extends Activity {
         return super.onKeyDown(keyCode, event);
     }
 
-	public void ShowLinearLayouts() {
+	public void showStationLinearLayouts() {
 		if(this.gameData.numberOfStops != this.gameData.numberOfStations){
 			for (LinearLayout lin : stationLinear) {
 				lin.setVisibility(View.VISIBLE);
@@ -265,7 +265,7 @@ public class GameActivity extends Activity {
 		}	
 	}
 	
-	public void HideLinearLayouts(){
+	public void hideStationLinearLayouts(){
 		for (LinearLayout lin : stationLinear) {
 			lin.setVisibility(View.INVISIBLE);
 			lin.dispatchDisplayHint(View.INVISIBLE);
@@ -273,7 +273,24 @@ public class GameActivity extends Activity {
 
 		fluteButton.setVisibility(View.INVISIBLE);
 		fluteButton.dispatchDisplayHint(View.INVISIBLE);
+	}
+	
+	public void hideAllLinearLayouts(){
+		for (LinearLayout lin : stationLinear) {
+			lin.setVisibility(View.INVISIBLE);
+			lin.dispatchDisplayHint(View.INVISIBLE);
+		}
 		
+		for(LinearLayout lin : cartsLinear){
+			lin.setVisibility(View.INVISIBLE);
+			lin.dispatchDisplayHint(View.INVISIBLE);
+		}
+		
+		fluteButton.setVisibility(View.INVISIBLE);
+		fluteButton.dispatchDisplayHint(View.INVISIBLE);
+		
+		trainDriverLinear.setVisibility(View.INVISIBLE);
+		trainDriverLinear.dispatchDisplayHint(View.INVISIBLE);
 	}
 
 	public GameData getGameData() {
