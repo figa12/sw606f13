@@ -1,16 +1,12 @@
 package dk.aau.cs.giraf.train.profile;
 
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import dk.aau.cs.giraf.TimerLib.Art;
-import dk.aau.cs.giraf.TimerLib.Child;
 import dk.aau.cs.giraf.TimerLib.Guardian;
 import dk.aau.cs.giraf.train.Data;
 import dk.aau.cs.giraf.train.R;

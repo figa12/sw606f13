@@ -39,7 +39,7 @@ public class SaveDialogActivity extends Activity {
         
         Bundle extras = super.getIntent().getExtras();
         if(extras != null) {
-            this.currentGameConfigurations = extras.getParcelableArrayList("gameConfiguration"); //FIXME USE STATIC KEY FROM PROFILE
+            this.currentGameConfigurations = extras.getParcelableArrayList(ProfileActivity.GAME_CONFIGURATIONS);
         }
     }
     
