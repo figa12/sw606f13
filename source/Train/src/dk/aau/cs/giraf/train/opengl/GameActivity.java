@@ -233,11 +233,6 @@ public class GameActivity extends Activity {
 			}
 		}
 	}
-
-	/**
-	 * A drag listner implementing an onDrag() method that runs when something
-	 * is dragged to it.
-	 */
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {

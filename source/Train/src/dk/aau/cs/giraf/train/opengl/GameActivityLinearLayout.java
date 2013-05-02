@@ -36,6 +36,10 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 		}
 	}
 	
+	/**
+	 * A drag listner implementing an onDrag() method that runs when something
+	 * is dragged to it.
+	 */
 	private final class DragListener implements OnDragListener {
 		private Drawable enterShape;
 		private Drawable normalShape;
@@ -51,55 +55,55 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 		public boolean onDrag(View v, DragEvent event) {
 			if (event.getLocalState() != null) {
 				// do nothing, maybe return false..
-				final View draggedView = (View) event.getLocalState();
+				
 
 				switch (event.getAction()) {
-				case DragEvent.ACTION_DRAG_STARTED:
-					// makes the draggedview invisible in ownerContainer
-					draggedView.setVisibility(View.INVISIBLE);
-					break;
-
-				case DragEvent.ACTION_DRAG_ENTERED:
-					// Change the background of droplayout(purely style)
-					v.setBackgroundDrawable(enterShape);
-					break;
-
-				case DragEvent.ACTION_DRAG_EXITED:
-					// Change the background back when exiting droplayout(purely
-					// style)
-					v.setBackgroundDrawable(normalShape);					
-					break;
-
-				case DragEvent.ACTION_DROP:
-					// Dropped, assigns the draggedview to the dropcontainer if
-					// the container does not already contain a view.
-					ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
-
-					PictoFrameLayout dropContainer = (PictoFrameLayout) v;
-					Object tag = dropContainer.getTag();
-
-					if (tag == null) {
-						ownerContainer.removeView(draggedView);
-						ownerContainer.setTag(null);
-						dropContainer.addView(draggedView);
-						dropContainer.setTag("filled");
-					}
-					break;
-
-				case DragEvent.ACTION_DRAG_ENDED:
-					// Makes the draggedview visible again after the view has
-					// been moved or the drop wasn't valid.
-					v.setBackgroundDrawable(normalShape);
-
-					// The weird bug is solves by this.
-					draggedView.post(new Runnable() {
-						@Override
-						public void run() {
-							draggedView.setVisibility(View.VISIBLE);
+					case DragEvent.ACTION_DRAG_STARTED:
+						// makes the draggedview invisible in ownerContainer
+						break;
+	
+					case DragEvent.ACTION_DRAG_ENTERED:
+						// Change the background of droplayout(purely style)
+						v.setBackgroundDrawable(enterShape);
+						break;
+	
+					case DragEvent.ACTION_DRAG_EXITED:
+						// Change the background back when exiting droplayout(purely
+						// style)
+						v.setBackgroundDrawable(normalShape);					
+						break;
+	
+					case DragEvent.ACTION_DROP:
+						// Dropped, assigns the draggedview to the dropcontainer if
+						// the container does not already contain a view.
+						View draggedView = (View) event.getLocalState();
+						ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
+	
+						PictoFrameLayout dropContainer = (PictoFrameLayout) v;
+						Object tag = dropContainer.getTag();
+	
+						if (tag == null) {
+							ownerContainer.removeView(draggedView);
+							ownerContainer.setTag(null);
+							dropContainer.addView(draggedView);
+							dropContainer.setTag("filled");
 						}
-					});
-					break;
-
+						draggedView.setVisibility(View.VISIBLE);
+						break;
+	
+					case DragEvent.ACTION_DRAG_ENDED:
+						// Makes the draggedview visible again after the view has
+						// been moved or the drop wasn't valid.
+						v.setBackgroundDrawable(normalShape);
+	
+						// The weird bug is solves by this.
+						/*draggedView.post(new Runnable() {
+							@Override
+							public void run() {
+								draggedView.setVisibility(View.VISIBLE);
+							}
+						});*/
+						break;
 				}
 				return true;
 			} 
