@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TRAIN</string>
+    <string name="app_name">Train</string>
     <string name="action_settings">Settings</string>
     <string name="loading">Vent venligst</string>
-
+    <string name="cancel">Annuller</string>
+    <string name="okay">Okay</string>
+    <string name="yes">Ja</string>
+    
     <!-- GAME ACTIVTY -->
     <string name="title_activity_game">GameActivity</string>
     <string name="close_dialog">Er du sikker på at du vil afslutte?</string>
@@ -33,5 +36,7 @@
     
     <!-- SAVE DIALOG ACTIVITY -->
     <string name="title_activity_save_dialog">SaveDialogActivity</string>
+    <string name="type_name">Indtast Navn</string>
+    <string name="textHint">Indtast navn her</string>
     
 </resources>

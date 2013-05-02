@@ -63,6 +63,13 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/white" />
+        
+        <dk.aau.cs.giraf.train.profile.GameListView
+            android:id="@+id/gamelist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:choiceMode="singleChoice" />
+        
     </LinearLayout>
 
     <LinearLayout
@@ -143,7 +150,7 @@
 
             <Button
                 android:id="@+id/addStationButton"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_button"
                 android:contentDescription="@string/add_station"
@@ -154,7 +161,7 @@
 
             <Button
                 android:id="@+id/saveGameButton"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_button"
                 android:contentDescription="@string/save_game"
@@ -165,7 +172,7 @@
 
             <Button
                 android:id="@+id/startGameFromProfileButton"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_button"
                 android:contentDescription="@string/start_game"
