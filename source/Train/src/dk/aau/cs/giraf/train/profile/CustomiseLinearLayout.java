@@ -57,7 +57,7 @@ public class CustomiseLinearLayout extends LinearLayout {
     }
     
     public ArrayList<StationConfiguration> getStations() {
-        return this.stations;
+        return new ArrayList<StationConfiguration>(this.stations);
     }
     
     public void setStationConfigurations(ArrayList<StationConfiguration> stationConfigurations) {
