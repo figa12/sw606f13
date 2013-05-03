@@ -6,6 +6,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.MonthDisplayHelper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
@@ -56,7 +57,14 @@ public class PictoFrameLayout extends FrameLayout {
 				view.startDrag(data, shadowBuilder, view, 0);
 				view.setVisibility(View.INVISIBLE);
 				return true;
-			} else {
+			}
+			else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {// prevents that a picto disapears if only pressed and no drag
+				if(view != null && view.getVisibility() == view.INVISIBLE){
+					view.setVisibility(View.VISIBLE);
+				}
+				return true;
+			}
+			else {
 				return false;
 			}
 		}

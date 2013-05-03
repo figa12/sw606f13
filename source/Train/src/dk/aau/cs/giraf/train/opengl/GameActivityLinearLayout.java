@@ -60,17 +60,20 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 				switch (event.getAction()) {
 					case DragEvent.ACTION_DRAG_STARTED:
 						// makes the draggedview invisible in ownerContainer
+						v.invalidate();
 						break;
 	
 					case DragEvent.ACTION_DRAG_ENTERED:
 						// Change the background of droplayout(purely style)
 						v.setBackgroundDrawable(enterShape);
+						v.invalidate();
 						break;
 	
 					case DragEvent.ACTION_DRAG_EXITED:
 						// Change the background back when exiting droplayout(purely
 						// style)
 						v.setBackgroundDrawable(normalShape);
+						v.invalidate();
 						break;
 	
 					case DragEvent.ACTION_DROP:
