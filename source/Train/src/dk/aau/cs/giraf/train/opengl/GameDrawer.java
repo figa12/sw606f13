@@ -47,11 +47,11 @@ public final class GameDrawer {
         // add GameDrawables to the list in the order they should be drawn
         this.gameDrawables.add(new Weather(gl, context, this, this.gameData));
         this.gameDrawables.add(new Middleground(gl, context, this, this.gameData));
+        this.gameDrawables.add(new Clouds(gl, context, this, this.gameData));
         this.gameDrawables.add(station);
         this.gameDrawables.add(new TrainDepot(gl,context, this, this.gameData, TrainDepot.BEFORE_TRAIN));
         this.gameDrawables.add(train);
         this.gameDrawables.add(new TrainSmoke(gl, context, this, this.gameData));
-        this.gameDrawables.add(new Clouds(gl, context, this, this.gameData));
         this.gameDrawables.add(new Wheels(gl, context, this, this.gameData));              
         this.gameDrawables.add(new TrainDepot(gl,context, this, this.gameData, TrainDepot.AFTER_TRAIN));
         this.gameDrawables.add(new Overlay(gl, context, this, this.gameData));
@@ -140,6 +140,6 @@ public final class GameDrawer {
      * @see Random
      */
 	public final int getRandomNumber(int minimum, int maximum) {
-	    return this.random.nextInt(maximum - minimum + 1) + minimum;
+		return this.random.nextInt(maximum - minimum + 1) + minimum;
 	}
 }

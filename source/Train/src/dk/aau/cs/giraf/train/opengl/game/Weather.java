@@ -20,7 +20,7 @@ public final class Weather extends GameDrawable {
         super(gl, context, gameDrawer, gameData);
     }
     
-    private final Texture sun = new Texture(250f, 250f);
+    private final Texture sun = new Texture(500f, 500f);
     private GradientSquare backgroundGradient;
     
     @Override
