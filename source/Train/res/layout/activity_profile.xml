@@ -63,13 +63,17 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/white" />
-        
-        <dk.aau.cs.giraf.train.profile.GameListView
-            android:id="@+id/gamelist"
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:choiceMode="singleChoice" />
-        
+            android:layout_height="match_parent" >
+
+            <dk.aau.cs.giraf.train.profile.GameLinearLayout
+                android:id="@+id/gamelist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
     </LinearLayout>
 
     <LinearLayout
@@ -155,9 +159,9 @@
                 android:background="@drawable/custom_button"
                 android:contentDescription="@string/add_station"
                 android:drawableRight="@android:drawable/ic_menu_add"
+                android:onClick="onClickAddStation"
                 android:text="@string/add_station"
-                android:textColor="@color/black"
-                android:onClick="onClickAddStation" />
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/saveGameButton"
@@ -166,9 +170,9 @@
                 android:background="@drawable/custom_button"
                 android:contentDescription="@string/save_game"
                 android:drawableRight="@android:drawable/ic_menu_save"
+                android:onClick="onClickSaveGame"
                 android:text="@string/save_game"
-                android:textColor="@color/black"
-                android:onClick="onClickSaveGame" />
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/startGameFromProfileButton"
@@ -177,9 +181,9 @@
                 android:background="@drawable/custom_button"
                 android:contentDescription="@string/start_game"
                 android:drawableRight="@android:drawable/ic_media_play"
+                android:onClick="onClickStartGame"
                 android:text="@string/start_game"
-                android:textColor="@color/black"
-                android:onClick="onClickStartGame" />
+                android:textColor="@color/black" />
         </LinearLayout>
     </LinearLayout>
 

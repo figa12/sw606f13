@@ -1,6 +1,6 @@
 package dk.aau.cs.giraf.train.profile;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.train.R;
@@ -16,11 +16,14 @@ import android.widget.TextView;
 
 public class GameAdapter extends ArrayAdapter<GameConfiguration> {
     
+    private ArrayList<GameConfiguration> gameConfigurations;
     private int selectedPosition = 0;
     private GameConfiguration selectedGameConfiguration;
     
-    public GameAdapter(Context context, int textViewResourceId, List<GameConfiguration> objects) {
+    public GameAdapter(Context context, int textViewResourceId, ArrayList<GameConfiguration> objects) {
         super(context, textViewResourceId, objects);
+        super.setNotifyOnChange(false);
+        this.gameConfigurations = objects;
     }
     
     public GameConfiguration getSelectedGameConfiguration() {
@@ -29,7 +32,7 @@ public class GameAdapter extends ArrayAdapter<GameConfiguration> {
     
     public void setSelectedPosition(int position) {
         this.selectedPosition = position;
-        super.notifyDataSetChanged();
+        //super.notifyDataSetChanged();
     }
     
     @SuppressWarnings("static-access")
@@ -40,7 +43,7 @@ public class GameAdapter extends ArrayAdapter<GameConfiguration> {
             convertView = layoutInflater.inflate(R.layout.profile_list_item, null); //Use same as profile
         }
         
-        GameConfiguration gameConfiguration = super.getItem(position);
+        GameConfiguration gameConfiguration = this.gameConfigurations.get(position);
         
         TextView gameNameTextView = (TextView) convertView.findViewById(R.id.profileName);
         gameNameTextView.setText(gameConfiguration.getGameName());

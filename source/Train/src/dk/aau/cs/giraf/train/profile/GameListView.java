@@ -12,7 +12,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class GameListView extends ListView {
     
@@ -37,13 +36,30 @@ public class GameListView extends ListView {
     }
     
     public void addGameConfiguration(GameConfiguration gameConfiguration) {
-    	this.adapter.add(gameConfiguration);
+    	this.gameConfigurations.add(gameConfiguration);
+    	
+    	this.adapter = null;
+    	this.adapter = new GameAdapter(super.getContext(), R.drawable.list_item, this.gameConfigurations);
+        super.setAdapter(this.adapter);
+    }
+    
+    public void removeGameConfiguration(GameConfiguration gameConfiguration) {
+        this.gameConfigurations.remove(gameConfiguration);
+        
+        this.adapter = null;
+        this.adapter = new GameAdapter(super.getContext(), R.drawable.list_item, this.gameConfigurations);
+        super.setAdapter(this.adapter);
+    }
+    
+    public void removeGameConfiguration(int position) {
+        this.removeGameConfiguration(this.gameConfigurations.get(position));
     }
     
     public void loadGames() {
         this.gameConfigurations = loadAllConfigurations();
         
-        this.adapter = new GameAdapter(super.getContext(), R.drawable.list_item, gameConfigurations);
+        this.adapter = null;
+        this.adapter = new GameAdapter(super.getContext(), R.drawable.list_item, this.gameConfigurations);
         super.setAdapter(this.adapter);
     }
     

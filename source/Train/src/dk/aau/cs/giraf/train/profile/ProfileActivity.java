@@ -44,7 +44,7 @@ public class ProfileActivity extends Activity {
     
     private Guardian guardian = null;
 	private ChildrenListView childrenListView;
-	private GameListView gameListView;
+	private GameLinearLayout gameLinearLayout;
 	private CustomiseLinearLayout customiseLinearLayout;
 	
 	private ProgressDialog progressDialog;
@@ -66,8 +66,8 @@ public class ProfileActivity extends Activity {
         this.progressDialog.show();
         ((TextView) this.progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
         
-        this.gameListView = ((GameListView)findViewById(R.id.gamelist));
-        this.gameListView.loadGames();
+        this.gameLinearLayout = ((GameLinearLayout) findViewById(R.id.gamelist));
+        this.gameLinearLayout.loadAllConfigurations();
         
 		/* Initialize the guardian object. */
     	this.guardian = Guardian.getInstance(Data.currentChildID, Data.currentGuardianID, getApplicationContext(), new ArrayList<Art>());    	
@@ -114,7 +114,7 @@ public class ProfileActivity extends Activity {
 	
 	public void onClickSaveGame(View view) throws IOException {
 	    if (this.isValidConfiguration()) {
-	    	this.saveIntent.putExtra(ProfileActivity.GAME_CONFIGURATIONS, this.gameListView.getGameConfigurations());
+	    	this.saveIntent.putExtra(ProfileActivity.GAME_CONFIGURATIONS, this.gameLinearLayout.getGameConfigurations());
             super.startActivityForResult(this.saveIntent, ProfileActivity.RECEIVE_GAME_NAME);
         }
 	}
@@ -195,9 +195,9 @@ public class ProfileActivity extends Activity {
         case ProfileActivity.RECEIVE_GAME_NAME:
         	String gameName = data.getExtras().getString(SaveDialogActivity.GAME_NAME);
         	GameConfiguration gameConfiguration = getGameConfiguration(gameName, 1337L, childrenListView.getSelectedChild().getProfileId());
-        	this.gameListView.addGameConfiguration(gameConfiguration);
+        	this.gameLinearLayout.addGameConfiguration(gameConfiguration);
 			try {
-				this.saveAllConfigurations(this.gameListView.getGameConfigurations());
+				this.saveAllConfigurations(this.gameLinearLayout.getGameConfigurations());
 			} catch (IOException e) {
 				e.printStackTrace();
 				Toast.makeText(this, "Kan ikke gemme", Toast.LENGTH_SHORT).show();
