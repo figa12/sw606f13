@@ -6,9 +6,8 @@
     android:orientation="horizontal" >
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="91dp"
         android:layout_height="match_parent"
-        android:layout_weight=".15"
         android:gravity="center" >
 
         <dk.aau.cs.giraf.train.profile.PictogramButton
@@ -32,14 +31,19 @@
         android:layout_marginLeft="1dp"
         android:orientation="horizontal"
         android:layout_gravity="left" >
-
+        
+        <HorizontalScrollView
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content" >
+            
         <dk.aau.cs.giraf.train.profile.AssociatedPictogramsLayout
             android:id="@+id/associatedPictograms"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="14dp"
             android:orientation="horizontal" />
-
+        </HorizontalScrollView>
+        
         <ImageButton
             android:id="@+id/addPictogramButton"
             android:layout_width="35dp"
