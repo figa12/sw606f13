@@ -46,8 +46,8 @@ public final class GameDrawer {
         
         // add GameDrawables to the list in the order they should be drawn
         this.gameDrawables.add(new Weather(gl, context, this, this.gameData));
-        this.gameDrawables.add(new Middleground(gl, context, this, this.gameData));
         this.gameDrawables.add(new Clouds(gl, context, this, this.gameData));
+        this.gameDrawables.add(new Middleground(gl, context, this, this.gameData));
         this.gameDrawables.add(station);
         this.gameDrawables.add(new TrainDepot(gl,context, this, this.gameData, TrainDepot.BEFORE_TRAIN));
         this.gameDrawables.add(train);
