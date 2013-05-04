@@ -134,23 +134,27 @@ public class ProfileActivity extends Activity {
 	}
 	
 	private boolean isValidConfiguration() {
-	    GameConfiguration currentGameConfiguration = this.getGameConfiguration("the new game", 1337L, 1337L);
+	    ArrayList<StationConfiguration> currentStation = this.customiseLinearLayout.getStations();
 	    
 	    //There needs to be at least one station
-	    if(currentGameConfiguration.getStations().size() < 1) {
+	    if(currentStation.size() < 1) {
 	        this.showAlertMessage(null, super.getResources().getString(R.string.station_error));
+	        currentStation = null; //Free memory
             return false;
         }
 	    
-	    for (int i = 0; i < currentGameConfiguration.getStations().size(); i++) {
-	        if(currentGameConfiguration.getStations().get(i).getCategory() == -1L) {
+	    for (int i = 0; i < currentStation.size(); i++) {
+	        if(currentStation.get(i).getCategory() == -1L) {
                 this.showAlertMessage(null, super.getResources().getString(R.string.category_error));
+                currentStation = null; //Free memory
                 return false;
-            } else if (currentGameConfiguration.getStations().get(i).getAcceptPictograms().size() < 1) {
+            } else if (currentStation.get(i).getAcceptPictograms().size() < 1) {
 	            this.showAlertMessage(null, super.getResources().getString(R.string.pictogram_error));
+	            currentStation = null; //Free memory
 	            return false;
 	        }
 	    }
+	    currentStation = null; //Free memory
 	    //If we have come this far, then the configuration is valid
 	    return true;
 	}

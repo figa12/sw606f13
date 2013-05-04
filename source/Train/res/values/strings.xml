@@ -33,6 +33,7 @@
     <string name="station_error">Der skal være mindst en station.</string>
     <string name="category_error">Du mangler at vælge en kategori.</string>
     <string name="pictogram_error">Der skal være mindst et pictogram per station.</string>
+    <string name="delete_dialog">Er du sikker på du vil slette dette spil?</string>
     
     <!-- SAVE DIALOG ACTIVITY -->
     <string name="title_activity_save_dialog">SaveDialogActivity</string>
