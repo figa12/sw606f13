@@ -15,6 +15,7 @@ import dk.aau.cs.giraf.train.opengl.GameActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
@@ -30,9 +31,11 @@ import android.content.pm.ResolveInfo;
 
 public class ProfileActivity extends Activity {
 	
-    public static final String GAME_CONFIGURATION = "GameConfiguration";
     public static final String SAVEFILE_PATH = "game_configurations.txt";
+    public static final String GAME_CONFIGURATION = "GameConfiguration";
     public static final String GAME_CONFIGURATIONS = "GameConfigurations";
+    public static final String SELECTED_CHILD_ID = "selectedChildId";
+    public static final String SELECTED_CHILD_NAME = "selectedChildName";
     
 	public static final int RECEIVE_SINGLE = 0;
     public static final int RECEIVE_MULTIPLE = 1;
@@ -76,7 +79,10 @@ public class ProfileActivity extends Activity {
     	this.childrenListView = (ChildrenListView) super.findViewById(R.id.profilelist);
 		this.childrenListView.loadChildren(this.guardian);
 		
-		//TODO gameListView here
+		if(this.childrenListView.getCount() == 0) {
+		    //Don't allow saving if the current guardian has no associated children
+		    ((Button) super.findViewById(R.id.saveGameButton)).setEnabled(false);
+		}
 		
 	    Drawable backgroundDrawable = getResources().getDrawable(R.drawable.background);
 	    backgroundDrawable.setColorFilter(Data.appBackgroundColor, PorterDuff.Mode.OVERLAY);
@@ -115,6 +121,10 @@ public class ProfileActivity extends Activity {
 	public void onClickSaveGame(View view) throws IOException {
 	    if (this.isValidConfiguration()) {
 	    	this.saveIntent.putExtra(ProfileActivity.GAME_CONFIGURATIONS, this.gameLinearLayout.getGameConfigurations());
+	    	
+	    	this.saveIntent.putExtra(ProfileActivity.SELECTED_CHILD_NAME, this.childrenListView.getSelectedChild().name);
+	    	this.saveIntent.putExtra(ProfileActivity.SELECTED_CHILD_ID, this.childrenListView.getSelectedChild().getProfileId());
+	    	
             super.startActivityForResult(this.saveIntent, ProfileActivity.RECEIVE_GAME_NAME);
         }
 	}

@@ -54,6 +54,9 @@ public class ChildrenListView extends ListView {
 		
 		this.adapter = new ChildAdapter(super.getContext(), R.drawable.list_item, children);
 		super.setAdapter(this.adapter);
+		if(this.adapter.getCount() != 0) {
+		    this.adapter.setSelectedPosition(0);
+		}
 	}
 	
 	public Child getSelectedChild() {

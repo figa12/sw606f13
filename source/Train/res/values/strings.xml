@@ -41,5 +41,6 @@
     <string name="textHint">Indtast navn her</string>
     <string name="invalid_symbols">De følgende symboler må ikke bruges:\n, ;</string>
     <string name="name_exists">Det indtastede navn findes allerede.</string>
+    <string name="save_description">Spillet vil blive gemt under:</string>
     
 </resources>

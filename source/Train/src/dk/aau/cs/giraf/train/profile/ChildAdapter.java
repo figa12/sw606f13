@@ -24,9 +24,12 @@ public class ChildAdapter extends ArrayAdapter<Child> {
 	
 	private int selectedPosition = 0;
 	private Child selectedChild;
+	private GameLinearLayout gameLinearLayout;
 	
 	public ChildAdapter(Context context, int textViewResourceId, ArrayList<Child> items) {
 		super(context, textViewResourceId, items);
+		
+		this.gameLinearLayout = (GameLinearLayout) ((ProfileActivity) context).findViewById(R.id.gamelist);
 	}
 	
 	/**
@@ -44,6 +47,7 @@ public class ChildAdapter extends ArrayAdapter<Child> {
 	public void setSelectedPosition(int position) {
 	    this.selectedPosition = position;
 	    super.notifyDataSetChanged();
+	    this.gameLinearLayout.setSelectedChild(super.getItem(position));
 	}
 	
 	/**
