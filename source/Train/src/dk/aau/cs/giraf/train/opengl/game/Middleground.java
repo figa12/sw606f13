@@ -37,8 +37,7 @@ public final class Middleground extends GameDrawable {
     private Texture hill_larger = new Texture(3800f, 700f);
     private Texture cow = new Texture(300f, 180f);
     private Texture tree = new Texture(266f, 390f);
-    private Texture plane = new Texture(540f, 319f);
-    private Texture[] decorationArray = {cow, tree, tree, plane};
+    private Texture[] decorationArray = {cow, tree, tree};
     private RenderableMatrix decorationMatrix = new RenderableMatrix();
    	float screenHeight = GlRenderer.getActualHeight(GameData.MIDDLEGROUND);
    	float screenWidth = GlRenderer.getActualWidth(screenHeight);
@@ -53,7 +52,6 @@ public final class Middleground extends GameDrawable {
         this.hill_larger.loadTexture(super.gl, super.context, R.drawable.texture_hill_larger);
         this.cow.loadTexture(super.gl, super.context, R.drawable.texture_cow);
         this.tree.loadTexture(super.gl, super.context, R.drawable.texture_tree);
-        this.plane.loadTexture(super.gl, super.context, R.drawable.texture_plane);
             
 
         HillItem[] hillSequence1 = {
@@ -90,12 +88,11 @@ public final class Middleground extends GameDrawable {
         
         HillItem[][] hillSequences = {hillSequence1, hillSequence2, hillSequence3, hillSequence4};
         
-        int chooseHillSequence;
+        int chooseHillSequence; // which sequence that should be drawn
         int chooseHillToDrawOn; // where should the decoration be drawn (medium_hill, large_hill, larger_hill)
-        int drawDecoration; // which decoration should be drawn (cow, tree, plane)
+        int drawDecoration; // which decoration should be drawn (cow or tree)
         float cowHeight; // used to determine how much the cow can move on the y-axis
         float treeHeight;  // used to determine how much the tree can move on the y-axis
-        float planeHeight = plane.getHeight() - 50f;
         float cowWidth = cow.getWidth()/2; // finds the width of the cow
         float treeWidth = tree.getWidth()/2; // finds the width of the tree
         float mediumHillPlacementOffset; // how far can the cow / tree move on the x-axis on the medium hill
@@ -109,8 +106,8 @@ public final class Middleground extends GameDrawable {
         for (float i = 0f; i <= super.gameData.getTotalTravelDistance(GameData.MIDDLEGROUND); i += getSequenceWidth(hillSequences[chooseHillSequence]) - 100f) {  
         	
         	chooseHillSequence = super.gameDrawer.getRandomNumber(0, hillSequences.length-1); // randomly choosewhich hill sequence to draw
-    		drawDecoration = super.gameDrawer.getRandomNumber(0, 3); // Randomly chosen which decoration to draw
-    		chooseHillToDrawOn = super.gameDrawer.getRandomNumber(1, 4); // randomly choose which hill to draw on
+    		drawDecoration = super.gameDrawer.getRandomNumber(0, 2); // Randomly chosen which decoration to draw (0 = cow, 1 = tree, 2 = 2)
+    		chooseHillToDrawOn = super.gameDrawer.getRandomNumber(1, 4); // randomly choose which hill to draw on (1 = small hill, 2 = medium hill, 3 = large hill, 4 = larger hill)
     		
         	for (HillItem hillItem : hillSequences[chooseHillSequence]){
         		this.sequence.addRenderableMatrixItem(hillItem.hill, new Coordinate(i + hillItem.x, hillItem.y, 0f));
@@ -253,10 +250,6 @@ public final class Middleground extends GameDrawable {
 							
 							break;
         			}		
-        		}
-        		
-          		if (decorationArray[drawDecoration] == plane) {
-                	this.decorationMatrix.addRenderableMatrixItem(plane, new Coordinate(i + 1500f, screenHeight - planeHeight, 0f));
         		}
 			}
 		}              

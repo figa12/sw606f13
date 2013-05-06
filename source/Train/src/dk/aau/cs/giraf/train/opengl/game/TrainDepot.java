@@ -33,7 +33,7 @@ public final class TrainDepot extends GameDrawable {
 	@Override
 	public final void load() {
 		
-		this.trainDepotMatrix.addCoordinate(-640f, 305.38f, GameData.FOREGROUND);
+		this.trainDepotMatrix.addCoordinate(-640f, 284.38f, GameData.FOREGROUND);
 		
 		super.gameData.nextStoppingPosition[super.gameData.numberOfStations - 1] = super.gameData.nextStoppingPosition[super.gameData.numberOfStations - 2] + GameData.DISTANCE_TO_DEPOT;	
 		super.gameData.nextStoppingPosition[super.gameData.numberOfStations] = Float.MAX_VALUE; //Have to give the last index a value equal or greater than the last index.
@@ -42,7 +42,7 @@ public final class TrainDepot extends GameDrawable {
 		
 		switch(this.depth) {
 		case TrainDepot.BEFORE_TRAIN:
-			this.trainDepotMatrix.addRenderableMatrixItem(this.trainDepotBackside, new Coordinate(super.gameData.nextStoppingPosition[super.gameData.numberOfStations - 1] + offset, -220.168f, 0f), Color.DepotBackside);
+			this.trainDepotMatrix.addRenderableMatrixItem(this.trainDepotBackside, new Coordinate(super.gameData.nextStoppingPosition[super.gameData.numberOfStations - 1] + offset, -199.168f, 0f), Color.DepotBackside);
 			break;
 		
 		case TrainDepot.AFTER_TRAIN:
