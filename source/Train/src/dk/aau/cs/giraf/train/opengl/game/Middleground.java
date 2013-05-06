@@ -37,7 +37,7 @@ public final class Middleground extends GameDrawable {
     private Texture hill_larger = new Texture(3800f, 700f);
     private Texture cow = new Texture(300f, 180f);
     private Texture tree = new Texture(266f, 390f);
-    private Texture[] decorationArray = {cow, tree, tree, plane};
+    private Texture[] decorationArray = {cow, tree, tree};
     private RenderableMatrix decorationMatrix = new RenderableMatrix();
    	float screenHeight = GlRenderer.getActualHeight(GameData.MIDDLEGROUND);
    	float screenWidth = GlRenderer.getActualWidth(screenHeight);
