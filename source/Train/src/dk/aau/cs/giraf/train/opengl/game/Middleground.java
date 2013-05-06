@@ -37,7 +37,6 @@ public final class Middleground extends GameDrawable {
     private Texture hill_larger = new Texture(3800f, 700f);
     private Texture cow = new Texture(300f, 180f);
     private Texture tree = new Texture(266f, 390f);
-    private Texture plane = new Texture(540f, 319f);
     private Texture[] decorationArray = {cow, tree, tree, plane};
     private RenderableMatrix decorationMatrix = new RenderableMatrix();
    	float screenHeight = GlRenderer.getActualHeight(GameData.MIDDLEGROUND);
@@ -53,7 +52,6 @@ public final class Middleground extends GameDrawable {
         this.hill_larger.loadTexture(super.gl, super.context, R.drawable.texture_hill_larger);
         this.cow.loadTexture(super.gl, super.context, R.drawable.texture_cow);
         this.tree.loadTexture(super.gl, super.context, R.drawable.texture_tree);
-        this.plane.loadTexture(super.gl, super.context, R.drawable.texture_plane);
             
 
         HillItem[] hillSequence1 = {
