@@ -42,7 +42,7 @@ public final class TrainDepot extends GameDrawable {
 		
 		switch(this.depth) {
 		case TrainDepot.BEFORE_TRAIN:
-			this.trainDepotMatrix.addRenderableMatrixItem(this.trainDepotBackside, new Coordinate(super.gameData.nextStoppingPosition[super.gameData.numberOfStations - 1] + offset, -220.168f, 0f), Color.DepotBackside);
+			this.trainDepotMatrix.addRenderableMatrixItem(this.trainDepotBackside, new Coordinate(super.gameData.nextStoppingPosition[super.gameData.numberOfStations - 1] + offset, -199.168f, 0f), Color.DepotBackside);
 			break;
 		
 		case TrainDepot.AFTER_TRAIN:
