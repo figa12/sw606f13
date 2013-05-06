@@ -61,8 +61,12 @@ public class CustomiseLinearLayout extends LinearLayout {
     }
     
     public void setStationConfigurations(ArrayList<StationConfiguration> stationConfigurations) {
+        this.stations = null;
         this.stations = new ArrayList<StationConfiguration>();
+        
         super.removeAllViews();
+        this.addPictogramButtons.clear();
+        this.associatedPictogramsLayouts.clear();
         
         for (StationConfiguration station : stationConfigurations) {
             this.addStation(station);
@@ -105,10 +109,12 @@ public class CustomiseLinearLayout extends LinearLayout {
         if(index > this.stations.size() - 1) {
             return;
         }
-        this.removeViewAt(index);
+        
+        super.removeViewAt(index);
         this.stations.remove(index);
         this.addPictogramButtons.remove(index);
         this.associatedPictogramsLayouts.remove(index);
+        
         this.preventStationOverflow();
     }
     

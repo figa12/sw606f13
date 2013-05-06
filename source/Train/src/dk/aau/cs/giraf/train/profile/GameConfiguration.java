@@ -35,6 +35,10 @@ public class GameConfiguration implements Parcelable {
 		this.guardianID = guardianID;
 	}
     
+	public long getChildId() {
+	    return this.childID;
+	}
+	
 	public void addStation(StationConfiguration station) {
 		this.stations.add(station);
 	}

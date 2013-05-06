@@ -7,6 +7,7 @@ import dk.aau.cs.giraf.train.R;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -21,6 +22,8 @@ public class SaveDialogActivity extends Activity {
     private AlertDialog errorDialog;
     
     private ArrayList<GameConfiguration> currentGameConfigurations;
+    private long selectedChildId;
+    private String selectedChildName;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,10 @@ public class SaveDialogActivity extends Activity {
         Bundle extras = super.getIntent().getExtras();
         if(extras != null) {
             this.currentGameConfigurations = extras.getParcelableArrayList(ProfileActivity.GAME_CONFIGURATIONS);
+            this.selectedChildId = extras.getLong(ProfileActivity.SELECTED_CHILD_ID);
+            this.selectedChildName = extras.getString(ProfileActivity.SELECTED_CHILD_NAME);
+            
+            ((TextView) super.findViewById(R.id.saveDescription)).append(" " + this.selectedChildName);
         }
     }
     
@@ -67,7 +74,7 @@ public class SaveDialogActivity extends Activity {
     private boolean isValidGameName(String gameName) {
         //Make sure game name doesn't already exist
         for (GameConfiguration configuration : this.currentGameConfigurations) {
-            if (configuration.getGameName().equals(gameName)) {
+            if (configuration.getChildId() == this.selectedChildId && configuration.getGameName().equals(gameName)) {
                 this.showAlertMessage(super.getResources().getString(R.string.name_exists));
                 return false;
             }

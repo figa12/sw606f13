@@ -110,9 +110,8 @@
 
             <TextView
                 android:id="@+id/categoryHeader"
-                android:layout_width="0dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".173"
                 android:background="@drawable/background"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="@string/category"
@@ -130,7 +129,7 @@
                 android:id="@+id/associatedPictogramHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".827"
+                android:layout_weight=".8"
                 android:background="@drawable/background"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="@string/associated_pictograms"
