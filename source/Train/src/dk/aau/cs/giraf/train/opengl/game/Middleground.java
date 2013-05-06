@@ -90,7 +90,7 @@ public final class Middleground extends GameDrawable {
         
         int chooseHillSequence; // which sequence that should be drawn
         int chooseHillToDrawOn; // where should the decoration be drawn (medium_hill, large_hill, larger_hill)
-        int drawDecoration; // which decoration should be drawn (cow, tree, plane)
+        int drawDecoration; // which decoration should be drawn (cow or tree)
         float cowHeight; // used to determine how much the cow can move on the y-axis
         float treeHeight;  // used to determine how much the tree can move on the y-axis
         float cowWidth = cow.getWidth()/2; // finds the width of the cow
