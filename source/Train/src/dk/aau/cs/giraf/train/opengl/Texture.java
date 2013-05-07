@@ -38,9 +38,9 @@ public class Texture extends Square {
     private FloatBuffer textureBuffer;
     
     /** The original bitmap width */
-    protected int bitmapWidth; //FIXME check back later here, currently no reason to save this, can be passed to methods instead
+    protected int bitmapWidth;
     /** The original bitmap height */
-    protected int bitmapHeight; //FIXME check back later here, currently no reason to save this, can be passed to methods instead
+    protected int bitmapHeight;
     
     /** 
      * The texture coordinates.

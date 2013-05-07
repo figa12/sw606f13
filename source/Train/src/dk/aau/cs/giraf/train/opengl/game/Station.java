@@ -128,6 +128,8 @@ public final class Station extends GameDrawable {
         float xPosition = (stationIndex == 0) ? 0f : super.gameData.nextStoppingPosition[stationIndex - 1];
         final float yPosition = 0f;
         
+        xPosition += 0.65f; //offset
+        
         for (int i = 0; i < pictograms.length; i++, xPosition += pictogramWidthSpace) {
             if(pictograms[i] != null) {
                 
@@ -139,7 +141,7 @@ public final class Station extends GameDrawable {
             }
             
             if(i == (pictograms.length /2) - 1) {
-                xPosition += 138f; //Add offset to get to next LinearLayout
+                xPosition += 139.8f; //Add offset to get to next LinearLayout
             }
         }
     }
