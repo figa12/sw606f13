@@ -201,9 +201,7 @@ public class GameLinearLayout extends LinearLayout {
         
         @Override
         public void onClick(View v) {
-            GameLinearLayout.this.setClickable(false); //Disable clickable temporarily
             ((ProfileActivity) GameLinearLayout.this.getContext()).setGameConfiguration(gameConfiguration);
-            GameLinearLayout.this.setClickable(true);
         }
     }
     
