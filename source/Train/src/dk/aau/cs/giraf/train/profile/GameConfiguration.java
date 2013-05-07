@@ -36,6 +36,11 @@ public class GameConfiguration implements Parcelable {
 		this.gameID = gameID;
 		this.guardianID = guardianID;
 	}
+	
+	public GameConfiguration(GameConfiguration gameConfiguration) {
+	    this(gameConfiguration.getGameName(), 1337L, gameConfiguration.getChildId());
+	    this.stations = new ArrayList<StationConfiguration>(gameConfiguration.getStations());
+	}
     
 	public long getChildId() {
 	    return this.childID;

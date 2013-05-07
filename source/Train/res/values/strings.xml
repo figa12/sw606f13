@@ -26,10 +26,10 @@
     <string name="add_pictogram">Tilføj pictogram</string>
     <string name="add_station">Tilføj station</string>
     <string name="remove_pictogram">Fjern pictogram</string>
-    <string name="save_game">Gem spil</string>
+    <string name="save_game">Gem nyt spil</string>
     <string name="start_game">Start spil</string>
     <string name="error">Fejl</string>
-    <string name="picto_error">PictoAdmin er ikke installeret på denne enhed.</string>
+    <string name="picto_error">CAT er ikke installeret på denne enhed.</string>
     <string name="station_error">Der skal være mindst en station.</string>
     <string name="category_error">Du mangler at vælge en kategori.</string>
     <string name="pictogram_error">Der skal være mindst et pictogram per station.</string>
