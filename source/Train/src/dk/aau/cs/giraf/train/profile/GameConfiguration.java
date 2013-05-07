@@ -1,24 +1,26 @@
 package dk.aau.cs.giraf.train.profile;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import dk.aau.cs.giraf.TimerLib.*;
-import dk.aau.cs.giraf.pictogram.*;
 import dk.aau.cs.giraf.train.Data;
 
+/**
+ * This class contains all information of a game configuration.
+ * It contains the id of the child associated with it, aswell as the guardian id, and a list of stations.
+ * @see StationConfiguration
+ * @author figa
+ *
+ */
 public class GameConfiguration implements Parcelable {
 
     private long   guardianID;
 	private String gameName;
 	private long   childID;
-	public long   gameID;
+	private long   gameID;
 	private ArrayList<StationConfiguration> stations = new ArrayList<StationConfiguration>();
 	
 	public GameConfiguration(String gameName, long gameID, long childID) {
@@ -79,18 +81,6 @@ public class GameConfiguration implements Parcelable {
 			pictogramIds.addAll(station.getAcceptPictograms());
 		}
 		return pictogramIds;
-	}
-	
-	public HashMap<String, String> getHashMap() {
-		
-		HashMap<String, String> map = new HashMap<String, String>();
-		
-		map.put("gameName", this.gameName);
-		map.put("childID", String.valueOf(this.childID));
-		map.put("stations", String.valueOf(this.stations));
-		map.put("guardianID", String.valueOf(this.guardianID));
-		
-		return map;
 	}
 	
     @Override
