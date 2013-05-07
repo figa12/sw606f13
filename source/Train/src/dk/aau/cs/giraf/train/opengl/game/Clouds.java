@@ -28,16 +28,16 @@ public final class Clouds extends GameDrawable {
        	    this.index = 2;
     		this.cloudFrequence = gameDrawer.getRandomNumber(screenWidth + cloudArray[index].getWidth(), (screenWidth + cloudArray[index].getWidth())*1.5f);
     		this.coordinate = new Coordinate(gameDrawer.getRandomNumber(-screenWidth - cloudArray[index].getWidth(), screenWidth/2f), 800f, GameData.BACKGROUND);	 
-    		this.cloudSpeed = gameDrawer.getRandomNumber(-5f, -2f);
+    		this.cloudSpeed = gameDrawer.getRandomNumber(-0.18f, -0.07f);
     	}
     	
     	public void resetCloud() {
     		this.coordinate.setCoordinate(screenWidth/2f, gameDrawer.getRandomNumber(screenHeight/2f - screenHeight/4f + cloudArray[index].getHeight(), screenHeight/2f));
-    		this.cloudSpeed = gameDrawer.getRandomNumber(-5f, -2f);
+    		this.cloudSpeed = gameDrawer.getRandomNumber(-0.18f, -0.07f);
     	}
     	
     	public void updateCloud(){
-    		this.coordinate.moveX(cloudSpeed);
+    		this.coordinate.moveX(cloudSpeed * gameData.timeDifference);
     		
     		if(this.coordinate.getX() < (screenWidth/2f) - cloudFrequence) {
     			resetCloud();
