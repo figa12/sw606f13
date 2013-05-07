@@ -11,9 +11,9 @@ import dk.aau.cs.giraf.train.Data;
 /**
  * This class contains all information of a game configuration.
  * It contains the id of the child associated with it, aswell as the guardian id, and a list of stations.
+ * 
+ * @author Nicklas Andersen
  * @see StationConfiguration
- * @author figa
- *
  */
 public class GameConfiguration implements Parcelable {
 
@@ -117,6 +117,12 @@ public class GameConfiguration implements Parcelable {
         in.readList(this.stations, StationConfiguration.class.getClassLoader());
     }
     
+    /**
+     * Write the configuration to a string.
+     * Example format: gameID,guardianID,childID,gameName;category,pictogram,pictogram;category,pictogram\n
+     * @return String representation of the configuration.
+     * @throws IOException
+     */
     public String writeConfiguration() throws IOException {
     	StringWriter sWriter = new StringWriter(1024);
     	
