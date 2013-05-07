@@ -53,7 +53,7 @@
             android:name="dk.aau.cs.giraf.train.profile.SaveDialogActivity"
             android:label="@string/title_activity_save_dialog"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.Holo.Dialog.NoActionBar" >
+            android:theme="@style/dialog_theme" >
         </activity>
     </application>
 
