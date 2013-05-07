@@ -13,9 +13,11 @@ import android.util.Log;
  */
 public class GameData {
     
-    public static final float FOREGROUND   = -907.7442994522836f; //Magic number
-    public static final float MIDDLEGROUND = -1800f;
-    public static final float BACKGROUND   = -3000f;
+    private static final float FUNNY_NUMBER = 0f; //TODO delete
+    
+    public static final float FOREGROUND   = -907.7442994522836f - GameData.FUNNY_NUMBER; //Magic number
+    public static final float MIDDLEGROUND = -1800f              - GameData.FUNNY_NUMBER;
+    public static final float BACKGROUND   = -3000f              - GameData.FUNNY_NUMBER;
     
     public volatile boolean isPaused = false;
     
