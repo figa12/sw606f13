@@ -1,4 +1,0 @@
-Uge 2:
-
-Vi fik drag and drop til at virke sådan at et pictogram blev snappen tilbage til den kasse den kom fra hvis man prøvede at smide den over i en kasse som allerede havde et pictogram eller hvis man ikke ramte en kassen. 
-Ellers random leg med kode, så småt begyndt at se på sliding background

@@ -1,5 +1,0 @@
-We made our sliding background work, but we also discovered that maybe it was too slow so a discussing of whether or not we had to use OpenGL occurred, and it kinda still ongoing. 
-
-We drew our train with vector graphics using Illustrator and started on making the carts.
-
-A short discussing of how we should make it look like the train was moving also occurred. 
