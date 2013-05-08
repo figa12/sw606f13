@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 /**
  * A layout containing a pictogram. Click the button to choose a pictogram.
  * @author Jesper Riemer Andersen
- * //TODO
+ * @see Pictogram
  */
 public class PictogramButton extends LinearLayout implements PictogramReceiver {
     

@@ -23,6 +23,8 @@ public final class GameDrawer {
 	
 	/** The list of {@link GameDrawable}s. */
 	private ArrayList<GameDrawable> gameDrawables;
+	/** The list of {@link RuntimeLoader}s. */
+	private ArrayList<RuntimeLoader> runtimeLoaders;
 	
 	/**
 	 * Create the {@link GameDrawer}. All {@link GameDrawable}s are created here.
@@ -37,6 +39,7 @@ public final class GameDrawer {
 	/** Initialises the list of game drawables. */
 	public final void initiaslise(Context context) {
 	    this.gameDrawables = new ArrayList<GameDrawable>();
+	    this.runtimeLoaders = new ArrayList<RuntimeLoader>();
 	    
 	    //Start by creating the stations object, and calculate the stopping positions
         Station station = new Station(gl, context, this, this.gameData);
@@ -57,15 +60,21 @@ public final class GameDrawer {
         this.gameDrawables.add(new Overlay(gl, context, this, this.gameData));
         
         this.gameData.bindGameDrawables(station, train);
+        this.runtimeLoaders.add(station);
+        this.runtimeLoaders.add(train);
 	}
 	
 	/** Destroys all the game drawables. Must be initialised again.
 	 *  @see GameDrawer#initiaslise(Context) */
 	public void freeMemory() {
 	    this.gameDrawables = null;
+	    this.runtimeLoaders = null;
 	}
 	
-	/** Draw everything on screen. */
+	/** 
+	 * Draw everything on screen, and load if anything needs loading.
+	 * @see GameDrawable
+	 * @see RuntimeLoader */
 	public synchronized final void drawGame() {
 	    this.resetPosition();
 	    
@@ -73,6 +82,15 @@ public final class GameDrawer {
 	    
 	    this.gameData.updateData();
 	    
+	    //If any runtimeLoaders is ready to load, then load
+	    for (int i = 0; i < this.runtimeLoaders.size(); i++) {
+	        RuntimeLoader runtimeLoader = this.runtimeLoaders.get(i);
+	        if(runtimeLoader.isReadyToLoad()) {
+	            runtimeLoader.runtimeLoad();
+	        }
+	    }
+	    
+	    //Draw all gameDrawables
 		for (int i = 0; i < this.gameDrawables.size(); i++) {
 		    this.gameDrawables.get(i).draw();
         }

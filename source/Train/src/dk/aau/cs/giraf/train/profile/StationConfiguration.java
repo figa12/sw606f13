@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * This class holds information about a single station.
+ * It contains the id of a pictogram used for the category and an array of ids for the associated pictograms.
+ * @author Nicklas Andersen
+ *
+ */
 public class StationConfiguration implements Parcelable {
     private long category = -1L;
     private ArrayList<Long> acceptPictograms = new ArrayList<Long>(); 
@@ -42,10 +48,6 @@ public class StationConfiguration implements Parcelable {
     public long getCategory() {
         return this.category;
     }
-    
-    public long getAcceptPictogram(int id) {
-        return this.acceptPictograms.get(id);
-    }
 
     @Override
     public int describeContents() {
@@ -75,6 +77,12 @@ public class StationConfiguration implements Parcelable {
         in.readList(this.acceptPictograms, null);
     }
     
+    /**
+     * Write the station to a string.<br />
+     * Example format: category,pictogram,pictogram
+     * @return String representation of the station.
+     * @throws IOException
+     */
     public String writeStation() throws IOException {
     	StringWriter sWriter = new StringWriter(1024);
     	

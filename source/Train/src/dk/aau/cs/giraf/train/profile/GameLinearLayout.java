@@ -118,7 +118,7 @@ public class GameLinearLayout extends LinearLayout {
         super.addView(gameListItem);
     }
     
-    public void removeGameConfiguration(GameConfiguration gameConfiguration) {
+    public void removeVisibleGameConfiguration(GameConfiguration gameConfiguration) {
         this.removeVisibleGameConfiguration(this.visibleGameConfigurations.indexOf(gameConfiguration));
     }
     
@@ -201,9 +201,7 @@ public class GameLinearLayout extends LinearLayout {
         
         @Override
         public void onClick(View v) {
-            GameLinearLayout.this.setClickable(false); //Disable clickable temporarily
             ((ProfileActivity) GameLinearLayout.this.getContext()).setGameConfiguration(gameConfiguration);
-            GameLinearLayout.this.setClickable(true);
         }
     }
     
