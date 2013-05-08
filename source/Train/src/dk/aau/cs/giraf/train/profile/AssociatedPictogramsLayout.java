@@ -32,12 +32,18 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
     
     public void bindStation(StationConfiguration station) {
         this.station = station;
-        for (long id : station.getAcceptPictograms()) {
-            this.addPictogram(id);
+        
+        ArrayList<Long> acceptPictograms = new ArrayList<Long>(station.getAcceptPictograms());
+        
+        for (int i = 0; i < acceptPictograms.size(); i++) {
+            this.addPictogram(acceptPictograms.get(i));
+        }
+        if(this.customiseLinearLayout.getTotalPictogramSize() >= ProfileActivity.ALLOWED_PICTOGRAMS) {
+            this.customiseLinearLayout.setVisibilityPictogramButtons(false);
         }
     }
     
-    public void addPictogram(long pictogramId) {
+    public synchronized void addPictogram(long pictogramId) {
         PictogramButton pictogramButton = new PictogramButton(this.getContext());
         pictogramButton.setPictogram(pictogramId);
         pictogramButton.setRemovable(true);
