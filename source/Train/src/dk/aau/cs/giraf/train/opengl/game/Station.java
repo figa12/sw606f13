@@ -15,9 +15,10 @@ import dk.aau.cs.giraf.train.opengl.GameDrawer;
 import dk.aau.cs.giraf.train.opengl.GlPictogram;
 import dk.aau.cs.giraf.train.opengl.Renderable;
 import dk.aau.cs.giraf.train.opengl.RenderableMatrix;
+import dk.aau.cs.giraf.train.opengl.RuntimeLoader;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
-public final class Station extends GameDrawable {
+public final class Station extends GameDrawable implements RuntimeLoader {
     
     public Station(GL10 gl, Context context, GameDrawer gameDrawer, GameData gameData) {
         super(gl, context, gameDrawer, gameData);
@@ -144,6 +145,30 @@ public final class Station extends GameDrawable {
                 xPosition += 139.8f; //Add offset to get to next LinearLayout
             }
         }
+    }
+    
+    private int stationIndex;
+    private Pictogram[] pictograms;
+    private boolean readyToLoad = false;
+    
+    public void loadStationPictograms(int stationIndex, Pictogram[] pictograms) {
+        this.stationIndex = stationIndex;
+        this.pictograms = pictograms;
+        this.readyToLoad = true;
+    }
+    
+    @Override
+    public void runtimeLoad() {
+        this.setPictograms(this.stationIndex, this.pictograms);
+        this.readyToLoad = false;
+        
+        //Done loading, free memory
+        this.pictograms = null;
+    }
+
+    @Override
+    public boolean isReadyToLoad() {
+        return this.readyToLoad;
     }
     
     @Override
