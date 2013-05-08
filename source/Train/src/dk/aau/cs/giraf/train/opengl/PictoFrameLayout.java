@@ -27,6 +27,7 @@ public class PictoFrameLayout extends FrameLayout {
 	public void addPictogramsToFrames(Long pictoId){
 		Pictogram pic = PictoFactory.INSTANCE.getPictogram(super.getContext(), pictoId);
 		pic.setOnTouchListener(new TouchListener());
+		pic.renderAll();
 		
 		PictoFrameLayout.LayoutParams frameLayoutParams = new PictoFrameLayout.LayoutParams(
 				FrameLayout.LayoutParams.MATCH_PARENT,
@@ -34,8 +35,7 @@ public class PictoFrameLayout extends FrameLayout {
 		
 		this.addView(pic, frameLayoutParams);
 		this.setTag("filled");
-		
-		pic.renderAll();
+		this.invalidate();
 	}
 	
 	public Pictogram getPictogram(){
