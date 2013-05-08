@@ -92,7 +92,7 @@ public class ProfileActivity extends Activity {
 		
 		this.gameIntent = new Intent(this, GameActivity.class);
 		this.saveIntent = new Intent(this, SaveDialogActivity.class);
-		this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.pictoadmin","dk.aau.cs.giraf.pictoadmin.PictoAdminMain"));
+		this.pictoAdminIntent.setComponent(new ComponentName("dk.aau.cs.giraf.pictosearch", "dk.aau.cs.giraf.pictosearch.PictoAdminMain"));
 		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setNegativeButton(super.getResources().getString(R.string.okay), null);
@@ -136,8 +136,7 @@ public class ProfileActivity extends Activity {
         }
 	}
 	
-	private void showAlertMessage(String title, String message) {
-	    this.errorDialog.setTitle(title);
+	private void showAlertMessage(String message) {
         this.errorDialog.setMessage(message);
         
         this.errorDialog.show();
@@ -148,18 +147,18 @@ public class ProfileActivity extends Activity {
 	    
 	    //There needs to be at least one station
 	    if(currentStation.size() < 1) {
-	        this.showAlertMessage(null, super.getResources().getString(R.string.station_error));
+	        this.showAlertMessage(super.getResources().getString(R.string.station_error));
 	        currentStation = null; //Free memory
             return false;
         }
 	    
 	    for (int i = 0; i < currentStation.size(); i++) {
 	        if(currentStation.get(i).getCategory() == -1L) {
-                this.showAlertMessage(null, super.getResources().getString(R.string.category_error));
+                this.showAlertMessage(super.getResources().getString(R.string.category_error));
                 currentStation = null; //Free memory
                 return false;
             } else if (currentStation.get(i).getAcceptPictograms().size() < 1) {
-	            this.showAlertMessage(null, super.getResources().getString(R.string.pictogram_error));
+	            this.showAlertMessage(super.getResources().getString(R.string.pictogram_error));
 	            currentStation = null; //Free memory
 	            return false;
 	        }
@@ -218,14 +217,13 @@ public class ProfileActivity extends Activity {
 			}
         	break;
         }
-        
     }
 	
 	private PictogramReceiver pictogramReceiver;
 	
 	public void startPictoAdmin(int requestCode, PictogramReceiver pictogramRequester) {
 	    if(this.isCallable(this.pictoAdminIntent) == false) {
-	        this.showAlertMessage(super.getResources().getString(R.string.error), super.getResources().getString(R.string.picto_error));
+	        this.showAlertMessage(super.getResources().getString(R.string.picto_error));
 	        return;
 	    }
 	    this.progressDialog.show();
@@ -241,8 +239,11 @@ public class ProfileActivity extends Activity {
 	        this.pictoAdminIntent.putExtra("purpose", "multi");
 	        break;
 	    }
-	    
-		super.startActivityForResult(this.pictoAdminIntent, requestCode);
+        
+        this.pictoAdminIntent.putExtra("currentChildID", this.childrenListView.getSelectedChild().getProfileId());
+        this.pictoAdminIntent.putExtra("currentGuardianID", Data.currentGuardianID);
+
+        super.startActivityForResult(this.pictoAdminIntent, requestCode);
 	}
 	
 	private boolean isCallable(Intent intent) {
