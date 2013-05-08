@@ -92,6 +92,20 @@ public class GameController {
 			}
 			
 			if(readyToGo){
+				
+				numberOfPictoFrames = (gameConfiguration.getNumberOfPictogramsOfStations() <= 4) ? 4:6;
+				Pictogram[] PictogramsOnStation = new Pictogram[numberOfPictoFrames];
+				int index = 0;
+				
+				for (StationLinearLayout stationLin : stationLinear) {
+					for (PictoFrameLayout pictoFrame : stationLin.getPictoframes()) {
+						PictogramsOnStation[index] = (Pictogram)pictoFrame.getChildAt(0);
+						index++;
+					}
+				}
+				
+				this.gameData.setStationPictograms(this.gameData.numberOfStops, PictogramsOnStation);
+				
 				if(this.gameData.numberOfStops + 1 == this.gameData.numberOfStations ){ //last station
 					this.gameActivity.hideAllLinearLayouts();
 				}else{
