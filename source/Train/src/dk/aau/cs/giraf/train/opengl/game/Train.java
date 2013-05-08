@@ -75,9 +75,6 @@ public final class Train extends GameDrawable implements RuntimeLoader {
     public void runtimeLoad() {
         this.setDriverPictogram(this.pictogram);
         this.readyToLoad = false;
-        
-        //Free memory
-        this.pictogram = null;
     }
 
     @Override

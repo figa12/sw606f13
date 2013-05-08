@@ -161,9 +161,6 @@ public final class Station extends GameDrawable implements RuntimeLoader {
     public void runtimeLoad() {
         this.setPictograms(this.stationIndex, this.pictograms);
         this.readyToLoad = false;
-        
-        //Done loading, free memory
-        this.pictograms = null;
     }
 
     @Override
