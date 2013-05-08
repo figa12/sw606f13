@@ -48,10 +48,6 @@ public class StationConfiguration implements Parcelable {
     public long getCategory() {
         return this.category;
     }
-    
-    public long getAcceptPictogram(int id) {
-        return this.acceptPictograms.get(id);
-    }
 
     @Override
     public int describeContents() {

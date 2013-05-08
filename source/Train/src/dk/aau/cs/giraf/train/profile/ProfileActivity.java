@@ -108,7 +108,7 @@ public class ProfileActivity extends Activity {
         gameConfiguration.getStation(1).addAcceptPictogram(4L);
         gameConfiguration.getStation(2).addAcceptPictogram(3L);
         
-        this.setGameConfiguration(gameConfiguration);
+        //this.setGameConfiguration(gameConfiguration);
         
         
         this.progressDialog.dismiss(); //Hide progressDialog after creation is done
@@ -175,7 +175,8 @@ public class ProfileActivity extends Activity {
 	}
 	
 	public void setGameConfiguration(GameConfiguration gameConfiguration) {
-	    this.customiseLinearLayout.setStationConfigurations(gameConfiguration.getStations());
+	    ArrayList<StationConfiguration> newReference = new ArrayList<StationConfiguration>(gameConfiguration.getStations());
+	    this.customiseLinearLayout.setStationConfigurations(newReference);
 	}
 	
 	@Override
