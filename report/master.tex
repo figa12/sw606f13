@@ -15,6 +15,7 @@
 \newpage
 \thispagestyle{empty}
 \mbox{}
+
 \input{tex/signatures}
 
 \newpage
@@ -51,23 +52,24 @@
 
 \input{tex/conclusion}\label{chap:conclusion}
 
+\input{tex/future_work}
+
 \begin{appendices}
 \label{appendixStart}
 
 \label{appendixEnd}
 \end{appendices}
+\newpage
 
-
-% Change headings for bibliography/lists/listings. 
-% Page design from fancyhdr package.
-\fancyhead{}
-\fancyfoot{}
-\fancyhead[RO,LE]{\leftmark}
-\fancyfoot[C]{\thepage}
-\setlength{\headheight}{23pt}
 
 \listoffigures
+
+\newpage
+
 \listoftables
+
+\newpage
+
 \lstlistoflistings
 
 % Afslut med bibliografien. Bibliografien har mærkelige sidetal og side reference. Fixed med cleardoublepage og phantomsection

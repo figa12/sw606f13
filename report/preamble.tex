@@ -1,13 +1,9 @@
-% Define document class. Important.
-\documentclass[a4paper,twoside,openright]{report}% MANGLER 'openright' HER
-
-% Margener
-%\setlength{\evensidemargin}{1cm}
-%\setlength{\oddsidemargin}{1cm}
-
+\documentclass[a4paper,twoside,openright]{memoir}
 % Set up encoding
 \usepackage[utf8]{inputenc}
 
+% Mulighed for at definere acronyms
+\usepackage{acronym}
 
 % Load up bibliography.
 \usepackage[authoryear]{natbib}
@@ -35,9 +31,6 @@
 
 % tabeller der strækker sig over flere sider
 \usepackage{longtable}
-
-% Mulighed for at definere acronyms
-\usepackage{acronym}
 
 % flere tabel-muligheder
 \usepackage{multirow}
@@ -198,20 +191,6 @@
 % Rettehak. Meget lettere end \checkmark
 \newcommand{\yes}{\checkmark}
 
-% Let's put in a lot of niceness in the display, yeh?
-\usepackage{fancyhdr} % Get some niceness into our headers.
-\pagenumbering{arabic} % Ensure page numbering in our desired form.
-\pagestyle{fancy}
-% Page design from fancyhdr.
-\fancyhead{}
-\fancyfoot{}
-\fancyhead[RO,LE]{\leftmark\\\rightmark}% afsnit information i toppen af sider, over stregen. 
-\fancyfoot[C]{\thepage}
-\setlength{\headheight}{23pt}
-
-% Rewrite header and footer commands.
-\renewcommand{\headrulewidth}{1.0pt}
-\renewcommand{\footrulewidth}{1.0pt}
 
 % Create a new command, HRule, to insert some nice horisontal rules on the title page.
 \newcommand{\HRule}{\rule{\linewidth}{0.3mm}}
@@ -236,9 +215,46 @@
 
 % Sørg for at paragrafplads ikke spildes.
 \raggedbottom
-\usepackage[titletoc]{appendix}
 
 % Package til at regne forskellen ud mellem 2 labels
 \usepackage{refcount}
 \newcommand{\pagedifference}[2]{\number\numexpr\getpagerefnumber{#2}+1-\getpagerefnumber{#1}\relax}
+
+\usepackage{color,calc,graphicx,soul,fourier}
+\definecolor{aaublue}{RGB}{33,26,82}
+\makeatletter
+\newlength\dlf@normtxtw
+\setlength\dlf@normtxtw{\textwidth}
+\def\myhelvetfont{\def\sfdefault{mdput}}
+\newsavebox{\feline@chapter}
+\newcommand\feline@chapter@marker[1][4cm]{%
+  \sbox\feline@chapter{%
+    \resizebox{!}{#1}{\fboxsep=1pt%
+      \colorbox{aaublue}{\color{white}\bfseries\sffamily\thechapter}%
+    }}%
+  \rotatebox{90}{%
+    \resizebox{%
+      \heightof{\usebox{\feline@chapter}}+\depthof{\usebox{\feline@chapter}}}%
+    {!}{\scshape\so\@chapapp}}\quad%
+  \raisebox{\depthof{\usebox{\feline@chapter}}}{\usebox{\feline@chapter}}%
+}
+\newcommand\feline@chm[1][4cm]{%
+  \sbox\feline@chapter{\feline@chapter@marker[#1]}%
+  \makebox[0pt][l]{% aka \rlap
+    \makebox[1cm][r]{\usebox\feline@chapter}%
+  }}
+\makechapterstyle{daleif1}{
+  \renewcommand\chapnamefont{\normalfont\Large\scshape\raggedleft\so}
+  \renewcommand\chaptitlefont{\normalfont\huge\bfseries\scshape\color{aaublue}}
+  \renewcommand\chapternamenum{}
+  \renewcommand\printchaptername{}
+  \renewcommand\printchapternum{\null\hfill\feline@chm[2.5cm]\par}
+  \renewcommand\afterchapternum{\par\vskip\midchapskip}
+  \renewcommand\printchaptertitle[1]{\chaptitlefont\raggedleft ##1\par}
+}
+\makeatother
+\chapterstyle{daleif1}
+\setlength\afterchapskip {\onelineskip }
+\setlength\beforechapskip {\onelineskip }
+\usepackage{lipsum}
 
