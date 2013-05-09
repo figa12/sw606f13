@@ -175,7 +175,10 @@ public class ProfileActivity extends Activity {
 	}
 	
 	public void setGameConfiguration(GameConfiguration gameConfiguration) {
-	    ArrayList<StationConfiguration> newReference = new ArrayList<StationConfiguration>(gameConfiguration.getStations());
+	    ArrayList<StationConfiguration> newReference = new ArrayList<StationConfiguration>();
+	    for (int i = 0; i < gameConfiguration.getStations().size(); i++) {
+	        newReference.add(new StationConfiguration(gameConfiguration.getStation(i)));
+	    }
 	    this.customiseLinearLayout.setStationConfigurations(newReference);
 	}
 	

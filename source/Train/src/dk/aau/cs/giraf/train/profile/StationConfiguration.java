@@ -18,11 +18,16 @@ public class StationConfiguration implements Parcelable {
     private ArrayList<Long> acceptPictograms = new ArrayList<Long>(); 
     
     public StationConfiguration() {
-        //TODO ?
+        
     }
     
     public StationConfiguration(long CategoryPictogramId) {
         this.category = CategoryPictogramId;
+    }
+    
+    public StationConfiguration(StationConfiguration stationConfiguration) {
+        this.category = stationConfiguration.getCategory();
+        this.acceptPictograms = new ArrayList<Long>(stationConfiguration.getAcceptPictograms());
     }
     
     public void addAcceptPictogram(long id) {
