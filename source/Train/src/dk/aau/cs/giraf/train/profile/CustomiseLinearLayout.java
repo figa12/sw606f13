@@ -42,13 +42,15 @@ public class CustomiseLinearLayout extends LinearLayout {
         PictogramButton categoryPictogramButton = (PictogramButton) stationListItem.findViewById(R.id.list_category);
         categoryPictogramButton.bindStationAsCategory(station);
         
-        AssociatedPictogramsLayout associatedPictogramsLayout = (AssociatedPictogramsLayout) stationListItem.findViewById(R.id.associatedPictograms);
-        associatedPictogramsLayout.bindStation(station);
-        this.associatedPictogramsLayouts.add(associatedPictogramsLayout);
-        
+        //The order og image button and associated pictograms layout statements, are very important here
         ImageButton addPictogramsButton = (ImageButton) stationListItem.findViewById(R.id.addPictogramButton);
-        addPictogramsButton.setOnClickListener(new AddPictogramsClickListener(associatedPictogramsLayout));
         this.addPictogramButtons.add(addPictogramsButton);
+        
+        AssociatedPictogramsLayout associatedPictogramsLayout = (AssociatedPictogramsLayout) stationListItem.findViewById(R.id.associatedPictograms);
+        this.associatedPictogramsLayouts.add(associatedPictogramsLayout);
+        associatedPictogramsLayout.bindStation(station);
+        
+        addPictogramsButton.setOnClickListener(new AddPictogramsClickListener(associatedPictogramsLayout));
         
         ImageView deleteButton = (ImageView) stationListItem.findViewById(R.id.deleteRowButton);
         deleteButton.setOnClickListener(new RemoveClickListener(station));
