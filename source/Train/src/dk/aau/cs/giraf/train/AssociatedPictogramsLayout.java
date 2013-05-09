@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.train.profile;
+package dk.aau.cs.giraf.train;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
     
     public AssociatedPictogramsLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.customiseLinearLayout = (CustomiseLinearLayout) ((ProfileActivity) super.getContext()).findViewById(R.id.customiseLinearLayout);
+        this.customiseLinearLayout = (CustomiseLinearLayout) ((MainActivity) super.getContext()).findViewById(R.id.customiseLinearLayout);
     }
     
     public int getPictogramCount() {
@@ -39,7 +39,7 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
             this.addPictogram(acceptPictograms.get(i));
         }
         
-        if(this.customiseLinearLayout.getTotalPictogramSize() >= ProfileActivity.ALLOWED_PICTOGRAMS) {
+        if(this.customiseLinearLayout.getTotalPictogramSize() >= MainActivity.ALLOWED_PICTOGRAMS) {
             this.customiseLinearLayout.setVisibilityPictogramButtons(false);
         }
     }
@@ -72,7 +72,7 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
         this.pictogramButtons.remove(view);
         this.station.removeAccepPictogram(((PictogramButton) view).getPictogramId());
         
-        if(this.customiseLinearLayout.getTotalPictogramSize() < ProfileActivity.ALLOWED_PICTOGRAMS) {
+        if(this.customiseLinearLayout.getTotalPictogramSize() < MainActivity.ALLOWED_PICTOGRAMS) {
             this.customiseLinearLayout.setVisibilityPictogramButtons(true);
         }
     }
@@ -81,7 +81,7 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
     public void receivePictograms(long[] pictogramIds, int requestCode) {
         for (long id : pictogramIds) {
             this.addPictogram(id);
-            if(this.customiseLinearLayout.getTotalPictogramSize() >= ProfileActivity.ALLOWED_PICTOGRAMS) {
+            if(this.customiseLinearLayout.getTotalPictogramSize() >= MainActivity.ALLOWED_PICTOGRAMS) {
                 this.customiseLinearLayout.setVisibilityPictogramButtons(false);
                 break;
             }

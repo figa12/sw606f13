@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.train.profile;
+package dk.aau.cs.giraf.train;
 
 import java.util.ArrayList;
 
@@ -76,8 +76,8 @@ public class CustomiseLinearLayout extends LinearLayout {
     }
     
     private void preventStationOverflow() {
-        Button addStationButton = (Button) ((ProfileActivity) super.getContext()).findViewById(R.id.addStationButton);
-        if(this.stations.size() >= ProfileActivity.ALLOWED_STATIONS) {
+        Button addStationButton = (Button) ((MainActivity) super.getContext()).findViewById(R.id.addStationButton);
+        if(this.stations.size() >= MainActivity.ALLOWED_STATIONS) {
             addStationButton.setEnabled(false);
         } else {
             addStationButton.setEnabled(true);
@@ -137,7 +137,7 @@ public class CustomiseLinearLayout extends LinearLayout {
         
         @Override
         public void onClick(View v) {
-            ((ProfileActivity) CustomiseLinearLayout.this.getContext()).startPictoAdmin(ProfileActivity.RECEIVE_MULTIPLE, this.associatedPictogramsLayout);
+            ((MainActivity) CustomiseLinearLayout.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_MULTIPLE, this.associatedPictogramsLayout);
         }
     }
     
@@ -152,7 +152,7 @@ public class CustomiseLinearLayout extends LinearLayout {
         @Override
         public void onClick(View view) {
             CustomiseLinearLayout.this.removeStation(this.station);
-            if(CustomiseLinearLayout.this.getTotalPictogramSize() < ProfileActivity.ALLOWED_PICTOGRAMS) {
+            if(CustomiseLinearLayout.this.getTotalPictogramSize() < MainActivity.ALLOWED_PICTOGRAMS) {
                 CustomiseLinearLayout.this.setVisibilityPictogramButtons(true);
             }
         }

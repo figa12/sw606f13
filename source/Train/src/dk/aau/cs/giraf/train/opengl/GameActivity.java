@@ -29,12 +29,12 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import dk.aau.cs.giraf.train.GameConfiguration;
+import dk.aau.cs.giraf.train.MainActivity;
 import dk.aau.cs.giraf.train.R;
+import dk.aau.cs.giraf.train.StationConfiguration;
 import dk.aau.cs.giraf.train.R.id;
 import dk.aau.cs.giraf.train.opengl.game.GameData;
-import dk.aau.cs.giraf.train.profile.GameConfiguration;
-import dk.aau.cs.giraf.train.profile.ProfileActivity;
-import dk.aau.cs.giraf.train.profile.StationConfiguration;
 
 public class GameActivity extends Activity {
 
@@ -79,7 +79,7 @@ public class GameActivity extends Activity {
 		
 		Bundle configurationBundle = super.getIntent().getExtras();
 		if(configurationBundle != null) {
-		    this.gameConfiguration = configurationBundle.getParcelable(ProfileActivity.GAME_CONFIGURATION);
+		    this.gameConfiguration = configurationBundle.getParcelable(MainActivity.GAME_CONFIGURATION);
 		} else {
             gameConfiguration = new GameConfiguration("Game 3", 2, -3);
             gameConfiguration.addStation(new StationConfiguration(2L));

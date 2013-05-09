@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.train.profile;
+package dk.aau.cs.giraf.train;
 
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.pictogram.Pictogram;
@@ -92,7 +92,7 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
         @Override
         public void onClick(View view) {
             //TODO Create loading picture
-            ((ProfileActivity) PictogramButton.this.getContext()).startPictoAdmin(ProfileActivity.RECEIVE_SINGLE, PictogramButton.this);
+            ((MainActivity) PictogramButton.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_SINGLE, PictogramButton.this);
         }
     }
 	

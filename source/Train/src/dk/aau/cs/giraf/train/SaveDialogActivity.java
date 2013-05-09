@@ -1,8 +1,7 @@
-package dk.aau.cs.giraf.train.profile;
+package dk.aau.cs.giraf.train;
 
 import java.util.ArrayList;
 
-import dk.aau.cs.giraf.train.Data;
 import dk.aau.cs.giraf.train.R;
 import android.os.Bundle;
 import android.view.View;
@@ -42,9 +41,9 @@ public class SaveDialogActivity extends Activity {
         
         Bundle extras = super.getIntent().getExtras();
         if(extras != null) {
-            this.currentGameConfigurations = extras.getParcelableArrayList(ProfileActivity.GAME_CONFIGURATIONS);
-            this.selectedChildId = extras.getLong(ProfileActivity.SELECTED_CHILD_ID);
-            this.selectedChildName = extras.getString(ProfileActivity.SELECTED_CHILD_NAME);
+            this.currentGameConfigurations = extras.getParcelableArrayList(MainActivity.GAME_CONFIGURATIONS);
+            this.selectedChildId = extras.getLong(MainActivity.SELECTED_CHILD_ID);
+            this.selectedChildName = extras.getString(MainActivity.SELECTED_CHILD_NAME);
             
             ((TextView) super.findViewById(R.id.saveDescription)).append(" " + this.selectedChildName);
         }

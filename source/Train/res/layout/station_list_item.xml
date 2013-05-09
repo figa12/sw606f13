@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:gravity="center" >
 
-        <dk.aau.cs.giraf.train.profile.PictogramButton
+        <dk.aau.cs.giraf.train.PictogramButton
             android:id="@+id/list_category"
             android:layout_width="75dp"
             android:layout_height="75dp"
@@ -36,7 +36,7 @@
             android:layout_height="match_parent"
             android:layout_width="wrap_content" >
             
-        <dk.aau.cs.giraf.train.profile.AssociatedPictogramsLayout
+        <dk.aau.cs.giraf.train.AssociatedPictogramsLayout
             android:id="@+id/associatedPictograms"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

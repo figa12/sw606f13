@@ -3,9 +3,9 @@ package dk.aau.cs.giraf.train.opengl.game;
 import java.util.ArrayList;
 
 import dk.aau.cs.giraf.pictogram.Pictogram;
+import dk.aau.cs.giraf.train.GameConfiguration;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
 import dk.aau.cs.giraf.train.opengl.GlRenderer;
-import dk.aau.cs.giraf.train.profile.GameConfiguration;
 import android.os.Bundle;
 import android.util.Log;
 

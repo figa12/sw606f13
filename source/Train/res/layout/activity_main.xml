@@ -1,57 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/mainActivity"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:background="@drawable/background"
-        android:text="@string/app_name"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/white"
-        android:textSize="70sp" />
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    android:baselineAligned="false"
+    android:orientation="horizontal" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/white"
-        android:orientation="horizontal" />
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".25"
+        android:orientation="vertical" >
 
-    <FrameLayout
-        android:id="@+id/menu_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        <TextView
+            android:id="@+id/profileListHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/profile_list_header"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white"
+            android:textSize="30sp" />
 
         <LinearLayout
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white" />
+
+        <dk.aau.cs.giraf.train.ChildrenListView
+            android:id="@+id/profilelist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:choiceMode="singleChoice" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/white" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".25"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/gameListHeader"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical" >
+            android:background="@drawable/background"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/game_list_header"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white"
+            android:textSize="30sp" />
 
-            <Button
-                android:id="@+id/button1"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <dk.aau.cs.giraf.train.GameLinearLayout
+                android:id="@+id/gamelist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/custom_button"
-                android:onClick="startGame"
-                android:text="Start game!"
-                android:textColor="#000000" />
+                android:orientation="vertical" />
+        </ScrollView>
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/white" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".5"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/customisationHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/customisation_header"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/categoryHeader"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/custom_button"
-                android:onClick="startMenu"
-                android:text="Menu!"
-                android:textColor="#000000" />
+                android:background="@drawable/background"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/category"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:id="@+id/customiseSubheaderStroke"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/associatedPictogramHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".8"
+                android:background="@drawable/background"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/associated_pictograms"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
         </LinearLayout>
-    </FrameLayout>
+
+        <dk.aau.cs.giraf.train.CustomiseLinearLayout
+            android:id="@+id/customiseLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="bottom|right"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/addStationButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_button"
+                android:contentDescription="@string/add_station"
+                android:drawableRight="@android:drawable/ic_menu_add"
+                android:onClick="onClickAddStation"
+                android:text="@string/add_station"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/saveGameButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_button"
+                android:contentDescription="@string/save_game"
+                android:drawableRight="@android:drawable/ic_menu_save"
+                android:onClick="onClickSaveGame"
+                android:text="@string/save_game"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/startGameFromProfileButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_button"
+                android:contentDescription="@string/start_game"
+                android:drawableRight="@android:drawable/ic_media_play"
+                android:onClick="onClickStartGame"
+                android:text="@string/start_game"
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

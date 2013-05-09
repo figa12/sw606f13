@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.train.profile;
+package dk.aau.cs.giraf.train;
 
 import java.io.IOException;
 import java.io.StringWriter;

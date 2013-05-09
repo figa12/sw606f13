@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.train.profile;
+package dk.aau.cs.giraf.train;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -53,7 +53,7 @@ public class GameLinearLayout extends LinearLayout {
                 //'Ja' button is clicked
                 GameLinearLayout.this.removeVisibleGameConfiguration(GameLinearLayout.this.deleteIndex);
                 try {
-                    ((ProfileActivity) GameLinearLayout.this.getContext()).saveAllConfigurations(GameLinearLayout.this.getGameConfigurations());
+                    ((MainActivity) GameLinearLayout.this.getContext()).saveAllConfigurations(GameLinearLayout.this.getGameConfigurations());
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(GameLinearLayout.this.getContext(), "Kan ikke gemme", Toast.LENGTH_SHORT).show();
@@ -132,7 +132,7 @@ public class GameLinearLayout extends LinearLayout {
         StringWriter sWriter = new StringWriter(1024);
         
         try {
-            fis = getContext().openFileInput(ProfileActivity.SAVEFILE_PATH);
+            fis = getContext().openFileInput(MainActivity.SAVEFILE_PATH);
 
             int content;
             while ((content = fis.read()) != -1) {
@@ -201,7 +201,7 @@ public class GameLinearLayout extends LinearLayout {
         
         @Override
         public void onClick(View v) {
-            ((ProfileActivity) GameLinearLayout.this.getContext()).setGameConfiguration(gameConfiguration);
+            ((MainActivity) GameLinearLayout.this.getContext()).setGameConfiguration(gameConfiguration);
         }
     }
     
