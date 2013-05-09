@@ -60,6 +60,7 @@ public class GlPictogram extends Texture {
             } else {
                 pictogramBitmap = Bitmap.createScaledBitmap(originalBitmap, this.pictogramSize, this.pictogramSize * originalBitmap.getHeight() / originalBitmap.getWidth(), true);
             }
+            originalBitmap.recycle();
             
             canvasBitmap = Bitmap.createBitmap(this.pictogramSize, this.pictogramSize, Bitmap.Config.ARGB_8888);
             canvas = new Canvas(canvasBitmap);

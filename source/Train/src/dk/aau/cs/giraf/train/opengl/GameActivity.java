@@ -2,6 +2,8 @@ package dk.aau.cs.giraf.train.opengl;
 
 import java.util.ArrayList;
 
+import org.apache.http.conn.routing.RouteInfo.LayerType;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,11 +23,14 @@ import android.view.View.OnClickListener;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import dk.aau.cs.giraf.train.R;
+import dk.aau.cs.giraf.train.R.id;
 import dk.aau.cs.giraf.train.opengl.game.GameData;
 import dk.aau.cs.giraf.train.profile.GameConfiguration;
 import dk.aau.cs.giraf.train.profile.ProfileActivity;
@@ -88,11 +93,11 @@ public class GameActivity extends Activity {
 		}
 		
 		this.gameData = new GameData(this, gameConfiguration);
-        this.openGLView = (GlView) findViewById(R.id.openglview);
+        
+		this.openGLView = (GlView) findViewById(R.id.openglview);
         this.openGLView.bindGameData(this.gameData); //The GlView is instantiated by the system, bind here instead of through constructor.
 		
         this.gameController = new GameController(this, gameConfiguration, this.gameData);
-        
 		this.addFrameLayoutsAndPictograms(gameConfiguration.getNumberOfPictogramsOfStations());
 		
 		this.alertDialog = this.createAlertDialog();
@@ -194,7 +199,7 @@ public class GameActivity extends Activity {
 		stationLinear = new ArrayList<StationLinearLayout>();
 		stationLinear.add((StationLinearLayout) findViewById(R.id.StationLeftLinearLayout));
 		stationLinear.add((StationLinearLayout) findViewById(R.id.StationRightLinearLayout));
-
+		
 		// FluteButton
 		fluteButton = (ImageButton) findViewById(R.id.FluteImageButton);
 		fluteButton.setOnClickListener(new OnClickListener() {
@@ -258,42 +263,52 @@ public class GameActivity extends Activity {
 		if(this.gameData.numberOfStops != this.gameData.numberOfStations){
 			for (LinearLayout lin : stationLinear) {
 				lin.setVisibility(View.VISIBLE);
-				lin.dispatchDisplayHint(View.VISIBLE);
+				lin.invalidate();
 			}
-		
+			
 			fluteButton.setVisibility(View.VISIBLE);
+			fluteButton.invalidate();
 		}	
 	}
 	
 	public void hideStationLinearLayouts(){
 		for (LinearLayout lin : stationLinear) {
 			lin.setVisibility(View.INVISIBLE);
-			lin.dispatchDisplayHint(View.INVISIBLE);
+			lin.invalidate();
 		}
 
 		fluteButton.setVisibility(View.INVISIBLE);
-		fluteButton.dispatchDisplayHint(View.INVISIBLE);
+		fluteButton.invalidate();
 	}
 	
 	public void hideAllLinearLayouts(){
 		for (LinearLayout lin : stationLinear) {
 			lin.setVisibility(View.INVISIBLE);
-			lin.dispatchDisplayHint(View.INVISIBLE);
+			lin.invalidate();
 		}
 		
 		for(LinearLayout lin : cartsLinear){
 			lin.setVisibility(View.INVISIBLE);
-			lin.dispatchDisplayHint(View.INVISIBLE);
 		}
 		
 		fluteButton.setVisibility(View.INVISIBLE);
-		fluteButton.dispatchDisplayHint(View.INVISIBLE);
 		
 		trainDriverLinear.setVisibility(View.INVISIBLE);
-		trainDriverLinear.dispatchDisplayHint(View.INVISIBLE);
 	}
 
 	public GameData getGameData() {
 		return this.gameData;
+	}
+
+	public void addAndShowEndButton() {
+		Button endButton = new Button(this);
+		RelativeLayout.LayoutParams relaLayout = new RelativeLayout.LayoutParams(400, 150);
+		relaLayout.setMargins(440, 150, 0, 0);
+		endButton.setLayoutParams(relaLayout);
+		endButton.setText("Godt gået!");
+		endButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.transparent_button));
+		
+		RelativeLayout root =  (RelativeLayout)findViewById(id.RootLayout);
+		root.addView(endButton);
 	}
 }

@@ -6,6 +6,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.MonthDisplayHelper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
@@ -26,6 +27,7 @@ public class PictoFrameLayout extends FrameLayout {
 	public void addPictogramsToFrames(Long pictoId){
 		Pictogram pic = PictoFactory.INSTANCE.getPictogram(super.getContext(), pictoId);
 		pic.setOnTouchListener(new TouchListener());
+		pic.renderAll();
 		
 		PictoFrameLayout.LayoutParams frameLayoutParams = new PictoFrameLayout.LayoutParams(
 				FrameLayout.LayoutParams.MATCH_PARENT,
@@ -33,8 +35,7 @@ public class PictoFrameLayout extends FrameLayout {
 		
 		this.addView(pic, frameLayoutParams);
 		this.setTag("filled");
-		
-		pic.renderAll();
+		this.invalidate();
 	}
 	
 	public Pictogram getPictogram(){
@@ -56,7 +57,14 @@ public class PictoFrameLayout extends FrameLayout {
 				view.startDrag(data, shadowBuilder, view, 0);
 				view.setVisibility(View.INVISIBLE);
 				return true;
-			} else {
+			}
+			else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {// prevents that a picto disapears if only pressed and no drag
+				if(view != null && view.getVisibility() == view.INVISIBLE){
+					view.setVisibility(View.VISIBLE);
+				}
+				return true;
+			}
+			else {
 				return false;
 			}
 		}

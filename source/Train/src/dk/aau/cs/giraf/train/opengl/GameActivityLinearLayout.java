@@ -1,5 +1,7 @@
 package dk.aau.cs.giraf.train.opengl;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -24,15 +26,14 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
 		int height = 300/(numberOfPictoFrames/2);
 		for (int j = 0; j < (numberOfPictoFrames / 2); j++) {
-			
-			
 			LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0,height,1.0f);
-			PictoFrameLayout pictoFrameLayout = new PictoFrameLayout(super.getContext());
+			PictoFrameLayout pictoFrameLayout = new PictoFrameLayout(this.getContext());
 			pictoFrameLayout.setOnDragListener(new DragListener());
 			pictoFrameLayout.setLayoutParams(linearLayoutParams);
 			pictoFrameLayout.setBackgroundDrawable(normalShape);
 			
-			this.addView(pictoFrameLayout,j);
+			this.addView(pictoFrameLayout);
+			this.invalidate();
 		}
 	}
 	
@@ -40,7 +41,7 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 	 * A drag listner implementing an onDrag() method that runs when something
 	 * is dragged to it.
 	 */
-	private final class DragListener implements OnDragListener {
+	private class DragListener implements OnDragListener {
 		private Drawable enterShape;
 		private Drawable normalShape;
 
@@ -52,9 +53,7 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 		}
 
 		@Override
-		public boolean onDrag(View v, DragEvent event) {
-			if (event.getLocalState() != null) {
-				// do nothing, maybe return false..
+		public boolean onDrag(View hoverView, DragEvent event) {
 				View draggedView = (View) event.getLocalState();
 				
 				switch (event.getAction()) {
@@ -64,13 +63,15 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 	
 					case DragEvent.ACTION_DRAG_ENTERED:
 						// Change the background of droplayout(purely style)
-						v.setBackgroundDrawable(enterShape);
+						hoverView.setBackgroundDrawable(enterShape);
+						hoverView.invalidate();
 						break;
 	
 					case DragEvent.ACTION_DRAG_EXITED:
 						// Change the background back when exiting droplayout(purely
 						// style)
-						v.setBackgroundDrawable(normalShape);
+						hoverView.setBackgroundDrawable(normalShape);
+						hoverView.invalidate();
 						break;
 	
 					case DragEvent.ACTION_DROP:
@@ -78,28 +79,32 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 						// the container does not already contain a view.
 						ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
 	
-						PictoFrameLayout dropContainer = (PictoFrameLayout) v;
-						Object dropContainerTag = dropContainer.getTag();
-	
-						if (dropContainerTag == null) {
+						PictoFrameLayout dropContainer = (PictoFrameLayout) hoverView;
+						Object tag = hoverView.getTag();
+						if (tag == null) {
 							ownerContainer.removeView(draggedView);
 							ownerContainer.setTag(null);
+							ownerContainer.invalidate();
 							dropContainer.addView(draggedView);
 							dropContainer.setTag("filled");
+							dropContainer.invalidate();
 						}
 						draggedView.setVisibility(View.VISIBLE);
+						draggedView.invalidate();
 						break;
 	
 					case DragEvent.ACTION_DRAG_ENDED:
 						// Makes the draggedview visible again after the view has
 						// been moved or the drop wasn't valid.
-						v.setBackgroundDrawable(normalShape);
-						draggedView.setVisibility(View.VISIBLE);
+						hoverView.setBackgroundDrawable(normalShape);
+						hoverView.invalidate();
+						if(event.getResult() == false){
+							draggedView.setVisibility(View.VISIBLE);
+							draggedView.invalidate();
+						}
 						break;
 				}
 				return true;
-			}
-			return false;
 		}
 	}
 }

@@ -118,7 +118,7 @@ public class GameLinearLayout extends LinearLayout {
         super.addView(gameListItem);
     }
     
-    public void removeGameConfiguration(GameConfiguration gameConfiguration) {
+    public void removeVisibleGameConfiguration(GameConfiguration gameConfiguration) {
         this.removeVisibleGameConfiguration(this.visibleGameConfigurations.indexOf(gameConfiguration));
     }
     

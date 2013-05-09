@@ -14,9 +14,11 @@ import dk.aau.cs.giraf.train.profile.StationConfiguration;
 
 public class GameController {
 
-	public GameActivity gameActivity;
+	private GameActivity gameActivity;
 	private GameConfiguration gameConfiguration;
 	private GameData gameData;
+	private int numberOfPictoFrames;
+	
 	public boolean IsTrainStopped;
 	
 	public GameController(GameActivity gameActivity, GameConfiguration gameConfiguration, GameData gameData) {
@@ -84,24 +86,37 @@ public class GameController {
 			}
 			else {
 				//check if it is the correct pictogram on the right station.
-				if(checkPictogramsIsOnStation(gameConfiguration.getStation(this.gameData.numberOfStops - 1), stationLinear) ==  false){
+				if(checkPictogramsIsOnStation(this.gameConfiguration.getStation(this.gameData.numberOfStops - 1), stationLinear) ==  false){
 					readyToGo = false;
 				}
 			}
 			
 			if(readyToGo){
-				//Draw pictograms with opengl
-				if(this.gameData.numberOfStops + 1 == this.gameData.numberOfStations ){ //last station
-					gameActivity.hideAllLinearLayouts();
-				}else{
-					gameActivity.hideStationLinearLayouts();
+				
+				numberOfPictoFrames = (gameConfiguration.getNumberOfPictogramsOfStations() <= 4) ? 4:6;
+				Pictogram[] PictogramsOnStation = new Pictogram[numberOfPictoFrames];
+				int index = 0;
+				
+				for (StationLinearLayout stationLin : stationLinear) {
+					for (PictoFrameLayout pictoFrame : stationLin.getPictoframes()) {
+						PictogramsOnStation[index] = (Pictogram)pictoFrame.getChildAt(0);
+						index++;
+					}
 				}
 				
-				gameActivity.deletePictogramsFromStation();
+				this.gameData.setStationPictograms(this.gameData.numberOfStops, PictogramsOnStation);
 				
-				gameActivity.getGameData().accelerateTrain();
+				if(this.gameData.numberOfStops + 1 == this.gameData.numberOfStations ){ //last station
+					this.gameActivity.hideAllLinearLayouts();
+				}else{
+					this.gameActivity.hideStationLinearLayouts();
+				}
 				
-				gameActivity.hideSystemUI();
+				this.gameActivity.deletePictogramsFromStation();
+				
+				this.gameActivity.getGameData().accelerateTrain();
+				
+				this.gameActivity.hideSystemUI();
 				
 				this.gameActivity.streamId = this.gameActivity.soundPool.play(this.gameActivity.sound, 1f, 1f, 0, 0, 0.5f);
 			}
@@ -110,9 +125,12 @@ public class GameController {
 
 	
 	public void TrainIsStopping(){
-		if(this.gameData.numberOfStops != this.gameData.numberOfStations ){ //remise
-			gameActivity.showStationLinearLayouts();
+		if(this.gameData.numberOfStops != this.gameData.numberOfStations ){ //do not show when train is at remise
+			this.gameActivity.showStationLinearLayouts();
+		}else{
+			this.gameActivity.addAndShowEndButton(); //show end game button
 		}
+			
 		IsTrainStopped = true;
 	}
 	

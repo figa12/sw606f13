@@ -8,10 +8,11 @@ import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.Color;
 import dk.aau.cs.giraf.train.opengl.GameDrawer;
 import dk.aau.cs.giraf.train.opengl.GlPictogram;
+import dk.aau.cs.giraf.train.opengl.RuntimeLoader;
 import dk.aau.cs.giraf.train.opengl.Square;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
-public final class Train extends GameDrawable {
+public final class Train extends GameDrawable implements RuntimeLoader {
 
     public Train(GL10 gl, Context context, GameDrawer gameDrawer, GameData gameData) {
         super(gl, context, gameDrawer, gameData);
@@ -60,5 +61,24 @@ public final class Train extends GameDrawable {
         if(this.driverPictogram != null) {
             super.translateAndDraw(this.driverPictogram);
         }
+    }
+    
+    private Pictogram pictogram;
+    private boolean readyToLoad = false;
+    
+    public void loadTrainDriverPictogram(Pictogram pictogram) {
+        this.pictogram = pictogram;
+        this.readyToLoad = true;
+    }
+    
+    @Override
+    public void runtimeLoad() {
+        this.setDriverPictogram(this.pictogram);
+        this.readyToLoad = false;
+    }
+
+    @Override
+    public boolean isReadyToLoad() {
+        return this.readyToLoad;
     }
 }

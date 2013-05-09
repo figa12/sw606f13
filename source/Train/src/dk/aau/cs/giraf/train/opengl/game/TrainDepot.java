@@ -27,7 +27,7 @@ public final class TrainDepot extends GameDrawable {
     }
     
 	private final Texture trainDepot = new Texture(1.0f , 1.0f);
-	private final Square trainDepotBackside = new Square(1178f, 440f);
+	private final Square trainDepotBackside = new Square(1150f, 400f);
 	private final RenderableMatrix trainDepotMatrix = new RenderableMatrix();
 
 	@Override
@@ -42,7 +42,7 @@ public final class TrainDepot extends GameDrawable {
 		
 		switch(this.depth) {
 		case TrainDepot.BEFORE_TRAIN:
-			this.trainDepotMatrix.addRenderableMatrixItem(this.trainDepotBackside, new Coordinate(super.gameData.nextStoppingPosition[super.gameData.numberOfStations - 1] + offset, -199.168f, 0f), Color.DepotBackside);
+			this.trainDepotMatrix.addRenderableMatrixItem(this.trainDepotBackside, new Coordinate(super.gameData.nextStoppingPosition[super.gameData.numberOfStations - 1] + offset + 14f, -250f, 0f), Color.DepotBackside);
 			break;
 		
 		case TrainDepot.AFTER_TRAIN:
