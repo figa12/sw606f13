@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
             Data.currentChildID = extras.getLong("currentChildID");
             Data.appBackgroundColor = extras.getInt("appBackgroundColor");
         } else {
-            Data.currentGuardianID = 1;
+            Data.currentGuardianID = 0;
             Data.currentChildID = -3;
             Data.appBackgroundColor = 0xFFFFBB55;
         }
