@@ -38,8 +38,8 @@ public class AssociatedPictogramsLayout extends LinearLayout implements Pictogra
         for (int i = 0; i < acceptPictograms.size(); i++) {
             this.addPictogram(acceptPictograms.get(i));
         }
-        int size = this.customiseLinearLayout.getTotalPictogramSize();
-        if(size >= ProfileActivity.ALLOWED_PICTOGRAMS) {
+        
+        if(this.customiseLinearLayout.getTotalPictogramSize() >= ProfileActivity.ALLOWED_PICTOGRAMS) {
             this.customiseLinearLayout.setVisibilityPictogramButtons(false);
         }
     }
