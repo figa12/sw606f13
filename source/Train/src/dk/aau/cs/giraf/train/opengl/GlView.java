@@ -1,10 +1,7 @@
 package dk.aau.cs.giraf.train.opengl;
 
-import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.game.GameData;
 import android.content.Context;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.opengl.GLSurfaceView;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -14,28 +11,24 @@ import android.view.MotionEvent;
 /**
  * This class ({@code GlView}) extends {@link GLSurfaceView}.
  * Touch events for this surface is created here.
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see GlRenderer
  */
 public class GlView extends GLSurfaceView {
     
-  
-    
     private GlRenderer glRenderer;
+    private GameData gameData;
     
     /**
      * Set {@link GLSurfaceView} settings.
      * @param context send to renderer
      */
-    private void setup(Context context) {
+    private void setup() {
         this.setEGLContextClientVersion(1); // Pick an OpenGL ES 1 context. Going old school because its easier
         
         this.setEGLConfigChooser(true);
         
         this.setPreserveEGLContextOnPause(false); //When false: onSurfaceCreated is called when app is restored
-        
-        this.glRenderer = new GlRenderer(context);
-        this.setRenderer(this.glRenderer);
     }
     
     /**
@@ -44,7 +37,7 @@ public class GlView extends GLSurfaceView {
      */
     public GlView(Context context) {
         super(context);
-        this.setup(context);
+        this.setup();
     }
     
     /**
@@ -54,7 +47,13 @@ public class GlView extends GLSurfaceView {
      */
     public GlView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.setup(context);
+        this.setup();
+    }
+    
+    public void bindGameData(GameData gameData) {
+        this.gameData = gameData;
+        this.glRenderer = new GlRenderer(super.getContext(), this.gameData);
+        super.setRenderer(this.glRenderer); //First start rendering when we have a GameData object
     }
     
     @Override
@@ -69,19 +68,8 @@ public class GlView extends GLSurfaceView {
         
         //float x = event.getX();
         //float y = event.getY();
-        //Log.d(GlView.class.getSimpleName(), "Touched: " + Float.toString(x) + " x " + Float.toString(y));
         
-        //If the game is paused, then resume on click
-        if(event.getAction() == MotionEvent.ACTION_DOWN && GameData.isPaused) {
-            GameData.onResume();
-        }
-        /*else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if(GameData.currentTrainVelocity == 0f && GameData.numberOfStops < GameData.numberOfStations - 1) {
-                GameData.accelerateTrain();
-                this.soundPool.play(sound, 1f, 1f, 0, 0, 0.75f);
-            }
-        }*///Is managed by the flute button now
-        return true;
+        return super.onTouchEvent(event);
     }
 
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <FrameLayout
+        android:id="@+id/pictogramContainer"
+        android:layout_width="71dp"
+        android:layout_height="71dp"
+        android:layout_margin="2dp" />
+    
+    <ImageButton
+        android:id="@+id/removeButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:contentDescription="@string/remove_pictogram"
+        android:src="@android:drawable/ic_delete"
+        android:background="@drawable/transparent_button" />
+    
+</RelativeLayout>

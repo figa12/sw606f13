@@ -8,10 +8,10 @@ import dk.aau.cs.giraf.train.opengl.GameDrawer;
 import dk.aau.cs.giraf.train.opengl.GlRenderer;
 import dk.aau.cs.giraf.train.opengl.Square;
 
-public final class Overlay extends RenderableGroup {
+public final class Overlay extends GameDrawable {
     
-    public Overlay(GL10 gl, Context context, GameDrawer gameDrawer) {
-        super(gl, context, gameDrawer);
+    public Overlay(GL10 gl, Context context, GameDrawer gameDrawer, GameData gameData) {
+        super(gl, context, gameDrawer, gameData);
     }
     
     Square overlay;
@@ -29,7 +29,7 @@ public final class Overlay extends RenderableGroup {
 
     @Override
     public void draw() {
-        if(GameData.isPaused) {
+        if(super.gameData.isPaused) {
             super.translateAndDraw(this.overlay, Color.PausedOverlay);
         }
     }

@@ -3,16 +3,19 @@ package dk.aau.cs.giraf.train.opengl.game;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
+import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.Color;
 import dk.aau.cs.giraf.train.opengl.GameDrawer;
+import dk.aau.cs.giraf.train.opengl.GlPictogram;
+import dk.aau.cs.giraf.train.opengl.RuntimeLoader;
 import dk.aau.cs.giraf.train.opengl.Square;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
-public final class Train extends RenderableGroup {
+public final class Train extends GameDrawable implements RuntimeLoader {
 
-    public Train(GL10 gl, Context context, GameDrawer gameDrawer) {
-        super(gl, context, gameDrawer);
+    public Train(GL10 gl, Context context, GameDrawer gameDrawer, GameData gameData) {
+        super(gl, context, gameDrawer, gameData);
     }
 
     private final Texture train = new Texture(1.0f, 1.0f);
@@ -35,11 +38,47 @@ public final class Train extends RenderableGroup {
         this.trainWindow.addCoordinate(198.92f, -87f, GameData.FOREGROUND);
     }
     
+    private GlPictogram driverPictogram;
+    
+    public final void setDriverPictogram(Pictogram pictogram) {
+        if(pictogram == null) {
+            this.driverPictogram = null;
+            return;
+        }
+        
+        this.driverPictogram = new GlPictogram(100f, 100f);
+        this.driverPictogram.loadPictogram(gl, context, pictogram);
+        this.driverPictogram.addCoordinate(197f, -84f, GameData.FOREGROUND);
+    }
+    
     @Override
     public final void draw() {
         super.translateAndDraw(this.shaft, Color.Black);
         super.translateAndDraw(this.wagon);
         super.translateAndDraw(this.trainWindow, Color.Window);
         super.translateAndDraw(this.train);
+        
+        if(this.driverPictogram != null) {
+            super.translateAndDraw(this.driverPictogram);
+        }
+    }
+    
+    private Pictogram pictogram;
+    private boolean readyToLoad = false;
+    
+    public void loadTrainDriverPictogram(Pictogram pictogram) {
+        this.pictogram = pictogram;
+        this.readyToLoad = true;
+    }
+    
+    @Override
+    public void runtimeLoad() {
+        this.setDriverPictogram(this.pictogram);
+        this.readyToLoad = false;
+    }
+
+    @Override
+    public boolean isReadyToLoad() {
+        return this.readyToLoad;
     }
 }

@@ -19,11 +19,11 @@ import android.util.Log;
  * Use {@link #loadTexture} to load the texture into OpenGL.
  * Use {@link #draw} to draw the texture at the current position.
  * 
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see Square
  * @see Shape
  */
-public class Texture extends Square implements Renderable.Texture {
+public class Texture extends Square {
     
     /** If true: Loading texture will generate an equivalent power-of-two sized bitmap texture. */
     protected boolean GENERATE_POWER_OF_TWO_EQUIVALENT = false;
@@ -38,9 +38,9 @@ public class Texture extends Square implements Renderable.Texture {
     private FloatBuffer textureBuffer;
     
     /** The original bitmap width */
-    protected int bitmapWidth; //FIXME check back later here, currently no reason to save this, can be passed to methods instead
+    protected int bitmapWidth;
     /** The original bitmap height */
-    protected int bitmapHeight; //FIXME check back later here, currently no reason to save this, can be passed to methods instead
+    protected int bitmapHeight;
     
     /** 
      * The texture coordinates.
@@ -236,6 +236,27 @@ public class Texture extends Square implements Renderable.Texture {
      */
     public void loadTexture(GL10 gl, Context context, int resourcePointer, AspectRatio option) {
         this.generateTexturePointer(gl, context, resourcePointer, option, GL10.GL_CLAMP_TO_EDGE); // make 'clamp to edge' default
+    }
+    
+    /** 
+     * Loads the specified texture.
+     * @param gl      the {@link GL10} instance.
+     * @param context the current activity context.
+     * @param bitmap  a bitmap to use as texture.
+     */
+    public void loadTexture(GL10 gl, Context context, Bitmap bitmap) {
+        this.loadTexture(gl, context, bitmap, AspectRatio.KeepBoth);
+    }
+    
+    /** 
+     * Loads the specified texture.
+     * @param gl      the {@link GL10} instance.
+     * @param context the current activity context.
+     * @param bitmap  a bitmap to use as texture.
+     * @param option  specify which length to keep when resizing the shape to match the texture's aspect ratio.
+     */
+    public void loadTexture(GL10 gl, Context context, Bitmap bitmap, AspectRatio option) {
+        this.generateTexturePointer(gl, context, bitmap, option, GL10.GL_CLAMP_TO_EDGE); // make 'clamp to edge' default
     }
     
     /**

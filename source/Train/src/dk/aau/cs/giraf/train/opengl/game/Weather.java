@@ -10,17 +10,13 @@ import dk.aau.cs.giraf.train.opengl.GlRenderer;
 import dk.aau.cs.giraf.train.opengl.GradientSquare;
 import dk.aau.cs.giraf.train.opengl.Texture;
 
-public final class Weather extends RenderableGroup {
-    
-    public enum WeatherStyle {
-        Sunny, Cloudy
+public final class Weather extends GameDrawable {
+        
+    public Weather(GL10 gl, Context context, GameDrawer gameDrawer, GameData gameData) {
+        super(gl, context, gameDrawer, gameData);
     }
     
-    public Weather(GL10 gl, Context context, GameDrawer gameDrawer) {
-        super(gl, context, gameDrawer);
-    }
-    
-    private final Texture sun = new Texture(250f, 250f);
+    private final Texture sun = new Texture(450f, 450f);
     private GradientSquare backgroundGradient;
     
     @Override
@@ -34,7 +30,8 @@ public final class Weather extends RenderableGroup {
         this.sun.loadTexture(super.gl, super.context, R.drawable.texture_sun);
         
         //Add coordinates to the renderables
-        this.sun.addCoordinate(1462.61f, 985.53f, GameData.BACKGROUND);
+        float cornerOffset = 100f;
+        this.sun.addCoordinate(width/2 - this.sun.getWidth() - cornerOffset, height/2 - cornerOffset, GameData.BACKGROUND);
         this.backgroundGradient.addCoordinate(-width/2, height/2, GameData.BACKGROUND);
     }
 

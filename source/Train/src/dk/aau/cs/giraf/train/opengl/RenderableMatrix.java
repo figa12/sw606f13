@@ -3,12 +3,10 @@ package dk.aau.cs.giraf.train.opengl;
 import java.util.ArrayList;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.graphics.Point;
-
 /**
  * A matrix of renderables.
  * Use of the z-axis in this matrix is disabled.
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see Renderable
  */
 public class RenderableMatrix extends Renderable {
@@ -139,7 +137,7 @@ public class RenderableMatrix extends Renderable {
      * @param x amount to move.
      * @param y amount to move.
      */
-    private void move(GL10 gl, float x, float y) {
+    private void translate(GL10 gl, float x, float y) {
         currentX += x;
         currentY += y;
         
@@ -152,8 +150,8 @@ public class RenderableMatrix extends Renderable {
      * @param coordinate to move to.
      * @see Coordinates
      */
-    private void moveTo(GL10 gl, Coordinate coordinate) {
-        this.move(gl, coordinate.getX() - currentX, coordinate.getY() - currentY);
+    private void translateTo(GL10 gl, Coordinate coordinate) {
+        this.translate(gl, coordinate.getX() - currentX, coordinate.getY() - currentY);
     }
     
     /**
@@ -189,7 +187,7 @@ public class RenderableMatrix extends Renderable {
                         coordinate.getY() + coordinates.get(j).getY() >= -coordinate.getVisibleHeight()/2 &&
                         coordinate.getY() + coordinates.get(j).getY() - this.matrixItems.get(i).getHeight() <= coordinate.getVisibleHeight()/2 ) {
                     
-                    this.moveTo(gl, coordinates.get(j));
+                    this.translateTo(gl, coordinates.get(j));
                     this.matrixItems.get(i).draw(gl, coordinates.get(j));
                 }
             }

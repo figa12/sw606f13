@@ -4,81 +4,108 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.microedition.khronos.opengles.GL10;
 
-import dk.aau.cs.giraf.train.opengl.game.GameData;
-import dk.aau.cs.giraf.train.opengl.game.RenderableGroup;
 import android.content.Context;
+import dk.aau.cs.giraf.train.opengl.game.*;
 
 /**
  * This class handles all game drawing.
  * 
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see GameDrawer#drawGame()
  * @see GameDrawer#loadGame()
  */
 public final class GameDrawer {
     
 	private GL10 gl;
+	private GameData gameData;
 	public Coordinate currentPosition = new Coordinate(0f, 0f, 0f);
 	private Random random = new Random();
 	
-	/** The list of {@link RenderableGroup}s. */
-	private ArrayList<RenderableGroup> renderableGroups;
+	/** The list of {@link GameDrawable}s. */
+	private ArrayList<GameDrawable> gameDrawables;
+	/** The list of {@link RuntimeLoader}s. */
+	private ArrayList<RuntimeLoader> runtimeLoaders;
 	
 	/**
-	 * Create the {@link GameDrawer}. All {@link RenderableGroup}s are created here.
+	 * Create the {@link GameDrawer}. All {@link GameDrawable}s are created here.
 	 * @param gl the {@link GL10} instance.
 	 * @param context
 	 */
-	public GameDrawer(GL10 gl, Context context) {
+	public GameDrawer(Context context, GL10 gl, GameData gameData) {
 		this.gl = gl;
+		this.gameData = gameData;
 	}
 	
-	/** Initialises the list of renderable groups. */
+	/** Initialises the list of game drawables. */
 	public final void initiaslise(Context context) {
-	    this.renderableGroups = new ArrayList<RenderableGroup>();
+	    this.gameDrawables = new ArrayList<GameDrawable>();
+	    this.runtimeLoaders = new ArrayList<RuntimeLoader>();
 	    
 	    //Start by creating the stations object, and calculate the stopping positions
-        dk.aau.cs.giraf.train.opengl.game.Station station = new dk.aau.cs.giraf.train.opengl.game.Station(gl, context, this);
+        Station station = new Station(gl, context, this, this.gameData);
         station.calculateStoppingPositions();
         
-        // add RenderableGroups to the list in the order they should be drawn
-        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Weather(gl, context, this));
-        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Middleground(gl, context, this));
-        this.renderableGroups.add(station);
-        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Train(gl, context, this));
-        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.TrainSmoke(gl, context, this));
-        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Wheels(gl, context, this));
-        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Overlay(gl, context, this));
+        Train train = new Train(gl, context, this, this.gameData);
         
-        this.renderableGroups.add(new dk.aau.cs.giraf.train.opengl.game.Tester(gl, context, this)); // Always draw last
+        // add GameDrawables to the list in the order they should be drawn
+        this.gameDrawables.add(new Weather(gl, context, this, this.gameData));
+        this.gameDrawables.add(new Clouds(gl, context, this, this.gameData));
+        this.gameDrawables.add(new Middleground(gl, context, this, this.gameData));
+        this.gameDrawables.add(station);
+        this.gameDrawables.add(new TrainDepot(gl,context, this, this.gameData, TrainDepot.BEFORE_TRAIN));
+        this.gameDrawables.add(train);
+        this.gameDrawables.add(new TrainSmoke(gl, context, this, this.gameData));
+        this.gameDrawables.add(new Wheels(gl, context, this, this.gameData));              
+        this.gameDrawables.add(new TrainDepot(gl,context, this, this.gameData, TrainDepot.AFTER_TRAIN));
+        this.gameDrawables.add(new Overlay(gl, context, this, this.gameData));
+        
+        this.gameData.bindGameDrawables(station, train);
+        this.runtimeLoaders.add(station);
+        this.runtimeLoaders.add(train);
 	}
 	
-	/** Destroys all the renderable groups. Must be initialised again.
+	/** Destroys all the game drawables. Must be initialised again.
 	 *  @see GameDrawer#initiaslise(Context) */
 	public void freeMemory() {
-	    this.renderableGroups = null;
+	    this.gameDrawables = null;
+	    this.runtimeLoaders = null;
 	}
 	
-	/** Draw everything on screen. */
+	/** 
+	 * Draw everything on screen, and load if anything needs loading.
+	 * @see GameDrawable
+	 * @see RuntimeLoader */
 	public synchronized final void drawGame() {
 	    this.resetPosition();
 	    
-	    GameData.systemTimeNow = System.nanoTime();
+	    this.gameData.systemTimeNow = System.nanoTime();
 	    
-	    GameData.updateData();
+	    this.gameData.updateData();
 	    
-		for (int i = 0; i < this.renderableGroups.size(); i++) {
-		    this.renderableGroups.get(i).draw();
+	    //If any runtimeLoaders is ready to load, then load
+	    for (int i = 0; i < this.runtimeLoaders.size(); i++) {
+	        RuntimeLoader runtimeLoader = this.runtimeLoaders.get(i);
+	        if(runtimeLoader.isReadyToLoad()) {
+	            runtimeLoader.runtimeLoad();
+	        }
+	    }
+	    
+	    //Draw all gameDrawables
+		for (int i = 0; i < this.gameDrawables.size(); i++) {
+		    this.gameDrawables.get(i).draw();
         }
 		
-		GameData.systemTimeLast = GameData.systemTimeNow;
+		this.gameData.systemTimeLast = this.gameData.systemTimeNow;
 	}
 
-	/** Call all {@link RenderableGroup#load()} from {@link GameDrawer#renderableGroups}. */
+	/** Call all {@link GameDrawable#load()} from {@link GameDrawer#gameDrawables}. */
 	public final void loadGame() {
-		for (RenderableGroup renderableGroup : this.renderableGroups) {
-			renderableGroup.load();
+		for (GameDrawable gameDrawable : this.gameDrawables) {
+			gameDrawable.load();
 		}
+		
+		//Perform debug 'safety' check:
+        this.gameData.performStoppingPositionsCheck();
 	}
 	
 	/**
@@ -131,6 +158,6 @@ public final class GameDrawer {
      * @see Random
      */
 	public final int getRandomNumber(int minimum, int maximum) {
-	    return this.random.nextInt(maximum - minimum + 1) + minimum;
+		return this.random.nextInt(maximum - minimum + 1) + minimum;
 	}
 }

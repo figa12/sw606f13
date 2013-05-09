@@ -3,19 +3,42 @@
 
     <string name="app_name">Train</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_game">GameActivity</string>
+    <string name="loading">Vent venligst</string>
+    <string name="cancel">Annuller</string>
+    <string name="okay">Okay</string>
+    <string name="yes">Ja</string>
     
+    <!-- GAME ACTIVTY -->
+    <string name="title_activity_game">Game</string>
+    <string name="close_dialog">Er du sikker på at du vil afslutte?</string>
+
     <!-- PROFILE ACTIVITY -->
-    <string name="title_activity_profile">ProfileActivity</string>
     <string name="profile_list_header">Profiler</string>
     <string name="game_list_header">Gemte Spil</string>
-    <string name="customisation_header">Tilpas Spil</string>
+    <string name="customisation_header">Tilpas Stationer</string>
     <string name="profile_pic_description">Profil Billede</string>
     <string name="last_used">Sidst Brugt</string>
     <string name="predefined">Predefineret</string>
     <string name="category">Kategori</string>
     <string name="associated_pictograms">Pictogrammer</string>
-
-
+    <string name="delete_row">Slet rækken</string>
+    <string name="add_pictogram">Tilføj pictogram</string>
+    <string name="add_station">Tilføj station</string>
+    <string name="remove_pictogram">Fjern pictogram</string>
+    <string name="save_game">Gem nyt spil</string>
+    <string name="start_game">Start spil</string>
+    <string name="picto_error">Fejl: CAT er ikke installeret på denne enhed.</string>
+    <string name="station_error">Der skal være mindst en station.</string>
+    <string name="category_error">Du mangler at vælge en kategori.</string>
+    <string name="pictogram_error">Der skal være mindst et pictogram per station.</string>
+    <string name="delete_dialog">Er du sikker på du vil slette dette spil?</string>
+    
+    <!-- SAVE DIALOG ACTIVITY -->
+    <string name="title_activity_save_dialog">SaveDialog</string>
+    <string name="type_name">Indtast Navn</string>
+    <string name="textHint">Indtast navn her</string>
+    <string name="invalid_symbols">De følgende symboler må ikke bruges:\n, ;</string>
+    <string name="name_exists">Det indtastede navn findes allerede.</string>
+    <string name="save_description">Spillet vil blive gemt under:</string>
+    
 </resources>

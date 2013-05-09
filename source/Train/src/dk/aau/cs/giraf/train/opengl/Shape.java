@@ -8,7 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 /**
  * An abstract class used for drawing shapes.
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see Renderable
  */
 public abstract class Shape extends Renderable {
@@ -105,6 +105,17 @@ public abstract class Shape extends Renderable {
      * @param height new value
      */
     protected void setHeight(float height) {
+        this.height = height;
+        this.initialiseVertexBuffer(); // recreate vertices
+    }
+    
+    /**
+     * The the size of the shape.
+     * @param width  new value
+     * @param height new value
+     */
+    protected void setSize(float width, float height) {
+        this.width = width;
         this.height = height;
         this.initialiseVertexBuffer(); // recreate vertices
     }

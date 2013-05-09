@@ -1,0 +1,38 @@
+\chapter{Future Work}
+\todo{This Chapter describes what improvements that can be made on our game and menu in the future.}
+
+\todo{This Chapter describes some of the assignments our group have had throughout this multi-project.}
+\textbf{STIKORD:}\\\\
+\begin{itemize}
+\item Reduceres drag listener på pictogrammerne (de ryster).
+\item Game customisation optimisation. Listerne er langsomme.
+\item Pictogrammer kun i opengl
+\item Texture mipmaps
+\item Solstråler.
+\item Children list view skal være linear layout.
+\item Mulighed for at overskrive spil.
+\item Lyd på pictogrammer
+\item Flere lydeffekter i spillet.
+\item Databse \todo{Smid JSON queries ind her}
+\item Setings menu, hvor du kan ændre farver og slå lyde til og fra osv. på ting i spillet.
+\item Billede af det valgte barn som tog chauffør.
+\item Gør det tydeligt at man kan slette ved at long-click
+\item linearlayouts med pictogrammer forsvinder første gang man dragger.
+\item Større udvalg af baggrunds overraskelser, såsom traktor, fly, mennesker.
+\item Mulighed for at færdiggøre en station ved at første pictogram er kategori og resten er pictogrammer til stationen.
+\item Forskelligt vejr mellem stationer.
+
+\end{itemize}
+\begin{lstlisting}[language=json,firstnumber=1,caption={JSON guery to read application data},label=lst:jsonread]
+{
+	"auth": {
+		"session": SESSION_STRING
+	},
+	"action": "read",
+	"data": {
+		"type": "application",
+		"view": "list",
+		"ids": null
+	}
+}
+\end{lstlisting} \todo{Skal muligvis skrives om, ved ikke om den er rigtig.}

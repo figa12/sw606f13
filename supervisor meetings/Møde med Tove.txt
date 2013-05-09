@@ -1,0 +1,9 @@
+Tove:
+
+Tilføjelse af pictogrammer sammen med kategorier, når der vælges kategorier
+Koen siger evt en lyd - Muh!
+Flyet siger evt en lyd.
+Noget til sidst - "Godt klaret", "Super!". En knap så man kan afslutte
+Barnets profilbillede som togdriver.
+Lyd på pictogrammer når man dragger / trykker på dem?
+

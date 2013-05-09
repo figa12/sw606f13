@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/station_list_background"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:layout_width="91dp"
+        android:layout_height="match_parent"
+        android:gravity="center" >
+
+        <dk.aau.cs.giraf.train.PictogramButton
+            android:id="@+id/list_category"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="3px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="9dp"
+        android:background="@android:color/black" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.78"
+        android:layout_marginLeft="1dp"
+        android:orientation="horizontal"
+        android:layout_gravity="left" >
+        
+        <HorizontalScrollView
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content" >
+            
+        <dk.aau.cs.giraf.train.AssociatedPictogramsLayout
+            android:id="@+id/associatedPictograms"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="14dp"
+            android:orientation="horizontal" />
+        </HorizontalScrollView>
+        
+        <ImageButton
+            android:id="@+id/addPictogramButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/add_pictogram"
+            android:src="@android:drawable/ic_input_add"
+            android:background="@drawable/transparent_button"
+            android:layout_marginLeft="20.5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.07"
+        android:layout_gravity="right" >
+
+        <ImageButton
+            android:id="@+id/deleteRowButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/delete_row"
+            android:src="@android:drawable/ic_delete"
+            android:background="@drawable/transparent_button" />
+    </LinearLayout>
+
+</LinearLayout>

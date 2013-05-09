@@ -14,7 +14,7 @@ import android.util.TimingLogger;
 /** 
  * The renderer which draws on {@link GLSurfaceView}.
  * 
- * @author Jesper
+ * @author Jesper Riemer Andersen
  * @see Renderer
  */
 public class GlRenderer implements Renderer {
@@ -32,11 +32,15 @@ public class GlRenderer implements Renderer {
     /** The class that does all the drawing */
     private GameDrawer gameDrawer;
     
+    /** The game data. Contains current velocity, distance traveled, velocity handlers, etc. */
+    private GameData gameData;
+    
     /** Apllication context, used to get resources */
     private Context context;
     
-    public GlRenderer(Context context) {
+    public GlRenderer(Context context, GameData gameData) {
         this.context = context;
+        this.gameData = gameData;
     }
     
     /** 
@@ -76,6 +80,7 @@ public class GlRenderer implements Renderer {
      * @see Renderer#onSurfaceChanged(GL10, int, int)
      */
     public void onSurfaceChanged(GL10 gl, int width, int height) {
+        ((GameActivity) this.context).showProgressDialog();
         if(height == 0) { 						//Prevent A Divide By Zero By
             height = 1; 						//Making Height Equal One
         }
@@ -101,7 +106,7 @@ public class GlRenderer implements Renderer {
         timingLogger.addSplit("loaded all textures");
         timingLogger.dumpToLog();
         
-        //GameData.resetGameData();
+        ((GameActivity) this.context).dismissProgressDialog();
     }
     
     /** 
@@ -133,7 +138,7 @@ public class GlRenderer implements Renderer {
      * @see Renderer#onSurfaceCreated(GL10, EGLConfig)
      */
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        this.gameDrawer = new GameDrawer(gl, this.context); //Create the game drawer instance
+        this.gameDrawer = new GameDrawer(this.context, gl, this.gameData); //Create the game drawer instance
         
         gl.glShadeModel(GL10.GL_SMOOTH);                    //Enable Smooth Shading
         
