@@ -14,7 +14,11 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.R.attr;
-
+/***
+ * An abstract class that contains methods for StationLinearLayout and WagonLinearLayout.
+ * @author Jacob
+ *
+ */
 public abstract class GameActivityLinearLayout extends LinearLayout {
 	public GameActivityLinearLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);

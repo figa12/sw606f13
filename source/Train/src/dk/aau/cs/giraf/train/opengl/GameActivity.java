@@ -45,7 +45,7 @@ public class GameActivity extends Activity {
 	private GlView openGLView;
 	private GameData gameData;
 	
-	public ArrayList<StationLinearLayout> stationLinear;
+	private ArrayList<StationLinearLayout> stationLinear;
 	private ArrayList<WagonLinearLayout> cartsLinear;
 	private LinearLayout trainDriverLinear;
 	private GameConfiguration gameConfiguration;
@@ -165,6 +165,11 @@ public class GameActivity extends Activity {
 		return this.gameController;
 	}
 	
+	/***
+	 * Adds a pictogram to linearlayout and returns the linearlayout.
+	 * @param linearLayout
+	 * @return
+	 */
 	@SuppressWarnings("deprecation")
     private LinearLayout addSingleFrameToLinearLayout(LinearLayout linearLayout){
 		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
@@ -180,7 +185,7 @@ public class GameActivity extends Activity {
 	
 	/**
 	 * Dynamically adds FrameLayout defined by numbersOfPictograms, The
-	 * Framelayout is then filled with pictograms.
+	 * Framelayout is then later filled with pictograms.
 	 * 
 	 * @param numbersOfFrameLayouts
 	 */
@@ -215,7 +220,6 @@ public class GameActivity extends Activity {
 	 * Find the LinearLayouts sepcified in activty_game.xml and stores the ref
 	 * in different lists.
 	 */
-	private boolean show = true;
 	private void initLayouts() {
 		// StationLeft and Right
 		stationLinear = new ArrayList<StationLinearLayout>();
@@ -250,7 +254,9 @@ public class GameActivity extends Activity {
 		this.openGLView.onResume();
 	}
 	
-
+	/***
+	 * Deletes the pictograms from the station that has just been successfully completet.
+	 */
 	public void deletePictogramsFromStation() {		
 		for (LinearLayout lin : stationLinear) {
 			for (int i = 0; i < lin.getChildCount(); i++) {
@@ -315,7 +321,7 @@ public class GameActivity extends Activity {
 	public void addAndShowEndButton() {
 		Button endButton = new Button(this);
 		//endButton.setTextAppearance(this, R.style.ButtonFontStyle);
-		endButton.setTextSize(35f);
+		endButton.setTextSize(44f);
 		RelativeLayout.LayoutParams relaLayout = new RelativeLayout.LayoutParams(400, 150);
 		relaLayout.setMargins(440, 150, 0, 0);
 		endButton.setLayoutParams(relaLayout);
