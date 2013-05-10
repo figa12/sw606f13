@@ -11,13 +11,17 @@ import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
+import android.content.DialogInterface.OnShowListener;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.DragShadowBuilder;
 import android.view.View.OnClickListener;
 import android.view.View.OnDragListener;
@@ -41,7 +45,7 @@ public class GameActivity extends Activity {
 	private GlView openGLView;
 	private GameData gameData;
 	
-	private ArrayList<StationLinearLayout> stationLinear;
+	public ArrayList<StationLinearLayout> stationLinear;
 	private ArrayList<WagonLinearLayout> cartsLinear;
 	private LinearLayout trainDriverLinear;
 	private GameConfiguration gameConfiguration;
@@ -64,12 +68,25 @@ public class GameActivity extends Activity {
         this.progressDialog.setMessage(super.getResources().getString(R.string.loading));
         this.progressDialog.setCancelable(true);
         this.progressDialog.setOnDismissListener(new OnDismissListener() {
-			
-			@Override
 			public void onDismiss(DialogInterface dialog) {
-				showStationLinearLayouts();
+				for (StationLinearLayout stationLin : stationLinear) {
+					for (PictoFrameLayout pictoFrame : stationLin.getPictoframes()) {
+						pictoFrame.setVisibility(View.VISIBLE);
+					}
+				}
 			}
 		});
+        
+        this.progressDialog.setOnShowListener(new OnShowListener() {
+			public void onShow(DialogInterface dialog) {
+				for (StationLinearLayout stationLin : stationLinear) {
+					for (PictoFrameLayout pictoFrame : stationLin.getPictoframes()) {
+						pictoFrame.setVisibility(View.INVISIBLE);
+					}
+				}
+			}
+		});
+        
         this.progressDialog.show();
         ((TextView) progressDialog.findViewById(android.R.id.message)).setTextColor(android.graphics.Color.WHITE);
 		
@@ -144,6 +161,10 @@ public class GameActivity extends Activity {
 	    this.gameController.TrainIsStopping();
 	}
 	
+	public GameController getGameController(){
+		return this.gameController;
+	}
+	
 	@SuppressWarnings("deprecation")
     private LinearLayout addSingleFrameToLinearLayout(LinearLayout linearLayout){
 		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
@@ -194,6 +215,7 @@ public class GameActivity extends Activity {
 	 * Find the LinearLayouts sepcified in activty_game.xml and stores the ref
 	 * in different lists.
 	 */
+	private boolean show = true;
 	private void initLayouts() {
 		// StationLeft and Right
 		stationLinear = new ArrayList<StationLinearLayout>();
@@ -214,7 +236,6 @@ public class GameActivity extends Activity {
 
 		// TrainDriver
 		trainDriverLinear = (LinearLayout) findViewById(R.id.TrainDriverLinearLayout);
-		hideStationLinearLayouts();
 	}
 
 	@Override
@@ -260,31 +281,22 @@ public class GameActivity extends Activity {
     }
 
 	public void showStationLinearLayouts() {
-		if(this.gameData.numberOfStops != this.gameData.numberOfStations){
-			for (LinearLayout lin : stationLinear) {
-				lin.setVisibility(View.VISIBLE);
-				lin.invalidate();
-			}
-			
-			fluteButton.setVisibility(View.VISIBLE);
-			fluteButton.invalidate();
-		}	
+		for (StationLinearLayout lin : stationLinear) {
+			lin.setVisibility(View.VISIBLE);
+		}
+		fluteButton.setVisibility(View.VISIBLE);
 	}
 	
 	public void hideStationLinearLayouts(){
-		for (LinearLayout lin : stationLinear) {
+		for (StationLinearLayout lin : stationLinear) {
 			lin.setVisibility(View.INVISIBLE);
-			lin.invalidate();
 		}
-
 		fluteButton.setVisibility(View.INVISIBLE);
-		fluteButton.invalidate();
 	}
 	
 	public void hideAllLinearLayouts(){
-		for (LinearLayout lin : stationLinear) {
+		for (StationLinearLayout lin : stationLinear) {
 			lin.setVisibility(View.INVISIBLE);
-			lin.invalidate();
 		}
 		
 		for(LinearLayout lin : cartsLinear){
@@ -302,13 +314,21 @@ public class GameActivity extends Activity {
 
 	public void addAndShowEndButton() {
 		Button endButton = new Button(this);
+		//endButton.setTextAppearance(this, R.style.ButtonFontStyle);
+		endButton.setTextSize(35f);
 		RelativeLayout.LayoutParams relaLayout = new RelativeLayout.LayoutParams(400, 150);
 		relaLayout.setMargins(440, 150, 0, 0);
 		endButton.setLayoutParams(relaLayout);
 		endButton.setText("Godt gået!");
-		endButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.transparent_button));
 		
+		
+		endButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape));
+		endButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				finish();
+			}
+		});
 		RelativeLayout root =  (RelativeLayout)findViewById(id.RootLayout);
 		root.addView(endButton);
-	}
+	}	
 }
