@@ -9,11 +9,10 @@
     <string name="yes">Ja</string>
     
     <!-- GAME ACTIVTY -->
-    <string name="title_activity_game">GameActivity</string>
+    <string name="title_activity_game">Game</string>
     <string name="close_dialog">Er du sikker på at du vil afslutte?</string>
 
     <!-- PROFILE ACTIVITY -->
-    <string name="title_activity_profile">ProfileActivity</string>
     <string name="profile_list_header">Profiler</string>
     <string name="game_list_header">Gemte Spil</string>
     <string name="customisation_header">Tilpas Stationer</string>
@@ -35,7 +34,7 @@
     <string name="delete_dialog">Er du sikker på du vil slette dette spil?</string>
     
     <!-- SAVE DIALOG ACTIVITY -->
-    <string name="title_activity_save_dialog">SaveDialogActivity</string>
+    <string name="title_activity_save_dialog">SaveDialog</string>
     <string name="type_name">Indtast Navn</string>
     <string name="textHint">Indtast navn her</string>
     <string name="invalid_symbols">De følgende symboler må ikke bruges:\n, ;</string>

@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.train.profile;
+package dk.aau.cs.giraf.train;
 
 import java.util.ArrayList;
 
@@ -42,13 +42,15 @@ public class CustomiseLinearLayout extends LinearLayout {
         PictogramButton categoryPictogramButton = (PictogramButton) stationListItem.findViewById(R.id.list_category);
         categoryPictogramButton.bindStationAsCategory(station);
         
-        AssociatedPictogramsLayout associatedPictogramsLayout = (AssociatedPictogramsLayout) stationListItem.findViewById(R.id.associatedPictograms);
-        associatedPictogramsLayout.bindStation(station);
-        this.associatedPictogramsLayouts.add(associatedPictogramsLayout);
-        
+        //The order og image button and associated pictograms layout statements, are very important here
         ImageButton addPictogramsButton = (ImageButton) stationListItem.findViewById(R.id.addPictogramButton);
-        addPictogramsButton.setOnClickListener(new AddPictogramsClickListener(associatedPictogramsLayout));
         this.addPictogramButtons.add(addPictogramsButton);
+        
+        AssociatedPictogramsLayout associatedPictogramsLayout = (AssociatedPictogramsLayout) stationListItem.findViewById(R.id.associatedPictograms);
+        this.associatedPictogramsLayouts.add(associatedPictogramsLayout);
+        associatedPictogramsLayout.bindStation(station);
+        
+        addPictogramsButton.setOnClickListener(new AddPictogramsClickListener(associatedPictogramsLayout));
         
         ImageView deleteButton = (ImageView) stationListItem.findViewById(R.id.deleteRowButton);
         deleteButton.setOnClickListener(new RemoveClickListener(station));
@@ -74,8 +76,8 @@ public class CustomiseLinearLayout extends LinearLayout {
     }
     
     private void preventStationOverflow() {
-        Button addStationButton = (Button) ((ProfileActivity) super.getContext()).findViewById(R.id.addStationButton);
-        if(this.stations.size() >= ProfileActivity.ALLOWED_STATIONS) {
+        Button addStationButton = (Button) ((MainActivity) super.getContext()).findViewById(R.id.addStationButton);
+        if(this.stations.size() >= MainActivity.ALLOWED_STATIONS) {
             addStationButton.setEnabled(false);
         } else {
             addStationButton.setEnabled(true);
@@ -135,7 +137,7 @@ public class CustomiseLinearLayout extends LinearLayout {
         
         @Override
         public void onClick(View v) {
-            ((ProfileActivity) CustomiseLinearLayout.this.getContext()).startPictoAdmin(ProfileActivity.RECEIVE_MULTIPLE, this.associatedPictogramsLayout);
+            ((MainActivity) CustomiseLinearLayout.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_MULTIPLE, this.associatedPictogramsLayout);
         }
     }
     
@@ -150,7 +152,7 @@ public class CustomiseLinearLayout extends LinearLayout {
         @Override
         public void onClick(View view) {
             CustomiseLinearLayout.this.removeStation(this.station);
-            if(CustomiseLinearLayout.this.getTotalPictogramSize() < ProfileActivity.ALLOWED_PICTOGRAMS) {
+            if(CustomiseLinearLayout.this.getTotalPictogramSize() < MainActivity.ALLOWED_PICTOGRAMS) {
                 CustomiseLinearLayout.this.setVisibilityPictogramButtons(true);
             }
         }

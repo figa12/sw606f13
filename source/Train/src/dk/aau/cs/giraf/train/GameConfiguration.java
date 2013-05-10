@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.train.profile;
+package dk.aau.cs.giraf.train;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import dk.aau.cs.giraf.train.Data;
 
 /**
  * This class contains all information of a game configuration.
@@ -37,11 +36,6 @@ public class GameConfiguration implements Parcelable {
 		this.guardianID = guardianID;
 	}
 	
-	public GameConfiguration(GameConfiguration gameConfiguration) {
-	    this(gameConfiguration.getGameName(), 1337L, gameConfiguration.getChildId());
-	    this.stations = new ArrayList<StationConfiguration>(gameConfiguration.getStations());
-	}
-    
 	public long getChildId() {
 	    return this.childID;
 	}

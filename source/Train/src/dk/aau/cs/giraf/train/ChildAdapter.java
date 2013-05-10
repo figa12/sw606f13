@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.train.profile;
+package dk.aau.cs.giraf.train;
 
 import java.util.ArrayList;
 
@@ -29,7 +29,7 @@ public class ChildAdapter extends ArrayAdapter<Child> {
 	public ChildAdapter(Context context, int textViewResourceId, ArrayList<Child> items) {
 		super(context, textViewResourceId, items);
 		
-		this.gameLinearLayout = (GameLinearLayout) ((ProfileActivity) context).findViewById(R.id.gamelist);
+		this.gameLinearLayout = (GameLinearLayout) ((MainActivity) context).findViewById(R.id.gamelist);
 	}
 	
 	/**

@@ -8,9 +8,9 @@ import android.webkit.WebView.PictureListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import dk.aau.cs.giraf.pictogram.Pictogram;
+import dk.aau.cs.giraf.train.GameConfiguration;
+import dk.aau.cs.giraf.train.StationConfiguration;
 import dk.aau.cs.giraf.train.opengl.game.GameData;
-import dk.aau.cs.giraf.train.profile.GameConfiguration;
-import dk.aau.cs.giraf.train.profile.StationConfiguration;
 
 public class GameController {
 
