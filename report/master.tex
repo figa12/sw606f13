@@ -2,7 +2,6 @@
 \input{tex/acronyms}
 
 \begin{document}
-\let\ref\autoref %from the hyperref package. Puts figure/table in front of refs
 
 \input{tex/frontpage}
 
@@ -36,6 +35,9 @@
 \chapter{Introduction}\label{chap:intro}
 
 \input{tex/problemstatement}
+
+\newcommand{\secref}[1]{Section \ref{#1}} %brugt i fællesrapporten
+\input{tex/commonReport/commonReport.tex}
 
 \input{tex/process}
 

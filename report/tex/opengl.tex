@@ -1,24 +1,23 @@
 \chapter{OpenGL for Embedded Systems}
-\todo{This Chapter describes OpenGL and which of its functionalities we have used to create our game.}
-\todo{Der skulle gerne stå et sted i rapporten før det her afsnit hvad OpenGL ES står for.}
-OpenGL is a 2D and 3D graphics API. It is cross-platform API that specifies a standard for 3D graphics processing hardware. The newest version of OpenGL is $4.3$ which was released August 2012. Android have support for \ac{opengles} up to version $2.0$. \ac{opengles} $1.1$ is based on the OpenGL $1.5$ specification and is fully backwards compatible with $1.0$. \ac{opengles} $2.0$ is based on the OpenGL $2.0$ specification. Android $1.0$ and later versions have support for \ac{opengles} $1.0$ and $1.1$ specifications. Android $2.2$ added support for \ac{opengles} $2.0$. \citep{androidopengl, khronosopengl, khronosopengles}
+\todo{Der skulle gerne stå et sted i rapporten før det her afsnit hvad OpenGL ES står for. (Acronym)}
+OpenGL is a 2D and 3D graphics API. It is cross-platform API that specifies a standard for 3D graphics processing hardware. Android have support for \ac{opengles} up to version $2.0$. Android $1.0$ and later versions have support for \ac{opengles} $1.0$ and $1.1$ specifications. Android $2.2$ added support for \ac{opengles} $2.0$. \citep{androidopengl, khronosopengl, khronosopengles}
 
 \subsection*{Choice of \ac{opengles} Version}
 When using \ac{opengles} on the Android platform, the default \ac{opengles} version is $1.x$. If you want to use version $2.0$ you need to explicitly write that you are using it. Version $2.0$ should have better performance and more possibilities than the older version, but the Android developers guide says:
 \begin{quote}
-\textit{"Developers who are new to OpenGL may find coding for \ac{opengles} $1.0$/$1.1$ faster and more convenient."} \citep{androidopengl}
+\textit{"Developers who are new to OpenGL may find coding for \ac{opengles} 1.0/1.1 faster and more convenient."} \citep{androidopengl}
 \end{quote}
 Since we are newbies to OpenGL we have chosen version $1.x$. One big difference between $1.x$ and $2.0$ is that you have to write your own shaders in versions $2.0$, this allows for easier effects customisation. The Train game does not really require much special effects other than simple drawing of textures.
 
 \section{Design}
-Firstly \ref{fig:terminology} shows how we represent abstract class names and how we denote public or private attributes and methods. A minus denotes a private attribute/method, and a plus denotes a public attribute/method. Italic class names are abstract classes.
+Firstly \autoref{fig:terminology} shows how we represent abstract class names and how we denote public or private attributes and methods. A minus denotes a private attribute/method, and a plus denotes a public attribute/method. Italic class names are abstract classes.
 \begin{figure}[H]
 \centering
 \includegraphics[page=4,width=0.7\linewidth]{img/opengl.pdf}
 \caption{The way we make UML described in a figure.}
 \label{fig:terminology}
 \end{figure}
-Thinking about what the game is suppose to do we came up with the different objects we need to be able to render. \ref{fig:renderables} shows a simplified version of the different objects/classes that can be rendered. We needed to draw texture at different positions on the screen and we needed to be able to move texture around on the screen. This is the general idea and based on this, the following classes was created.
+Thinking about what the game is suppose to do we came up with the different objects we need to be able to render. \autoref{fig:renderables} shows a simplified version of the different objects/classes that can be rendered. We needed to draw texture at different positions on the screen and we needed to be able to move texture around on the screen. This is the general idea and based on this, the following classes was created.
 
 \begin{figure}[H]
 \centering
