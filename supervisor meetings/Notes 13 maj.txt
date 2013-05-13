@@ -1,0 +1,11 @@
+Tog billede på forsiden.
+Det er fint at introduction bliver gentaget (står også i fællesrapport).
+Nogle af todo's må gerne bare bruges som introduktionen til afsnitene.
+Vi må gerne tilføje til weekly notes, Tove interviews må også gerne være her.
+Lån en nyere tablet og prøv at se om drag-fejl forekommer.
+Android afsnit -> Skriv om Drag-n-drop og ListView.
+Der skal ikke stå den lange OpenGL versions introduktion, skær noget fra.
+Prøv at se om vi ikke kan få klasse diagrammer indsat i vektor grafik i rapporten!
+Brug nutid og datid hvor det giver mening.
+Skriv flere stikord ind i afsnittene, så alle ved hvad der skal stå.
+Lav flowchart over Activity's, også med PictoAdmin.

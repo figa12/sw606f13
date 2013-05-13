@@ -11,10 +11,10 @@ When using \ac{opengles} on the Android platform, the default \ac{opengles} vers
 Since we are newbies to OpenGL we have chosen version $1.x$. One big difference between $1.x$ and $2.0$ is that you have to write your own shaders in versions $2.0$, this allows for easier effects customisation. The Train game does not really require much special effects other than simple drawing of textures.
 
 \section{Design}
-Firstly \ref{fig:terminology} shows how we represent abstract class names and how we denote public or private attributes and methods. A minus denotes a private attribute/method, and a plus denotes a public attribute/method. Italic class names are abstract classes. \todo{Skal det stå her? Det må være C\# UML standard det her.}
+Firstly \ref{fig:terminology} shows how we represent abstract class names and how we denote public or private attributes and methods. A minus denotes a private attribute/method, and a plus denotes a public attribute/method. Italic class names are abstract classes.
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.4\linewidth]{img/terminology.png}
+\includegraphics[page=4,width=0.7\linewidth]{img/opengl.pdf}
 \caption{The way we make UML described in a figure.}
 \label{fig:terminology}
 \end{figure}
@@ -22,7 +22,7 @@ Thinking about what the game is suppose to do we came up with the different obje
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\linewidth]{img/renderables.png}%0.1 margin
+\includegraphics[page=2,width=1\linewidth]{img/opengl.pdf}%0.1 margin
 \caption{Class diagram of the objects that can be rendered.}
 \label{fig:renderables}
 \end{figure}
@@ -53,7 +53,7 @@ The \lstinline|draw| method must be overridden in order to draw the loaded textu
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\linewidth]{img/game.png}%0.1 margin
+\includegraphics[page=3,width=1\linewidth]{img/opengl.pdf}%0.1 margin
 \caption{Class diagram of the objects involved with drawing the game.}
 \label{fig:game}
 \end{figure}
