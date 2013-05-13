@@ -7,3 +7,6 @@
 [submodule "source/Pictogram"]
 	path = source/Pictogram
 	url = http://cs-cust06-int.cs.aau.dk/git-ro/pictogram-lib
+[submodule "report/commonReport"]
+	path = report/commonReport
+	url = http://cs-cust06-int.cs.aau.dk/git-ro/common-report-f13.git
