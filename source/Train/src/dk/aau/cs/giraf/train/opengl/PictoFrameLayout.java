@@ -5,15 +5,16 @@ import dk.aau.cs.giraf.pictogram.Pictogram;
 import android.content.ClipData;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.util.MonthDisplayHelper;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.DragShadowBuilder;
 import android.view.View.OnDragListener;
-import android.view.View.OnTouchListener;
 import android.widget.FrameLayout;
-
+/***
+ * PictoFrameLayout a custom class with methods aiding to simplify the code.
+ * This class is a container for the pictograms which accepts pictograms on drag.
+ * @author Jacob
+ *
+ */
 public class PictoFrameLayout extends FrameLayout {
 
 	public PictoFrameLayout(Context context){

@@ -101,7 +101,6 @@ public class Text extends Texture {
     @Override
     public void draw(GL10 gl, Coordinate coordinate, Color color) {
         //Draw according to alignment option. Do a temporary alignment here.
-        //TODO This does not work in a moving RenderableMatrix, since it assumes the LEFT alignment case.
         switch(this.align) {
         case CENTER:
             gl.glTranslatef(-super.getWidth()/2f, 0f, 0f);

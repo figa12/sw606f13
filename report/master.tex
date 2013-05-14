@@ -2,7 +2,6 @@
 \input{tex/acronyms}
 
 \begin{document}
-\let\ref\autoref %from the hyperref package. Puts figure/table in front of refs
 
 \input{tex/frontpage}
 
@@ -10,11 +9,11 @@
 \thispagestyle{empty}
 \mbox{}
 
-\input{tex/titelblad}% Titelblad
-
 \newpage
 \thispagestyle{empty}
 \mbox{}
+
+\input{tex/titelblad}% Titelblad
 
 \input{tex/signatures}
 
@@ -28,21 +27,35 @@
 \thispagestyle{empty}
 \mbox{}
 
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{1}
 
 \tableofcontents
 
+\newcommand{\secref}[1]{Section \ref{#1}} %brugt i fællesrapporten
+
 \chapter{Introduction}\label{chap:intro}
 
 \input{tex/problemstatement}
 
+\input{tex/commonReport/commonReport.tex}
+
+\part{Train}
 \input{tex/process}
 
 \input{tex/android}
 
+\chapter{OpenGL for Embedded Systems}
 \input{tex/opengl}
 
+%design chapter
+\chapter{Design}
+\todo{This Chapter describes the design of our application. It is split into two sections, one describing the design of our game and the other describing the design of menu.}
+\input{tex/design_game}
 \input{tex/design}
 
 \input{tex/perspective}
@@ -56,11 +69,10 @@
 
 \begin{appendices}
 \label{appendixStart}
-
+\input{tex/wombat}
 \label{appendixEnd}
 \end{appendices}
 \newpage
-
 
 \listoffigures
 
@@ -75,7 +87,6 @@
 % Afslut med bibliografien. Bibliografien har mærkelige sidetal og side reference. Fixed med cleardoublepage og phantomsection
 \cleardoublepage
 \phantomsection
-\addcontentsline{toc}{chapter}{Bibliography}
 \label{chap:bib}% brugt i preface
 \bibliography{bib/bibliografi}
 

@@ -14,12 +14,14 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.R.attr;
-
+/***
+ * An abstract class that contains methods for StationLinearLayout and WagonLinearLayout.
+ * @author Jacob
+ *
+ */
 public abstract class GameActivityLinearLayout extends LinearLayout {
-
 	public GameActivityLinearLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		
 	}
 	
 	public void addPictoFrames(int numberOfPictoFrames){
@@ -28,12 +30,11 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 		for (int j = 0; j < (numberOfPictoFrames / 2); j++) {
 			LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(0,height,1.0f);
 			PictoFrameLayout pictoFrameLayout = new PictoFrameLayout(this.getContext());
-			pictoFrameLayout.setOnDragListener(new DragListener());
 			pictoFrameLayout.setLayoutParams(linearLayoutParams);
 			pictoFrameLayout.setBackgroundDrawable(normalShape);
+			pictoFrameLayout.setOnDragListener(new DragListener());
 			
 			this.addView(pictoFrameLayout);
-			this.invalidate();
 		}
 	}
 	

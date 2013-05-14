@@ -11,6 +11,8 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class RenderableMatrix extends Renderable {
 	
+    private static final boolean PERFORM_ON_SCREEN_CHECK = false;
+    
     /**
      * Extends {@link Renderable} to get a new {@link Coordinate},
      * instead of using the {@link Coordinate}s inside the contained {@link Renderable} object.
@@ -181,12 +183,18 @@ public class RenderableMatrix extends Renderable {
         for (int i = 0; i < this.matrixItems.size(); i++) {
             ArrayList<Coordinate> coordinates = this.matrixItems.get(i).getCoordinates();
             for (int j = 0; j < coordinates.size(); j++) {
-                //only draw if the item is visible on the screen
-                if(     coordinate.getX() + coordinates.get(j).getX() + this.matrixItems.get(i).getWidth() >= -coordinate.getVisibleWidth()/2 &&
-                        coordinate.getX() + coordinates.get(j).getX() <= coordinate.getVisibleWidth()/2 &&
-                        coordinate.getY() + coordinates.get(j).getY() >= -coordinate.getVisibleHeight()/2 &&
-                        coordinate.getY() + coordinates.get(j).getY() - this.matrixItems.get(i).getHeight() <= coordinate.getVisibleHeight()/2 ) {
-                    
+                //option to perform a check whether the renderable is on screen or not
+                if (RenderableMatrix.PERFORM_ON_SCREEN_CHECK) {
+                    //only draw if the item is visible on the screen
+                    if (    coordinate.getX() + coordinates.get(j).getX() + this.matrixItems.get(i).getWidth() >= -coordinate.getVisibleWidth()/2 &&
+                            coordinate.getX() + coordinates.get(j).getX() <= coordinate.getVisibleWidth()/2 &&
+                            coordinate.getY() + coordinates.get(j).getY() >= -coordinate.getVisibleHeight()/2 &&
+                            coordinate.getY() + coordinates.get(j).getY() - this.matrixItems.get(i).getHeight() <= coordinate.getVisibleHeight()/2 ) {
+                        
+                        this.translateTo(gl, coordinates.get(j));
+                        this.matrixItems.get(i).draw(gl, coordinates.get(j));
+                    }
+                } else {
                     this.translateTo(gl, coordinates.get(j));
                     this.matrixItems.get(i).draw(gl, coordinates.get(j));
                 }
