@@ -321,14 +321,14 @@ public class GameActivity extends Activity {
 	public void addAndShowEndButton() {
 		Button endButton = new Button(this);
 		//endButton.setTextAppearance(this, R.style.ButtonFontStyle);
-		endButton.setTextSize(44f);
+		endButton.setTextSize(45f);
 		RelativeLayout.LayoutParams relaLayout = new RelativeLayout.LayoutParams(400, 150);
 		relaLayout.setMargins(440, 150, 0, 0);
 		endButton.setLayoutParams(relaLayout);
 		endButton.setText("Godt gået!");
 		
 		
-		endButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape));
+		endButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.endgame_button));
 		endButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				finish();
