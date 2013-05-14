@@ -26,7 +26,7 @@ import android.util.Log;
 public class Texture extends Square {
     
     /** If true: Loading texture will generate an equivalent power-of-two sized bitmap texture. */
-    protected boolean GENERATE_POWER_OF_TWO_EQUIVALENT = false;
+    protected boolean GENERATE_POWER_OF_TWO_EQUIVALENT = true;
     
     /** 
      * The texture pointer to memory.
