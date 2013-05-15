@@ -1,0 +1,100 @@
+\section{Game implementation}
+
+This section describes how we have implemented the different elements of our game. It describes how we load and draw the texture for the train, how we have implemented the wheels and train smoke in order to create the illusion that the train is moving between the stations and how we randomly generate the background elements. .
+
+\section{Train \& wagons}
+
+The train and wagons are stationary textures on the tablet screen. \autoref{lst:loadtexture} shows how we load the texture for our train and wagons. 
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Loading the texture for our train and wagons},label=lst:loadtexture] 
+	// Initialize a train object and a wagon object
+	private final Texture train = new Texture(1.0f, 1.0f);
+	private final Texture wagon = new Texture(1.0f, 1.0f);
+
+	//Load the textures
+	this.wagon.loadTexture(R.drawable.texture_wagon, Texture.AspectRatio.BitmapOneToOne);
+	this.train.loadTexture(R.drawable.texture_train, Texture.AspectRatio.BitmapOneToOne); 
+\end{lstlisting}
+
+\begin{description}
+\item[Line 2 \& 3] Initialising the \textit{train} and \textit{wagon} objects 
+\item[Line 6] This loads the \textit{wagon} texture, \textit{R.drawable.texture\_wagon} defines which texture gets loaded, which is this case is the wagon and \textit{Texture.AspectRatio.BitmapOneToOne} makes sure the texture keeps the original aspect ratio, as described in \secref{sec:renderables}.
+\item[Line 7] This loads the \textit{train} texture, and the original aspect ratio is kept again. 
+\end{description}
+
+Now the texture is successfully loaded we have to place it on right location on the tablet screen. This is done using the coordinate system mentioned in\todo{ref til koordinatsystemet}. This is done as shown in \autoref{lst:addcoordinate}.
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Placing the texture on the screen},label=lst:addcoordinate] 
+	//Add coordnates to the renderables
+	this.wagon.addCoordinate(-542.32f, -142.72f, GameData.FOREGROUND);
+	this.wagon.addCoordinate(-187.45f, -142.72f, GameData.FOREGROUND);
+	this.train.addCoordinate(160.42f, -52.37f, GameData.FOREGROUND);
+\end{lstlisting}
+
+\begin{description}
+\item[Line 2\& 3] Since we have chosen to have two wagons on our train, we have to have two wagon objects, with their own coordinate. The coordinates are based on the coordinate system mentioned in \todo{ref til koordinatesystem}. \textit{GameData.Foreground} determines where in the clipping plane the objects are placed. 
+\item[Line 4] Adds a coordinate for the placement of the \textit{train}.
+\end{description}
+
+Now the textures have been loaded and given coordinates, they are ready to be drawn. This is done as shown in \autoref{lst:drawtexture}
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Drawing the texture on the screen},label=lst:drawtexture] 
+	//Drawing the textures
+	super.translateAndDraw(this.wagon);
+	super.translateAndDraw(this.train);
+\end{lstlisting}
+
+\begin{description}
+\item[Line 1 \& 2] This draws the \textit{wagon} and \textit{train} objects. The \textit{translateAndDraw} method is explained in \todo{Ref til afsnit on translateAndDraw}
+\end{description}
+
+\subsection{Wheels \& train smoke}
+
+To create the illusion that the train is moving, we had to make wheels rotate in order to make it look like it was actually driving. 
+
+The wheels are loaded and given a coordinate in the same way as the train that was just explained.
+
+The difference comes when the wheels are drawn, we have to rotate the wheels so that it looks like the train moves, this is done by calculating the rotation using the function shown in \autoref{calcrotate}.
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Rotating and drawing the wheels},label=lst:calcrotate]
+    private float[] rotation = { 0f, 0f, 0f }; // rotation number for each wheel size
+    private final double[] wheelDiameter = {
+            106.39f, // large wheel
+            78.71f,  // medium wheel
+            60.8f    // small wheel
+    };
+
+    private final float calculateRotation(int wheelIndex) {    
+        double circumference = this.wheelDiameter[wheelIndex] * Math.PI;
+        double degreePerPixel = 360.0 / circumference;
+        this.rotation[wheelIndex] += (float) degreePerPixel * super.gameData.getPixelMovement();
+        return this.rotation[wheelIndex];
+    }
+\end{lstlisting}
+
+\begin{description}
+\item[Line 1] This array has the rotation number for each wheel size
+\item[Line 2-6] This array has the diameter in pixels for each wheel size. 
+\item[Line 8] The function takes a wheelIndex as parameter, this is to determine which the wheel size that is being used for calculations. 
+\item[Line 9] The wheel's circumference is being calculated.
+\item[Line 10] Calculating the degreePerPixel by dividing 360 with the circumference
+\item[Line 11 \& 12] Here the rotation for the specific wheel is calculated by taking the degreePerPixel we just found and multiplying it by the pixel movement. \textit{GameData.getPixelMovement} is explains in \todo{ref til section med getPixelMovement}. Please note that the rotation is not reset, it keeps getting added to, however is it is not necessary to reset it as the rotation will not reach an overflow.
+\item[Line 13] The specific wheel's rotation is returned. 
+\end{description}
+
+This function is called each time a wheel is drawn. This is done by using \textit{translateRotateAndDraw} as can be seen in \autoref{lst:rotatewheels}
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Rotating and drawing the wheels},label=lst:rotatewheels]
+	// Rotate and draw the wheels
+super.translateRotateAndDraw(this.calculateRotation(this.mediumWheelIndex), this.mediumWheel);
+super.translateRotateAndDraw(this.calculateRotation(this.largeWheelIndex), this.largeWheel);
+super.translateRotateAndDraw(this.calculateRotation(this.smallWheelIndex), this.smallWheel);
+\end{lstlisting}
+
+\begin{description}
+\item[Line 2-4] Each time a wheell has to be drawn, \textit{calculateRotation} with the specific wheelIndex as parameter and the rotation is calculated. The wheel is rotated and then drawn. 
+\end{description}
+
+\subsection{Station}
+
+\subsection{Hills, trees, cows and clouds}

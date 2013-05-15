@@ -18,6 +18,3 @@ local.properties
 .metadata/
 
 *.tmp
-*\#
-\#*
-.predictive

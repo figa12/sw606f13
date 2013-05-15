@@ -229,14 +229,6 @@ public class GameData {
     }
     
     /** 
-     * Remove the reference to the station and the train object to allow garbage collections.
-     * @see #bindGameDrawables(Station, Train) */
-    public synchronized final void freeMemory() {
-        this.station = null;
-        this.train = null;
-    }
-    
-    /** 
      * Output warning if we are sure that the stopping positions are too close to each other.
      * It will cause the train to perform sudden stops rather than smooth ones. */
     public synchronized final void performStoppingPositionsCheck() {
