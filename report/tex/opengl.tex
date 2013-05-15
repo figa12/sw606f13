@@ -1,3 +1,4 @@
+\chapter{OpenGL for Embedded Systems}
 \todo{Der skulle gerne stå et sted i rapporten før det her afsnit hvad OpenGL ES står for. (Acronym)}
 OpenGL is a 2D and 3D graphics API. It is cross-platform API that specifies a standard for 3D graphics processing hardware. Android have support for \ac{opengles} up to version $2.0$. Android $1.0$ and later versions have support for \ac{opengles} $1.0$ and $1.1$ specifications. Android $2.2$ added support for \ac{opengles} $2.0$. \citep{androidopengl, khronosopengl, khronosopengles}
 
@@ -17,7 +18,7 @@ Firstly \autoref{fig:terminology} shows how we represent abstract class names an
 \label{fig:terminology}
 \end{figure}
 
-\subsection{Renderable Classes}\label{sec:renderables}
+\subsection{Renderable Classes}
 
 Thinking about what the game is suppose to do we came up with the different objects we need to be able to render. \autoref{fig:renderables} shows a simplified version of the different objects/classes that can be rendered. We needed to draw texture at different positions on the screen and we needed to be able to move texture around on the screen. This is the general idea and based on this, the following classes was created.
 
@@ -89,11 +90,10 @@ Instead of performing a check to see whether the current context supports \ac{np
 \end{figure}
 When we take the new \ac{pot} sized texture and insert it into the \lstinline|Square| the texture will still clamp to the edges. \autoref{fig:trainneedcrop} shows the clamped train texture.
 
-We need to adjust the texture in order to fit the \ac{pot} texture inside the \lstinline|Square|. We stretch the texture relative to the change in size from \ac{npot} to \ac{pot}. You could also say that the extra alpha channels are cropped away. \autoref{fig:trainresult} shows the result of the texture conversion from \ac{npot} to \ac{pot}.\todo{Skal \autoref{fig:trainresult} også indeholde de stiplet linjer udenfor firkant-rammen?}
+We need to adjust the texture vertices in order to fit the \ac{pot} texture inside the \lstinline|Square|. We stretch the texture relative to the change in size from \ac{npot} to \ac{pot}. You could also say that the extra alpha channels are cropped away. \autoref{fig:trainresult} shows the result of the texture conversion from \ac{npot} to \ac{pot}.\todo{Skal \autoref{fig:trainresult} også indeholde de stiplet linjer udenfor firkant-rammen?}
 
 \subsection{Game Rendering}\label{sec:gamerendering}
 
-To draw the game we are using a \lstinline|android.opengl.GLSurfaceView|. To draw on the \lstinline|GLSurfaceView| we are required to make our own class which implements \lstinline|android.opengl.GLSurfaceView.Renderer|. \autoref{fig:game} shows a simplified version of the different objects/classes that draws the game.
 \begin{figure}[H]
 \centering
 \includegraphics[page=3,width=1\linewidth]{img/opengl.pdf}%0.1 margin
@@ -102,17 +102,11 @@ To draw the game we are using a \lstinline|android.opengl.GLSurfaceView|. To dra
 \end{figure}
 
 \begin{description}
-\item[GlRenderer] This is our implementation of a \lstinline|Renderer|, the class must override \lstinline|onDrawFrame|, \lstinline|onSurfaceChanged|, and \lstinline|onSurfaceCreated|. These three methods are all run on a thread that is automatically created for us when we implement the \lstinline|Renderer|. When the \lstinline|Renderer| is started, it runs the method \lstinline|onSurfaceCreated|. This is where we initialise the \lstinline|GameDrawer| object. After the surface is created it runs \lstinline|onSurfaceChanged|, it is at this time the \lstinline|Renderer| knows how big the surface is in pixels. We use this information to load all the texture in the game, by calling \lstinline|loadGame| in the \lstinline|GameDrawer|. When the game is loaded it runs \lstinline|onDrawFrame|, where we draw the game by calling \lstinline|drawGame| in the \lstinline|GameDrawer|.\todo{Describe clipping plane, etc}
-
-\item[GameDrawer] When this object initialised it creates all the \lstinline|GameDrawable| objects, and add them to a list in the order they should be drawn. When the \lstinline|GlRenderer| calls \lstinline|loadGame| or \lstinline|drawGame|, the \lstinline|GameDrawer| simply iterates through the list of \lstinline|GameDrawable| objects, and calls \lstinline|load| or \lstinline|draw| on them.
-
-An important thing the \lstinline|GameDrawer| does, although not shown in the figure, it maintains the current position in the clipping plane. \lstinline|translateTo| will translate the current position to the specified coordinate.
-
-\item[GameDrawable] This is an abstract class, classes inheriting from this must implement \lstinline|load| and \lstinline|draw|. In the \lstinline|load| method drawables should add coordinates to \lstinline|Renderable| objects, and call their respective load methods. In the \lstinline|draw| method drawables should call the \lstinline|Renderable| objects respective \lstinline|draw| method, or use either \lstinline|translateAndDraw| or \lstinline|translateRotateAndDraw|.
-
+\item[GlRenderer] 
+\item[GameDrawer] 
+\item[GameDrawable] 
 \item[GameData] 
 \end{description}
 
 \section{Implementation}
-
 \todo{Describes the implementation of OpenGL}
