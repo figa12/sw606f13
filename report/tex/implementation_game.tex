@@ -32,7 +32,7 @@ Now the texture is successfully loaded we have to place it on right location on 
 \end{lstlisting}
 
 \begin{description}
-\item[Line 2\& 3] Since we have chosen to have two wagons on our train, we have to have two wagon objects, with their own coordinate. The coordinates are based on the coordinate system mentioned in \todo{ref til koordinatesystem}. \textit{GameData.Foreground} determines where in the clipping plane the objects are placed. 
+\item[Line 2 \& 3] Since we have chosen to have two wagons on our train, we have to have two wagon objects, with their own coordinate. The coordinates are based on the coordinate system mentioned in \todo{ref til koordinatesystem}. \textit{GameData.Foreground} determines where in the clipping plane the objects are placed. 
 \item[Line 4] Adds a coordinate for the placement of the \textit{train}.
 \end{description}
 
@@ -45,16 +45,16 @@ Now the textures have been loaded and given coordinates, they are ready to be dr
 \end{lstlisting}
 
 \begin{description}
-\item[Line 1 \& 2] This draws the \textit{wagon} and \textit{train} objects. The \textit{translateAndDraw} method is explained in \todo{Ref til afsnit on translateAndDraw}
+\item[Line 2 \& 3] This draws the \textit{wagon} and \textit{train} objects. The \textit{translateAndDraw} method is explained in \todo{Ref til afsnit on translateAndDraw}
 \end{description}
 
-\subsection{Wheels \& train smoke}
+\subsection{Wheels}
 
 To create the illusion that the train is moving, we had to make wheels rotate in order to make it look like it was actually driving. 
 
 The wheels are loaded and given a coordinate in the same way as the train that was just explained.
 
-The difference comes when the wheels are drawn, we have to rotate the wheels so that it looks like the train moves, this is done by calculating the rotation using the function shown in \autoref{calcrotate}.
+The difference comes when the wheels are drawn, we have to rotate the wheels so that it looks like the train moves, this is done by calculating the rotation using the function shown in \autoref{lst:calcrotate}.
 
 \begin{lstlisting}[language=java,firstnumber=1,caption={Rotating and drawing the wheels},label=lst:calcrotate]
     private float[] rotation = { 0f, 0f, 0f }; // rotation number for each wheel size
@@ -78,8 +78,8 @@ The difference comes when the wheels are drawn, we have to rotate the wheels so 
 \item[Line 8] The function takes a wheelIndex as parameter, this is to determine which the wheel size that is being used for calculations. 
 \item[Line 9] The wheel's circumference is being calculated.
 \item[Line 10] Calculating the degreePerPixel by dividing 360 with the circumference
-\item[Line 11 \& 12] Here the rotation for the specific wheel is calculated by taking the degreePerPixel we just found and multiplying it by the pixel movement. \textit{GameData.getPixelMovement} is explains in \todo{ref til section med getPixelMovement}. Please note that the rotation is not reset, it keeps getting added to, however is it is not necessary to reset it as the rotation will not reach an overflow.
-\item[Line 13] The specific wheel's rotation is returned. 
+\item[Line 11] Here the rotation for the specific wheel is calculated by taking the degreePerPixel we just found and multiplying it by the pixel movement. \textit{GameData.getPixelMovement} is explains in \todo{ref til section med getPixelMovement}. Please note that the rotation is not reset, it keeps getting added to, however is it is not necessary to reset it as the rotation will not reach an overflow.
+\item[Line 12] The specific wheel's rotation is returned. 
 \end{description}
 
 This function is called each time a wheel is drawn. This is done by using \textit{translateRotateAndDraw} as can be seen in \autoref{lst:rotatewheels}
@@ -92,9 +92,125 @@ super.translateRotateAndDraw(this.calculateRotation(this.smallWheelIndex), this.
 \end{lstlisting}
 
 \begin{description}
-\item[Line 2-4] Each time a wheell has to be drawn, \textit{calculateRotation} with the specific wheelIndex as parameter and the rotation is calculated. The wheel is rotated and then drawn. 
+\item[Line 2-4] Each time a wheel has to be drawn, \textit{calculateRotation} with the specific wheelIndex as parameter, is called and the rotation is calculated. The wheel is rotated and then drawn. 
+\end{description}
+
+\subsection{Train smoke}
+
+Another element in making it look like the train is moving is the train smoke. While the train is standing still at the station the smoke goes vertically up in the air, but when the train moves the smoke is blown as if there was wind. 
+
+The smoke clouds are reset and updated based on time, as can be seen in \autoref{lst:cloudstime}
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals},label=lst:cloudstime]
+        //Reset one smoke cloud at the given interval
+        this.timeSinceLastReset += super.gameData.timeDifference;
+        if(this.timeSinceLastReset >= this.timeBetweenSmokeClouds) {
+            this.timeSinceLastReset = 0f;
+            
+            if(!super.gameData.isPaused) {
+                this.resetOneSmokeCloud();
+            }
+        }
+        
+        if(!super.gameData.isPaused) {
+            //Update position and alpha channels
+            this.updateSmokeClouds();
+        }
+\end{lstlisting}
+
+\begin{description}
+\item[Line 2] The \textit{timeSinceLastReset} is the time since a smoke cloud was last reset and \textit{gameData.timeDifference} is the time that has elapsed, in milliseconds. 
+\item[Line 2-9] If the time since last reset is higher or equal to the time between the smoke clouds (this is a variable we have pre-determined), then \textit{timeSinceLastReset} is set to 0, and if the game is not paused, then the smoke cloud is reset back to its starting position. 
+\item[Line 11-14] If the game is not paused, then the smoke cloud's coordinates are updated, in order to move the smoke cloud. 
+\end{description}
+
+\autoref{lst:cloudstime} showed two methods, \textit{resetOneSmokeCloud} and \textit{updateSmokeClouds}. These are the two methods in charge of moving the smoke clouds, making it look like they move. They are explained in \autoref{lst:resetonesmokecloud} and \autoref{lst:updatesmokeclouds}
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals},label=lst:resetonesmokecloud]
+    private final void resetOneSmokeCloud() {
+        //Increment the reset index
+        this.resetIndex = ++this.resetIndex % this.numberOfSmokeClouds;
+        
+        //Put cloud back to exhaust
+        this.coordinates[this.resetIndex].setCoordinate(this.startCoordinate.getX(), this.startCoordinate.getY());
+        this.colors[this.resetIndex].setColor(1f, 1f, 1f, 1f);
+    }
+        }
+\end{lstlisting}
+
+\begin{description}
+\item[Line 3] This resets the index, helping to keep track of which cloud that has to be reset. 
+\item[Line 6 \& 7] This resets the specific cloud back to its starting position and it also resets the color back to its original. 
+\end{description}
+ 
+\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals},label=lst:updatesmokeclouds]
+    private final void updateSmokeClouds() {
+        //Updates position and alpha channels
+        for (int i = 0; i < this.numberOfSmokeClouds; i++) {
+            //Always move smoke vertically, move smoke horizontally relative to the train speed.
+            this.coordinates[i].moveX(super.gameData.getPixelMovement());
+            this.coordinates[i].moveY(this.ySpeed * super.gameData.timeDifference);
+            
+            //Fade the smoke
+            this.colors[i].alpha -= (1f / (this.timeBetweenSmokeClouds * this.numberOfSmokeClouds)) * super.gameData.timeDifference;
+        }
+    }
+\end{lstlisting}
+
+\begin{description}
+\item[Line 3-6] This is in charge of moving the clouds. The clouds are moved on both the x and y axis. The new x coordinate depends on \textit{gameData.getPixelMovement} which is explained in \todo{ref til section med getPixelMovement}. The new y coordinate depends on \textit{ySpeed}, which is 0.15 \todo{Skal vi skrive hvorfor? Skal vi overhovedet nævne hvad det er eller bare sige det er en konstant?} and the time tht has elapsed.
+\item[Line 9] This fades the smoke clouds, It takes the number of smoke clouds into account and makes the last cloud more faded than the first, to make it look like they disappear up in the air. 
 \end{description}
 
 \subsection{Station}
+
+We have drawn three different stations and to ensure an element of surprise in our game, each time we start the game we shuffle the list of stations so the order always will be random, however this only happens when the game is started, so the order within the same game is the same.  \autoref{lst:stations} shows this implementation.
+ 
+\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals},label=lst:stations]
+        Collections.shuffle(stations);
+        LinkedList<StationContainer> stationsQueue = this.getQueue(stations);
+        
+        float xPosition = -364f; // first platform position
+
+        for (int i = 0; i < super.gameData.numberOfStations; i++) {
+            StationContainer nextStation = stationsQueue.pop();
+            stationsQueue.add(nextStation);
+            this.stationPlatformMatrix.addRenderableMatrixItem(nextStation.station, new Coordinate(xPosition + nextStation.xOffset, nextStation.yOffset, 0f));
+            
+        xPosition += GameData.DISTANCE_BETWEEN_STATIONS;        
+            
+        }
+\end{lstlisting}
+
+\begin{description}
+\item[Line 1 \& 2]  The stations are shuffled and added to the queue.
+\item[Line 4] xPosition is the position in which the platform will be drawn. 
+\item[Line 7 \& 8] The next station is found and popped off the queue, and added to the end of the queue again to ensure there are always are stations in the queue. 
+\item[Line 8] The station is drawn in the correct position. 
+\item[Line 10] xPosition is updated with the pre-determined distance between stations to ensure each station has the same distance between them. This is especially important when we have to calculate when the train has to stop. 
+\end{description}
+
+\subsubsection*{Stopping position}
+
+In order for us to stop the train at the correct location each time, we have to calculate the stopping position, this is done as shown in \autoref{lst:nextstopping}
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals},label=lst:stations]
+    public final void calculateStoppingPositions() {        
+        //Make new array
+        super.gameData.nextStoppingPosition = new float[super.gameData.numberOfStations + 1];
+        
+        //Calculate all stopping positions
+        super.gameData.nextStoppingPosition[0] = GameData.DISTANCE_BETWEEN_STATIONS;
+        for (int i = 1; i < super.gameData.numberOfStations; i++) {
+            super.gameData.nextStoppingPosition[i] += super.gameData.nextStoppingPosition[i-1] + GameData.DISTANCE_BETWEEN_STATIONS;
+        }
+    }
+\end{lstlisting}
+
+\begin{description}
+\item[Line 2] An array for the stopping positions is initialized. \todo{Hvorfor er det helt præcist vi laver det +1}
+\item[Line 5] The first stopping position is equal to the pre-determined distance between station. 
+\item[Line 6 \& 7] We loop through the array and calculate the next stopping position for all stations. This is done by adding the distance to the next station to the stopping position of the previous station.
+\end{description}
 
 \subsection{Hills, trees, cows and clouds}
