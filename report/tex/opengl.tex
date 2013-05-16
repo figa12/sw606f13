@@ -16,7 +16,7 @@ Firstly \autoref{fig:terminology} shows how we represent abstract class names an
 \label{fig:terminology}
 \end{figure}
 
-\subsection{Renderable Classes}\label{sec:renderables}
+\subsection{Renderable Classes}
 
 Thinking about what the game is suppose to do we came up with the different objects we need to be able to render. \autoref{fig:renderables} shows a simplified version of the different objects/classes that can be rendered. We needed to draw texture at different positions on the screen and we needed to be able to move texture around on the screen. This is the general idea and based on this, the following classes was created.
 
@@ -99,6 +99,7 @@ We need to adjust the texture in order to fit the \ac{pot} texture inside the \l
 \subsection{Game Rendering}\label{sec:gamerendering}
 
 To draw the game we are using an \lstinline|android.opengl.GLSurfaceView|. To draw on the \lstinline|GLSurfaceView| we are required to make our own class which implements \lstinline|android.opengl.GLSurfaceView.Renderer|. \autoref{fig:game} shows a simplified version of the different objects/classes that draws the game.
+
 \begin{figure}[H]
 \centering
 \includegraphics[page=3,width=1\linewidth]{img/opengl.pdf}
@@ -107,6 +108,7 @@ To draw the game we are using an \lstinline|android.opengl.GLSurfaceView|. To dr
 \end{figure}
 
 \begin{description}
+
 \item[GlRenderer] This is our implementation of a \lstinline|Renderer|, the class must override \lstinline|onDrawFrame|, \lstinline|onSurfaceChanged|, and \lstinline|onSurfaceCreated|. These three methods are all run on a thread that is automatically created for us when we implement the \lstinline|Renderer|. When the \lstinline|Renderer| is started, it runs the method \lstinline|onSurfaceCreated|. This is where we initialise the \lstinline|GameDrawer| object. After the surface is created it runs \lstinline|onSurfaceChanged|, it is at this time the \lstinline|Renderer| knows how big the surface is in pixels. We use this information to load all the texture in the game, by calling \lstinline|loadGame| in the \lstinline|GameDrawer|. When the game is loaded it runs \lstinline|onDrawFrame| continuously, where we draw the game by calling \lstinline|drawGame| in the \lstinline|GameDrawer|.
 
 \item[GameDrawer] When this object is initialised it creates all the \lstinline|GameDrawable| objects, and add them to a list in the order they should be drawn. When the \lstinline|GlRenderer| calls \lstinline|loadGame| or \lstinline|drawGame|, the \lstinline|GameDrawer| simply iterates through the list of \lstinline|GameDrawable| objects, and calls \lstinline|load| or \lstinline|draw| on them. Loading will only happen each time the surface is changed, i.e. when the activity is created.
@@ -124,6 +126,7 @@ The \lstinline|GameDrawer| starts its \lstinline|drawGame| method by calling \ls
 Do not mistake the method \lstinline|getTotalTravelDistance| and the attribute \lstinline|totalDistanceTraveled| with each other. The method returns the total distance the train must travel for this game session plus the width of the screen, this is used to generate all of the background for the game session.
 
 \lstinline|onPause| sets a flag indicating that the game is paused, it then saves the train's velocity and set it to 0. The \lstinline|GameDrawable| objects then know that the game is paused and can stop updating their position. \lstinline|onResume| will restore the train's velocity and the game continues.
+
 \end{description}
 \todo{Find en løsning på at lstinline går udover margin.}
 \subsection{Clipping Plane}
@@ -148,5 +151,4 @@ The tablet has a resolution of $1280 \times 800$, but since it always displays a
 $$B = C = \frac{180^{\circ} - A}{2} = 67.5^{\circ}$$
 \todo{ikke færdig, jeg skal lige tilspørge min formelsamling}
 \section{Implementation}
-
 \todo{Describes the implementation of OpenGL}

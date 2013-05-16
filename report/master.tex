@@ -15,12 +15,14 @@
 
 \input{tex/titelblad}% Titelblad
 
+\chapter*{Signatures}
 \input{tex/signatures}
 
 \newpage
 \thispagestyle{empty}
 \mbox{}
 
+\chapter*{Preface}
 \input{tex/preface}
 
 \newpage
@@ -44,12 +46,12 @@
 
 \input{tex/commonReport/commonReport.tex}
 
-\part{Train}
+\chapter{Chronological process} \label{chronologicalprocess}
 \input{tex/process}
 
+\chapter{Android}
 \input{tex/android}
 
-\chapter{OpenGL for Embedded Systems}
 \input{tex/opengl}
 
 %design chapter
@@ -58,13 +60,18 @@
 \input{tex/design_game}
 \input{tex/design}
 
+\input{tex/implementation_game}
+
+\chapter{Perspective}
 \input{tex/perspective}
 
 \bookmarksetup{startatroot}% dette skulle stoppe part, så conclusion får indryk. Problemet i skrivende øjeblik er at chapters har samme indryk uafhængigt af parts
 \addtocontents{toc}{\bigskip}%laver ekstra mellemrum
 
+\chapter{Conclusion}
 \input{tex/conclusion}\label{chap:conclusion}
 
+\chapter{Future Work}
 \input{tex/future_work}
 
 \begin{appendices}
