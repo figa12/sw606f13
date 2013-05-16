@@ -51,7 +51,7 @@ public final class Wheels extends GameDrawable {
         this.largeWheel.loadTexture(gl, context, R.drawable.texture_wheel_large, Texture.AspectRatio.BitmapOneToOne);
         this.smallWheel.loadTexture(gl, context, R.drawable.texture_wheel_small, Texture.AspectRatio.BitmapOneToOne);
         this.wheelShaft.loadTexture(gl, context, R.drawable.texture_wheel_shaft, Texture.AspectRatio.BitmapOneToOne);
-        this.ground.loadTexture(gl, context, R.drawable.texture_ground_mini);
+        this.ground.loadTexture(gl, context, R.drawable.texture_ground);
         
         //Add coordinates to the renderables
         this.mediumWheel.addCoordinate(-507.08f, -277.04f, GameData.FOREGROUND);
