@@ -3,10 +3,8 @@ package dk.aau.cs.giraf.train;
 import java.util.ArrayList;
 
 import dk.aau.cs.giraf.TimerLib.Child;
-import dk.aau.cs.giraf.TimerLib.Guardian;
 import dk.aau.cs.giraf.train.R;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +70,7 @@ public class ChildAdapter extends ArrayAdapter<Child> {
         TextView profileNameTextView = (TextView) convertView.findViewById(R.id.profileName);
 
         //Set the picture 
-        profilePictureImageView.setImageResource(R.drawable.default_profile); //TODO: Insert pictures here
+        profilePictureImageView.setImageResource(R.drawable.default_profile); //Insert pictures here
 
         profileNameTextView.setText(child.name);
 		

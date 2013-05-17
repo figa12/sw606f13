@@ -55,7 +55,8 @@ public class MainActivity extends Activity {
 	public static final int ALLOWED_PICTOGRAMS = 6;
 	public static final int ALLOWED_STATIONS   = 6;
 	
-	@Override
+	@SuppressWarnings("deprecation")
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		super.setContentView(R.layout.activity_main);
@@ -180,7 +181,7 @@ public class MainActivity extends Activity {
 	}
 	
 	private GameConfiguration getGameConfiguration(String gameName, long gameID, long childID) {
-	    GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID); //TODO Set appropriate IDs
+	    GameConfiguration gameConfiguration = new GameConfiguration(gameName, gameID, childID);
 	    gameConfiguration.setStations(this.customiseLinearLayout.getStations());
 	    return gameConfiguration;
 	}

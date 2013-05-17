@@ -1,7 +1,5 @@
 package dk.aau.cs.giraf.train.opengl;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -9,11 +7,8 @@ import android.util.AttributeSet;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnDragListener;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import dk.aau.cs.giraf.train.R;
-import dk.aau.cs.giraf.train.R.attr;
 /***
  * An abstract class that contains methods for StationLinearLayout and WagonLinearLayout.
  * @author Jacob
@@ -24,7 +19,8 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 		super(context, attrs);
 	}
 	
-	public void addPictoFrames(int numberOfPictoFrames){
+	@SuppressWarnings("deprecation")
+    public void addPictoFrames(int numberOfPictoFrames){
 		Drawable normalShape = getResources().getDrawable(R.drawable.shape);
 		int height = 300/(numberOfPictoFrames/2);
 		for (int j = 0; j < (numberOfPictoFrames / 2); j++) {
@@ -53,7 +49,8 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 			this.normalShape = resources.getDrawable(R.drawable.shape);
 		}
 
-		@Override
+		@SuppressWarnings("deprecation")
+        @Override
 		public boolean onDrag(View hoverView, DragEvent event) {
 				View draggedView = (View) event.getLocalState();
 				

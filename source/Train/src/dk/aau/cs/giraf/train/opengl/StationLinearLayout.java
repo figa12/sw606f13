@@ -6,7 +6,7 @@ import dk.aau.cs.giraf.pictogram.Pictogram;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
+
 /***
  * StationLinearlayout a custom class with methods aiding to simplify the code.
  * This class respresents the linearlayouts of the station and has methods to support
@@ -18,7 +18,6 @@ public class StationLinearLayout extends GameActivityLinearLayout{
 	
 	public StationLinearLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 
 	public ArrayList<PictoFrameLayout> getPictoframes() {

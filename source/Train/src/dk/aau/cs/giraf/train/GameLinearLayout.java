@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import dk.aau.cs.giraf.TimerLib.Child;
 import dk.aau.cs.giraf.pictogram.PictoFactory;
 import dk.aau.cs.giraf.train.R;
-import dk.aau.cs.giraf.train.opengl.GameActivity;
 
 import android.app.AlertDialog;
 import android.content.Context;
