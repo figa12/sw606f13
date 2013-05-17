@@ -34,19 +34,19 @@
 \mbox{}
 
 \setcounter{secnumdepth}{3}
-\setcounter{tocdepth}{1}
+\setcounter{tocdepth}{2}
 
 \tableofcontents
 
 \newcommand{\secref}[1]{Section \ref{#1}} %brugt i fællesrapporten
 
-\chapter{Introduction}\label{chap:intro}
-
-\input{tex/problemstatement}
-
 \input{tex/commonReport/commonReport.tex}
 
 \part{Train}
+
+\chapter{Introduction}\label{chap:intro}
+\input{tex/problemstatement}
+
 \chapter{Chronological process} \label{chronologicalprocess}
 \input{tex/process}
 
@@ -78,7 +78,8 @@
 
 \begin{appendices}
 \label{appendixStart}
-
+\input{tex/constants}
+\input{tex/wombat}
 \label{appendixEnd}
 \end{appendices}
 \newpage

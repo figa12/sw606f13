@@ -60,7 +60,7 @@ The \lstinline|draw| method must be overridden in order to draw the loaded textu
 \subsection{Texture Power-of-two Support}
 Some \ac{opengles} devices does not support texture with a \ac{npot} size, they only accept texture with a \ac{pot} size. Android developers reference states that you should perform a check whether the current context supports \ac{npot}. \citep{glutils}
 
-It is hard to find a proper reference to why \ac{npot} is not supported. A lot different developers says it is because you get an increase of performance when using \ac{pot}, and at the time when the first version of OpenGL was created, the hardware needed this extra performance. Later hardware only gained an insignificant increase of performance so they allowed \ac{npot}. Some Embedded System using \ac{opengles} still gain a significant increase in performance, and this is why some devices require texture to be \ac{pot}.\todo{Er det i orden at sige vi ikke har en reference? Skal vi bare tilføje referencer til upålidelige kilder?}
+You get an increase of performance when using \ac{pot}, and at the time when the first version of OpenGL was created, the hardware needed this extra performance. Years later hardware only gained an insignificant increase of performance so they allowed \ac{npot}. Some embedded systems using \ac{opengles} still gain a significant increase in performance, and this is why some devices require texture to be \ac{pot}. (We were not able to find official citation, the best we could find is this \citep{potperformance})
 
 Instead of performing a check to see whether the current context supports \ac{npot}, we choose to always use \ac{pot}. Even if it is not neccesary it will still give a small performance increase. The way we achieve this is to still use texture with a \ac{npot} size, convert the texture to \ac{pot} size, and then stretch it relative to the change in size. However this will also consume a lot more memory, but the train game does not require that much memory even with \ac{pot} sized texture.
 \begin{figure}[H]
@@ -76,7 +76,7 @@ Instead of performing a check to see whether the current context supports \ac{np
 \caption{The \ac{pot} train texture.\label{fig:trainpot}}
 \end{minipage}
 \end{figure}
-\autoref{fig:train} shows the train texture inside the \lstinline|Square| container. The black line illustrates the \lstinline|Square|, this is shown for the sake of the example and it is of course not shown in the actual application. The texture has a size of $396 \times 284$ pixels, and need to be converted to a \ac{npot} size.
+\autoref{fig:train} shows the train texture inside the \lstinline|Square| container. The black line illustrates the \lstinline|Square|, this is shown for the sake of the example and it is of course not shown in the actual application. The texture has a size of $396 \times 284$ pixels, and need to be converted to a \ac{pot} size.
 
 \autoref{fig:trainpot} shows the train texture with alpha channels to the right and below the texture to obtain a \ac{pot} texture with the size of $512 \times 512$ pixels.
 \begin{figure}[H]
@@ -94,7 +94,7 @@ Instead of performing a check to see whether the current context supports \ac{np
 \end{figure}
 When we take the new \ac{pot} sized texture and insert it into the \lstinline|Square| the texture will still clamp to the edges. \autoref{fig:trainneedcrop} shows the clamped train texture.
 
-We need to adjust the texture in order to fit the \ac{pot} texture inside the \lstinline|Square|. We stretch the texture by mapping the texture outside of the \lstinline|Square| relative to the change in size from \ac{npot} to \ac{pot}. Since nothing outside the borders of the \lstinline|Square| is drawn, then you could also say that the extra alpha channels are cropped away. \autoref{fig:trainresult} shows the result of the texture conversion from \ac{npot} to \ac{pot}.\todo{Skal \autoref{fig:trainresult} også indeholde de stiplet linjer udenfor firkant-rammen?}
+We need to adjust the texture in order to fit the \ac{pot} texture inside the \lstinline|Square|. We stretch the texture by mapping the texture outside of the \lstinline|Square| relative to the change in size from \ac{npot} to \ac{pot}. Since nothing outside the borders of the \lstinline|Square| is drawn, then you could also say that the extra alpha channels are cropped away. \autoref{fig:trainresult} shows the result of the texture conversion from \ac{npot} to \ac{pot}.
 
 \subsection{Game Rendering}\label{sec:gamerendering}
 
@@ -113,7 +113,7 @@ To draw the game we are using an \lstinline|android.opengl.GLSurfaceView|. To dr
 
 \item[GameDrawer] When this object is initialised it creates all the \lstinline|GameDrawable| objects, and add them to a list in the order they should be drawn. When the \lstinline|GlRenderer| calls \lstinline|loadGame| or \lstinline|drawGame|, the \lstinline|GameDrawer| simply iterates through the list of \lstinline|GameDrawable| objects, and calls \lstinline|load| or \lstinline|draw| on them. Loading will only happen each time the surface is changed, i.e. when the activity is created.
 
-An important thing the \lstinline|GameDrawer| does, although not shown in the figure, it maintains the current position in the clipping plane. \lstinline|translateTo| will translate the current position to the specified coordinate.
+An important thing the \lstinline|GameDrawer| does, although not shown in the figure, it maintains the current position in the frustrum. \lstinline|translateTo| will translate the current position to the specified coordinate.
 
 \item[GameDrawable] This is an abstract class. Classes inheriting from this must implement \lstinline|load| and \lstinline|draw|. In the \lstinline|load| method, drawables should add coordinates to \lstinline|Renderable| objects, and call their respective load methods. In the \lstinline|draw| method, it should call the \lstinline|Renderable| objects respective \lstinline|draw| methods, or use either \lstinline|translateAndDraw| or \lstinline|translateRotateAndDraw|. The two 'translate' methods both translate to a coordinate, by using \lstinline|translateTo| in the \lstinline|GameDrawer|, and then draw the \lstinline|Renderable|. Note that \lstinline|translateRotateAndDraw| will only rotate \lstinline|Shape| objects. We do not allow rotation of \lstinline|RenderableMatrix|.
 
@@ -129,25 +129,25 @@ Do not mistake the method \lstinline|getTotalTravelDistance| and the attribute \
 
 \end{description}
 \todo{Find en løsning på at lstinline går udover margin.}
-\subsection{Clipping Plane}
+\subsection{Frustum}
 
-When our renderer is created it sets up a \ac{3d} clipping plane. \autoref{fig:clippingplane} shows a clipping plane.
+When our renderer is created it sets up \ac{3d} perspective. \autoref{fig:clippingplane} shows a perspective looking at the frustum between the near and far clipping planes.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\linewidth]{img/clippingplane.jpg}
-\caption{Clipping plane \citep{clippingplane}.}
+\caption{Perspective (Figure from \citep{clippingplane}).}
 \label{fig:clippingplane}
-\end{figure}\todo{Hvor laver vi figure citation?}
-Between the near clipping plane and the far clipping plane is where you should draw, if you try to draw outside the bounds of the clipping plane, then nothing will be drawn and it will not consume resources. When setting up the game perspective we provide \ac{opengles} with the current aspect ratio of the screen, a field of view angle (denoted 'fov' in the figure), and the depth of the near and far clipping plane. The width and height increases in size when we go deeper into the perspective, but the field of view angle always spans relative to the height of the screen. The width is always relative to the aspect ratio. This means that if we draw a square at a specific coordinate in the perspective, then the square will always have the same percent of space above and below it on the screen, but the space to the right and to the left of the square changes according to the aspect ratio of the screen.
+\end{figure}
+Inside the frustum is where you should draw, if you try to draw outside the bounds of the frustum, then nothing will be drawn and it will not consume resources. When setting up the game perspective we provide \ac{opengles} with the current aspect ratio of the screen, a field of view angle (denoted 'fov' in the figure), and the depth of the near and far clipping planes. The width and height increases in size when we go deeper into the perspective, but the field of view angle always spans relative to the height of the screen. The width is always relative to the aspect ratio. This means that if we draw a square at a specific coordinate in the perspective, then the square will always have the same percent of space above and below it on the screen, but the space to the right and to the left of the square changes according to the aspect ratio of the screen.
 
-The tablet has a resolution of $1280 \times 800$, but since it always displays a system bar with back-button, notifications, etc. we only have $1280 \times 752$ pixels of the screen available. All the graphics created for the game was made on a canvas, with the same size as what we have available, to make it easy to correctly fit graphic on the screen. In order to draw the graphics on the tablet screen we have to find the depth where the width and height in the clipping plane are the same as our screen size $1280 \times 756$
+The tablet has a resolution of $1280 \times 800$, but since it always displays a system bar with back-button, notifications, etc. we only have $1280 \times 752$ pixels of the screen available. All the graphics created for the game was made on a canvas, with the same size as what we have available, to make it easy to correctly fit graphic on the screen. In order to draw the graphics on the tablet screen we have to find the depth where the width and height in the frustum are the same as our screen size $1280 \times 756$
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\linewidth]{img/trekant.png}
-\caption{Clipping plane as seen from the side.}
-\label{fig:clippingplaneside}
+\caption{Frustum as seen from the side.}
+\label{fig:frustumside}
 \end{figure}
-\autoref{fig:clippingplaneside} shows the clipping plane seen from the side, we want to find the height $h$ of the triangle (depth) when $a$ is the same size as our tablet $a = 752$. We have chosen a field of view angle to be $A = 45^{\circ}$. Since the angles $B$ and $C$ are the same size then
+\autoref{fig:frustumside} shows the frustum seen from the side, we want to find the height $h$ of the triangle (depth) when $a$ is the same size as our tablet $a = 752$. We have chosen a field of view angle to be $A = 45^{\circ}$. Since the angles $B$ and $C$ are the same size then
 $$B = C = \frac{180^{\circ} - A}{2} = 67.5^{\circ}$$
 \todo{ikke færdig, jeg skal lige tilspørge min formelsamling}
 \section{Implementation}
