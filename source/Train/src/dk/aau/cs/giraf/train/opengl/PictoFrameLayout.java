@@ -25,7 +25,8 @@ public class PictoFrameLayout extends FrameLayout {
 		super(context, attrs);
 	}
 	
-	public void addPictogramsToFrames(Long pictoId){
+	@SuppressWarnings("static-access")
+    public void addPictogramsToFrames(Long pictoId){
 		Pictogram pic = PictoFactory.INSTANCE.getPictogram(super.getContext(), pictoId);
 		pic.setOnTouchListener(new TouchListener());
 		pic.renderAll();
@@ -60,7 +61,7 @@ public class PictoFrameLayout extends FrameLayout {
 				return true;
 			}
 			else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {// prevents that a picto disapears if only pressed and no drag
-				if(view != null && view.getVisibility() == view.INVISIBLE){
+				if(view != null && view.getVisibility() == View.INVISIBLE){
 					view.setVisibility(View.VISIBLE);
 				}
 				return true;

@@ -1,10 +1,7 @@
 package dk.aau.cs.giraf.train.opengl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
-import android.view.View;
-import android.webkit.WebView.PictureListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import dk.aau.cs.giraf.pictogram.Pictogram;

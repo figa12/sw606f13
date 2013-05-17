@@ -1,7 +1,5 @@
 package dk.aau.cs.giraf.train.opengl.game;
 
-import java.util.ArrayList;
-
 import dk.aau.cs.giraf.pictogram.Pictogram;
 import dk.aau.cs.giraf.train.GameConfiguration;
 import dk.aau.cs.giraf.train.opengl.GameActivity;
@@ -9,15 +7,16 @@ import dk.aau.cs.giraf.train.opengl.GlRenderer;
 import android.os.Bundle;
 import android.util.Log;
 
+
 /**
  * Data relevant for the game. Everything is synchronized and volatile since the GameData can be accessed from OpenGL thread and GUI thread.
  * @author Jesper Riemer Andersen
  */
 public class GameData {
     
-    private static final float FUNNY_NUMBER = 0f; //TODO delete
+    private static final float FUNNY_NUMBER = 0f; //set to positive number for funny result
     
-    public static final float FOREGROUND   = -907.7442994522836f - GameData.FUNNY_NUMBER; //Magic number
+    public static final float FOREGROUND   = -907.7442994522836f - GameData.FUNNY_NUMBER;
     public static final float MIDDLEGROUND = -1800f              - GameData.FUNNY_NUMBER;
     public static final float BACKGROUND   = -3000f              - GameData.FUNNY_NUMBER;
     

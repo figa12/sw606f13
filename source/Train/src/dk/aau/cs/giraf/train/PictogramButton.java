@@ -73,7 +73,8 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
 	    }
 	}
 	
-	public void setPictogram(long pictogramId) {
+	@SuppressWarnings("static-access")
+    public void setPictogram(long pictogramId) {
 	    this.pictogramId = pictogramId;
 	    this.pictogramContainer.removeAllViews();
 	    
@@ -91,7 +92,6 @@ public class PictogramButton extends LinearLayout implements PictogramReceiver {
 	private final class PictogramClickListener implements OnClickListener {
         @Override
         public void onClick(View view) {
-            //TODO Create loading picture
             ((MainActivity) PictogramButton.this.getContext()).startPictoAdmin(MainActivity.RECEIVE_SINGLE, PictogramButton.this);
         }
     }

@@ -2,30 +2,21 @@ package dk.aau.cs.giraf.train.opengl;
 
 import java.util.ArrayList;
 
-import org.apache.http.conn.routing.RouteInfo.LayerType;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.DialogInterface.OnShowListener;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
-import android.view.DragEvent;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.DragShadowBuilder;
 import android.view.View.OnClickListener;
-import android.view.View.OnDragListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -318,7 +309,8 @@ public class GameActivity extends Activity {
 		return this.gameData;
 	}
 
-	public void addAndShowEndButton() {
+	@SuppressWarnings("deprecation")
+    public void addAndShowEndButton() {
 		Button endButton = new Button(this);
 		//endButton.setTextAppearance(this, R.style.ButtonFontStyle);
 		endButton.setTextSize(44f);
