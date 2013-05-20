@@ -140,7 +140,7 @@ public class Texture extends Square {
         gl.glEnable(GL10.GL_TEXTURE_2D);
         
         //Bind our only previously generated texture in this case
-        gl.glBindTexture(GL10.GL_TEXTURE_2D, texture[0]);
+        gl.glBindTexture(GL10.GL_TEXTURE_2D, this.texture[0]);
         
         //Point to our buffers
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
@@ -186,9 +186,9 @@ public class Texture extends Square {
         bitmap = this.maintainMaxTextureSize(gl, bitmap);
         
         //Generate one texture pointer...
-        gl.glGenTextures(1, texture, 0);
+        gl.glGenTextures(1, this.texture, 0);
         //...and bind it to our array
-        gl.glBindTexture(GL10.GL_TEXTURE_2D, texture[0]);
+        gl.glBindTexture(GL10.GL_TEXTURE_2D, this.texture[0]);
         
         //Specify parameters for texture
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR); // use LINEAR when upscaling
