@@ -328,12 +328,14 @@ public class Texture extends Square {
         //If the width is to big and width is greater than the height
         if(bitmap.getWidth() > maxSize[0] && bitmap.getWidth() >= bitmap.getHeight()) {
             Log.w(Texture.class.getSimpleName(), "One of the loaded textures is too big. It is downscaled to respect the max texture size for this device.");
-            return Bitmap.createScaledBitmap(bitmap, maxSize[0], (int) (bitmap.getHeight() * ((double) bitmap.getHeight() / maxSize[0])), true);
+            int height = (int) (bitmap.getHeight() * (maxSize[0] / (double) bitmap.getWidth()));
+            return Bitmap.createScaledBitmap(bitmap, maxSize[0], height, true);
         }
         //If the height is to big and height is greater than the width
         else if(bitmap.getHeight() > maxSize[0] && bitmap.getHeight() >= bitmap.getWidth()) {
             Log.w(Texture.class.getSimpleName(), "One of the loaded textures is too big. It is downscaled to respect the max texture size for this device.");
-            return Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * ((double) bitmap.getWidth() / maxSize[0])), maxSize[0], true);
+            int width = (int) (bitmap.getWidth() * (maxSize[0]) / (double) bitmap.getHeight());
+            return Bitmap.createScaledBitmap(bitmap, width, maxSize[0], true);
         }
         else {
             return bitmap;
