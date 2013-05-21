@@ -1,6 +1,6 @@
 OpenGL is a 2D and 3D graphics API. It is cross-platform API that specifies a standard for 3D graphics processing hardware. Android $1.0$ and later versions have support for \ac{opengles} $1.0$ and $1.1$ specifications. Android $2.2$ added support for \ac{opengles} $2.0$. \citep{androidopengl, khronosopengles}
 
-\subsection*{Choice of \ac{opengles} Version}
+\subsubsection*{Choice of \ac{opengles} Version}
 When using \ac{opengles} on the Android platform, the default \ac{opengles} version is $1.x$. If you want to use version $2.0$ you need to explicitly write that you are using it. Version $2.0$ should have better performance and more possibilities than the older version, but the Android developers guide says:
 \begin{quote}
 \textit{"Developers who are new to OpenGL may find coding for \ac{opengles} 1.0/1.1 faster and more convenient."} \citep{androidopengl}
@@ -142,13 +142,15 @@ When our renderer is created it sets up \ac{3d} perspective. \autoref{fig:clippi
 \end{figure}
 Inside the frustum is where you should draw, if you try to draw outside the bounds of the frustum, then nothing will be drawn and it will not consume resources. When setting up the game perspective we provide \ac{opengles} with the current aspect ratio of the screen, a field of view angle (denoted 'fov' in the figure), and the depth of the near and far clipping planes. The width and height increases in size when we go deeper into the perspective, but the field of view angle always spans relative to the height of the screen. The width is always relative to the aspect ratio. This means that if we draw a square at a specific coordinate in the perspective, then the square will always have the same percent of space above and below it on the screen, but the space to the right and to the left of the square changes according to the aspect ratio of the screen.
 
-The tablet has a resolution of $1280 \times 800$, but since it always displays a system bar with back-button, notifications, etc. we only have $1280 \times 752$ pixels of the screen available. All the graphics created for the game was made on a canvas, with the same size as what we have available, to make it easy to correctly fit graphic on the screen. In order to draw the graphics on the tablet screen we have to find the depth where the width and height in the frustum are the same as our screen size $1280 \times 756$
+The tablet has a resolution of $1280 \times 800$, but since it always displays a system bar with back-button, notifications, etc. we only have $1280 \times 752$ pixels of the screen available. All the graphics created for the game was made on a canvas with the same size as what we have available. In order to draw the graphics on the tablet screen we have to find the depth where the width and height in the frustum are the same as our screen size $1280 \times 756$
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\linewidth]{img/trekant.png}
-\caption{Frustum as seen from the side.}
+\caption{Perspective seen from the side.}
 \label{fig:frustumside}
 \end{figure}
-\autoref{fig:frustumside} shows the frustum seen from the side, we want to find the height $h$ of the triangle (depth) when $a$ is the same size as our tablet $a = 752$. We have chosen a field of view angle to be $A = 45^{\circ}$. Since the angles $B$ and $C$ are the same size then
+\autoref{fig:frustumside} shows the perspective seen from the side, we want to find the height $h$ of the triangle (depth) when $a$ is the same size as our tablet $a = 752$. We have chosen a field of view angle to be $A = 45^{\circ}$. Since the angles $B$ and $C$ are the same size then
 $$B = C = \frac{180^{\circ} - A}{2} = 67.5^{\circ}$$
-\todo{ikke færdig, jeg skal lige tilspørge min formelsamling}
+Given $a$ and all the angles of the triangle, then $h$ is given by
+$$h = \frac{a}{2} \times tan(B) = 907.7442$$
+Now we have the depth of the perspective where one pixels of a texture corresponds to one pixels on the tablet screen. This will also make it possible to use pixels per millisecond as an actual unit of speed for our game.
