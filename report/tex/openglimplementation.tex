@@ -1,0 +1,112 @@
+\section{Implementation}
+
+Some important code listing will be shown here. They will be simplified to make them easier to read. Each listing is followed by a description of it.
+
+When using any of the \lstinline|Texture| objects respective load methods, you must specify an aspect ratio option, the options are represented by an \lstinline|enum| shown in \autoref{lst:aspectratio}. The load methods must also create a pointer to the texture. \autoref{lst:texturepointer} shows how we generate a texture pointer.
+\begin{lstlisting}[language=java,caption={Aspect ratio enum.},label=lst:aspectratio] 
+public enum AspectRatio {
+    KeepWidth, KeepHeight, KeepBoth, BitmapOneToOne
+}
+\end{lstlisting}
+There are four aspect ratio options, which are all used to resize the \lstinline|Square| according to the texture being loaded. Recall that texture will always stretch to the size of the \lstinline|Square|. All \lstinline|Shape| objects must specify a size in the constructor, but when loading texture onto the \lstinline|Square| we want to be able to resize the \lstinline|Square| to fit the aspect ratio of the texture.
+\begin{description}
+\item[KeepWidth] will keep the width specified in the constructor, and resize the height of the \lstinline|Square| to maintain the aspect ratio of the texture.
+\item[KeepHeight] will keep the height specified in the constructor, and resize the width of the \lstinline|Square| to maintain the aspect ratio of the texture.
+\item[KeepBoth] does nothing, will keep both the width and height of the \lstinline|Square|.
+\item[BitmapOneToOne] will set the size of the \lstinline|Square| to the same width and height of the texture.
+\end{description}
+
+\begin{lstlisting}[language=java,caption={Generates an \ac{opengles} texture pointer.},label=lst:texturepointer] 
+protected void generateTexturePointer(GL10 gl, Bitmap bitmap, AspectRatio option) {
+    // Resizes the shape to fit the aspect ratio option
+    this.setAspectRatio(option);
+    
+    // Resizes the bitmap to a power-of-two and crops the texture accordingly
+    bitmap = this.generatePowerOfTwoBitmap(bitmap);
+    
+    // Resizes the bitmap if its size is not supported on this device
+    bitmap = this.maintainMaxTextureSize(gl, bitmap);
+    
+    // Generate one texture pointer...
+    gl.glGenTextures(1, this.texture, 0);
+    // ...and bind it to our array
+    gl.glBindTexture(GL10.GL_TEXTURE_2D, this.texture[0]);
+    
+    // Specify parameters for texture
+    gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
+    gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
+    
+    // Use the Android GLUtils to specify a 2D texture image from our bitmap
+    GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap);
+}
+\end{lstlisting}
+
+\begin{description}
+\item[Line 3] Performs the resize of the \lstinline|Square| according to the aspect ratio option as explained above.
+\item[Line 6] Convert the bitmap into a \ac{pot} sized bitmap. It will be explained in \autoref{lst:pot}.
+\item[Line 9] Scales the bitmap down if its size is greater than what is supported on the device. It will be explained in \autoref{lst:maintain}.
+\item[Line 12] This is where the texture pointer gets created. The arguments to the method are respectively: The number of texture pointers to be generated, \lstinline|this.texture| is an array of integers, and the offset in the array.
+\item[Line 14] We bind our texture pointer to \ac{opengles} in order to create texture at the pointed location.
+\item[Lines 17-18] Here we specify some texture parameters to be used when it is drawn. We specify that if the texture is upscaled or downscaled when drawn, we want to use \lstinline|LINEAR| scaling. This should be the highest quality of scaling available to us.
+\item[Line 21] This is where we create the texture from the bitmap. The arguments to the method are respectively: Specify that it is a \ac{2d} texture, we are using the base image level $0$ instead of the $n$th mipmap reduction level, and the bitmap to use.
+\end{description}
+
+\begin{lstlisting}[language=java,caption={How we generate \ac{pot} sized texture.},label=lst:pot] 
+protected Bitmap generatePowerOfTwoBitmap(Bitmap bitmap) {
+    int newWidth = this.getNextPowerOfTwo(bitmap.getWidth());
+    int newHeight = this.getNextPowerOfTwo(bitmap.getHeight());
+    
+    // Check whether the bitmap wasn't already the correct size
+    if (newWidth != bitmap.getWidth() || newHeight != bitmap.getHeight()) {
+        // Create a new bitmap that is power-of-two sized
+        Bitmap newBitmap = Bitmap.createBitmap(newWidth, newHeight);
+        Canvas canvas = new Canvas(newBitmap);
+        canvas.drawBitmap(bitmap, 0f, 0f);
+        
+        // Crop the texture to fit the original size
+        this.cropTexture(bitmap.getWidth(), bitmap.getHeight(), newWidth, newHeight);
+        
+        return newBitmap;
+    }
+    else {
+        return bitmap;
+    }
+}
+\end{lstlisting}
+
+\begin{description}
+\item[Lines 2-3] Get the \ac{pot} size for the width and the height. \lstinline|getNextPowerOfTwo| returns a \ac{pot} integer that is equal to the input or the next \ac{pot} integer greater than the input.
+\item[Lines 6-16] If the bitmap was not already \ac{pot} sized, then convert it to \ac{pot}.
+\item[Lines 17-19] If the bitmap was already \ac{pot} sized, then we can just return it.
+\item[Lines 8-10] We created a new \ac{pot} bitmap with the calculated size, then we create a \lstinline|Canvas| to draw on the \ac{pot} bitmap, and then we draw the old \ac{npot} bitmap on the \ac{pot} bitmap in the top left corner.
+\item[Line 13] Here we change the mapping of the texture on the \lstinline|Square| to stretch the bitmap outside the bounds of the \lstinline|Square| and thereby cropping the extra alpha channels of the \ac{pot} bitmap.
+\item[Line 15] Returns the newly created \ac{pot} sized bitmap.
+\end{description}
+
+\begin{lstlisting}[language=java,caption={Scales the bitmap if the size of it is not supported on the current device.},label=lst:maintain] 
+protected Bitmap maintainMaxTextureSize(GL10 gl, Bitmap bitmap) {
+    int[] maxSize = new int[1];
+    gl.glGetIntegerv(GL10.GL_MAX_TEXTURE_SIZE, maxSize, 0); //Get max supported texture size on this device
+    
+    //If the width is to big and width is greater than the height
+    if(bitmap.getWidth() > maxSize[0] && bitmap.getWidth() >= bitmap.getHeight()) {
+        int height = (int) (bitmap.getHeight() * (maxSize[0] / (double) bitmap.getWidth()));
+        return Bitmap.createScaledBitmap(bitmap, maxSize[0], height, true);
+    }
+    //If the height is to big and height is greater than the width
+    else if(bitmap.getHeight() > maxSize[0] && bitmap.getHeight() >= bitmap.getWidth()) {
+        int width = (int) (bitmap.getWidth() * (maxSize[0]) / (double) bitmap.getHeight());
+        return Bitmap.createScaledBitmap(bitmap, width, maxSize[0], true);
+    }
+    else {
+        return bitmap;
+    }
+}
+\end{lstlisting}
+
+\begin{description}
+\item[Lines 2-3] First we get the the max texture size supported on the current device. Do not question that we use an array to get this integer, \ac{opengles} is made like the C language and some of the methods are characterised by this.
+\item[Lines 6-9] If the width is greater than the maximum allowed size, and the width is greater than the height, then we set the width to the maximum allowed size and decrease the height by the same percent as the width is decreased with.
+\item[Lines 11-14] If the height is greater than the maximum allowed size, and the height is greater than the width, then we set the height to the maximum allowed size and decrease the width by the same percent as the height is decreased with.
+\item[Lines 15-17] If the bitmap already respected the maximum texture size then we can return it.
+\end{description}

@@ -24,6 +24,7 @@ public class SaveDialogActivity extends Activity {
     private long selectedChildId;
     private String selectedChildName;
     
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

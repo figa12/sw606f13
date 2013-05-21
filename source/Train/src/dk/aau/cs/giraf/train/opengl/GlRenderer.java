@@ -163,6 +163,5 @@ public class GlRenderer implements Renderer {
     /** Free memory when an instance state is saved. */
     public void onSaveInstanceState() {
         this.gameDrawer.freeMemory();
-        this.gameData.freeMemory();
     }
 }

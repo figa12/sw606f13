@@ -140,7 +140,7 @@ public class Texture extends Square {
         gl.glEnable(GL10.GL_TEXTURE_2D);
         
         //Bind our only previously generated texture in this case
-        gl.glBindTexture(GL10.GL_TEXTURE_2D, texture[0]);
+        gl.glBindTexture(GL10.GL_TEXTURE_2D, this.texture[0]);
         
         //Point to our buffers
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
@@ -186,9 +186,9 @@ public class Texture extends Square {
         bitmap = this.maintainMaxTextureSize(gl, bitmap);
         
         //Generate one texture pointer...
-        gl.glGenTextures(1, texture, 0);
+        gl.glGenTextures(1, this.texture, 0);
         //...and bind it to our array
-        gl.glBindTexture(GL10.GL_TEXTURE_2D, texture[0]);
+        gl.glBindTexture(GL10.GL_TEXTURE_2D, this.texture[0]);
         
         //Specify parameters for texture
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR); // use LINEAR when upscaling
@@ -328,12 +328,14 @@ public class Texture extends Square {
         //If the width is to big and width is greater than the height
         if(bitmap.getWidth() > maxSize[0] && bitmap.getWidth() >= bitmap.getHeight()) {
             Log.w(Texture.class.getSimpleName(), "One of the loaded textures is too big. It is downscaled to respect the max texture size for this device.");
-            return Bitmap.createScaledBitmap(bitmap, maxSize[0], (int) (bitmap.getHeight() * ((double) bitmap.getHeight() / maxSize[0])), true);
+            int height = (int) (bitmap.getHeight() * (maxSize[0] / (double) bitmap.getWidth()));
+            return Bitmap.createScaledBitmap(bitmap, maxSize[0], height, true);
         }
         //If the height is to big and height is greater than the width
         else if(bitmap.getHeight() > maxSize[0] && bitmap.getHeight() >= bitmap.getWidth()) {
             Log.w(Texture.class.getSimpleName(), "One of the loaded textures is too big. It is downscaled to respect the max texture size for this device.");
-            return Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * ((double) bitmap.getWidth() / maxSize[0])), maxSize[0], true);
+            int width = (int) (bitmap.getWidth() * (maxSize[0]) / (double) bitmap.getHeight());
+            return Bitmap.createScaledBitmap(bitmap, width, maxSize[0], true);
         }
         else {
             return bitmap;

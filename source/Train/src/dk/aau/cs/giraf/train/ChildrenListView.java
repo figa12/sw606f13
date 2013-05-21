@@ -27,6 +27,7 @@ public class ChildrenListView extends ListView {
 		super(context, attrs);
 		
 		super.setOnItemClickListener(new OnItemClickListener() {
+            @SuppressWarnings("rawtypes")
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 ChildrenListView.this.adapter.setSelectedPosition(position);

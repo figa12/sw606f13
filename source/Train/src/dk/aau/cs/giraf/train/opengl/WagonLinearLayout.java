@@ -12,7 +12,6 @@ public class WagonLinearLayout extends GameActivityLinearLayout {
 
 	public WagonLinearLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 
 }

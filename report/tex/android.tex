@@ -1,3 +1,5 @@
-\chapter{Android}
-
 \todo{This Chapter describes the Android platform, and which functionality of the Android platform that we have used.}
+
+\section{Listview}
+The menu for customisation in this project consists of three lists and it would thus be obvious to use the ListView class from the android library\citep{androidlistview}. This proved to be quite the challenge, since the ListView is not optimised for being manipulating directly. This means that it is build for showing a data set in a list form, but if you want to change this data set on the fly, you run into a lot of problems. There are plenty of examples of people who struggle to use the ListView class\citep{listviewfail} and what seemed to cause a lot of our problems is the NotifyDataSetChanged method from the underlaying adapter\citep{notifydatasetchanged}. The documentation of this method is very vague and we could not get our list to update with new data.\\
+We chose to implement our own classes for populating the lists containing saved game configurations and stations. The first list in the menu, the one containing children, is made with the ListView class, this could be done since it does not have to be manipulated on runtime.

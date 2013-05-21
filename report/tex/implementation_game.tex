@@ -1,0 +1,261 @@
+\section{Game implementation}
+
+This section describes how we have implemented the different elements of our game. It describes how we load and draw the texture for the train, how we have implemented the wheels and train smoke in order to create the illusion that the train is moving between the stations and how we randomly generate the background elements. .
+
+\section{Train \& wagons}
+
+The train and wagons are stationary textures on the tablet screen. \autoref{lst:loadtexture} shows how we load the texture for our train and wagons. 
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Loading the texture for our train and wagons},label=lst:loadtexture] 
+	// Initialize a train object and a wagon object
+	private final Texture train = new Texture(1.0f, 1.0f);
+	private final Texture wagon = new Texture(1.0f, 1.0f);
+
+	//Load the textures
+	this.wagon.loadTexture(R.drawable.texture_wagon, Texture.AspectRatio.BitmapOneToOne);
+	this.train.loadTexture(R.drawable.texture_train, Texture.AspectRatio.BitmapOneToOne); 
+\end{lstlisting}
+
+\begin{description}
+\item[Line 2 \& 3] Initialising the \textit{train} and \textit{wagon} objects 
+\item[Line 6] This loads the \textit{wagon} texture, \textit{R.drawable.texture\_wagon} defines which texture gets loaded, which is this case is the wagon and \textit{Texture.AspectRatio.BitmapOneToOne} makes sure the texture keeps the original aspect ratio, as described in \secref{sec:renderables}.
+\item[Line 7] This loads the \textit{train} texture, and the original aspect ratio is kept again. 
+\end{description}
+
+Now the texture is successfully loaded we have to place it on right location on the tablet screen. This is done using the coordinate system mentioned in\todo{ref til koordinatsystemet}. This is done as shown in \autoref{lst:addcoordinate}.
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Placing the texture on the screen},label=lst:addcoordinate] 
+	//Add coordnates to the renderables
+	this.wagon.addCoordinate(-542.32f, -142.72f, GameData.FOREGROUND);
+	this.wagon.addCoordinate(-187.45f, -142.72f, GameData.FOREGROUND);
+	this.train.addCoordinate(160.42f, -52.37f, GameData.FOREGROUND);
+\end{lstlisting}
+
+\begin{description}
+\item[Line 2 \& 3] Since we have chosen to have two wagons on our train, we have to have two wagon objects, with their own coordinate. The coordinates are based on the coordinate system mentioned in \todo{ref til koordinatesystem}. \textit{GameData.Foreground} determines where in the clipping plane the objects are placed. 
+\item[Line 4] Adds a coordinate for the placement of the \textit{train}.
+\end{description}
+
+Now the textures have been loaded and given coordinates, they are ready to be drawn. This is done as shown in \autoref{lst:drawtexture}
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Drawing the texture on the screen},label=lst:drawtexture] 
+	//Drawing the textures
+	super.translateAndDraw(this.wagon);
+	super.translateAndDraw(this.train);
+\end{lstlisting}
+
+\begin{description}
+\item[Line 2 \& 3] This draws the \textit{wagon} and \textit{train} objects. The \textit{translateAndDraw} method is explained in \todo{Ref til afsnit on translateAndDraw}
+\end{description}
+
+\subsection{Wheels}
+
+To create the illusion that the train is moving, we had to make wheels rotate in order to make it look like it was actually driving. 
+
+The wheels are loaded and given a coordinate in the same way as the train that was just explained.
+
+The difference comes when the wheels are drawn, we have to rotate the wheels so that it looks like the train moves, this is done by calculating the rotation using the function shown in \autoref{lst:calcrotate}.
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Rotating and drawing the wheels},label=lst:calcrotate]
+    private float[] rotation = { 0f, 0f, 0f }; // rotation number for each wheel size
+    private final double[] wheelDiameter = {
+            106.39f, // large wheel
+            78.71f,  // medium wheel
+            60.8f    // small wheel
+    };
+
+    private final float calculateRotation(int wheelIndex) {    
+        double circumference = this.wheelDiameter[wheelIndex] * Math.PI;
+        double degreePerPixel = 360.0 / circumference;
+        this.rotation[wheelIndex] += (float) degreePerPixel * super.gameData.getPixelMovement();
+        return this.rotation[wheelIndex];
+    }
+\end{lstlisting}
+
+\begin{description}
+\item[Line 1] This array has the rotation number for each wheel size
+\item[Line 2-6] This array has the diameter in pixels for each wheel size. 
+\item[Line 8] The function takes a wheelIndex as parameter, this is to determine which the wheel size that is being used for calculations. 
+\item[Line 9] The wheel's circumference is being calculated.
+\item[Line 10] Calculating the degreePerPixel by dividing 360 with the circumference
+\item[Line 11] Here the rotation for the specific wheel is calculated by taking the degreePerPixel we just found and multiplying it by the pixel movement. \textit{GameData.getPixelMovement} is explains in \todo{ref til section med getPixelMovement}. Please note that the rotation is not reset, it keeps getting added to, however is it is not necessary to reset it as the rotation will not reach an overflow.
+\item[Line 12] The specific wheel's rotation is returned. 
+\end{description}
+
+This function is called each time a wheel is drawn. This is done by using \textit{translateRotateAndDraw} as can be seen in \autoref{lst:rotatewheels}
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Rotating and drawing the wheels},label=lst:rotatewheels]
+	// Rotate and draw the wheels
+super.translateRotateAndDraw(this.calculateRotation(this.mediumWheelIndex), this.mediumWheel);
+super.translateRotateAndDraw(this.calculateRotation(this.largeWheelIndex), this.largeWheel);
+super.translateRotateAndDraw(this.calculateRotation(this.smallWheelIndex), this.smallWheel);
+\end{lstlisting}
+
+\begin{description}
+\item[Line 2-4] Each time a wheel has to be drawn, \textit{calculateRotation} with the specific wheelIndex as parameter, is called and the rotation is calculated. The wheel is rotated and then drawn. 
+\end{description}
+
+\subsection{Train smoke}
+
+Another element in making it look like the train is moving is the train smoke. While the train is standing still at the station the smoke goes vertically up in the air, but when the train moves the smoke is blown as if there was wind. 
+
+The smoke clouds are reset and updated based on time, as can be seen in \autoref{lst:cloudstime}
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals},label=lst:cloudstime]
+        //Reset one smoke cloud at the given interval
+        this.timeSinceLastReset += super.gameData.timeDifference;
+        if(this.timeSinceLastReset >= this.timeBetweenSmokeClouds) {
+            this.timeSinceLastReset = 0f;
+            
+            if(!super.gameData.isPaused) {
+                this.resetOneSmokeCloud();
+            }
+        }
+        
+        if(!super.gameData.isPaused) {
+            //Update position and alpha channels
+            this.updateSmokeClouds();
+        }
+\end{lstlisting}
+
+\begin{description}
+\item[Line 2] The \textit{timeSinceLastReset} is the time since a smoke cloud was last reset and \textit{gameData.timeDifference} is the time that has elapsed, in milliseconds. 
+\item[Line 2-9] If the time since last reset is higher or equal to the time between the smoke clouds (this is a variable we have pre-determined), then \textit{timeSinceLastReset} is set to 0, and if the game is not paused, then the smoke cloud is reset back to its starting position. 
+\item[Line 11-14] If the game is not paused, then the smoke cloud's coordinates are updated, in order to move the smoke cloud. 
+\end{description}
+
+\autoref{lst:cloudstime} showed two methods, \textit{resetOneSmokeCloud} and \textit{updateSmokeClouds}. These are the two methods in charge of moving the smoke clouds, making it look like they move. They are explained in \autoref{lst:resetonesmokecloud} and \autoref{lst:updatesmokeclouds}
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals},label=lst:resetonesmokecloud]
+    private final void resetOneSmokeCloud() {
+        //Increment the reset index
+        this.resetIndex = ++this.resetIndex % this.numberOfSmokeClouds;
+        
+        //Put cloud back to exhaust
+        this.coordinates[this.resetIndex].setCoordinate(this.startCoordinate.getX(), this.startCoordinate.getY());
+        this.colors[this.resetIndex].setColor(1f, 1f, 1f, 1f);
+    }
+        }
+\end{lstlisting}
+
+\begin{description}
+\item[Line 3] This resets the index, helping to keep track of which cloud that has to be reset. 
+\item[Line 6 \& 7] This resets the specific cloud back to its starting position and it also resets the color back to its original. 
+\end{description}
+ 
+\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals},label=lst:updatesmokeclouds]
+    private final void updateSmokeClouds() {
+        //Updates position and alpha channels
+        for (int i = 0; i < this.numberOfSmokeClouds; i++) {
+            //Always move smoke vertically, move smoke horizontally relative to the train speed.
+            this.coordinates[i].moveX(super.gameData.getPixelMovement());
+            this.coordinates[i].moveY(this.ySpeed * super.gameData.timeDifference);
+            
+            //Fade the smoke
+            this.colors[i].alpha -= (1f / (this.timeBetweenSmokeClouds * this.numberOfSmokeClouds)) * super.gameData.timeDifference;
+        }
+    }
+\end{lstlisting}
+
+\begin{description}
+\item[Line 3-6] This is in charge of moving the clouds. The clouds are moved on both the x and y axis. The new x coordinate depends on \textit{gameData.getPixelMovement} which is explained in \todo{ref til section med getPixelMovement}. The new y coordinate depends on \textit{ySpeed}, which is 0.15 \todo{Skal vi skrive hvorfor? Skal vi overhovedet nævne hvad det er eller bare sige det er en konstant?} and the time tht has elapsed.
+\item[Line 9] This fades the smoke clouds. The cloud's original alpha channel is one, and each time the smoke cloud is updated and moved, the alpha color lowered, making the cloud more see-through, to make it look like they disappear up in the air. 
+\end{description}
+
+\section{Station}
+
+We have drawn three different stations and to ensure an element of surprise in our game, each time we start the game we shuffle the list of stations so the order always will be random, however this only happens when the game is started, so the order within the same game is the same.  \autoref{lst:stations} shows this implementation.
+ 
+\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals},label=lst:stations]
+        Collections.shuffle(stations);
+        LinkedList<StationContainer> stationsQueue = this.getQueue(stations);
+        
+        float xPosition = -364f; // first platform position
+
+        for (int i = 0; i < super.gameData.numberOfStations; i++) {
+            StationContainer nextStation = stationsQueue.pop();
+            stationsQueue.add(nextStation);
+            this.stationPlatformMatrix.addRenderableMatrixItem(nextStation.station, new Coordinate(xPosition + nextStation.xOffset, nextStation.yOffset, 0f));
+            
+        xPosition += GameData.DISTANCE_BETWEEN_STATIONS;        
+            
+        }
+\end{lstlisting}
+
+\begin{description}
+\item[Line 1 \& 2]  The stations are shuffled and added to the queue.
+\item[Line 4] xPosition is the position in which the platform will be drawn. 
+\item[Line 7 \& 8] The next station is found and popped off the queue, and added to the end of the queue again to ensure there are always are stations in the queue. 
+\item[Line 8] The station is drawn in the correct position. 
+\item[Line 10] xPosition is updated with the pre-determined distance between stations to ensure each station has the same distance between them. This is especially important when we have to calculate when the train has to stop. 
+\end{description}
+
+\subsection{Stopping position}
+
+In order for us to stop the train at the correct location each time, we have to calculate the stopping position, this is done as shown in \autoref{lst:nextstopping}\todo{Nævn hvorfor den er public}
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals},label=lst:stations]
+    public final void calculateStoppingPositions() {        
+        //Make new array
+        super.gameData.nextStoppingPosition = new float[super.gameData.numberOfStations + 1];
+        
+        //Calculate all stopping positions
+        super.gameData.nextStoppingPosition[0] = GameData.DISTANCE_BETWEEN_STATIONS;
+        for (int i = 1; i < super.gameData.numberOfStations; i++) {
+            super.gameData.nextStoppingPosition[i] += super.gameData.nextStoppingPosition[i-1] + GameData.DISTANCE_BETWEEN_STATIONS;
+        }
+    }
+\end{lstlisting}
+
+\begin{description}
+\item[Line 2] An array for the stopping positions is initialized. \todo{Hvorfor er det helt præcist vi laver det +1}
+\item[Line 5] The first stopping position is equal to the pre-determined distance between station. 
+\item[Line 6 \& 7] We loop through the array and calculate the next stopping position for all stations. This is done by adding the distance to the next station to the stopping position of the previous station.
+\end{description}
+
+\section{Game background}
+
+The background for our game is randomly generated each game as mentioned in \secref{sec}\todo{Mangler en ref}. 
+
+\subsection{Hills}
+
+We have created four different sequences of hills, each sequence consists of four hills in a specific layout. This four sequences are randomly chosen throughout the game and is random each time. It is important to note that every hill texture is only loaded once, even though it is used multiple times in the game. \autoref{lst:hills} shows one of the hill sequences.
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Hill sequence},label=lst:hills]
+        HillItem[] hillSequence1 = {
+        		new HillItem(0f, this.hill_large.getHeight(), this.hill_large),
+        		new HillItem(this.hill_large.getWidth()+11f, this.hill_medium.getHeight(), this.hill_medium),
+        		new HillItem(this.hill_large.getWidth()/100f*60f, this.hill_small.getHeight(), this.hill_small),
+        		new HillItem(this.hill_large.getWidth()+11f + this.hill_medium.getWidth()/100f*65f, this.hill_larger.getHeight(), this.hill_larger)
+
+        }; 
+\end{lstlisting}
+
+\begin{description}
+\item[Line 2] As a starting point our hills are placed in the bottom left corner, so the first hill has the x-coordinate of 0, and because we draw the texture from the top left corner, we ensure that the hill is placed correctly by making the y-coordinate equal the height of the hill. 
+\item[Line 3] The next hill is placed relative to the first hill, the x-coordinate is the width of the hill that came before it plus a constant. The y-coordinate equals the height of the hill again.
+\item[Line 4] The x-coordinate for the third hill is a percentage of the width of the first hill. 
+\item[Line 5] The last hill is placed relative to the first two hills.
+\end{description}
+
+An important thing to note about the placement of the hills is the order in which they are added to the sequence, The hill furthest to the back has to be drawn first, then the second furthest and so on. This is also why the third hill in the sequence is drawn with a smaller x-coordinate than the second hill in the sequence.
+
+\subsection{Trees \& Cows}
+
+The trees and cows are randomly generated as well, however they are implemented in a very special way. 
+
+We have an array consisting of the cow texture and the tree texture, we then have several of random factors that play in before we find what to place and where to place it. 
+
+First we randomly choose which of the four hill sequences we want to draw on, this is because we do no want cows and trees on every hill sequences as they are meant to be an element of surprise for the player. 
+
+Now we know which hill sequence we draw on, we have to find out what to draw, this is also chosen randomly. We now know what to draw and on which hill sequence to draw it, but we still need to find out which hill in that sequence to draw it on, because we do not want to draw on every hill in the specific sequence. This is again chosen with a random number. We have set up four cases, one for each type of hill. Before a cow or a tree is drawn the random number we picked has to match the specific hill being drawn at that moment in time. 
+
+For example if we have to draw a cow and the random number picked is one, which means we have to draw the cow on a medium hill, but the current hill is a large, then the cow will not be drawn. On the other hand if the current hill was a medium hill, then the cow would be drawn on a random location on this hill. For a full view of what this looks like in the game, look in \autoref{app:}\todo{Mangler section med billeder i Appendix} 
+
+\subsection{Clouds \& sun}
+
+The clouds are also implemented with a degree of randomness. There will always be clouds on the sky, however the speed and placement on the sky is random to a certain degree. 
+
+The clouds move on the x-axis with a random velocity between 7 pixels per millisecond and 18 pixels per millisecond, the clouds are also randomly placed on the top 1/4th of the screen. 
+
+The sun is a stationary texture in the top right corner of the screen. 

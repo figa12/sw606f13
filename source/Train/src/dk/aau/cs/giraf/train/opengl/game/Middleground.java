@@ -4,7 +4,6 @@ package dk.aau.cs.giraf.train.opengl.game;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
-import android.text.StaticLayout;
 import dk.aau.cs.giraf.train.R;
 import dk.aau.cs.giraf.train.opengl.Coordinate;
 import dk.aau.cs.giraf.train.opengl.GameDrawer;
