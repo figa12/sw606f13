@@ -159,10 +159,10 @@ The smoke clouds are reset and updated based on time, as can be seen in \autoref
 
 \begin{description}
 \item[Line 3-6] This is in charge of moving the clouds. The clouds are moved on both the x and y axis. The new x coordinate depends on \textit{gameData.getPixelMovement} which is explained in \todo{ref til section med getPixelMovement}. The new y coordinate depends on \textit{ySpeed}, which is 0.15 \todo{Skal vi skrive hvorfor? Skal vi overhovedet nævne hvad det er eller bare sige det er en konstant?} and the time tht has elapsed.
-\item[Line 9] This fades the smoke clouds, It takes the number of smoke clouds into account and makes the last cloud more faded than the first, to make it look like they disappear up in the air. 
+\item[Line 9] This fades the smoke clouds. The cloud's original alpha channel is one, and each time the smoke cloud is updated and moved, the alpha color lowered, making the cloud more see-through, to make it look like they disappear up in the air. 
 \end{description}
 
-\subsection{Station}
+\section{Station}
 
 We have drawn three different stations and to ensure an element of surprise in our game, each time we start the game we shuffle the list of stations so the order always will be random, however this only happens when the game is started, so the order within the same game is the same.  \autoref{lst:stations} shows this implementation.
  
@@ -190,9 +190,9 @@ We have drawn three different stations and to ensure an element of surprise in o
 \item[Line 10] xPosition is updated with the pre-determined distance between stations to ensure each station has the same distance between them. This is especially important when we have to calculate when the train has to stop. 
 \end{description}
 
-\subsubsection*{Stopping position}
+\subsection{Stopping position}
 
-In order for us to stop the train at the correct location each time, we have to calculate the stopping position, this is done as shown in \autoref{lst:nextstopping}
+In order for us to stop the train at the correct location each time, we have to calculate the stopping position, this is done as shown in \autoref{lst:nextstopping}\todo{Nævn hvorfor den er public}
 
 \begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals},label=lst:stations]
     public final void calculateStoppingPositions() {        
@@ -213,4 +213,49 @@ In order for us to stop the train at the correct location each time, we have to 
 \item[Line 6 \& 7] We loop through the array and calculate the next stopping position for all stations. This is done by adding the distance to the next station to the stopping position of the previous station.
 \end{description}
 
-\subsection{Hills, trees, cows and clouds}
+\section{Game background}
+
+The background for our game is randomly generated each game as mentioned in \secref{sec}\todo{Mangler en ref}. 
+
+\subsection{Hills}
+
+We have created four different sequences of hills, each sequence consists of four hills in a specific layout. This four sequences are randomly chosen throughout the game and is random each time. It is important to note that every hill texture is only loaded once, even though it is used multiple times in the game. \autoref{lst:hills} shows one of the hill sequences.
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={Hill sequence},label=lst:hills]
+        HillItem[] hillSequence1 = {
+        		new HillItem(0f, this.hill_large.getHeight(), this.hill_large),
+        		new HillItem(this.hill_large.getWidth()+11f, this.hill_medium.getHeight(), this.hill_medium),
+        		new HillItem(this.hill_large.getWidth()/100f*60f, this.hill_small.getHeight(), this.hill_small),
+        		new HillItem(this.hill_large.getWidth()+11f + this.hill_medium.getWidth()/100f*65f, this.hill_larger.getHeight(), this.hill_larger)
+
+        }; 
+\end{lstlisting}
+
+\begin{description}
+\item[Line 2] As a starting point our hills are placed in the bottom left corner, so the first hill has the x-coordinate of 0, and because we draw the texture from the top left corner, we ensure that the hill is placed correctly by making the y-coordinate equal the height of the hill. 
+\item[Line 3] The next hill is placed relative to the first hill, the x-coordinate is the width of the hill that came before it plus a constant. The y-coordinate equals the height of the hill again.
+\item[Line 4] The x-coordinate for the third hill is a percentage of the width of the first hill. 
+\item[Line 5] The last hill is placed relative to the first two hills.
+\end{description}
+
+An important thing to note about the placement of the hills is the order in which they are added to the sequence, The hill furthest to the back has to be drawn first, then the second furthest and so on. This is also why the third hill in the sequence is drawn with a smaller x-coordinate than the second hill in the sequence.
+
+\subsection{Trees \& Cows}
+
+The trees and cows are randomly generated as well, however they are implemented in a very special way. 
+
+We have an array consisting of the cow texture and the tree texture, we then have several of random factors that play in before we find what to place and where to place it. 
+
+First we randomly choose which of the four hill sequences we want to draw on, this is because we do no want cows and trees on every hill sequences as they are meant to be an element of surprise for the player. 
+
+Now we know which hill sequence we draw on, we have to find out what to draw, this is also chosen randomly. We now know what to draw and on which hill sequence to draw it, but we still need to find out which hill in that sequence to draw it on, because we do not want to draw on every hill in the specific sequence. This is again chosen with a random number. We have set up four cases, one for each type of hill. Before a cow or a tree is drawn the random number we picked has to match the specific hill being drawn at that moment in time. 
+
+For example if we have to draw a cow and the random number picked is one, which means we have to draw the cow on a medium hill, but the current hill is a large, then the cow will not be drawn. On the other hand if the current hill was a medium hill, then the cow would be drawn on a random location on this hill. For a full view of what this looks like in the game, look in \autoref{app:}\todo{Mangler section med billeder i Appendix} 
+
+\subsection{Clouds \& sun}
+
+The clouds are also implemented with a degree of randomness. There will always be clouds on the sky, however the speed and placement on the sky is random to a certain degree. 
+
+The clouds move on the x-axis with a random velocity between 7 pixels per millisecond and 18 pixels per millisecond, the clouds are also randomly placed on the top 1/4th of the screen. 
+
+The sun is a stationary texture in the top right corner of the screen. 

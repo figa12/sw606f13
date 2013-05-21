@@ -1,0 +1,77 @@
+\section{Implementation}
+
+Text
+
+\begin{lstlisting}[language=java,caption={Generates an \ac{opengles} texture pointer.},label=lst:texturepointer] 
+protected void generateTexturePointer(GL10 gl, Bitmap bitmap, AspectRatio option) {
+    // Resizes the shape to fit the aspect ratio option
+    this.setAspectRatio(option);
+    
+    // Resizes the bitmap to a power-of-two and crops the texture accordingly
+    bitmap = this.generatePowerOfTwoBitmap(bitmap);
+    
+    // Resizes the bitmap if its size is not supported on this device
+    bitmap = this.maintainMaxTextureSize(gl, bitmap);
+    
+    // Generate one texture pointer...
+    gl.glGenTextures(1, texture, 0);
+    // ...and bind it to our array
+    gl.glBindTexture(GL10.GL_TEXTURE_2D, texture[0]);
+    
+    // Specify parameters for texture
+    gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
+    gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
+    
+    // Use the Android GLUtils to specify a 2D texture image from our bitmap
+    GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
+}
+\end{lstlisting}
+
+Text
+
+\begin{lstlisting}[language=java,caption={How we generate \ac{pot} sized texture.},label=lst:pot] 
+protected Bitmap generatePowerOfTwoBitmap(Bitmap bitmap) {
+    int newWidth = this.getNextPowerOfTwo(bitmap.getWidth());
+    int newHeight = this.getNextPowerOfTwo(bitmap.getHeight());
+    
+    // Check whether the bitmap wasn't already the correct size
+    if (newWidth != bitmap.getWidth() || newHeight != bitmap.getHeight()) {
+        // Create a new bitmap that is power-of-two sized
+        Bitmap newBitmap = Bitmap.createBitmap(newWidth, newHeight);
+        Canvas canvas = new Canvas(newBitmap);
+        canvas.drawBitmap(bitmap, 0f, 0f);
+        
+        // Crop the texture to fit the original size
+        this.cropTexture(bitmap.getWidth(), bitmap.getHeight(), newWidth, newHeight);
+        
+        return newBitmap;
+    }
+    else {
+        return bitmap;
+    }
+}
+\end{lstlisting}
+
+Text
+
+\begin{lstlisting}[language=java,caption={Scales the bitmap if the size of it is not supported on the current device.},label=lst:maintain] 
+protected Bitmap maintainMaxTextureSize(GL10 gl, Bitmap bitmap) {
+    int[] maxSize = new int[1];
+    gl.glGetIntegerv(GL10.GL_MAX_TEXTURE_SIZE, maxSize, 0); // Get max supported texture size on this device
+    
+    // If the width is to big and width is greater than the height
+    if (bitmap.getWidth() > maxSize[0] && bitmap.getWidth() >= bitmap.getHeight()) {
+        int height = (int) (bitmap.getHeight() * ((double) bitmap.getHeight() / maxSize[0]));
+        return Bitmap.createScaledBitmap(bitmap, maxSize[0], newHeight);
+    }
+    // If the height is to big and height is greater than the width
+    else if (bitmap.getHeight() > maxSize[0] && bitmap.getHeight() >= bitmap.getWidth()) {
+        int width = (int) (bitmap.getWidth() * ((double) bitmap.getWidth() / maxSize[0]));
+        return Bitmap.createScaledBitmap(bitmap, newWidth, maxSize[0]);
+    }
+    else {
+        return bitmap;
+    }
+}
+\end{lstlisting}
+

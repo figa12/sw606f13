@@ -50,6 +50,8 @@ The color in the \lstinline|draw| method's parameter specify the color of the sq
 
 This class must at some point load a resource pointer to a texture pointer. The loaded texture will always stretch to the size of the \lstinline|Square| that it is drawn upon. The \lstinline|Texture| class also implements ways to keep the original aspect ratio of the texture. Although not shown in the figure, the \lstinline|loadTexture| method also has an aspect ratio option that allows the size of the \lstinline|Square|, containing the texture, to resize based on the size of the texture.
 
+During loading of a piece of texture, the texture is converted to a \ac{pot} sized texture, \secref{sec:potsupport} explains why. \ac{opengles} has maximum dimensions of texture which is dependent on the device in use. Each piece of texture is checked whether they respect the maximum dimensions, and if it does not it is scaled down.
+
 The \lstinline|draw| method must be overridden in order to draw the loaded texture. In this case it is possible to change the color that the \lstinline|Texture| is drawn with. No matter what color the original \lstinline|Texture| is, a color filter can be put on top of that on each call of the draw method.
 
 \item[Text:] Adds the possibility to draw text. \lstinline|loadText| generates a bitmap with the specified text to use as texture. This is an easy way to draw text, but if you need to draw text that changes all the time, then \lstinline|loadText| is a slow way to do it. Fortunately we only need to load one time for each \lstinline|Text| object.
@@ -57,12 +59,12 @@ The \lstinline|draw| method must be overridden in order to draw the loaded textu
 \item[GlPictogram:] Adds the possibility to draw a pictogram. \lstinline|loadPictogram| generates a bitmap of the pictogram image, and then uses it as the texture for the object. To draw the pictogram text, a \lstinline|Text| object is used.\todo{Skriv i weekly notes hvorfor vi også har GlPictogram klassen som en Renderable i stedet for kun View}
 \end{description}
 
-\subsection{Texture Power-of-two Support}
+\subsection{Texture Power-of-two Support}\label{sec:potsupport}
 Some \ac{opengles} devices does not support texture with a \ac{npot} size, they only accept texture with a \ac{pot} size. Android developers reference states that you should perform a check whether the current context supports \ac{npot}. \citep{glutils}
 
 You get an increase of performance when using \ac{pot}, and at the time when the first version of OpenGL was created, the hardware needed this extra performance. Years later hardware only gained an insignificant increase of performance so they allowed \ac{npot}. Some embedded systems using \ac{opengles} still gain a significant increase in performance, and this is why some devices require texture to be \ac{pot}. (We were not able to find official citation, the best we could find is this \citep{potperformance})
 
-Instead of performing a check to see whether the current context supports \ac{npot}, we choose to always use \ac{pot}. Even if it is not neccesary it will still give a small performance increase. The way we achieve this is to still use texture with a \ac{npot} size, convert the texture to \ac{pot} size, and then stretch it relative to the change in size. However this will also consume a lot more memory, but the train game does not require that much memory even with \ac{pot} sized texture.
+Instead of performing a check to see whether the current context supports \ac{npot}, we choose to always use \ac{pot}. Even if it is not necessary it will still give a small performance increase. The way we achieve this is to still use texture with a \ac{npot} size, convert the texture to \ac{pot} size, and then stretch it relative to the change in size. However this will also consume a lot more memory, but the train game does not require that much memory even with \ac{pot} sized texture.
 \begin{figure}[H]
 \begin{minipage}[b]{0.5\columnwidth}
 \centering
@@ -150,5 +152,3 @@ The tablet has a resolution of $1280 \times 800$, but since it always displays a
 \autoref{fig:frustumside} shows the frustum seen from the side, we want to find the height $h$ of the triangle (depth) when $a$ is the same size as our tablet $a = 752$. We have chosen a field of view angle to be $A = 45^{\circ}$. Since the angles $B$ and $C$ are the same size then
 $$B = C = \frac{180^{\circ} - A}{2} = 67.5^{\circ}$$
 \todo{ikke færdig, jeg skal lige tilspørge min formelsamling}
-\section{Implementation}
-\todo{Describes the implementation of OpenGL}
