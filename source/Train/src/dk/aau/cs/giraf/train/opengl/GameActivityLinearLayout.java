@@ -52,11 +52,11 @@ public abstract class GameActivityLinearLayout extends LinearLayout {
 		@SuppressWarnings("deprecation")
         @Override
 		public boolean onDrag(View hoverView, DragEvent event) {
-				View draggedView = (View) event.getLocalState();
+		    View draggedView = (View) event.getLocalState();
 				
 				switch (event.getAction()) {
 					case DragEvent.ACTION_DRAG_STARTED:
-						// makes the draggedview invisible in ownerContainer
+					    GameActivityLinearLayout.this.requestLayout(); // this is temporary fix for drag error
 						break;
 	
 					case DragEvent.ACTION_DRAG_ENTERED:
