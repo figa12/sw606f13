@@ -1,28 +1,23 @@
+Unfortunately due to time limitations we have not been able to implement all the features that our contact person suggested. This Chapter describes what some of the future work on our application could be.
 
 \todo{This Chapter describes what improvements that can be made on our game and menu in the future.}
-
-\todo{This Chapter describes some of the assignments our group have had throughout this multi-project.}
 \textbf{STIKORD:}\\\\
-\begin{itemize}
-\item Reduceres drag listener på pictogrammerne (de ryster).
-\item Game customisation optimisation. Listerne er langsomme.
-\item Pictogrammer kun i opengl
-\item Texture mipmaps
-\item Solstråler.
-\item Children list view skal være linear layout.
-\item Mulighed for at overskrive spil.
-\item Lyd på pictogrammer
-\item Flere lydeffekter i spillet.
-\item Databse \todo{Smid JSON queries ind her}
-\item Setings menu, hvor du kan ændre farver og slå lyde til og fra osv. på ting i spillet.
-\item Billede af det valgte barn som tog chauffør.
-\item Gør det tydeligt at man kan slette ved at long-click
-\item linearlayouts med pictogrammer forsvinder første gang man dragger.
-\item Større udvalg af baggrunds overraskelser, såsom traktor, fly, mennesker.
-\item Mulighed for at færdiggøre en station ved at første pictogram er kategori og resten er pictogrammer til stationen.
-\item Forskelligt vejr mellem stationer.
+\begin{description}
+\item The sun should have visible sunbeams, making it shine. 
+\item At the moment it is not possible to overwrite an old game, each time you click the "Gem Spil" button, you save a new instance of a game even if you have changed an old game. It should be possible to overwrite existing games in order to make it easier for the user to edit and update them.
+\item The pictograms should have sounds, this could either be when you move them around or then you press them. 
+\item More sound effects in the game when the train is driving, such as the cow mooing or the wind blowing. 
+\item All colors in the game are pre-determined right now. A settings menu where it is possible to change the color of items in the game, for example the color of the train and mute the different sounds could be possible in order to make it more customizable for the guardian.  
+\item Every child has an avatar picture, it could be funny to have the child's avatar as the train driver. 
+\item It is possible to delete saved games by performing a long click, however this is not mentioned any where. Perhaps a little information button somewhere that explains this could be a good idea. 
+\item The selection of background features is very limited, it can only be cows or trees. A greater selection of items could be implemented, perhaps to include planes, different kinds of animals or even humans. It should still be kept simple, but it would create a greater variation in the background. 
+\item At the moment when creating new stations in the menu section, the user has to click the blank category box, open the PictoSearch, choose one category pictogram and click the "Send" button, then click the green plus and choose which pictograms to associate with the station.
 
-\end{itemize}
+An easier way for this could be to allow the user to click the blank category box and open PictoSearch and then allow them to choose up to seven pictograms, where the first pictogram would count as the category and the rest would be the pictograms associated with this specific station.
+\item Forskelligt vejr mellem stationer. One of the suggestions made by our contact person was tht the weather could change while the train moved from one station to another
+\item Linearlayouts med pictogrammer forsvinder første gang man dragger.
+\item Reduceres drag listener på pictogrammerne (de ryster).
+\item Database \todo{Smid JSON queries ind her} 
 \begin{lstlisting}[language=json,firstnumber=1,caption={JSON guery to read application data},label=lst:jsonread]
 {
 	"auth": {
@@ -36,3 +31,11 @@
 	}
 }
 \end{lstlisting} \todo{Skal muligvis skrives om, ved ikke om den er rigtig.}
+
+\item Game customisation optimisation. Listerne er langsomme.
+\item Pictogrammer kun i opengl
+\item Texture mipmaps
+\item Children list view skal være linear layout.
+
+
+\end{description}
