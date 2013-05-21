@@ -1,14 +1,11 @@
-\todo{This Chapter describes the process of developing our game. At the end of each week, we wrote down what we had done and what choices we had made.}
-
 \section*{Week 1 - 18/02/2013 - 22/02/2013}
 
-After forming our groups we spent the first week brainstorming for ideas for a game. We had our first supervisor meeting this week as well, where we presented our initial idea and got some feedback, which we used as input. 
+After forming our groups we spent the first week brainstorming for ideas for a game. We had our first supervisor meeting this week as well, where we presented our initial idea and got some useful feedback
 
-\section*{Week 2 - 18/02/2013 - 22/02/2013} 
-\label{processweek2}
+\section*{Week 2 - 18/02/2013 - 22/02/2013}\label{processweek2}
 After the brainstorm and discussions with our supervisor we came up with an idea for our game, the game idea takes base in our contact person Tove's own exercise with the children. In one of the introduction weeks of this semester, Tove presented how she works with the children, improving their communication, categorization of objects, and social skills. In one of her exercises she try to improve the child's skill to categorize objects. This exercise consist of making the child take the right object, placing it on a train, and drive the train to the correct train station that accepts this object. This exercise has proven to Tove to be very powerful since it can be modified to help children categorize colors, sizes of objects, people of the child's social circle, and more. Though the exercise is good, the preparation time for each game can be very time consuming. She often has to make new pictograms or find objects of a certain requirements. Our game idea is to digitize the exercise and keep the principles of the exercises, by moving the exercise to a tablet, we also hope that the preparation time for each child is reduced.
 
-We arranged a meeting with Tove, so that we could present our idea and show her the paper prototype that we had made to demonstrate our idea. The feedback we received we have used throughout the project to design our game. 
+We arranged a meeting with Tove, so that we could present our idea and show her the paper prototype that we had made to demonstrate our idea.% The feedback we received was used throughout the project to design our game. 
 
 Since this is a project that we are continuing from last year we had to set up Eclipse so that we could compile the old projects and run them on our tablet. 
 
@@ -23,34 +20,34 @@ We also discussed how the layout of our game should be, in regards to where each
 We also looked into different methods to make our background slide to create the illusion that our train was moving between stations. 
 
 \section*{Week 4 - 04/03/2013 - 08/03/2013}
-We now had a sliding background which worked, however we discovered that it was too slow, so we instead had a discussing of whether or not we should use OpenGL. 
+We now have a sliding background which work, however we discovered that it is too slow, we discussed whether or not we should use \ac{opengles} instead. 
 
-We also started making the graphics we needed for our game, using Adobe Illustrator.\todo{Kan man refere til design komiten?} We wanted to draw all the graphics in vector graphics so that we could easily scale it up or down without losing quality. 
+We also started making the graphics we needed for our game, using Adobe Illustrator.\todo{Referer til design komitén?} We wanted to draw all the graphics in vector graphics so that we could easily scale it up or down without losing quality. 
 
-We also had a short discussing regarding how to make it look like the train was moving. 
+We also had a short discussion regarding how to make it look like the train was moving.
 
 \section*{Week 5 - 11/03/2013 - 15/03/2013}
 This week we finished Sprint 1, which focused on getting our application into the existing GIRAF launcher. We achieved this. 
 
-We were also asked, by the Chief Integration Officer (\textbf{CIO}) to make an ant script for our project so that he could set up continues integration for the multiproject. This was also achieved. 
+We were also asked, by the Chief Integration Officer to make an ant script for our project so that he could set up continues integration for the multiproject. This was also achieved. 
 
-We have decided to use OpenGL, since the alternative was way too slow. We use OpenGL to render our graphics. We are able to draw objects / pictures on the screen using OpenGL. 
+We have decided to use \ac{opengles}, since the alternative was way too slow. We use \ac{opengles} to render our graphics. We are able to draw objects / pictures on the screen using \ac{opengles}. 
 
 We also created a little icon for our game. 
 
-We had the second meeting with Tove this week as well, she gave some comments on our graphic and us some great ideas for improvement that we can use. She also suggested that there could be changing weather when the train moved from station to station. 
+We had the second meeting with Tove this week as well, she gave some comments on our graphic and some great ideas for improvement that we can use. She also suggested that there could be changing weather when the train moved from station to station. 
 
 \section*{Week 6, 7, 8 and 9 - 18/03/2013-12/04/2013}
 Since the last notes we have done a lot of "under the hood" work:
 
 \begin{itemize}
-\item We have decided to use OpenGL ES V1 instead of the newer V2. We chose to use V1 because it should be easier for OpenGL beginners. 
-\item The class diagram (structure) for OpenGL drawing is implemented. It is now easy to draw and move objects across the screen. 
+\item We have decided to use \ac{opengles} $1.x$ instead of the newer $2.0$. We chose to use $1.x$ because it should be easier for OpenGL beginners. 
+\item The class diagram (structure) for \ac{opengles} drawing is implemented. It is now easy to draw and move objects across the screen. 
 \item The wheels on the train and the smoke coming from the exhaust is now animated to create the illusion that the train is actually moving. 
-\item The train can now smoothly accelerate and decelerate and can stop at exact coordinates in front of a station. 
-\item "Garbage" has been improved, Garbage collection does almost not run any more. 
+\item The train can now smoothly accelerate and decelerate and can stop at exact coordinates at a station. 
+\item Garbage collection does almost not run during the game any more.
 \item We have implemented the Pictogram class.
-\item We sent an e-mail to Tove with some prototypes of how the game looks. She has replied with some improvement.
+\item We sent an e-mail to Tove with some prototypes of how the game looks. She has replied with some improvements.
 \end{itemize} 
 
 \section*{Week 10, 11, 12 and 13 - 12/04/2013 - 10/05/2013}
@@ -63,9 +60,9 @@ Since the last notes we have almost finished the game, just need to fix a few bu
 \item We now have a train depot to indicate that the game has finished. 
 \todo{Vi skal lige have skrevet alt på og have skrevet at vi har afsluttet hvert sprint.}
 \end{itemize}
-We also started writing on our report. 
+During the debug sprint we finished the application. We also started writing on our report. 
 
 \section*{Week 14 - 13/05/2013 - 17/05/2013}
-\todo{Skrive noter}
+\todo{Skrive noter. Stikord: Skrev rapport, Mette ødelægge spillet, fixed småting rundt omkring}
 \section*{Week 15 - 20/05/2013 - 24/05/2013}
-\todo{Skrive noter} 
+\todo{Skrive noter: Skrev rapport hele ugen.} 
