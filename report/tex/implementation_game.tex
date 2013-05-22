@@ -22,7 +22,7 @@ The train and wagons are stationary textures on the tablet screen. \autoref{lst:
 \item[Line 7] This loads the \textit{train} texture, and the original aspect ratio is kept again. 
 \end{description}
 
-Now the texture is successfully loaded we have to place it on right location on the tablet screen. This is done using the coordinate system mentioned in\todo{ref til koordinatsystemet}. This is done as shown in \autoref{lst:addcoordinate}.
+Now the texture is successfully loaded we have to place it on right location on the tablet screen. This is done using the coordinate system mentioned in \secref{sec:frustum}. This is done as shown in \autoref{lst:addcoordinate}.
 
 \begin{lstlisting}[language=java,firstnumber=1,caption={Placing the texture on the screen},label=lst:addcoordinate] 
 	//Add coordnates to the renderables
@@ -32,7 +32,7 @@ Now the texture is successfully loaded we have to place it on right location on 
 \end{lstlisting}
 
 \begin{description}
-\item[Line 2 \& 3] Since we have chosen to have two wagons on our train, we have to have two wagon objects, with their own coordinate. The coordinates are based on the coordinate system mentioned in \todo{ref til koordinatesystem}. \textit{GameData.Foreground} determines where in the clipping plane the objects are placed. 
+\item[Line 2 \& 3] Since we have chosen to have two wagons on our train, we have to have two wagon objects, with their own coordinate. The coordinates are based on the coordinate system mentioned in \secref{sec:frustum}. \textit{GameData.Foreground} determines where in the clipping plane the objects are placed. 
 \item[Line 4] Adds a coordinate for the placement of the \textit{train}.
 \end{description}
 
@@ -45,7 +45,7 @@ Now the textures have been loaded and given coordinates, they are ready to be dr
 \end{lstlisting}
 
 \begin{description}
-\item[Line 2 \& 3] This draws the \textit{wagon} and \textit{train} objects. The \textit{translateAndDraw} method is explained in \todo{Ref til afsnit on translateAndDraw}
+\item[Line 2 \& 3] This draws the \textit{wagon} and \textit{train} objects. The \textit{translateAndDraw} method is explained in \secref{sec:gamerendering}
 \end{description}
 
 \subsection{Wheels}
@@ -78,7 +78,7 @@ The difference comes when the wheels are drawn, we have to rotate the wheels so 
 \item[Line 8] The function takes a wheelIndex as parameter, this is to determine which the wheel size that is being used for calculations. 
 \item[Line 9] The wheel's circumference is being calculated.
 \item[Line 10] Calculating the degreePerPixel by dividing 360 with the circumference
-\item[Line 11] Here the rotation for the specific wheel is calculated by taking the degreePerPixel we just found and multiplying it by the pixel movement. \textit{GameData.getPixelMovement} is explains in \todo{ref til section med getPixelMovement}. Please note that the rotation is not reset, it keeps getting added to, however is it is not necessary to reset it as the rotation will not reach an overflow.
+\item[Line 11] Here the rotation for the specific wheel is calculated by taking the degreePerPixel we just found and multiplying it by the pixel movement. \textit{GameData.getPixelMovement} is explained in \secref{sec:gamerendering}. Please note that the rotation is not reset, it keeps getting added to, however is it is not necessary to reset it as the rotation will not reach an overflow.
 \item[Line 12] The specific wheel's rotation is returned. 
 \end{description}
 
@@ -124,7 +124,7 @@ The smoke clouds are reset and updated based on time, as can be seen in \autoref
 \item[Line 11-14] If the game is not paused, then the smoke cloud's coordinates are updated, in order to move the smoke cloud. 
 \end{description}
 
-\autoref{lst:cloudstime} showed two methods, \textit{resetOneSmokeCloud} and \textit{updateSmokeClouds}. These are the two methods in charge of moving the smoke clouds, making it look like they move. They are explained in \autoref{lst:resetonesmokecloud} and \autoref{lst:updatesmokeclouds}
+\autoref{lst:cloudstime} showed two methods, \textit{resetOneSmokeCloud} and \textit{updateSmokeClouds}. These are the two methods in charge of updating and resetting the smoke cloud's positions, making it look like they move. They are explained in \autoref{lst:resetonesmokecloud} and \autoref{lst:updatesmokeclouds}
 
 \begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals},label=lst:resetonesmokecloud]
     private final void resetOneSmokeCloud() {
@@ -158,7 +158,7 @@ The smoke clouds are reset and updated based on time, as can be seen in \autoref
 \end{lstlisting}
 
 \begin{description}
-\item[Line 3-6] This is in charge of moving the clouds. The clouds are moved on both the x and y axis. The new x coordinate depends on \textit{gameData.getPixelMovement} which is explained in \todo{ref til section med getPixelMovement}. The new y coordinate depends on \textit{ySpeed}, which is 0.15 \todo{Skal vi skrive hvorfor? Skal vi overhovedet nævne hvad det er eller bare sige det er en konstant?} and the time tht has elapsed.
+\item[Line 3-6] This is in charge of moving the clouds. The clouds are moved on both the x and y axis. The new x coordinate depends on \textit{gameData.getPixelMovement} which is explained in \secref{sec:gamerendering}. The new y coordinate depends on a constant called \textit{ySpeed}, and \textit{gameData.timeDifference}, which is the time that has elapsed.
 \item[Line 9] This fades the smoke clouds. The cloud's original alpha channel is one, and each time the smoke cloud is updated and moved, the alpha color lowered, making the cloud more see-through, to make it look like they disappear up in the air. 
 \end{description}
 
@@ -194,7 +194,7 @@ We have drawn three different stations and to ensure an element of surprise in o
 
 In order for us to stop the train at the correct location each time, we have to calculate the stopping position, this is done as shown in \autoref{lst:nextstopping}\todo{Nævn hvorfor den er public}
 
-\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals},label=lst:stations]
+\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals},label=lst:nextstopping]
     public final void calculateStoppingPositions() {        
         //Make new array
         super.gameData.nextStoppingPosition = new float[super.gameData.numberOfStations + 1];
