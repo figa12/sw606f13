@@ -15,8 +15,10 @@ Unfortunately due to time limitations we have not been able to implement all the
 
 An easier way for this could be to allow the user to click the blank category box and open PictoSearch and then allow them to choose up to seven pictograms, where the first pictogram would count as the category and the rest would be the pictograms associated with this specific station.
 \item[Changing weather] One of the suggestions made by our contact person was that the weather could change while the train moved from one station to another, for example the sun could shine from the first to the second station and it could rain or snow from the second to the third station. 
-\item Linearlayouts med pictogrammer forsvinder første gang man dragger.
-\item Reduceres drag listener på pictogrammerne (de ryster).
+\item[Layouts disappear when drag starts] At the beginning of each game, and each time you arrive at a station, the first pictogram you drag will make the layouts on the station disappear while the pictogram is being dragged. We have a workaround for this but it creates a lot of overhead. Each time we start a drag event, we draw all the layouts again.
+\item[Reduce drag events] While dragging a pictogram the pictogram shakes. Too many dragging events happens while the pictogram is being dragged, this should be reduced. It also uses resources that \ac{opengles} could use for higher frame rate.
+\item[Customisation optimisation] The lists for children, saved games, and stations were created under pressure of time. When you load a game, a lot of garbage is created from the game that was loaded before that.
+\item[Dragging of pictograms in \ac{opengles}] Instead of having regular views and \ac{opengles} at the same time, it would be better if everything was implemented in \ac{opengles}. There is some noticeable delay with the communication between the two, especially when pictograms are taken from the views and rendered in \ac{opengles}.
 \item Database \todo{Smid JSON queries ind her} 
 \begin{lstlisting}[language=json,firstnumber=1,caption={JSON guery to read application data},label=lst:jsonread]
 {
@@ -31,11 +33,5 @@ An easier way for this could be to allow the user to click the blank category bo
 	}
 }
 \end{lstlisting} \todo{Skal muligvis skrives om, ved ikke om den er rigtig.}
-
-\item Game customisation optimisation. Listerne er langsomme.
-\item Pictogrammer kun i opengl
-\item Texture mipmaps
-\item Children list view skal være linear layout.
-
 
 \end{description}
