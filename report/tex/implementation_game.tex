@@ -54,7 +54,7 @@ The wheels are loaded and given a coordinate in the same way as the train that w
 
 The difference comes when the wheels are drawn, we have to rotate the wheels so that it looks like the train moves, this is done by calculating the rotation using the function shown in \autoref{lst:calcrotate}.
 
-\begin{lstlisting}[language=java,firstnumber=1,caption={Rotating and drawing the wheels.},label=lst:calcrotate]
+\begin{lstlisting}[language=java,firstnumber=1,caption={Calculating the wheel rotation.},label=lst:calcrotate]
     private float[] rotation = { 0f, 0f, 0f }; // rotation number for each wheel size
     private final double[] wheelDiameter = {
             106.39f, // large wheel
@@ -124,7 +124,7 @@ if (!super.gameData.isPaused) {
 
 \autoref{lst:cloudstime} showed two methods, \lstinline|resetOneSmokeCloud| and \lstinline|updateSmokeClouds|. These are the two methods in charge of updating and resetting the smoke cloud's positions, making it look like they move. They are explained in \autoref{lst:resetonesmokecloud} and \autoref{lst:updatesmokeclouds}
 
-\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals.},label=lst:resetonesmokecloud]
+\begin{lstlisting}[language=java,firstnumber=1,caption={Function handling the resetting of a smoke cloud.},label=lst:resetonesmokecloud]
 private final void resetOneSmokeCloud() {
     //Increment the reset index
     this.resetIndex = ++this.resetIndex % this.numberOfSmokeClouds;
@@ -140,7 +140,7 @@ private final void resetOneSmokeCloud() {
 \item[Lines 6-7] This resets the specific cloud back to its starting position and it also resets the color back to its original. 
 \end{description}
  
-\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals.},label=lst:updatesmokeclouds]
+\begin{lstlisting}[language=java,firstnumber=1,caption={Function handling the updating of a smoke cloud.},label=lst:updatesmokeclouds]
 private final void updateSmokeClouds() {
     //Updates position and alpha channels
     for (int i = 0; i < this.numberOfSmokeClouds; i++) {
@@ -163,7 +163,7 @@ private final void updateSmokeClouds() {
 
 We have made three different station textures and to ensure an element of surprise in our game, each time we start the game we shuffle the list of stations so the order always will be random, however this only happens when the game is started, so the order within the same game is the same. \autoref{lst:stations} shows this implementation.
  
-\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals.},label=lst:stations]
+\begin{lstlisting}[language=java,firstnumber=1,caption={Placing the station correctly.},label=lst:stations]
 Collections.shuffle(stations);
 LinkedList<StationContainer> stationsQueue = this.getQueue(stations);
 
@@ -183,7 +183,7 @@ for (int i = 0; i < super.gameData.numberOfStations; i++) {
 \item[Lines 1-2]  The stations are shuffled and added to the queue.
 \item[Line 4] \lstinline|xPosition| is the position in which the platform will be drawn. 
 \item[Line 7-8] The next station is found and popped off the queue, and added to the end of the queue again to ensure there are always are stations in the queue. 
-\item[Line 9] The station is drawn in the correct position.\todo{Omskriv og uddyb! Der står ikke at vi bruger en station matrix.}
+\item[Line 9] The station is added to the \lstinline|stationPlatformMatrix| and drawn at the correct location. All stations have the same offset to ensure that they are all placed at the same location each time the train stops. 
 \item[Line 11] \lstinline|xPosition| is updated with the pre-determined distance between stations to ensure each station has the same distance between them. This is especially important when we have to calculate when the train has to stop. 
 \end{description}
 
@@ -191,7 +191,7 @@ for (int i = 0; i < super.gameData.numberOfStations; i++) {
 
 In order for us to stop the train at the correct location each time, we have to calculate the stopping position, this is done as shown in \autoref{lst:nextstopping}.
 
-\begin{lstlisting}[language=java,firstnumber=1,caption={Smoke clouds getting reset based on time intervals.},label=lst:nextstopping]
+\begin{lstlisting}[language=java,firstnumber=1,caption={Calculating the next stopping position.},label=lst:nextstopping]
 public final void calculateStoppingPositions() {        
     //Make new array
     super.gameData.nextStoppingPosition = new float[super.gameData.numberOfStations + 1];
@@ -205,18 +205,20 @@ public final void calculateStoppingPositions() {
 \end{lstlisting}
 
 \begin{description}
-\item[Line 2] An array for the stopping positions is initialized. \todo{Vi laver +1 fordi Train Depot også er med i array'et, train depot stoppested bliver tilføjet i train depot filen, skriv}
+\item[Line 2] An array for the stopping positions is initialized. The array is +1 to ensure an ArrayIndexOutofBoundsException will not occur when calculating the stopping position for the train depot mentioned in \secref{sec:gameidea}.
 \item[Line 6] The first stopping position is equal to the pre-determined distance between station. 
 \item[Lines 7-9] We loop through the array and calculate the next stopping position for all stations. This is done by adding the distance to the next station to the stopping position of the previous station.
 \end{description}
 
 \section{Game background}
 
-The background for our game is randomly generated for each game session as mentioned in \secref{sec}\todo{Mangler en ref}. 
+The background for our game is randomly generated for each game session as mentioned in \secref{sec:finalgame}
 
 \subsection{Hills}
 
-We have created four different sequences of hills, each sequence consists of four hills in a specific layout. This four sequences are randomly chosen throughout the game and is random each time. It is important to note that every hill texture is only loaded once, even though it is used multiple times in the game. \autoref{lst:hills} shows one of the hill sequences.\todo{Forklar kort hvad HillItem er, og skriv hvad constructoren tager i mod.}
+We have created four different sequences of hills, each sequence consists of four hills in a specific layout. This four sequences are randomly chosen throughout the game and is random each time. It is important to note that every hill texture is only loaded once, even though it is used multiple times in the game. 
+
+HillItem is a class used for making hill sequences. Its constructor takes three parameters, an x-coordinate, a y-coordinate and a texture. The x- and y-coordinates are used for placement of the texture. \autoref{lst:hills} shows one of the hill sequences used in our game.
 
 \begin{lstlisting}[language=java,firstnumber=1,caption={Hill sequence.},label=lst:hills]
 HillItem[] hillSequence1 = {
@@ -238,15 +240,34 @@ An important thing to note about the placement of the hills is the order in whic
 
 \subsection{Trees \& Cows}
 
-The trees and cows are randomly generated as well, however they are implemented in a very special way. 
+The trees and cows are randomly generated as well, however they are implemented used more layers of randomization. \autoref{lst:background} shows the important elements of this.
 
-We have an array consisting of the cow texture and the tree texture, we then have several random factors that play in before we find what to place and where to place it. 
+\begin{lstlisting}[language=java,firstnumber=1,caption={Selection of background.},label=lst:background]
+private Texture[] decorationArray = {cow, tree, tree};
 
-First we randomly choose which of the four hill sequences we want to draw on, this is because we do not want cows and trees on every hill sequences as they are meant to be an element of surprise for the player. 
+drawDecoration = super.gameDrawer.getRandomNumber(0, 2); // Randomly chosen which decoration to draw (cow = 0, tree = 1, tree = 2)
+chooseHillSequence = super.gameDrawer.getRandomNumber(0, hillSequences.length-1); // randomly choose which hill sequence to draw
+chooseHillToDrawOn = super.gameDrawer.getRandomNumber(1, 4); // randomly choose which hill to draw on (small_hill = 1, medium_hill = 2, large_hill = 3, larger_hill = 4)
+    		
+for (HillItem hillItem : hillSequences[chooseHillSequence]){
+	this.sequence.addRenderableMatrixItem(hillItem.hill, new Coordinate(i + hillItem.x, hillItem.y, 0f));
+\end{lstlisting}
 
-Now we know which hill sequence we draw on, we have to find out what to draw, this is also chosen randomly. We now know what to draw and on which hill sequence to draw it, but we still need to find out which hill in that sequence to draw it on, because we do not want to draw on every hill in the specific sequence. This is again chosen with a random number. We have set up four cases, one for each type of hill. Before a cow or a tree is drawn the random number we picked has to match the specific hill being drawn at that moment in time. 
+\begin{description}
+\item[Line 1] We have an array consisting of the cow texture and the tree texture. We chose to have one cow texture and two tree textures so that trees would have a chance of occurring more often. We have several random factors that play in before we find where to place it. 
+\item[Line 3] First we randomly choose which of the four hill sequences we want to draw, this is because we do not want cows and trees on every hill as they are meant to be an element of surprise for the player. 
+\item[Line 4] Now we know which hill sequence we draw, we have to find out what to draw, this is also chosen randomly. We randomly find a number between 0 and 2 and use this as index in our \lstinline|decorationArray|.
+\item[Line 5] We now know what to draw and on which hill sequence to draw it, but we still need to find out which hill in that sequence to draw it on, because we do not want to draw on every hill in the specific sequence. This is again chosen with a random number, which is used to choose a random case. 
+\item[Lines 7-8] We add each hill in the sequence to the matrix so they can be drawn in a loop. 
+\end{description}
 
-For example if we have to draw a cow and the random number picked is one, which means we have to draw the cow on a medium hill, but the current hill is a large, then the cow will not be drawn. On the other hand if the current hill was a medium hill, then the cow would be drawn on a random location on this hill. For a full view of what this looks like in the game, look in \autoref{app:}\todo{Mangler section med billeder i Appendix} \todo{Der mangler noget forklaring her, hvad er 'current hill'?}
+Now it gets a little complicated, so far we have a random number which determines which hill sequence we have to draw, we also have a random number which determines whether a cow or trees should be drawn on this hill sequence and we have a random number deciding which specific hill in this sequence to draw on. 
+
+We have set up four cases, one for each type of hill, \lstinline|hillItem.hill| has to correspond to the case chosen by the random number, if this is the case, then there will be drawn on the hill, if not then nothing is drawn and the loop continues with the next iteration.  
+
+For example if the three numbers that has been chosen are one, one and three. This means that the hill sequence we will draw is hill sequence one and we have to draw a cow on a large hill in this sequence. 
+
+The first hill in this sequence is added to the matrix, and then two scenarios can occur, either \lstinline|hillItem.hill| is a large hill and the cow is drawn on the large hill, or \lstinline|hillItem.hill| is not a large hill and nothing is drawn on the hill and new random numbers are chosen and everything is checked again.\todo{Læs og se om I forstår forklaringen}
 
 \subsection{Clouds \& sun}
 
