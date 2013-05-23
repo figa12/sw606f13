@@ -2,4 +2,31 @@
 
 \section{Listview}
 The menu for customisation in this project consists of three lists and it would thus be obvious to use the ListView class from the android library\citep{androidlistview}. This proved to be quite the challenge, since the ListView is not optimised for being manipulating directly. This means that it is build for showing a data set in a list form, but if you want to change this data set on the fly, you run into a lot of problems. There are plenty of examples of people who struggle to use the ListView class\citep{listviewfail} and what seemed to cause a lot of our problems is the NotifyDataSetChanged method from the underlaying adapter\citep{notifydatasetchanged}. The documentation of this method is very vague and we could not get our list to update with new data.\\
-We chose to implement our own classes for populating the lists containing saved game configurations and stations. The first list in the menu, the one containing children, is made with the ListView class, this could be done since it does not have to be manipulated on runtime.
+We chose to implement our own classes for populating the lists containing saved game configurations and stations. The first list in the menu, the one containing children, is made with the ListView class, this could be done since it does not have to be manipulated after the initial load of children.
+\subsection*{GameLinearLayout}
+The class we made to show a list of saved games is called GameLinearLayout.\\
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={The method to create a list item - makeView},label=lst:makeview]
+private void makeView(GameConfiguration gameConfiguration) {
+        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View gameListItem = layoutInflater.inflate(R.layout.game_list_item, null); // Use same as profile
+        
+        TextView gameNameTextView = (TextView) gameListItem.findViewById(R.id.profileName);
+        gameNameTextView.setText(gameConfiguration.getGameName());
+
+        ImageView profilePictureImageView = (ImageView) gameListItem.findViewById(R.id.profilePic);
+        profilePictureImageView.setImageResource(R.drawable.default_profile);
+        
+        @SuppressWarnings("static-access")
+        Bitmap bitmap = BitmapFactory.decodeFile(PictoFactory.INSTANCE.getPictogram(super.getContext(),gameConfiguration.getStation(0).getCategory()).getImagePath());
+        profilePictureImageView.setImageBitmap(bitmap);
+        
+        gameListItem.setOnClickListener(new OnItemClickListener(gameConfiguration));
+        gameListItem.setOnLongClickListener(new OnItemLongClickListener(gameConfiguration));
+        
+        this.visibleGameConfigurations.add(gameConfiguration); //Add to list of visible configurations
+        super.addView(gameListItem);
+    }
+\end{lstlisting}
+
+
