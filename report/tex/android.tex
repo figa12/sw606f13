@@ -6,27 +6,68 @@ We chose to implement our own classes for populating the lists containing saved 
 \subsection*{GameLinearLayout}
 The class we made to show a list of saved games is called GameLinearLayout.\\
 
-\begin{lstlisting}[language=java,firstnumber=1,caption={The method to create a list item - makeView},label=lst:makeview]
+\begin{lstlisting}[language=java,firstnumber=1,caption={The method to create a list item},label=lst:makeview]
 private void makeView(GameConfiguration gameConfiguration) {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View gameListItem = layoutInflater.inflate(R.layout.game_list_item, null); // Use same as profile
+        /* Use same layout style as the profile list */
+        View gameListItem = layoutInflater.inflate(R.layout.game_list_item, null);
         
-        TextView gameNameTextView = (TextView) gameListItem.findViewById(R.id.profileName);
+        TextView gameNameTextView = (TextView) gameListItem.findViewById(R.id.gameName);
         gameNameTextView.setText(gameConfiguration.getGameName());
 
-        ImageView profilePictureImageView = (ImageView) gameListItem.findViewById(R.id.profilePic);
-        profilePictureImageView.setImageResource(R.drawable.default_profile);
+        ImageView gameIconImageView = (ImageView) gameListItem.findViewById(R.id.gameIcon);
         
-        @SuppressWarnings("static-access")
         Bitmap bitmap = BitmapFactory.decodeFile(PictoFactory.INSTANCE.getPictogram(super.getContext(),gameConfiguration.getStation(0).getCategory()).getImagePath());
-        profilePictureImageView.setImageBitmap(bitmap);
+        gameIconImageView.setImageBitmap(bitmap);
         
         gameListItem.setOnClickListener(new OnItemClickListener(gameConfiguration));
         gameListItem.setOnLongClickListener(new OnItemLongClickListener(gameConfiguration));
-        
-        this.visibleGameConfigurations.add(gameConfiguration); //Add to list of visible configurations
+
+        /* Add to the list of visible configurations */
+        this.visibleGameConfigurations.add(gameConfiguration);
         super.addView(gameListItem);
     }
 \end{lstlisting}
+\begin{description}
+\item[Line 1] \textit{makeView} takes a \textit{GameConfiguration} which contains all relevant information about the saved game.
+\item[Line 2-4] Sets the style of the items. Same as the profile list containing children.
+\item[Line 6-7] Gets the name of the game and sets it in the list item.
+\item[Line 9-13] Gets the category pictogram of the first station in the game configuration and sets this as a game icon for the list item.
+\item[Line 14-15] Set a LongClickListener and a ClickListener on the item. These are both ClickListeners that we have made, that takes a GameConfiguration. The normal click will select the item and show its details in the customisation list. The long click will show a dialog that asks you whether you want to delete it or not. 
+\item[Line 19-20] Add the item to the list of saved games.
+\end{description}
 
+\subsection*{CustomiseLinearLayout}
+The class we made to show a list of stations. The customisation list.
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={The method to add a station to the list},label=lst:addstation]
+public void addStation(StationConfiguration station) {
+        this.stations.add(station);
+        this.preventStationOverflow();
+        
+        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View stationListItem = layoutInflater.inflate(R.layout.station_list_item, null);
+        
+        PictogramButton categoryPictogramButton = (PictogramButton) stationListItem.findViewById(R.id.list_category);
+        categoryPictogramButton.bindStationAsCategory(station);
+        
+        /* The order og image button and associated pictograms layout statements, are very important here */
+        ImageButton addPictogramsButton = (ImageButton) stationListItem.findViewById(R.id.addPictogramButton);
+        this.addPictogramButtons.add(addPictogramsButton);
+        
+        AssociatedPictogramsLayout associatedPictogramsLayout = (AssociatedPictogramsLayout) stationListItem.findViewById(R.id.associatedPictograms);
+        this.associatedPictogramsLayouts.add(associatedPictogramsLayout);
+        associatedPictogramsLayout.bindStation(station);
+        
+        addPictogramsButton.setOnClickListener(new AddPictogramsClickListener(associatedPictogramsLayout));
+        
+        ImageView deleteButton = (ImageView) stationListItem.findViewById(R.id.deleteRowButton);
+        deleteButton.setOnClickListener(new RemoveClickListener(station));
+        
+        super.addView(stationListItem);
+    }
+\end{lstlisting}
+\begin{description}
+\item[]
+\end{description}
 
