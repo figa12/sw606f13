@@ -2,4 +2,72 @@
 
 \section{Listview}
 The menu for customisation in this project consists of three lists and it would thus be obvious to use the ListView class from the android library\citep{androidlistview}. This proved to be quite the challenge, since the ListView is not optimised for being manipulating directly. This means that it is build for showing a data set in a list form, but if you want to change this data set on the fly, you run into a lot of problems. There are plenty of examples of people who struggle to use the ListView class\citep{listviewfail} and what seemed to cause a lot of our problems is the NotifyDataSetChanged method from the underlaying adapter\citep{notifydatasetchanged}. The documentation of this method is very vague and we could not get our list to update with new data.\\
-We chose to implement our own classes for populating the lists containing saved game configurations and stations. The first list in the menu, the one containing children, is made with the ListView class, this could be done since it does not have to be manipulated on runtime.
+We chose to implement our own classes for populating the lists containing saved game configurations and stations. The first list in the menu, the one containing children, is made with the ListView class, this could be done since it does not have to be manipulated after the initial load of children.
+\subsection*{GameLinearLayout}
+The class we made to show a list of saved games is called GameLinearLayout.\\
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={The method to create a list item},label=lst:makeview]
+private void makeView(GameConfiguration gameConfiguration) {
+        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        /* Use same layout style as the profile list */
+        View gameListItem = layoutInflater.inflate(R.layout.game_list_item, null);
+        
+        TextView gameNameTextView = (TextView) gameListItem.findViewById(R.id.gameName);
+        gameNameTextView.setText(gameConfiguration.getGameName());
+
+        ImageView gameIconImageView = (ImageView) gameListItem.findViewById(R.id.gameIcon);
+        
+        Bitmap bitmap = BitmapFactory.decodeFile(PictoFactory.INSTANCE.getPictogram(super.getContext(),gameConfiguration.getStation(0).getCategory()).getImagePath());
+        gameIconImageView.setImageBitmap(bitmap);
+        
+        gameListItem.setOnClickListener(new OnItemClickListener(gameConfiguration));
+        gameListItem.setOnLongClickListener(new OnItemLongClickListener(gameConfiguration));
+
+        /* Add to the list of visible configurations */
+        this.visibleGameConfigurations.add(gameConfiguration);
+        super.addView(gameListItem);
+    }
+\end{lstlisting}
+\begin{description}
+\item[Line 1] \textit{makeView} takes a \textit{GameConfiguration} which contains all relevant information about the saved game.
+\item[Line 2-4] Sets the style of the items. Same as the profile list containing children.
+\item[Line 6-7] Gets the name of the game and sets it in the list item.
+\item[Line 9-13] Gets the category pictogram of the first station in the game configuration and sets this as a game icon for the list item.
+\item[Line 14-15] Set a LongClickListener and a ClickListener on the item. These are both ClickListeners that we have made, that takes a GameConfiguration. The normal click will select the item and show its details in the customisation list. The long click will show a dialog that asks you whether you want to delete it or not. 
+\item[Line 19-20] Add the item to the list of saved games.
+\end{description}
+
+\subsection*{CustomiseLinearLayout}
+The class we made to show a list of stations. The customisation list.
+
+\begin{lstlisting}[language=java,firstnumber=1,caption={The method to add a station to the list},label=lst:addstation]
+public void addStation(StationConfiguration station) {
+        this.stations.add(station);
+        this.preventStationOverflow();
+        
+        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View stationListItem = layoutInflater.inflate(R.layout.station_list_item, null);
+        
+        PictogramButton categoryPictogramButton = (PictogramButton) stationListItem.findViewById(R.id.list_category);
+        categoryPictogramButton.bindStationAsCategory(station);
+        
+        /* The order og image button and associated pictograms layout statements, are very important here */
+        ImageButton addPictogramsButton = (ImageButton) stationListItem.findViewById(R.id.addPictogramButton);
+        this.addPictogramButtons.add(addPictogramsButton);
+        
+        AssociatedPictogramsLayout associatedPictogramsLayout = (AssociatedPictogramsLayout) stationListItem.findViewById(R.id.associatedPictograms);
+        this.associatedPictogramsLayouts.add(associatedPictogramsLayout);
+        associatedPictogramsLayout.bindStation(station);
+        
+        addPictogramsButton.setOnClickListener(new AddPictogramsClickListener(associatedPictogramsLayout));
+        
+        ImageView deleteButton = (ImageView) stationListItem.findViewById(R.id.deleteRowButton);
+        deleteButton.setOnClickListener(new RemoveClickListener(station));
+        
+        super.addView(stationListItem);
+    }
+\end{lstlisting}
+\begin{description}
+\item[]
+\end{description}
+
