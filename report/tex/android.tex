@@ -29,7 +29,7 @@ private void makeView(GameConfiguration gameConfiguration) {
     }
 \end{lstlisting}
 \begin{description}
-\item[Line 1] \textit{makeView} takes a \textit{GameConfiguration} which contains all relevant information about the saved game.
+\item[Line 1] \lstinline|makeView| takes a \lstinline|GameConfiguration| which contains all relevant information about the saved game.
 \item[Line 2-4] Sets the style of the items. Same as the profile list containing children.
 \item[Line 6-7] Gets the name of the game and sets it in the list item.
 \item[Line 9-13] Gets the category pictogram of the first station in the game configuration and sets this as a game icon for the list item.
@@ -68,6 +68,13 @@ public void addStation(StationConfiguration station) {
     }
 \end{lstlisting}
 \begin{description}
-\item[]
+\item[Line 3] The \lstinline|preventStationOverflow| method will disable the "add station" button if the max allowed amount of stations has been added.
+\item[Line 5-6] Sets the style of the list items.
+\item[Line 8-9] Sets the button that holds the category. This is bound to the station, which means that whenever this button changes pictogram, the category of the station changes category accordingly.
+\item[Line 12-13] Sets the button to add pictograms.
+\item[Line 15-17] Sets the associated pictograms layout in the list item. This is also bound to the station.
+\item[Line 19] Sets an \lstinline|OnClickListener| for the \lstinline|addPictogramsButton| that will launch the \ac{cat} application when clicked. This will allow you to select the pictograms you want to add to the station.
+\item[Line 21-22] Sets a delete button on the list item, that will delete the station and list item if clicked.
+\item[Line 24] Adds the list item to the list.
 \end{description}
 
