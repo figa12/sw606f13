@@ -100,15 +100,14 @@ public class GameLinearLayout extends LinearLayout {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View gameListItem = layoutInflater.inflate(R.layout.game_list_item, null); // Use same as profile
         
-        TextView gameNameTextView = (TextView) gameListItem.findViewById(R.id.profileName);
+        TextView gameNameTextView = (TextView) gameListItem.findViewById(R.id.gameName);
         gameNameTextView.setText(gameConfiguration.getGameName());
 
-        ImageView profilePictureImageView = (ImageView) gameListItem.findViewById(R.id.profilePic);
-        profilePictureImageView.setImageResource(R.drawable.default_profile);
+        ImageView gameIconImageView = (ImageView) gameListItem.findViewById(R.id.gameIcon);
         
         @SuppressWarnings("static-access")
         Bitmap bitmap = BitmapFactory.decodeFile(PictoFactory.INSTANCE.getPictogram(super.getContext(),gameConfiguration.getStation(0).getCategory()).getImagePath());
-        profilePictureImageView.setImageBitmap(bitmap);
+        gameIconImageView.setImageBitmap(bitmap);
         
         gameListItem.setOnClickListener(new OnItemClickListener(gameConfiguration));
         gameListItem.setOnLongClickListener(new OnItemLongClickListener(gameConfiguration));
