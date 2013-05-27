@@ -32,20 +32,19 @@
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{1}
 
-\tableofcontents
+\tableofcontents*
 
-\newcommand{\secref}[1]{Section \ref{#1}} %brugt i fællesrapporten
-
-\part{GIRAF Introduction} %Put it in if needed
+\acresetall %resets all acronyms to not used
 
 \input{tex/commonReport/commonReport.tex}
 
 \part{Train}
+\acresetall %resets all acronyms to not used
 
 \chapter{Introduction}\label{chap:intro}
 \input{tex/problemstatement}
 
-\chapter{Chronological process} \label{chronologicalprocess}
+\chapter{Chronological Process} \label{chronologicalprocess}
 \input{tex/process}
 
 \chapter{Android}
@@ -61,10 +60,11 @@
 \input{tex/design_game}
 \input{tex/design}
 
+\chapter{Game Implementation}
 \input{tex/implementation_game}
 
-\chapter{Perspective}
-\input{tex/perspective}
+\chapter{Multi-Project Aspects}
+\input{tex/multiproject}
 
 \bookmarksetup{startatroot}% dette skulle stoppe part, så conclusion får indryk. Problemet i skrivende øjeblik er at chapters har samme indryk uafhængigt af parts
 \addtocontents{toc}{\bigskip}%laver ekstra mellemrum
@@ -76,8 +76,11 @@
 \input{tex/future_work}
 
 \begin{appendices}
+\addtocontents{toc}{\def\protect\cftchappresnum{\appendixname{} }}
 \label{appendixStart}
 \input{tex/constants}
+\input{tex/gametexture}
+\input{tex/game_background}
 \input{tex/wombat}
 \label{appendixEnd}
 \end{appendices}

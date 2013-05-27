@@ -1,35 +1,32 @@
 \begin{titlingpage}
 \begin{nopagebreak}
 {\samepage 
-\begin{tabular}{r}
-\parbox{\textwidth}{ {\includegraphics[scale=0.15]{img/titelblad/logo.png}}
-\hfill \parbox{4.9cm}{\begin{tabular}{l}
-{\textsf{\small \textbf{Department of Computer Science}}}\\
-{\textsf{\small  \textbf{Software Engineering}}} \\
-{\textsf{\small Selma Lagerløfs Vej 300}} \\
-{\textsf{\small Telephone +45 9940 9940}} \\
-{\textsf{\small +45 9940 9798}} \\
-{\textsf{\small http://www.cs.aau.dk}}
-\end{tabular}}}
-\\
-\end{tabular}
 
-\begin{tabular}{cc}
-\parbox{6cm}{
-\begin{description}
+\begin{minipage}{0.3\textwidth}
+	\begin{flushleft} 
+		\includegraphics[scale=0.13]{img/titelblad/logo.png}\\
+	\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.65\textwidth}
+	\begin{flushright}
+		\begin{tabular}{l}
+			{\textsf{\small \textbf{Department of Computer Science}}}\\
+			{\textsf{\small  \textbf{Software Engineering}}} \\
+			{\textsf{\small Selma Lagerløfs Vej 300}} \\
+			{\textsf{\small Telephone +45 9940 9940}} \\
+			{\textsf{\small +45 9940 9798}} \\
+			{\textsf{\small http://www.cs.aau.dk}}
+		\end{tabular}
+	\end{flushright}
+\end{minipage}\\[0.5cm]
 
-\item {\textbf Title:} 
-
-Train
-  
-\item {\textbf{Subject:}} 
+\noindent\begin{minipage}[c]{0.4\textwidth}
+	\begin{flushleft} 
+	\begin{description}	
+\item {\textbf{Title:}}\\
+Interactive Learning Exercise for Autistic Children
+\item {\textbf{Subject:}}\\
 Developing Complex Software Systems.
-
-\end{description}
-
-\parbox{8cm}{
-
-\begin{description}
 \item {\textbf{Project period:}}\\
    P6, Spring semester 2013\\
   \hspace{4cm}
@@ -42,31 +39,34 @@ Jesper Riemer Andersen \\
 Nicklas Andersen \\
 Simon Reedtz Olesen \\
 
-  \hspace{2cm}
 \item {\textbf{Supervisor:}}\\
 Ulrik Mathias Nyman \\
 \end{description}
-}
+
 \begin{description}
 \item {\textbf{Finished:}}
 \item {\textbf{Number of pages:}} \pageref{lastpage}
 \item {\textbf{Appendix pages:}} \pagedifference{appendixStart}{appendixEnd}
 \end{description}
-\vfill } &
-\parbox{7cm}{
-  \vspace{.15cm}
+\vfill
+	\end{flushleft}
+\end{minipage}
+\begin{minipage}[c]{0.6\textwidth}
+	\begin{flushright} 
+		  \vspace{.15cm}
   \hfill 
   \begin{tabular}{l}
   {\textbf{Synopsis:}}\bigskip \\
   \fbox{
-    \parbox{6.5cm}{\bigskip
+    \parbox{5.5cm}{\bigskip
      {\vfill{\small \input{tex/synopsis.tex}
      \bigskip}}
      }}
-   \end{tabular}}
-\end{tabular}}
-\\ \\
+   \end{tabular}
+	\end{flushright}
+\end{minipage}
+
 \noindent{\footnotesize\emph{The content of this rapport can be used freely; however publication (with source material) may only occur in agreement with
-the authors.}}
+the authors.}}}
 \end{nopagebreak}
 \end{titlingpage}

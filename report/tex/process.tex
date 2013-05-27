@@ -4,7 +4,7 @@ After forming our groups we spent the first week brainstorming for ideas for a g
 
 \section*{Week 2 - 18/02/2013 - 22/02/2013} 
 \label{processweek2}
-After the brainstorm and discussions with our supervisor we came up with an idea for our game, the game idea arise by our contact person Tove's own exercise with the children. In one of the introduction weeks of this semester, Tove presented how she works with the children, improving their communication, categorization of objects, and social skills. In one of her exercises she try to improve the child's skill to categorize objects. This exercise consist of making the child take the right object, placing it on a train, and drive the train to the correct train station that accepts this object. This exercise has proven to Tove to be very powerful since it can be modified to help children categorize colors, sizes of objects, people of the child's social circle, and more. Though the exercise is good, the preparation time for each game can be very time consuming. She often has to make new pictograms or find objects of a certain requirements. Our game idea is to digitize the exercise and keep the principles of the exercises, by moving the exercise to a tablet, we also hope that the preparation time for each child is reduced.
+After the brainstorm and discussions with our supervisor we came up with an idea for our game, the game idea came up by our contact person Tove's own exercise with the children. In one of the introduction weeks of this semester, Tove presented how she works with the children, improving their communication, categorization of objects, and social skills. In one of her exercises she tries to improve the child's skill to categorize objects. This exercise consist of making the child take the right object, placing it on a train, and drive the train to the correct train station that accepts this object. This exercise has proven to Tove to be very powerful since it can be modified to help children categorize colors, sizes of objects, people of the child's social circle, and more. Though the exercise is good, the preparation time for each game can be very time consuming. She often has to make new pictograms or find objects of a certain criteria, so they can be categorized. Our game idea is to digitize the exercise and keep the principles of the exercises, by moving the exercise to a tablet, we also hope that the preparation time for each child is reduced.
 
 We arranged a meeting with Tove, so that we could present our idea and show her the paper prototype that we had made to demonstrate our idea.% The feedback we received was used throughout the project to design our game. 
 
@@ -55,15 +55,19 @@ Since the last notes we have done a lot of "under the hood" work:
 Since the last notes we have almost finished the game, just need to fix a few bugs. Among the things we have implemented are:
 
 \begin{itemize}
+\item We chose to use \ac{3d} to create our game, even though the game is in \ac{2d}. When the train is driving the background have to seem like it is farther away than the train is by sliding slower than the train is driving. The easy way to achieve this is by putting the background farther away in the depth.
 \item We now have hills in the background. They are made in sequences of four hills and are randomly picked throughout the game. 
 \item We now have clouds and a sun on the sky. The clouds are moving at a random speed and at a random height on the sky. 
 \item We now have cows and trees on the hills. These come at random times throughout the game.
-\item We now have a train depot to indicate that the game has finished. 
+\item We now have a train depot to indicate that the game has finished.
+\item Pictograms is drawn on the station when the train begins to drive. This is done with \ac{opengles} since we had some issues animating the layouts to follow the train.  
 \todo{Vi skal lige have skrevet alt på og have skrevet at vi har afsluttet hvert sprint.}
 \end{itemize}
 During the debug sprint we finished the application. We also started writing on our report. 
 
 \section*{Week 14 - 13/05/2013 - 17/05/2013}
-\todo{Skrive noter. Stikord: Skrev rapport, Mette ødelægge spillet, fixed småting rundt omkring}
+We have been writing more report. We have also been making a few small fixes and tweaks to the code.
+We were visited by Mette Als Andreasen that wanted a demonstration of our application. Upon demonstrating it we saw for the first time that \ac{pot} texture was not supported on her hardware. However a fix for this was already implemented, but disabled at the time.
+
 \section*{Week 15 - 20/05/2013 - 24/05/2013}
-\todo{Skrive noter: Skrev rapport hele ugen.} 
+We have been writing more report. We have also been trying to deal with a glitch for some weeks. The first pictogram being dragged at each station will make the station layouts disappear. We now have a workaround for this: Each time a drag event starts we draw all the layouts again.
