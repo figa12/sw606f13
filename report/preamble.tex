@@ -190,18 +190,24 @@
 
 % Define markup of JSON
 \colorlet{punct}{red!60!black}
-\definecolor{background}{HTML}{EEEEEE}
-\definecolor{delim}{RGB}{20,105,176}
+\colorlet{delim}{red!60!black}
 \colorlet{numb}{magenta!60!black}
 \lstdefinelanguage{json}{
-    basicstyle=\normalfont\ttfamily,
+    basicstyle=\footnotesize,
     numbers=left,
-    numberstyle=\scriptsize,
+    numberstyle=\tiny\color{black},
     stepnumber=1,
-    numbersep=8pt,
+    numbersep=5pt,
+    showspaces=false,
     showstringspaces=false,
+    showtabs=false,
     breaklines=true,
-    frame=lines,
+    breakatwhitespace=false,
+    tabsize=4,
+    rulecolor=\color{black},
+    captionpos=b,
+    title=\lstname,
+    frame=single,
     backgroundcolor=\color{background},
     literate=
      *{0}{{{\color{numb}0}}}{1}
