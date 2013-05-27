@@ -34,12 +34,12 @@
 
 \tableofcontents*
 
-\newcommand{\secref}[1]{Section \ref{#1}} %brugt i fællesrapporten
-\newcommand{\chapref}[1]{Chapter \ref{#1}}
+\acresetall %resets all acronyms to not used
 
 \input{tex/commonReport/commonReport.tex}
 
 \part{Train}
+\acresetall %resets all acronyms to not used
 
 \chapter{Introduction}\label{chap:intro}
 \input{tex/problemstatement}
@@ -79,6 +79,7 @@
 \addtocontents{toc}{\def\protect\cftchappresnum{\appendixname{} }}
 \label{appendixStart}
 \input{tex/constants}
+\input{tex/gametexture}
 \input{tex/game_background}
 \input{tex/wombat}
 \label{appendixEnd}
