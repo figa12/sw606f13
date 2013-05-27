@@ -38,6 +38,9 @@
 % bedre enumerate
 \usepackage{enumitem}
 
+% Mulighed for if-then-else sætning!
+\usepackage{ifthen}
+
 % Todo notes here and there.
 % write instead for disable: \usepackage[disable]{todonotes}
 \usepackage{todonotes}
@@ -313,3 +316,33 @@
 \setlength\beforechapskip {\onelineskip }
 \usepackage{lipsum}
 
+%Laver fancy ting her. Noget med at overwrite noget includegraphics for at kunne bruge commands som parameter til den
+\makeatletter
+\protected\def\includeGraphics{\@testopt\roy@includegraphics{}}
+\def\roy@includegraphics[#1]#2{%
+  \begingroup
+  % Every expandable token in #1 may be expanded here:
+  \edef\x{\endgroup\noexpand\includegraphics[#1]}\x{#2}%
+}
+\makeatother
+
+\newcommand{\theAngle}{90} %vinkel brugt til at rotere med, bliver renewed i \landscapefigure
+
+%Indsætter figure i landscape og roterer billedet efter om det er højre eller venstre side
+\newcommand{\landscapefigure}[4]
+{
+\ifthenelse{\isodd{\thepage}}
+{% ulige sidetal = højre side
+\renewcommand{\theAngle}{90}
+}
+{% lige sidetal = venstre side
+\renewcommand{\theAngle}{270}
+}
+
+\begin{figure}[H]
+\centering
+\includegraphics[angle=\theAngle ,#1]{img/#2}
+\caption{#3}
+\label{#4}
+\end{figure}
+}
