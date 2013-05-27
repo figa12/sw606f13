@@ -25,7 +25,7 @@ public final class Clouds extends GameDrawable {
     	
     	public CloudContainer() {
     		
-       	    this.index = 2;
+       	    this.index = 2; // only use big cloud
     		this.cloudFrequence = gameDrawer.getRandomNumber(screenWidth + cloudArray[index].getWidth(), (screenWidth + cloudArray[index].getWidth())*1.5f);
     		this.coordinate = new Coordinate(gameDrawer.getRandomNumber(-screenWidth - cloudArray[index].getWidth(), screenWidth/2f), gameDrawer.getRandomNumber(screenHeight/2f - screenHeight/4f + cloudArray[index].getHeight(), screenHeight/2f), GameData.BACKGROUND);	 
     		this.cloudSpeed = gameDrawer.getRandomNumber(-0.18f, -0.07f);
