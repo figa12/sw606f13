@@ -82,16 +82,15 @@
 \input{tex/wombat}
 \label{appendixEnd}
 \end{appendices}
-\newpage
 
-\listoffigures
+\cleardoublepage
+\listoffigures*
 
-%\newpage
+%\cleardoublepage
+%\listoftables*
 
-%\listoftables
-
-\newpage
-
+\cleardoublepage
+\renewcommand{\lstlistlistingname}{List of Listings}%ændrer overskriften
 \lstlistoflistings
 
 % Afslut med bibliografien. Bibliografien har mærkelige sidetal og side reference. Fixed med cleardoublepage og phantomsection
