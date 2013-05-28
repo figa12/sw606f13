@@ -101,4 +101,15 @@
 
 \label{lastpage}% brugt i titelblad til total sidetal
 
+% hvis den sidste side er et lige sidetal så skal der indsættes en ekstra blank bagside
+\ifthenelse{\isodd{\thepage}}
+{% ulige sidetal = højre side
+% do nothing
+}
+{% lige sidetal = venstre side
+\pagebreak
+\thispagestyle{empty}
+\mbox{}
+}
+
 \end{document}
