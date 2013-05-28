@@ -8,13 +8,8 @@ When using \ac{opengles} on the Android platform, the default \ac{opengles} vers
 Since we are beginners to OpenGL we have chosen version $1.x$. One big difference between $1.x$ and $2.0$ is that you have to write your own shaders in versions $2.0$, this allows for easier effects customisation. The Train game does not really require much special effects other than simple drawing of textures.
 
 \section{Design}
-\autoref{fig:terminology} shows how we represent abstract class names and how we denote public or private attributes and methods. A minus denotes a private attribute/method, and a plus denotes a public attribute/method. Italic class names are abstract classes.
-\begin{figure}[H]
-\centering
-\includegraphics[page=4,width=0.7\linewidth]{img/opengl.pdf}
-\caption{The way we make UML described in a figure.}
-\label{fig:terminology}
-\end{figure}
+
+In this section we show how we use \ac{opengles} to draw on the screen. The design description gets very close to an implementation description, but a few specific methods will be described in more detail in the next section.
 
 \subsection{Renderable Classes}
 

@@ -1,4 +1,5 @@
 \section{Drag and Drop}
+\label{sec:implementationdraganddrop}
 As mentioned in \secref{sec:androiddraganddrop}, the implementation of drag and drop has been simplified after SDK 11. This allows for an easy implementation of the drag and drop functionality. Before the explanation of drag and drop, we will first show the hierarchy of the layouts on the station and the wagons.
 \begin{figure}[H]
 \centering
@@ -43,29 +44,29 @@ When the method \textit{view.startDrag()} is called, the OnDragListener event is
 private class DragListener implements OnDragListener {
 	public boolean onDrag(View hoverView, DragEvent event) {
 	    View draggedView = (View) event.getLocalState();
-			switch (event.getAction()) {
-				case DragEvent.ACTION_DROP:
-					// DropAction, assigns the draggedview to the dropContainer if, the dropContainer does not already contain a pictogram.
-					ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
-					PictoFrameLayout dropContainer = (PictoFrameLayout) hoverView;
-					Object tag = hoverView.getTag();
-					if (tag == null) {
-						ownerContainer.removeView(draggedView);
-						ownerContainer.setTag(null);
-						dropContainer.addView(draggedView);
-						dropContainer.setTag("filled");
-					}
-					draggedView.setVisibility(View.VISIBLE);
-					break;
+		switch (event.getAction()) {
+			case DragEvent.ACTION_DROP:
+				// DropAction, assigns the draggedview to the dropContainer if, the dropContainer does not already contain a pictogram.
+				ViewGroup ownerContainer = (ViewGroup) draggedView.getParent();
+				PictoFrameLayout dropContainer = (PictoFrameLayout) hoverView;
+				Object tag = hoverView.getTag();
+				if (tag == null) {
+					ownerContainer.removeView(draggedView);
+					ownerContainer.setTag(null);
+					dropContainer.addView(draggedView);
+					dropContainer.setTag("filled");
+				}
+				draggedView.setVisibility(View.VISIBLE);
+				break;
 
-				case DragEvent.ACTION_DRAG_ENDED:
-					// Makes the draggedview visible again after the view has been moved or if drop wasn't valid.
-					if(event.getResult() == false){
-						draggedView.setVisibility(View.VISIBLE);
-					}
-					break;
-			}
-			return true;
+			case DragEvent.ACTION_DRAG_ENDED:
+				// Makes the draggedview visible again after the view has been moved or if drop wasn't valid.
+				if(event.getResult() == false){
+					draggedView.setVisibility(View.VISIBLE);
+				}
+				break;
+		}
+		return true;
 	}
 }
 \end{lstlisting}

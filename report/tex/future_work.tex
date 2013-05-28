@@ -18,38 +18,37 @@ An easier way for this could be to allow the user to click the blank category bo
 \item[Customisation optimisation] The lists for children, saved games, and stations were created under pressure of time. When you load a game, a lot of garbage is created from the game that was loaded before that.
 \item[Dragging of pictograms in \ac{opengles}] Instead of having regular views and \ac{opengles} at the same time, it would be better if everything was implemented in \ac{opengles}. There is some noticeable delay with the communication between the two, especially when pictograms are taken from the views and rendered in \ac{opengles}.
 \item[Database] The database was not fully implemented and because of that we save the game configurations to a file. When the database is implemented the following queries will be able to read and write data respectively.
-\begin{lstlisting}[language=json,firstnumber=1,caption={JSON query to read application data},label=lst:jsonread]
+\begin{lstlisting}[language=json,firstnumber=1,caption={JSON query to read application data.},label=lst:jsonread]
 {
-	"auth": {
-		"session": SESSION_STRING
-	},
-	"action": "read",
-	"data": {
-		"type": "application",
-		"view": "list",
-		"ids": null
-	}
+    "auth": {
+        "session": SESSION_STRING
+    },
+    "action": "read",
+    "data": {
+        "type": "application",
+        "view": "list",
+        "ids": null
+    }
 }
 \end{lstlisting}
 \todo{Read query'en skal nok skrives en anelse om.}
 
-\begin{lstlisting}[language=json,firstnumber=1,caption={JSON query to write application data},label=lst:jsonwrite]
+\begin{lstlisting}[language=json,firstnumber=1,caption={JSON query to write application data.},label=lst:jsonwrite]
 {
-        "auth": {
-                "session": SESSION_STRING
-        },
-        "action": "link",
-        "data": {
-                "profile'': PROFILE_ID,
-                "link":
-                [
-                  {
-                    "type": "application",
-                    "id": APPLICATION_ID,
-                    "settings": SETTINGS_STRING
-                  }
-                ]
-        }
+    "auth": {
+        "session": SESSION_STRING
+    },
+    "action": "link",
+    "data": {
+        "profile'': PROFILE_ID,
+        "link": [
+            {
+                "type": "application",
+                "id": APPLICATION_ID,
+                "settings": SETTINGS_STRING
+            }
+        ]
+    }
 }
 \end{lstlisting}
 \end{description}
