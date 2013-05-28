@@ -1,5 +1,5 @@
 \section{Game Design}
-In this section we will discuss and explain our thoughts about the game design, we will also comment on the feedback given by our contact person. Finally we will show the result of the game design.
+In this section we will discuss and explain our thoughts about the game design, we will also comment on the feedback given by our contact person Tove. Finally we will show the result of the game design.
 \subsection{Game Idea/Description}\label{sec:gameidea}
 %Skriv hvordan spillet fungere
 In \chapref{processweek2} it is explained how Tove's version of the exercise work. We intent to keep the same principles of Tove's exercise. We will start by given a short description of the important objects of the game.
@@ -9,7 +9,7 @@ In \chapref{processweek2} it is explained how Tove's version of the exercise wor
 
 \item[Train whistle] Is a button that the child can press if they think that the correct pictograms have been dropped onto the station. If however the child have made a mistake and dropped a pictogram not belonging to the station's category, then the train will not start. The train whistle was added by Tove's request.
 
-\item[Train and wagons] Is a vehicle that drives to each station, carrying pictograms in its wagons.\todo{Omskriv og uddyb!}
+\item[Train and wagons] The train is the vehicle that drives to each station. The train has two wagons, each wagon can carry either two or three pictograms, depending on the total number of pictogram in the game.
 
 \item[Landscape] Is a sequence of hills, trees, cows, and clouds. The landscape objects are placed in the background behind the stations.
 
@@ -25,13 +25,17 @@ At the start of the game, the child must drag the pictograms off the start train
 \caption{The paper prototype.}
 \label{fig:paperprototype}
 \end{figure}
-\autoref{fig:paperprototype} shows the paper prototype we showed Tove at our first meeting, in which we explained our game idea. She liked the idea and the interface, although she would like to see a button that checks if the correct pictograms are off the train, if all pictograms are off then the train should start. She also mentioned that the game should have an ending, she suggested that the train could drive into a train depot. The game should not contain many colors and sounds, since this would cause visual and audible noise for the child. The train whistle and train depot was added to the game idea after the meeting.
+\autoref{fig:paperprototype} shows the paper prototype we showed Tove at our first meeting, in which we explained our game idea. She liked the game idea and the user interface. Although she would like to add a button that checks if the correct pictograms have been dragged off the train, if this is case the button should start the train. She also mentioned that the game should have an ending, she suggested that the train could drive into a train depot. To accommodate these two features we added the train whistle and train depot to the game. 
+Lastly Tove mentioned that the game should not contain many colors and sounds, since this would cause visual and audible noise for the child. 
 
 \subsection{Final Game Design}\label{sec:designgameinterface}
 
 During the project we sent screen shots of the game interface to Tove, to confirm that we were on the right track. Mostly she did not have not much to add, only small graphical adjustments to stations.
 
-In order to mimic Tove's version of the exercise we had to make the game customizable, we had to add a menu where Tove was able to customize the pictograms and the category for each station, the menu and its functionality is explained later in \secref{designmenu}. To prevent that the game is not the same every time it is played, we added random elements to the game, e.g. the order of stations, the hills in the landscape sequence, and the decorative objects(cows, trees, clouds) are all randomly placed. All the textures of the game can be viewed in the \appref{app:gametextures}
+In order to mimic Tove's version of the exercise we had to make the game customizable, this was achieved by adding a menu where Tove was able to customize the pictograms and the category for each station. The menu and its functionality is explained later in \secref{designmenu}.
+During the design phase we agreed upon some constants of the game, the distance between the stations, the velocity of the train, etc. The constants in the game have all been approved of Tove. The constants and their values are shown in \appref{app:constants}.
+To prevent that the game is the same every time it is played, we decided to add random elements to the game, e.g. the order of stations, the placement of the hills, and the decorative objects(cows, trees, clouds). 
+All the textures of the game can be viewed in the \appref{app:gametextures}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\linewidth]{img/screenshots/gamedesign1.jpg}
@@ -44,5 +48,7 @@ In order to mimic Tove's version of the exercise we had to make the game customi
 \caption{Miniature game.}
 \label{fig:miniaturegame}
 \end{figure}
-\autoref{fig:finalresult} and \autoref{fig:miniaturegame} shows the final result of the game design. \autoref{fig:miniaturegame} shows a simple game, though it is missing the landscape sequence. On the \autoref{fig:finalresult} it shows the start station, note that it is missing a category in the top section of the station. The pictograms has yet to be dragged onto the train. 
+\autoref{fig:finalresult} and \autoref{fig:miniaturegame} shows the final result of the game design. \autoref{fig:finalresult} shows the starting station, note that the station is missing a category in the top section of the station. The pictograms have also yet to be dragged off the station.
+\autoref{fig:miniaturegame} shows a full game, though the game is simple it contains all the necessary objects. It should be noted that the game shown is missing the landscape sequence and all the decorative objects.
+
 %vis det endelig resultat, samt de ting som ikke noget at blive tilføjet.(Traindriver, click and autosnap, lyd på pictogrammer)
