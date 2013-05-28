@@ -1,3 +1,13 @@
+\section{Game Configuration}
+\label{gameconfiguration}
+We made two classes to hold the data of a game. \lstinline|GameConfiguration| contains data about the game, such as the name of the guy and who it is associated with. It also contains an \lstinline|ArrayList| og \lstinline|StationConfiguration| objects. A \lstinline|StationConfiguration| contains the category of the station and an \lstinline|ArrayList| of pictograms that will be accepted at that station.\autoref{fig:configurations}
+Methods worth noticing are the two methods \lstinline|writeConfiguration()| and \lstinline|writeStation()|, these will write the object to a string, ready for saving to a file or in the database. \lstinline|writeToParcel| will write the object to a parcel object which is "designed as a high-performance inter-process communication transport"\citep{parcel}
+\begin{figure}[H]
+\includegraphics[width=1.0\linewidth,page=2]{img/configurations.pdf}%0.1 margin
+\caption{Class diagram of the GameConfiguration and StationConfiguration}
+\label{fig:configurations}
+\end{figure}
+
 \section{Menu Design}
 \label{designmenu}
 To keep the same look and feel throughout the whole \ac{giraf} project, we looked for inspiration in the projects from 2012. The \ac{wombat} project had the same kind of customisation menu we were looking to make, it is shown in \appref{app:wombat}. We followed the same basic design idea as in \ac{wombat}, but with a different customisation part (the part at the very right). The left half of the screen contains a list of children associated with the current guardian and a list of already saved games. The right half is a customisation part where you can add, remove, and edit stations. We chose a list approach for this as well, to keep the whole activity separated in three lists with roughly the same design.

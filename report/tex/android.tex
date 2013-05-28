@@ -1,15 +1,16 @@
-\todo{This Chapter describes the Android platform, and which key functionality of the Android platform that we have used.}
 \section{Drag and Drop}
 \label{sec:androiddraganddrop}
-This section will explain how drag and drop works in version Android SDK 11 or greater\citep{androiddraganddropguide}. It will explain how to start a drag, what happens when view is dragged on the screen, and finally what happens when the view is dropped.
+This section will explain how drag and drop works in Android SDK 11 or greater\citep{androiddraganddropguide}. It will explain how to start a drag, what happens when view is dragged on the screen, and finally what happens when the view is dropped.
+
 \subsection*{Overview}
-Before we begin explaining drag and drop we first need to introduce the terms Listener, View and ViewGroup.
+
+Before we begin explaining drag and drop we first need to introduce the terms Listener, View, and ViewGroup.
 \begin{description}
-\item[View] is a base class for user interface components. A View represents a square on the device's screen, and is responsible for drawing and event handling. A example of the View class could be a ImageView, which is used to display a image.
+\item[View] is a base class for user interface components. A View represents a square on the device's screen, and is responsible for drawing and event handling. An example of the View class could be an ImageView, which is used to display an image.
 
 \item[ViewGroup] is a subclass of the View class, and is a base class for all layouts, which are invisible containers for Views or other ViewGroups.
 
-\item[Listeners] are attached to a View and is mostly used to receive and handle user input. Every Listener has a\todo{Hvad kan den kaldes? OnX() method} \lstinline|OnSomething()| method, this method is called when the system receive a gesture on the View. A simple example of a Listener is the OnTouchListener, The \lstinline|OnTouch()| method is called every time the OnTouchListener's View receives a touch gesture.
+\item[Listeners] are attached to a View and is mostly used to receive and handle user input. Every Listener has an \todo{ikke skriv OnSomething, skriv noget med at der er metoder/events} \lstinline|OnSomething()| method, this method is called when the system receive a gesture on the View. A simple example of a Listener is the OnTouchListener, The \lstinline|OnTouch()| method is called every time the OnTouchListener's View receives a touch gesture.
 \end{description}
 
 \subsection*{Drag Shadow}
@@ -30,22 +31,22 @@ imageView.setOnTouchListener(new OnTouchListener(){
 });
 \end{lstlisting}
 \begin{description}
-\item[Line 1] set a \lstinline|OnTouchListener| on the View \lstinline|imageView|
-\item[Line 2 \& 3] The \lstinline|OnTouch()| method is called by the system when the \lstinline|imageView| receives a input gesture, and if the gesture is a press motion it will continue.
-\item[Line 4 \& 5] \lstinline|ClipData| is used to store text data about the view being dragged. \lstinline|shadow| is initialized with the touched \lstinline|imageView|.
+\item[Line 1] set an \lstinline|OnTouchListener| on the \lstinline|imageView|.
+\item[Lines 2-3] The \lstinline|OnTouch()| method is called by the system when the \lstinline|imageView| receives an input gesture, and if the gesture is a press motion it will continue.
+\item[Lines 4-5] \lstinline|ClipData| is used to store text data about the view being dragged. \lstinline|shadow| is initialized with the touched \lstinline|imageView|.\todo{Skriv at der ikke er noget i vores clipData, men den skal være der}
 \item[Line 6] The \lstinline|view.startDrag()| starts the drag of the \lstinline|imageView|. This will cause OnDragListeners of every View to be called. 
-\item[Line 7 \& 10] The \lstinline|OnTouch()| method returns either true or false based on if the motion event was handled or not.
+\item[Lines 7-10] The \lstinline|OnTouch()| method returns either true or false based on if the motion event was handled or not.
 \end{description}
 \subsection*{Drag Events}
-A OnDragListener are like the OnTouchListener also attached to a View class. The drag of a View begins when the method \lstinline|view.startDrag()| is called. This will cause the system to draw the drag shadow, and call every OnDragListener with an action. During a drag operation it is possible to enter these four states.
+An OnDragListener are like the OnTouchListener also attached to a View class. The drag of a View begins when the method \lstinline|view.startDrag()| is called. This will cause the system to draw the drag shadow, and call every OnDragListener with an action. During a drag operation it is possible to enter these four states.
 \begin{description}
-\item[Started] The OnDragListerner receives a drag event with the action \lstinline|ACTION_DRAG_STARTED|. If the OnDragListener returns true it will continue to receive drag events, if it return false, it will stop receiving drag events, and the view will not be able to accept the dragged data.
+\item[Started] The OnDragListerner receives a drag event with the action \lstinline|ACTION_DRAG_STARTED|. If the OnDragListener returns true it will continue to receive drag events, if it returns false, it will stop receiving drag events, and the view will not be able to accept the dragged data.
 
-\item[Dragging] If the user continues to drag the shadow and enters a View's boundaries, then the system will send a drag event to the View's OnDragListener with the action \lstinline|ACTION_DRAG_ENTERED|. And when the drag shadow exits a View's boundaries the system will send a drag event with the action \lstinline|ACTION_DRAG_EXITED|.
+\item[Dragging] If the user continues to drag the shadow and enters a View's boundaries, then the system will send a drag event to the View's OnDragListener with the action \lstinline|ACTION_DRAG_ENTERED|. When the drag shadow exits a View's boundaries the system will send a drag event with the action \lstinline|ACTION_DRAG_EXITED|.
 
 \item[Dropped] If the user releases the drag shadow over a View, the View's OnDragListener receives a drag event with the action \lstinline|ACTION_DROP|. However the drag event is not sent if the OnDragListener previously returned false in the start state. The OnDragListener is expected to return true if the drop was successfully processed, and otherwise false.
 
-\item[Ended] After the user has released the drag shadow, all the OnDragListeners which still are registered to receive drag events,  receives a drag event with the action \lstinline|ACTION_DRAG_ENDED|. This event is done regardless of where the drag shadow has been released.
+\item[Ended] After the user has released the drag shadow, all the OnDragListeners which still are registered to receive drag events, receives a drag event with the action \lstinline|ACTION_DRAG_ENDED|. This event is done regardless of where the drag shadow has been released.
 \end{description}
 An implementation and use of drag and drop is shown later in \secref{sec:implementationdraganddrop}.
 
