@@ -49,7 +49,7 @@ A OnDragListener are like the OnTouchListener also attached to a View class. The
 \end{description}
 An implementation and use of drag and drop is shown later in \secref{sec:implementationdraganddrop}.
 
-\section{Listview}
+\section{Listview}\label{sec:listview}
 The menu for customisation in this project consists of three lists and it would thus be obvious to use the \lstinline|ListView| class from the Android developers guide \citep{androidlayouts}. This proved to be quite the challenge, since the \lstinline|ListView| does not seem to be made for adding and removing items since its initial population. It seems that it is build for showing a dataset in a list form, but if you want to change this dataset during runtime, you run into a lot of problems. There are plenty of examples of people who struggle to use the \lstinline|ListView| class and what seemed to cause a lot of our problems is the \lstinline|NotifyDataSetChanged| method from the underlying adapter \citep{listviewfail,notifydatasetchanged}. The documentation of this method is very vague and we could not get our list to update with new data.
 
 We chose to implement our own list classes for populating the saved game configurations list and the stations list. By using the \lstinline|LinearLayout| class from the Android developers guide we are able to add and remove views during runtime \citep{androidlayouts}. When we put the \lstinline|LinearLayout| inside a \lstinline|ScrollView| what we get is almost similar to a \lstinline|ListView|.
