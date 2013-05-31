@@ -10,7 +10,7 @@ Before we begin explaining drag and drop we first need to introduce the terms Li
 
 \item[ViewGroup] is a subclass of the View class, and is a base class for all layouts, which are invisible containers for Views or other ViewGroups.
 
-\item[Listeners] are attached to a View and is mostly used to receive and handle user input. Every Listener has an \todo{ikke skriv OnSomething, skriv noget med at der er metoder/events} \lstinline|OnSomething()| method, this method is called when the system receive a gesture on the View. A simple example of a Listener is the OnTouchListener, The \lstinline|OnTouch()| method is called every time the OnTouchListener's View receives a touch gesture.
+\item[Listeners] are attached to a View and is mostly used to receive and handle user input. Every Listener has a gesture method, this method is called when the system receive a gesture on the View. A simple example of a Listener is the OnTouchListener, The \lstinline|OnTouch()| method is called every time the OnTouchListener's View receives a touch gesture.
 \end{description}
 
 \subsection*{Drag Shadow}
@@ -33,25 +33,25 @@ imageView.setOnTouchListener(new OnTouchListener(){
 \begin{description}
 \item[Line 1] set an \lstinline|OnTouchListener| on the \lstinline|imageView|.
 \item[Lines 2-3] The \lstinline|OnTouch()| method is called by the system when the \lstinline|imageView| receives an input gesture, and if the gesture is a press motion it will continue.
-\item[Lines 4-5] \lstinline|ClipData| is used to store text data about the view being dragged. \lstinline|shadow| is initialized with the touched \lstinline|imageView|.\todo{Skriv at der ikke er noget i vores clipData, men den skal være der}
+\item[Lines 4-5] \lstinline|ClipData| is used to store text data about the View being dragged. \lstinline|shadow| is initialized with the touched \lstinline|imageView|.\todo{Skriv at der ikke er noget i vores clipData, men den skal være der}
 \item[Line 6] The \lstinline|view.startDrag()| starts the drag of the \lstinline|imageView|. This will cause OnDragListeners of every View to be called. 
 \item[Lines 7-10] The \lstinline|OnTouch()| method returns either true or false based on if the motion event was handled or not.
 \end{description}
 \subsection*{Drag Events}
 An OnDragListener are like the OnTouchListener also attached to a View class. The drag of a View begins when the method \lstinline|view.startDrag()| is called. This will cause the system to draw the drag shadow, and call every OnDragListener with an action. During a drag operation it is possible to enter these four states.
 \begin{description}
-\item[Started] The OnDragListerner receives a drag event with the action \lstinline|ACTION_DRAG_STARTED|. If the OnDragListener returns true it will continue to receive drag events, if it returns false, it will stop receiving drag events, and the view will not be able to accept the dragged data.
+\item[Started] The OnDragListerner receives a drag event with the action \lstinline|ACTION_DRAG_STARTED|. If the OnDragListener returns true it will continue to receive drag events, if it returns false, it will stop receiving drag events, and the View will not be able to accept dragged data.
 
-\item[Dragging] If the user continues to drag the shadow and enters a View's boundaries, then the system will send a drag event to the View's OnDragListener with the action \lstinline|ACTION_DRAG_ENTERED|. When the drag shadow exits a View's boundaries the system will send a drag event with the action \lstinline|ACTION_DRAG_EXITED|.
+\item[Dragging] If the user continues to drag the drag shadow and enters a View's boundaries, then the system will send a drag event to the View's OnDragListener with the action \lstinline|ACTION_DRAG_ENTERED|. When the drag shadow exits a View's boundaries the system will send a drag event with the action \lstinline|ACTION_DRAG_EXITED|.
 
-\item[Dropped] If the user releases the drag shadow over a View, the View's OnDragListener receives a drag event with the action \lstinline|ACTION_DROP|. However the drag event is not sent if the OnDragListener previously returned false in the start state. The OnDragListener is expected to return true if the drop was successfully processed, and otherwise false.
+\item[Dropped] If the user releases the drag shadow over a View, the View's OnDragListener receives a drag event with the action \lstinline|ACTION_DROP|. However the drag event is not sent if the OnDragListener previously returned false. The OnDragListener is expected to return true if the drop was successfully processed, and otherwise false.
 
 \item[Ended] After the user has released the drag shadow, all the OnDragListeners which still are registered to receive drag events, receives a drag event with the action \lstinline|ACTION_DRAG_ENDED|. This event is done regardless of where the drag shadow has been released.
 \end{description}
 An implementation and use of drag and drop is shown later in \secref{sec:implementationdraganddrop}.
 
 \section{Listview}\label{sec:listview}
-The menu for customisation in this project consists of three lists and it would thus be obvious to use the \lstinline|ListView| class from the Android developers guide \citep{androidlayouts}. This proved to be quite the challenge, since the \lstinline|ListView| does not seem to be made for adding and removing items since its initial population. It seems that it is build for showing a dataset in a list form, but if you want to change this dataset during runtime, you run into a lot of problems. There are plenty of examples of people who struggle to use the \lstinline|ListView| class and what seemed to cause a lot of our problems is the \lstinline|NotifyDataSetChanged| method from the underlying adapter \citep{listviewfail,notifydatasetchanged}. The documentation of this method is very vague and we could not get our list to update with new data.
+The menu for customization in this project consists of three lists and it would thus be obvious to use the \lstinline|ListView| class from the Android developers guide \citep{androidlayouts}. This proved to be quite the challenge, since the \lstinline|ListView| does not seem to be made for adding and removing items since its initial population. It seems that it is build for showing a dataset in a list form, but if you want to change this dataset during runtime, you run into a lot of problems. There are plenty of examples of people who struggle to use the \lstinline|ListView| class and what seemed to cause a lot of our problems is the \lstinline|NotifyDataSetChanged()| method from the underlying adapter \citep{listviewfail,notifydatasetchanged}. The documentation of this method is very vague and we could not get our list to update with new data.
 
 We chose to implement our own list classes for populating the saved game configurations list and the stations list. By using the \lstinline|LinearLayout| class from the Android developers guide we are able to add and remove views during runtime \citep{androidlayouts}. When we put the \lstinline|LinearLayout| inside a \lstinline|ScrollView| what we get is almost similar to a \lstinline|ListView|.
 
@@ -84,10 +84,10 @@ private void makeView(GameConfiguration gameConfiguration) {
 }
 \end{lstlisting}
 \begin{description}
-\item[Line 1] \lstinline|makeView| takes a \lstinline|GameConfiguration| which contains all relevant information about the saved game.
+\item[Line 1] The method \lstinline|makeView()| takes a \lstinline|GameConfiguration| which contains all relevant information about the saved game.
 \item[Lines 2-4] Creates a new \lstinline|View| for the \lstinline|GameConfiguration| based on our layout for a game list item.
 \item[Lines 6-7] Gets the name of the game and sets it in the list item.
 \item[Lines 9-12] Gets the category pictogram of the first station in the game configuration and sets this as a game icon for the list item.
-\item[Lines 14-15] Set a \lstinline|LongClickListener| and a \lstinline|ClickListener| on the item. These are both listeners that we have made. The normal click will select the item and show its details in the customisation list. The long click will show a dialog that asks you whether you want to delete it or not.
+\item[Lines 14-15] Set a \lstinline|LongClickListener| and a \lstinline|ClickListener| on the item. These are both listeners that we have made. The normal click will select the item and show its details in the customization list. The long click will show a dialog that asks you whether you want to delete it or not.
 \item[Lines 18-19] Add the item to the list of saved games, and add the view to the \lstinline|LinearLayout|.
 \end{description}
