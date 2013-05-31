@@ -124,7 +124,7 @@ The \lstinline|GameDrawer| starts its \lstinline|drawGame()| method by calling \
 
 Do not mistake the method \lstinline|getTotalTravelDistance()| and the attribute \lstinline|totalDistanceTraveled| with each other. The method returns the total distance the train must travel for this game session plus the width of the screen, this is used to generate all of the background for the game session.
 
-\lstinline|onPause()| sets a flag indicating that the game is paused, it then saves the train's velocity and sets it to 0. The \lstinline|GameDrawable| objects then know that the game is paused and can stop updating their position. \lstinline|onResume| will restore the train's velocity and the game continues.
+\lstinline|onPause()| sets a flag indicating that the game is paused, it then saves the train's velocity and sets it to 0. The \lstinline|GameDrawable| objects then know that the game is paused and can stop updating their position. \lstinline|onResume()| will restore the train's velocity and the game continues.
 
 \end{description}
 
