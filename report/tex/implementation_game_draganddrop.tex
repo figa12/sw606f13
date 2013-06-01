@@ -1,6 +1,6 @@
 \section{Drag and Drop}
 \label{sec:implementationdraganddrop}
-As mentioned in \secref{sec:androiddraganddrop}, the implementation of drag and drop has been simplified after SDK 11. This allows for an easy implementation of the drag and drop functionality. Before the explanation of drag and drop, we will first show the hierarchy of the layouts on the station and the wagons.
+As \secref{sec:androiddraganddrop} shows, the implementation of drag and drop has been simplified after SDK 11. This allows for an easy implementation of the drag and drop functionality. Before the explanation of drag and drop, we will first show the hierarchy of the layouts on the station and the wagons.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\linewidth]{img/layoutexample.png}%0.1 margin
@@ -34,12 +34,11 @@ private final class TouchListener implements OnTouchListener {
 \end{lstlisting}
 \begin{description}
 \item[Line 3] The \lstinline|onTouch()| method is called when the pictograms receives a touch input.
-\item[Lines 4-7] If the touch event is a press motion, make a view shadow, and start the drag.
+\item[Lines 4-7] If the touch event is a press motion, make a drag shadow of the pictogram, and start the drag.
 \item[Line 8] Set the pictogram's visibility to invisible.
-\item[Lines 11-14] If the touch event is a release motion and the pictogram is invisible, then make the pictogram visible. This if sentence was added since it was possible to make the pictogram disappear with only a press motion.
-\todo{Der er nødt til at stå hvorfor den returnerer true/false}
+\item[Lines 11-14] If the touch event is a release motion and the pictogram is invisible, then make the pictogram visible. This if sentence was added since it was possible to make the pictogram disappear with only a press motion. If the motion was handled it is expected to return true, otherwise false.
 \end{description}
-When the method \textit{view.startDrag()} is called, the OnDragListener event is fired. Our OnDragListener is shown below.
+When the method \textit{view.startDrag()} is called, the OnDragListener event is fired. There is attached a OnDragListener to all FrameLayouts on the station and in the wagons. Our OnDragListener is shown below.
 \begin{lstlisting}[language=java,firstnumber=1,caption={Our DragListener},label=lst:ourdraglistener] 
 private class DragListener implements OnDragListener {
 	public boolean onDrag(View hoverView, DragEvent event) {

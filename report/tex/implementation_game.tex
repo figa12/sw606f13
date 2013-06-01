@@ -36,7 +36,7 @@ Now the texture is successfully loaded we have to place it on right location on 
 \item[Line 4] Adds a coordinate for the placement of the \lstinline|train|.
 \end{description}
 
-Now the textures have been loaded and given coordinates, they are ready to be drawn. This is done as shown in \autoref{lst:drawtexture}
+Now the textures have been loaded and given coordinates, they are ready to be drawn. This is done in \autoref{lst:drawtexture}
 
 \begin{lstlisting}[language=java,firstnumber=1,caption={Drawing the texture on the screen.},label=lst:drawtexture] 
 	//Drawing the textures
@@ -45,7 +45,7 @@ Now the textures have been loaded and given coordinates, they are ready to be dr
 \end{lstlisting}
 
 \begin{description}
-\item[Lines 2-3] This draws the \lstinline|wagon| and \textit{train} objects. The \lstinline|translateAndDraw| method is explained in \secref{sec:gamerendering}
+\item[Lines 2-3] This draws the \lstinline|wagon| and \textit{train} objects. The \lstinline|translateAndDraw()| method is explained in \secref{sec:gamerendering}
 \end{description}
 
 \subsection{Wheels}
@@ -82,7 +82,7 @@ The difference comes when the wheels are drawn, we have to rotate the wheels so 
 \item[Line 12] The specific wheel's rotation is returned. 
 \end{description}
 
-This function is called each time a wheel is drawn. This is done by using \lstinline|translateRotateAndDraw| as can be seen in \autoref{lst:rotatewheels}
+This function is called each time a wheel is drawn. This is done by using \lstinline|translateRotateAndDraw()| as can be seen in \autoref{lst:rotatewheels}
 
 \begin{lstlisting}[language=java,firstnumber=1,caption={Rotating and drawing the wheels.},label=lst:rotatewheels]
 	// Rotate and draw the wheels
@@ -92,7 +92,7 @@ super.translateRotateAndDraw(this.calculateRotation(this.smallWheelIndex), this.
 \end{lstlisting}
 
 \begin{description}
-\item[Lines 2-4] Each time a wheel has to be drawn, \lstinline|calculateRotation| with the specific wheelIndex as parameter, is called and the rotation is calculated. The wheel is rotated and then drawn. 
+\item[Lines 2-4] Each time a wheel has to be drawn, \lstinline|calculateRotation()| with the specific wheelIndex as parameter, is called and the rotation is calculated. The wheel is rotated and then drawn. 
 \end{description}
 
 \subsection{Train smoke}
@@ -124,7 +124,7 @@ if (!super.gameData.isPaused) {
 \item[Lines 11-14] If the game is not paused, then the smoke cloud's coordinates are updated, in order to move the smoke cloud. 
 \end{description}
 
-\autoref{lst:cloudstime} showed two methods, \lstinline|resetOneSmokeCloud| and \lstinline|updateSmokeClouds|. These are the two methods in charge of updating and resetting the smoke cloud's positions, making it look like they move. They are explained in \autoref{lst:resetonesmokecloud} and \autoref{lst:updatesmokeclouds}
+\autoref{lst:cloudstime} showed two methods, \lstinline|resetOneSmokeCloud()| and \lstinline|updateSmokeClouds()|. These are the two methods in charge of updating and resetting the smoke cloud's positions, making it look like they move. They are explained in \autoref{lst:resetonesmokecloud} and \autoref{lst:updatesmokeclouds}
 
 \begin{lstlisting}[language=java,firstnumber=1,caption={Function handling the resetting of a smoke cloud.},label=lst:resetonesmokecloud]
 private final void resetOneSmokeCloud() {
@@ -157,7 +157,7 @@ private final void updateSmokeClouds() {
 \end{lstlisting}
 
 \begin{description}
-\item[Lines 3-6] This is in charge of moving the clouds. The clouds are moved on both the x and y axis. The new x coordinate depends on \lstinline|gameData.getPixelMovement| which is explained in \secref{sec:gamerendering}. The new y coordinate depends on a constant called \lstinline|ySpeed|, and \lstinline|gameData.timeDifference|, which is the time that has elapsed.
+\item[Lines 3-6] This is in charge of moving the clouds. The clouds are moved on both the x and y axis. The new x coordinate depends on \lstinline|gameData.getPixelMovement()| which is explained in \secref{sec:gamerendering}. The new y coordinate depends on a constant called \lstinline|ySpeed|, and \lstinline|gameData.timeDifference|, which is the time that has elapsed.
 \item[Line 9] This fades the smoke clouds. The cloud's original alpha channel is one, and each time the smoke cloud is updated and moved, the alpha color lowered, making the cloud more see-through, to make it look like they disappear up in the air. 
 \end{description}
 
