@@ -1,18 +1,29 @@
 \documentclass[10pt]{article}
 
+\usepackage{titling}
 \usepackage[utf8]{inputenc}
 \usepackage[danish]{babel}
 \usepackage{acronym}
+
+%lav mulighed for at kunne definere subtitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.5em}
+}
+
 \input{acronyms}
 
 \title{Interactive Learning Exercise for Children with Autism: Resumé}
+\subtitle{Interaktiv Læringsøvelse for Børn Med Autisme}
 \author{Jacob Karstensen Wortmann\\Jesper Riemer Andersen\\Nicklas Andersen\\Simon Reedtz Olesen}
 \date{4. juni 2013}
 
 \begin{document}
 \maketitle
 
-Vores applikation, Train, blev udviklet som en del af \ac{giraf} systemet, som blev startet i 2011. \ac{giraf} systemet er et multiprojekt som i 2013 bestod af otte grupper. Visionen for \ac{giraf} er at lave en multifunktionel applikation til Android platformen som kan gøre livet nemmere for børn med autisme, deres pædagoger og forældre. Formålet er at erstatte fysiske genstande, som hjælper dem i dagligdagen, med digitaliseret udgaver. Ideen er at samle flere funktionaliteter et sted og tillade rig mulighed for konfiguration.
+Vores applikation, Train, blev udviklet som en del af \ac{giraf} systemet, som blev startet i 2011. \ac{giraf} systemet er et multiprojekt som i 2013 bestod af otte grupper. Visionen for \ac{giraf} er at lave en multifunktionel applikation til Android platformen som kan gøre livet nemmere for børn med autisme, deres pædagoger og forældre. Formålet er at erstatte fysiske genstande, som hjælper dem i dagligdagen, med digitaliserede udgaver. Ideen er at samle flere funktionaliteter et sted og tillade rig mulighed for konfiguration.
 
 Vores gruppes fokusområde var at udvikle et spil til \ac{giraf} systemet. Vi valgte at tage udgangspunkt i en øvelse som vores kontaktperson, Tove Søby, allerede udøver med børnene. Øvelsen går ud på at associere pictogrammer og/eller objekter med hinanden. For at gøre det til en leg havde hun et papir-tog til at køre rundt med objekterne.
 
