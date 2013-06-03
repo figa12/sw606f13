@@ -12,14 +12,14 @@ Since this is a project that we are continuing from last year we had to set up E
 After setting up Eclipse we spent the rest of the time experimenting with Android code and make small runnable programs. 
 
 \section*{Week 3 - 25/02/2013 - 01/03/2013}
-It is now possible to drag and drop pictograms to different containers. In case a container is filled or the pictogram is released outside a container, the dragged pictogram snaps back to its original container.
+Pictograms can now be dragged and dropped different containers. In case a container is filled or the pictogram is released outside a container, the dragged pictogram snaps back to its original container.
 
 We also discussed how the layout of our game should be, in regards to where each pictogram container, train station, train etc. should be. 
 
 We also looked into different methods to make our background slide to create the illusion that our train was moving between stations. 
 
 \section*{Week 4 - 04/03/2013 - 08/03/2013}
-We now have a sliding background that works, however we discovered that it is too slow, we discussed whether or not we should use \ac{opengles} instead. 
+The sliding background that works, however we discovered that it is too slow, we discussed whether or not we should use \ac{opengles} instead. 
 
 We also started making the graphics we needed for our game. It was decided in the design committee that all graphics should be drawn in vector graphics, so that it easily could be resized without losing quality.  
 
@@ -37,28 +37,28 @@ We also created an icon for our game.
 We had the second meeting with Tove Søby this week as well, she gave some comments on our graphic and some great ideas for improvement that we can use. She also suggested that there could be changing weather when the train moved from station to station. 
 
 \section*{Week 6, 7, 8 and 9 - 18/03/2013-12/04/2013}
-Since the last notes we have done a lot of "under the hood" work:
+Since the last notes we did a lot of "under the hood" work:
 
 \begin{itemize}
-\item We have decided to use \ac{opengles} $1.x$ instead of the newer $2.0$. We chose to use $1.x$ because it should be easier for OpenGL beginners. 
+\item We decided to use \ac{opengles} $1.x$ instead of the newer $2.0$. We chose to use $1.x$ because it should be easier for OpenGL beginners. 
 \item The class diagram (structure) for \ac{opengles} drawing is implemented. It is now easy to draw and move objects across the screen. 
 \item The wheels on the train and the smoke coming from the exhaust is now animated to create the illusion that the train is actually moving. 
 \item The train can now smoothly accelerate and decelerate and can stop at exact coordinates at a station. 
 \item Garbage collection does almost not run during the game any more.
-\item We have implemented the Pictogram class.
+\item We implemented the Pictogram class.
 \item We sent an e-mail to Tove Søby with some prototypes of how the game looks. She has replied with some improvements.
 \end{itemize} 
 
 \section*{Week 10, 11, 12 and 13 - 12/04/2013 - 10/05/2013}
-Since the last notes we have almost finished the game, just need to fix a few bugs. Among the things we have implemented are:
+The game is almost finished, there are just a few bugs that needs to be fixed. Among the things we implemented are:
 
 \begin{itemize}
 \item We chose to use \ac{3d} to create our game, even though the game is in \ac{2d}. When the train is driving the background have to seem like it is farther away than the train is by sliding slower than the train is driving. The easy way to achieve this is by putting the background farther away in the depth.
-\item We now have hills in the background. They are made in sequences of four hills and are randomly picked throughout the game. 
-\item We now have clouds and a sun on the sky. The clouds are moving at a random speed and at a random height on the sky. 
-\item We now have cows and trees on the hills. These come at random times throughout the game.
-\item We now have a train depot to indicate that the game has finished.
-\item Pictograms is drawn on the station when the train begins to drive. This is done with \ac{opengles} since we had some issues animating the layouts to follow the train.  
+\item There are hills in the background. They are made in sequences of four hills and are randomly picked throughout the game. 
+\item There are clouds and a sun on the sky. The clouds are moving at a random speed and at a random height on the sky. 
+\item There cows and trees on the hills. These come at random times throughout the game.
+\item There is a train depot to indicate that the game has finished.
+\item Pictograms are drawn on the station when the train begins to drive. This is done with \ac{opengles} since we had some issues animating the layouts to follow the train.  
 \item The game customisation menu is finished, it is now possible to create/save/delete game configurations.
 \end{itemize}
 During the debug sprint we finished the application. We also started writing on our report. 
