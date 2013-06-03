@@ -179,7 +179,7 @@ for (int i = 0; i < super.gameData.numberOfStations; i++) {
 \begin{description}
 \item[Lines 1-2]  The stations are shuffled and added to the queue.
 \item[Line 4] \lstinline|xPosition| is the position in which the platform will be drawn. 
-\item[Line 7-8] The next station is found and popped off the queue, and added to the end of the queue again to ensure there are always are stations in the queue. 
+\item[Line 7-8] The next station is found and popped off the queue, added to the end of the queue again to ensure that there are  always are stations in the queue. 
 \item[Line 9] The station is added to the \lstinline|stationPlatformMatrix| and drawn at the correct location. All stations have the same offset to ensure that they are all placed at the same location each time the train stops. 
 \item[Line 11] \lstinline|xPosition| is updated with the pre-determined distance between stations to ensure each station has the same distance between them. This is especially important when we have to calculate when the train has to stop. 
 \end{description}
@@ -203,7 +203,7 @@ public final void calculateStoppingPositions() {
 
 \begin{description}
 \item[Line 2] An array for the stopping positions is initialized. The array is +1 to ensure an ArrayIndexOutofBoundsException will not occur when calculating the stopping position for the train depot mentioned in \secref{sec:gameidea}.
-\item[Line 6] The first stopping position is equal to the pre-determined distance between station. 
+\item[Line 6] The first stopping position is equal to the pre-determined distance between stations. 
 \item[Lines 7-9] We loop through the array and calculate the next stopping position for all stations. This is done by adding the distance to the next station to the stopping position of the previous station.
 \end{description}
 
@@ -213,9 +213,28 @@ The background for our game is randomly generated for each game session as menti
 
 \subsection{Hills}
 
-We have created four different sequences of hills, each sequence consists of four hills in a specific layout. This four sequences are randomly chosen throughout the game and is random each time. It is important to note that every hill texture is only loaded once, even though it is used multiple times in the game. 
+We created four different sequences of hills, each sequence consists of a number of hills in a specific layout. Each sequence is static, so the layout of each of them will remain the same each time the game is played. These four sequences are randomly chosen throughout the game and the order is random each time. It is important to note that every hill texture is only loaded once, even though it is used multiple times in the game. \autoref{fig:hills} shows what the four different hills looks like in the game.
 
-HillItem is a class used for making hill sequences. Its constructor takes three parameters, an x-coordinate, a y-coordinate and a texture. The x- and y-coordinates are used for placement of the texture. \autoref{lst:hills} shows one of the hill sequences used in our game.
+\begin{figure}[h]
+\begin{minipage}[h]{0.3\textwidth}
+\includegraphics[scale=0.08]{img/hills1.pdf}
+\end{minipage} \hspace{0.2\textwidth}
+\begin{minipage}[h]{0.3\textwidth}
+\includegraphics[scale=0.08]{img/hills2.pdf}
+\end{minipage}\hspace{0.2\textwidth}\\[0.5cm]
+\begin{minipage}[h]{0.3\textwidth}
+\includegraphics[scale=0.08]{img/hills3.pdf}
+\end{minipage}\hspace{0.21\textwidth}
+\begin{minipage}[h]{0.3\textwidth}
+\includegraphics[scale=0.08]{img/hills4.pdf}
+\end{minipage}
+\caption{The four different hill sequences}
+\label{fig:hills}
+\end{figure}
+
+
+
+HillItem is a class used for making hill sequences. Its constructor takes three parameters, an x-coordinate, a y-coordinate and a texture. The x- and y-coordinates are used for placement of the texture. Each HillItem is added to the renderablematrix before it is drawn. \autoref{lst:hills} shows one of the hill sequences used in our game.
 
 \begin{lstlisting}[language=java,firstnumber=1,caption={Hill sequence.},label=lst:hills]
 HillItem[] hillSequence1 = {
@@ -237,7 +256,7 @@ An important thing to note about the placement of the hills is the order in whic
 
 \subsection{Trees \& Cows}
 
-The trees and cows are randomly generated as well, however they are implemented used more layers of randomization. \autoref{lst:background} shows the important elements of this.
+The trees and cows are randomly generated as well, however they are implemented using more layers of randomization. \autoref{lst:background} shows the important elements of this.
 
 \begin{lstlisting}[language=java,firstnumber=1,caption={Selection of background.},label=lst:background]
 private Texture[] decorationArray = {cow, tree, tree};
@@ -260,11 +279,11 @@ for (HillItem hillItem : hillSequences[chooseHillSequence]){
 
 Now it gets a little complicated, so far we have a random number which determines which hill sequence we have to draw, we also have a random number which determines whether a cow or trees should be drawn on this hill sequence and we have a random number deciding which specific hill in this sequence to draw on. 
 
-We have set up four cases, one for each type of hill, \lstinline|hillItem.hill| has to correspond to the case chosen by the random number, if this is the case, then there will be drawn on the hill, if not then nothing is drawn and the loop continues with the next iteration.  
+As explained before, each HillItem is added to the renderablematrix before being drawn, which allows us to check which hill is being drawn next. We set up four cases, one for each type of hill, \lstinline|hillItem.hill| has to correspond to the case chosen by the random number, if this is the case, then there will be drawn on the hill, if not then nothing is drawn and the loop continues with the next iteration.  
 
-For example if the three numbers that has been chosen are one, one and three. This means that the hill sequence we will draw is hill sequence one and we have to draw a cow on a large hill in this sequence. 
+For example if the three numbers that have been chosen are one, one, and three. This means that the hill sequence we will draw is hill sequence one and we have to draw a cow on a large hill in this sequence. 
 
-The first hill in this sequence is added to the matrix, and then two scenarios can occur, either \lstinline|hillItem.hill| is a large hill and the cow is drawn on the large hill, or \lstinline|hillItem.hill| is not a large hill and nothing is drawn on the hill and new random numbers are chosen and everything is checked again.\todo{Læs og se om I forstår forklaringen}
+The first hill in this sequence is added to the matrix, and then two scenarios can occur, either \lstinline|hillItem.hill| is a large hill and the cow is drawn on the large hill, or \lstinline|hillItem.hill| is not a large hill and nothing is drawn on the hill and new random numbers are chosen and everything is checked again. \appref{app:game_background} shows different examples of a full backgrounds generated in a game.
 
 \subsection{Clouds \& sun}
 

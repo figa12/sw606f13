@@ -2,7 +2,8 @@
 \label{gameconfiguration}
 We made two classes to hold the data of a game. \lstinline|GameConfiguration| contains data about the game, such as the name of the game and who it is associated with. It also contains an \lstinline|ArrayList| of \lstinline|StationConfiguration| objects. A \lstinline|StationConfiguration| contains the category of the station and an \lstinline|ArrayList| of pictograms that will be accepted at that station. See \autoref{fig:configurations}
 
-Methods worth noticing are \lstinline|writeConfiguration()| and \lstinline|writeStation()|, these will write the object to a string, ready for saving to a file or in the database. \lstinline|writeToParcel| will write the object to a parcel object which is \textit{"designed as a high-performance inter-process communication transport"}\citep{parcel}
+Methods worth noticing are \lstinline|writeConfiguration()| and \lstinline|writeStation()|, these will write the object to a string, ready for saving to a file or in the database. \lstinline|writeToParcel| will write the object to a parcel object which is \textit{"designed as a high-performance inter-process communication transport"}\citep{parcel}.
+The parcel object is used to pass the \lstinline|GameConfiguration| between activities.
 \begin{figure}[H]
 \includegraphics[width=1.0\linewidth,page=2]{img/configurations.pdf}%0.1 margin
 \caption{Class diagram of the GameConfiguration and StationConfiguration.}
@@ -14,7 +15,7 @@ Methods worth noticing are \lstinline|writeConfiguration()| and \lstinline|write
 To keep the same look and feel throughout the whole \ac{giraf} project, we looked for inspiration in the projects from 2012. The \ac{wombat} project had the same kind of customization menu we were looking to make, it is shown in \appref{app:wombat}. We followed the same basic design idea as in \ac{wombat}, but with a different customization part (the part at the very right). The left half of the screen contains a list of children associated with the current guardian and a list of already saved games. The right half is a customization part where you can add, remove, and edit stations. We chose a list approach for this as well, to keep the whole activity separated in three lists with roughly the same design.
 
 When an application is run from the Launcher, the application receives a color that can be chosen in the Launcher. We use this color to set the overall color theme of the menu, meaning that the whole menu will show in the chosen color from the Launcher.
-To ease the process of finding that game that you are looking for, the saved games will have a picture attached to them. This picture represents the category of the first station in that game configuration.
+To ease the process of finding the game that you are looking for, the saved games will have a picture attached to them. This picture represents the category of the first station in that game configuration.
 
 \subsection{Flow}
 To show the functionalities of the menu, the natural flow will be shown in this section.
@@ -98,3 +99,14 @@ It can be seen in \autoref{fig:profile_flow_5} that two pictograms was selected,
 The game configuration has now been saved, and is shown in the list of saved games. See \autoref{fig:profile_flow_8}. The newly saved game is linked to "Emil", and will be shown whenever he is selected.
 
 To delete a saved game you will have to do a long click on the game you wish to delete. This will prompt you to whether you are sure or not. If deleted, the game will disappear from the list and the configuration will be deleted from the database.
+
+\subsection*{Activity flow}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{img/activityflow.pdf}
+\caption{The flow of activities}
+\label{fig:activityflow}
+\end{figure}
+\autoref{fig:activityflow} shows the relation and flow between the activities in the application.
+The application will always start in the main activity which is the menu for customising the game. From here you have the choice of either saving the game, starting the game, or selecting pictograms. Each of these actions will start another activity.
+It should be noted that whenever the "back" hardware button is pressed you will return to the previous activity. If you go back from the main activity, the application will terminate.
