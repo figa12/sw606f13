@@ -9,7 +9,7 @@ As \secref{sec:androiddraganddrop} shows, the implementation of drag and drop ha
 \caption{Example of a LinearLayout container.}
 \label{fig:linearlayoutcontainer}
 \end{figure}
-There are two LinearLayout containers on each station, and there are a LinearLayout containers on each wagon. An example of the LinearLayout container is shown in \autoref{fig:linearlayoutcontainer}. The black color represents the LinearLayout, the red color represents a Framelayout, and the blue color represents a pictogram. Each pictogram has attached an OnTouchListener, and each FrameLayout has attached an OnDragListener. Our TouchListener is shown below.
+There are two LinearLayout containers on each station, and there is a LinearLayout container on each wagon. An example of the LinearLayout container is shown in \autoref{fig:linearlayoutcontainer}. The black color represents the LinearLayout, the red color represents a Framelayout, and the blue color represents a pictogram. Each pictogram has an attached OnTouchListener, and each FrameLayout has an attached OnDragListener. Our TouchListener is shown below.
 
 \begin{lstlisting}[language=java,firstnumber=1,caption={Our TouchListener},label=lst:ourtouchlistener] 
 private final class TouchListener implements OnTouchListener {
@@ -40,7 +40,7 @@ private final class TouchListener implements OnTouchListener {
 \item[Line 8] Set the pictogram's visibility to invisible.
 \item[Lines 11-14] If the touch event is a release motion and the pictogram is invisible, then make the pictogram visible. This if sentence was added since it was possible to make the pictogram disappear with only a press motion. If the motion was handled it is expected to return true, otherwise false.
 \end{description}
-When the method \textit{view.startDrag()} is called, the OnDragListener event is fired. There is attached a OnDragListener to all FrameLayouts on the station and in the wagons. Our OnDragListener is shown below.
+When the method \textit{view.startDrag()} is called, the OnDragListener event is called. There is attached an OnDragListener to all FrameLayouts on the station and in the wagons. Our OnDragListener is shown below.
 \begin{lstlisting}[language=java,firstnumber=1,caption={Our DragListener},label=lst:ourdraglistener] 
 private class DragListener implements OnDragListener {
 	public boolean onDrag(View hoverView, DragEvent event) {
@@ -78,7 +78,7 @@ private class DragListener implements OnDragListener {
 \item[Line 5] Case if the current drag event is dropping the pictogram on a FrameLayout.
 \item[Lines 7-8] Initialize the variable \lstinline|ownerContainer| with the parent Framelayout of the dragged pictogram, and initialize variable \lstinline|dropContainer| with the FrameLayout currently being hovered above.  
 \item[Lines 9-10] Initialize the variable \textit{tag} with the current status of the \lstinline|dropContainer|, if the status is "filled" then the \lstinline|dropContainer| is already containing a pictogram, and is therefore not eligible for the drop.
-\item[Lines 11-16] If the \lstinline|dropContainer| does not contain a pictogram, then the pictogram can be moved from \lstinline|ownerContainer| to \lstinline|dropContainer|. The tag in \lstinline|ownerContainer| is set to \lstinline|null| and the tag in \lstinline|dropContainer| is set to \lstinline|"filled"|, to indicate to it now contains a pictogram. The \lstinline|draggedView| becomes visible after a drop.
-\item[Line 19] If current drag event is drag ended,  there were not performed a valid drop the \lstinline|draggedView| will become visible again. This will make it look like the pictogram snaps back to its position, since the drop was not valid.
+\item[Lines 11-16] If the \lstinline|dropContainer| does not contain a pictogram, then the pictogram can be moved from \lstinline|ownerContainer| to \lstinline|dropContainer|. The tag in \lstinline|ownerContainer| is set to \lstinline|null| and the tag in \lstinline|dropContainer| is set to \lstinline|"filled"|, to indicate that it now contains a pictogram. The \lstinline|draggedView| becomes visible in the \lstinline|dropContainer| after a drop.
+\item[Lines 19-21] The current drag event is drag ended, and if no valid was performed the \lstinline|draggedView| will become visible again. This will make it look like the pictogram snaps back to its original position.
 \end{description}
 Some cases has been excluded in \autoref{lst:ourdraglistener} because they are not relevant for the functionality of the drag and drop.
