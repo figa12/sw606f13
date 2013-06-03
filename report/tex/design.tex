@@ -3,7 +3,7 @@
 We made two classes to hold the data of a game. \lstinline|GameConfiguration| contains data about the game, such as the name of the game and who it is associated with. It also contains an \lstinline|ArrayList| of \lstinline|StationConfiguration| objects. A \lstinline|StationConfiguration| contains the category of the station and an \lstinline|ArrayList| of pictograms that will be accepted at that station. See \autoref{fig:configurations}
 
 Methods worth noticing are \lstinline|writeConfiguration()| and \lstinline|writeStation()|, these will write the object to a string, ready for saving to a file or in the database. \lstinline|writeToParcel| will write the object to a parcel object which is \textit{"designed as a high-performance inter-process communication transport"}\citep{parcel}.
-The parcel object is used to pass the \lstinline|GameConfiguration| between activities.
+The parcel object is used to pass the \linebreak \lstinline|GameConfiguration| between activities.
 \begin{figure}[H]
 \includegraphics[width=1.0\linewidth,page=2]{img/configurations.pdf}%0.1 margin
 \caption{Class diagram of the GameConfiguration and StationConfiguration.}

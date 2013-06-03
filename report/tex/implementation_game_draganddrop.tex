@@ -40,7 +40,7 @@ private final class TouchListener implements OnTouchListener {
 \item[Line 8] Set the pictogram's visibility to invisible.
 \item[Lines 11-14] If the touch event is a release motion and the pictogram is invisible, then make the pictogram visible. This if sentence was added since it was possible to make the pictogram disappear with only a press motion. If the motion was handled it is expected to return true, otherwise false.
 \end{description}
-When the method \textit{view.startDrag()} is called, the OnDragListener event is called. There is attached an OnDragListener to all FrameLayouts on the station and in the wagons. Our OnDragListener is shown below.
+When the method \lstinline|view.startDrag()| is called, the OnDragListener event is called. There is attached an OnDragListener to all FrameLayouts on the station and in the wagons. Our OnDragListener is shown below.
 \begin{lstlisting}[language=java,firstnumber=1,caption={Our DragListener},label=lst:ourdraglistener] 
 private class DragListener implements OnDragListener {
 	public boolean onDrag(View hoverView, DragEvent event) {

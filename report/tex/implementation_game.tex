@@ -77,7 +77,7 @@ The difference comes when the wheels are drawn, we have to rotate the wheels so 
 \item[Line 12] The specific wheel's rotation is returned. 
 \end{description}
 
-This function is called each time a wheel is drawn. This is done by using \lstinline|translateRotateAndDraw()| as can be seen in \autoref{lst:rotatewheels}
+This function is called each time a wheel is drawn. This is done by using \linebreak \lstinline|translateRotateAndDraw()| as can be seen in \autoref{lst:rotatewheels}
 
 \begin{lstlisting}[language=java,firstnumber=1,caption={Rotating and drawing the wheels.},label=lst:rotatewheels]
 // Rotate and draw the wheels
@@ -115,11 +115,11 @@ if (!super.gameData.isPaused) {
 
 \begin{description}
 \item[Line 2] The \lstinline|timeSinceLastReset| is the time since a smoke cloud was last reset and \lstinline|gameData.timeDifference| is the time that has elapsed, in milliseconds. 
-\item[Lines 2-9] If the time since last reset is higher or equal to the time between the smoke clouds (this is a variable we have pre-determined), then \lstinline|timeSinceLastReset| is set to 0, and if the game is not paused, then the smoke cloud is reset back to its starting position. 
+\item[Lines 2-9] If the time since last reset is higher or equal to the time between the smoke clouds (this is a variable we have pre-determined), then \linebreak \lstinline|timeSinceLastReset| is set to 0, and if the game is not paused, then the smoke cloud is reset back to its starting position. 
 \item[Lines 11-14] If the game is not paused, then the smoke cloud's coordinates are updated, in order to move the smoke cloud. 
 \end{description}
 
-\autoref{lst:cloudstime} showed two methods, \lstinline|resetOneSmokeCloud()| and \lstinline|updateSmokeClouds()|. These are the two methods in charge of updating and resetting the smoke cloud's positions, making it look like they move. They are explained in \autoref{lst:resetonesmokecloud} and \autoref{lst:updatesmokeclouds}
+\autoref{lst:cloudstime} showed two methods, \lstinline|resetOneSmokeCloud()| and \lstinline|updateSmokeClouds()|. \linebreak These are the two methods in charge of updating and resetting the smoke cloud's positions, making it look like they move. They are explained in \autoref{lst:resetonesmokecloud} and \autoref{lst:updatesmokeclouds}
 
 \begin{lstlisting}[language=java,firstnumber=1,caption={Function handling the resetting of a smoke cloud.},label=lst:resetonesmokecloud]
 private final void resetOneSmokeCloud() {
@@ -152,7 +152,7 @@ private final void updateSmokeClouds() {
 \end{lstlisting}
 
 \begin{description}
-\item[Lines 3-6] This is in charge of moving the clouds. The clouds are moved on both the x and y axis. The new x coordinate depends on \lstinline|gameData.getPixelMovement()| which is explained in \secref{sec:gamerendering}. The new y coordinate depends on a constant called \lstinline|ySpeed|, and \lstinline|gameData.timeDifference|, which is the time that has elapsed.
+\item[Lines 3-6] This is in charge of moving the clouds. The clouds are moved on both the x and y axis. The new x coordinate depends on \lstinline|gameData|\linebreak\lstinline|.getPixelMovement()| which is explained in \secref{sec:gamerendering}. The new y coordinate depends on a constant called \lstinline|ySpeed|, and \lstinline|gameData.timeDifference|, which is the time that has elapsed.
 \item[Line 9] This fades the smoke clouds. The cloud's original alpha channel is one, and each time the smoke cloud is updated and moved, the alpha color lowered, making the cloud more see-through, to make it look like they disappear up in the air. 
 \end{description}
 
@@ -213,7 +213,7 @@ The background for our game is randomly generated for each game session as menti
 
 \subsection{Hills}
 
-We created four different sequences of hills, each sequence consists of a number of hills in a specific layout. Each sequence is static, so the layout of each of them will remain the same each time the game is played. These four sequences are randomly chosen throughout the game and the order is random each time. It is important to note that every hill texture is only loaded once, even though it is used multiple times in the game. \autoref{fig:hills} shows what the four different hills looks like in the game.
+We created four different sequences of hills, each sequence consists of a number of hills in a specific layout. Each sequence is static, so the layout of each of them will remain the same each time the game is played. These four sequences are randomly chosen throughout the game. It is important to note that every hill texture is only loaded once, even though it is used multiple times in the game. \autoref{fig:hills} shows what the four different hills looks like in the game.
 
 \begin{figure}[h]
 \begin{minipage}[h]{0.3\textwidth}
@@ -234,7 +234,7 @@ We created four different sequences of hills, each sequence consists of a number
 
 
 
-HillItem is a class used for making hill sequences. Its constructor takes three parameters, an x-coordinate, a y-coordinate and a texture. The x- and y-coordinates are used for placement of the texture. Each HillItem is added to the renderablematrix before it is drawn. \autoref{lst:hills} shows one of the hill sequences used in our game.
+\lstinline|HillItem| is a class used for making hill sequences. Its constructor takes three parameters, an x-coordinate, a y-coordinate and a texture. The x- and y-coordinates are used for placement of the texture. Each \lstinline|HillItem| is added to the renderablematrix before it is drawn. \autoref{lst:hills} shows one of the hill sequences used in our game.
 
 \begin{lstlisting}[language=java,firstnumber=1,caption={Hill sequence.},label=lst:hills]
 HillItem[] hillSequence1 = {
@@ -279,7 +279,7 @@ for (HillItem hillItem : hillSequences[chooseHillSequence]){
 
 Now it gets a little complicated, so far we have a random number which determines which hill sequence we have to draw, we also have a random number which determines whether a cow or trees should be drawn on this hill sequence and we have a random number deciding which specific hill in this sequence to draw on. 
 
-As explained before, each HillItem is added to the renderablematrix before being drawn, which allows us to check which hill is being drawn next. We set up four cases, one for each type of hill, \lstinline|hillItem.hill| has to correspond to the case chosen by the random number, if this is the case, then there will be drawn on the hill, if not then nothing is drawn and the loop continues with the next iteration.  
+As explained before, each \lstinline|HillItem| is added to the renderablematrix before being drawn, which allows us to check which hill is being drawn next. We set up four cases, one for each type of hill, \lstinline|hillItem.hill| has to correspond to the case chosen by the random number, if this is the case, then there will be drawn on the hill, if not then nothing is drawn and the loop continues with the next iteration.  
 
 For example if the three numbers that have been chosen are one, one, and three. This means that the hill sequence we will draw is hill sequence one and we have to draw a cow on a large hill in this sequence. 
 

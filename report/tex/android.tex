@@ -34,9 +34,7 @@ imageView.setOnTouchListener(new OnTouchListener(){
 \begin{description}
 \item[Line 1] set an \lstinline|OnTouchListener| on the \lstinline|imageView|.
 \item[Lines 2-3] The \lstinline|OnTouch()| method is called by the system when the \lstinline|imageView| receives an input gesture, and if the gesture is a press motion it will continue.
-\item[Lines 4-5] \lstinline|ClipData| is used to move text data.
-
-\lstinline|shadow| is initialized with the touched \lstinline|imageView|.
+\item[Lines 4-5] \lstinline|ClipData| is used to move text data. \lstinline|shadow| is initialized with the touched \lstinline|imageView|.
 
 \item[Line 6] The \lstinline|view.startDrag()| starts the drag of the \lstinline|imageView|. This will cause OnDragListeners of every View to be called.
 
@@ -45,9 +43,9 @@ imageView.setOnTouchListener(new OnTouchListener(){
 \subsection*{Drag Events}
 An OnDragListener is like the OnTouchListener also attached to a View class. The drag of a View begins when the method \lstinline|view.startDrag()| is called. This will cause the system to draw the drag shadow, and call every OnDragListener with an action. During a drag operation it is possible to enter these four states.
 \begin{description}
-\item[Started] The OnDragListerner receives a drag event with the action \lstinline|ACTION_DRAG_STARTED|. If the OnDragListener returns true it will continue to receive drag events, if it returns false, it will stop receiving drag events, and the View will not be able to accept dragged data.
+\item[Started] The OnDragListerner receives a drag event with the action \linebreak \lstinline|ACTION_DRAG_STARTED|. If the OnDragListener returns true it will continue to receive drag events, if it returns false, it will stop receiving drag events, and the View will not be able to accept dragged data.
 
-\item[Dragging] If the user continues to drag the drag shadow and enters a View's boundaries, then the system will send a drag event to the View's OnDragListener with the action \lstinline|ACTION_DRAG_ENTERED|. When the drag shadow exits a View's boundaries the system will send a drag event with the action \lstinline|ACTION_DRAG_EXITED|.
+\item[Dragging] If the user continues to drag the drag shadow and enters a View's boundaries, then the system will send a drag event to the View's OnDragListener with the action \lstinline|ACTION_DRAG_ENTERED|. When the drag shadow exits a View's boundaries the system will send a drag event with the action \linebreak \lstinline|ACTION_DRAG_EXITED|.
 
 \item[Dropped] If the user releases the drag shadow over a View, the View's OnDragListener receives a drag event with the action \lstinline|ACTION_DROP|. However the drag event is not sent if the OnDragListener previously returned false. The OnDragListener is expected to return true if the drop was successfully processed, and otherwise false.
 
