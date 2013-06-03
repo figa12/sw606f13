@@ -69,7 +69,7 @@ The class we made to show a list of saved games it is called \lstinline|GameLine
 \begin{lstlisting}[language=java,firstnumber=1,caption={The method to create a list item.},label=lst:makeview]
 private void makeView(GameConfiguration gameConfiguration) {
     LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    /* Use same layout style as the profile list */
+    // Use same layout style as the profile list
     View gameListItem = layoutInflater.inflate(R.layout.game_list_item);
     
     TextView gameNameTextView = (TextView) gameListItem.findViewById(R.id.gameName);
@@ -83,7 +83,7 @@ private void makeView(GameConfiguration gameConfiguration) {
     gameListItem.setOnClickListener(new OnItemClickListener(gameConfiguration));
     gameListItem.setOnLongClickListener(new OnItemLongClickListener(gameConfiguration));
 
-    /* Add to the list of visible configurations */
+    // Add to the list of visible configurations
     this.visibleGameConfigurations.add(gameConfiguration);
     super.addView(gameListItem);
 }
