@@ -1,6 +1,7 @@
+This chapter explains how we used different components from the Android platform. It also explains how drag and drop works, and discusses the problems we had with ListView, including our solution to the problem.
 \section{Drag and Drop}
 \label{sec:androiddraganddrop}
-This section will explain how drag and drop works in Android SDK 11 or greater\citep{androiddraganddropguide}. It will explain how to start a drag, what happens when view is dragged on the screen, and finally what happens when the view is dropped.
+This section will explain how drag and drop works in Android SDK 11 or greater\citep{androiddraganddropguide}. It will explain how to start a drag, what happens when a view is dragged on the screen, and finally what happens when the view is dropped.
 
 \subsection*{Overview}
 
@@ -10,11 +11,11 @@ Before we begin explaining drag and drop we first need to introduce the terms Li
 
 \item[ViewGroup] is a subclass of the View class, and is a base class for all layouts, which are invisible containers for Views or other ViewGroups.
 
-\item[Listeners] are attached to a View and is mostly used to receive and handle user input. Every Listener has a gesture method, this method is called when the system receive a gesture on the View. A simple example of a Listener is the OnTouchListener, The \lstinline|OnTouch()| method is called every time the OnTouchListener's View receives a touch gesture.
+\item[Listeners] are attached to a View and are mostly used to receive and handle user input. Every Listener has a gesture method, this method is called when the system receive a gesture on the View. A simple example of a Listener is the OnTouchListener, The \lstinline|OnTouch()| method is called every time the OnTouchListener's View receives a touch gesture.
 \end{description}
 
 \subsection*{Drag Shadow}
-Before we can make a drag we must first create something called a drag shadow. A drag shadow is basically a copy of the View you are trying to drag which follows the position of the finger.\autoref{lst:makedragshadow} shows how to create drag shadow and start dragging a View.
+Before we can make a drag we must first create something called a drag shadow. A drag shadow is basically a copy of the View you are trying to drag which follows the position of the finger. \autoref{lst:makedragshadow} shows how to create a drag shadow and start dragging a View.
 \begin{lstlisting}[language=java,firstnumber=1,caption={How to create a drag shadow, and start drag},label=lst:makedragshadow]
 imageView.setOnTouchListener(new OnTouchListener(){
 	public boolean onTouch(View view, MotionEvent motionEvent){
@@ -33,12 +34,16 @@ imageView.setOnTouchListener(new OnTouchListener(){
 \begin{description}
 \item[Line 1] set an \lstinline|OnTouchListener| on the \lstinline|imageView|.
 \item[Lines 2-3] The \lstinline|OnTouch()| method is called by the system when the \lstinline|imageView| receives an input gesture, and if the gesture is a press motion it will continue.
-\item[Lines 4-5] \lstinline|ClipData| is used to store text data about the View being dragged. \lstinline|shadow| is initialized with the touched \lstinline|imageView|.\todo{Skriv at der ikke er noget i vores clipData, men den skal være der}
-\item[Line 6] The \lstinline|view.startDrag()| starts the drag of the \lstinline|imageView|. This will cause OnDragListeners of every View to be called. 
+\item[Lines 4-5] \lstinline|ClipData| is used to move text data.
+
+\lstinline|shadow| is initialized with the touched \lstinline|imageView|.
+
+\item[Line 6] The \lstinline|view.startDrag()| starts the drag of the \lstinline|imageView|. This will cause OnDragListeners of every View to be called.
+
 \item[Lines 7-10] The \lstinline|OnTouch()| method returns either true or false based on if the motion event was handled or not.
 \end{description}
 \subsection*{Drag Events}
-An OnDragListener are like the OnTouchListener also attached to a View class. The drag of a View begins when the method \lstinline|view.startDrag()| is called. This will cause the system to draw the drag shadow, and call every OnDragListener with an action. During a drag operation it is possible to enter these four states.
+An OnDragListener is like the OnTouchListener also attached to a View class. The drag of a View begins when the method \lstinline|view.startDrag()| is called. This will cause the system to draw the drag shadow, and call every OnDragListener with an action. During a drag operation it is possible to enter these four states.
 \begin{description}
 \item[Started] The OnDragListerner receives a drag event with the action \lstinline|ACTION_DRAG_STARTED|. If the OnDragListener returns true it will continue to receive drag events, if it returns false, it will stop receiving drag events, and the View will not be able to accept dragged data.
 
@@ -55,7 +60,7 @@ The menu for customization in this project consists of three lists and it would 
 
 We chose to implement our own list classes for populating the saved game configurations list and the stations list. By using the \lstinline|LinearLayout| class from the Android developers guide we are able to add and remove views during runtime \citep{androidlayouts}. When we put the \lstinline|LinearLayout| inside a \lstinline|ScrollView| what we get is almost similar to a \lstinline|ListView|.
 
-The first list in the menu contains the children, it is made with the ListView class, this could be done since it does not have to be manipulated after the initial load of children. The second list in the menu contains game configurations called \lstinline|GameLinearLayout|, it is made with \lstinline|LinearLayout| and some of it is described below. The third list in the menu contains station configurations called \lstinline|CustomiseLinearlayout|, it is also made with a \lstinline|LinearLayout| that does almost the same thing as the \lstinline|GameLinearLayout|.
+The first list in the menu contains the children, it is made with the ListView class. This could be done since it does not have to be manipulated after the initial load of children. The second list in the menu contains game configurations called \lstinline|GameLinearLayout|, it is made with \lstinline|LinearLayout| and some of it is described below. The third list in the menu contains station configurations called \lstinline|CustomiseLinearlayout|, it is also made with a \lstinline|LinearLayout| that does almost the same thing as the \lstinline|GameLinearLayout|.
 
 \subsection*{GameLinearLayout}
 
