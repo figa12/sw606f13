@@ -1,0 +1,39 @@
+GIRAF
+    Project
+        Vision: Hvad er det og hvorfor er det vigtigt
+    Samarbejde med Egebakken og Birken
+    Agile
+        Scrum
+        Weekly meetings
+        Issue tracking (Redmine)
+        Continuos Integration
+        GIT
+    Komiteer
+Game Design
+    Idea
+    Møde med Tove (prototype)
+    Game Configuration
+        Gemmer/åbner configuration
+        String eksempel
+    Vis screenshot Figure 7.9
+        Lavet efter Wombat design
+    Flow Diagram
+        Hvordan kommer man frem og tilbage.
+        Hvor bliver GameConfiguration overført til og fra.
+OpenGL ES
+    Why OpenGL ES (/canvas)? Why V1.x?
+    Renderables
+    Power of two conversion
+    Frustum
+        Hvordan vores 3d-space ser ud.
+    Rendering
+        Hvordan man implementerer OpenGL i Android; Renderer, GlSurfaceView
+Game Implementation
+    Drag and Drop
+    Game Drawable
+    Station (Stopping positions)
+Conclusion
+    Har vi opfyldt problem statement?
+Demo
+    Demonstration
+    Future work
