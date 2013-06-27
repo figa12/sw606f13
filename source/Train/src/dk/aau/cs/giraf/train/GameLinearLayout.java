@@ -150,8 +150,8 @@ public class GameLinearLayout extends LinearLayout {
                 ex.printStackTrace();
             }
         }
-        
-        this.splitConfigurations(sWriter.toString());
+        if (sWriter.toString() != "") 
+            this.splitConfigurations(sWriter.toString());
     }
     
     private void splitConfigurations(String data) {
